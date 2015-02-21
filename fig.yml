@@ -1,0 +1,42 @@
+proxy:
+  image: leanlabs/proxy
+  links: 
+    - client:client
+    - backend:backend
+    - wsserver:wsserver
+  ports:
+    - "443:443"
+    - "80:80"
+
+client:
+  image: leanlabs/client
+  environment:
+    - GITLAB_HOST=https://gitlab.com/
+
+backend: 
+  image: leanlabs/backend
+  links:
+    - rabbitmq:rabbitmq
+    - redis:redis
+  environment: 
+    - GITLAB_HOST=https://gitlab.com/
+    - GITLAB_OAUTH_CLIENT_ID=qwerty
+    - GITLAB_OAUTH_CLIENT_SECRET=qwerty
+    - GITLAB_API_TOKEN=qwerty
+    - GITLAB_BASIC_LOGIN=0
+    - GITLAB_BASIC_PASSWORD=0
+    - KANBAN_SECRET_KEY=secret
+
+wsserver: 
+  image: leanlabs/wsserver
+  links:
+    - rabbitmq:rabbitmq
+
+rabbitmq:
+  image: rabbitmq:latest
+
+redis:
+  image: leanlabs/redis
+  volumes:
+    - "/data:/data"
+
