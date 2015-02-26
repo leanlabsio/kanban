@@ -1,7 +1,7 @@
 
 # GitLab issues made awesome
 
-#### Instant project management for your GitHub repositories
+#### Instant project management for your GitLab repositories
 
 # FAQ
 
