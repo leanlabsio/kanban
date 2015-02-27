@@ -5,8 +5,8 @@
 
 # FAQ
 
-1. [How to install Kanban.Leanlabs](https://github.com/leanlabsio/kanban/wiki/install)
-2. [How to customize column](https://github.com/leanlabsio/kanban/wiki/Customizing-columns)
+1. [How to install Kanban.Leanlabs](https://gitlab.com/leanlabsio/kanban/wikis/install)
+2. [How to customize column](https://gitlab.com/leanlabsio/kanban/wikis/Customizing-columns)
 
 
 ## Installation
@@ -16,7 +16,7 @@ Assuming you have installed [fig](http://www.fig.sh/) and [Docker](https://www.d
 
 ### 1. Simple usage
 
-> git clone https://github.com/leanlabsio/kanban.git
+> git clone https://gitlab.com/leanlabsio/kanban.git
 >
 > cd kanban
 
