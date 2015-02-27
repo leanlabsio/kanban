@@ -16,6 +16,7 @@ Assuming you have installed [fig](http://www.fig.sh/) and [Docker](https://www.d
 ### 1. Symple usage
 
 > git clone https://github.com/leanlabsio/kanban.git
+>
 > cd kanban
 
 Change default environment variables defined in fig.yml 
