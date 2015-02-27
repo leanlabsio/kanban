@@ -42,7 +42,7 @@ Go to https://gitlab.com/profile/applications or you installation gitlab and reg
 
 **Where**
 
-> Redirect url https://{your-host}/assets/html/user/views/oauth.html
+> Redirect url https://{your-kanban-installation-host}/assets/html/user/views/oauth.html
 
 ### 3. Configure OAuth Environment
 
