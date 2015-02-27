@@ -61,11 +61,9 @@ For upgrading Kanban LeanLabs to last version
 
 ### 5. Basic Auth
 
-If you gitlab instance usage basic authentication set variables 
+If you gitlab installation secured with basic authentication
 
 > GITLAB_BASIC_LOGIN - HTTP basic authentication login
 >
 > GITLAB_BASIC_PASSWORD -  HTTP basic authentication password
 
-
-> ## If your usage in Kanban.LeanLabs Basic authentication OAuth not working.
