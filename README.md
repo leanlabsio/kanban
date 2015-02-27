@@ -1,5 +1,5 @@
 
-# GitLab issues made of awesome
+# GitLab issues made awesome
 
 #### Instant project management for your GitLab repositories
 
