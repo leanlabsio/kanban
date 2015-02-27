@@ -5,8 +5,9 @@
 
 # FAQ
 
-1. [How to customize column](customise_columns)
-2. [How install Kanban.Leanlabs](install)
+1. [How install Kanban.Leanlabs](install)
+2. [How to customize column](customise_columns)
+
 
 ## Installation Kanban.LeanLabs
 
