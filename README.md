@@ -27,9 +27,9 @@ Main variables
 
 > GITLAB_HOST - Your Gitlab installation host, required
 >
-> KANBAN_SECRET_KEY - Token used to sign boards JSON Web Token
+> KANBAN_SECRET_KEY - Your Random secret key usage for generate jwt token, required
 >
-> GITLAB_API_TOKEN - Your Gitlab private API token, if defined used by default for all API requests
+> GITLAB_API_TOKEN - Your Gitlab private API token, Using for gitlab api request for all users
 
 **Then**
 
@@ -60,10 +60,11 @@ For upgrading Kanban LeanLabs to last version
 
 ### 5. Basic Auth
 
-If you gitlab instance usage basic autorisation set variables 
+If you gitlab instance usage basic authentication set variables 
 
 > GITLAB_BASIC_LOGIN - HTTP basic authentication login
 >
 > GITLAB_BASIC_PASSWORD -  HTTP basic authentication password
 
-> ## If your usage for Kanban.LeanLabs Basic authentication OAuth not working.
+
+> ## If your usage in Kanban.LeanLabs Basic authentication OAuth not working.
