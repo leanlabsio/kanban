@@ -5,11 +5,11 @@
 
 # FAQ
 
-1. [How install Kanban.Leanlabs](https://github.com/leanlabsio/kanban/wiki/install)
+1. [How to install Kanban.Leanlabs](https://github.com/leanlabsio/kanban/wiki/install)
 2. [How to customize column](https://github.com/leanlabsio/kanban/wiki/Customizing-columns)
 
 
-## Installation Kanban.LeanLabs
+## Installation
 
 The easiest way to deploy Leanlabs Kanban board is to use fig. 
 Assuming you have installed [fig](http://www.fig.sh/) and [Docker](https://www.docker.com/).
