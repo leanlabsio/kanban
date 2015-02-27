@@ -28,7 +28,7 @@ Main variables
 
 > GITLAB_HOST - Your Gitlab installation host, required
 >
-> KANBAN_SECRET_KEY - Your Random secret key usage for generate jwt token, required
+> KANBAN_SECRET_KEY - Your Random secret key, used to generate jwt token, required
 >
 > GITLAB_API_TOKEN - Your Gitlab private API token, Using for gitlab api request for all users
 
