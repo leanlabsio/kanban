@@ -14,7 +14,7 @@
 The easiest way to deploy Leanlabs Kanban board is to use fig. 
 Assuming you have installed [fig](http://www.fig.sh/) and [Docker](https://www.docker.com/).
 
-### 1. Symple usage
+### 1. Simple usage
 
 > git clone https://github.com/leanlabsio/kanban.git
 >
