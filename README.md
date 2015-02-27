@@ -1,30 +1,69 @@
-### Installation
 
-The easiest way to deploy Leanlabs Kanban board is to use [fig](http://www.fig.sh/). Assuming you have installed fig and Docker.
+# GitLab issues made awesome
 
-Change default environment variables defined in fig.yml then run 
+#### Instant project management for your GitLab repositories
 
-```bash
-fig up
-```
+# FAQ
 
-### Configuration
-
-Configuration of board provided through docker environment variables:
-
-GITLAB_HOST - Your Gitlab installation host, required
-
-#### Security
+1. [How to install Kanban.Leanlabs](https://github.com/leanlabsio/kanban/wiki/install)
+2. [How to customize column](https://github.com/leanlabsio/kanban/wiki/Customizing-columns)
 
 
+## Installation
 
-GITLAB_API_TOKEN - Your Gitlab private API token, if defined used by default for all API requests
+The easiest way to deploy Leanlabs Kanban board is to use fig. 
+Assuming you have installed [fig](http://www.fig.sh/) and [Docker](https://www.docker.com/).
 
-GITLAB_OAUTH_CLIENT_ID - Application ID
+### 1. Simple usage
 
-GITLAB_OAUTH_CLIENT_SECRET - Application secret
+> git clone https://github.com/leanlabsio/kanban.git
+>
+> cd kanban
 
-GITLAB_BASIC_LOGIN, GITLAB_BASIC_PASSWORD - HTTP basic authentication login and password, if you use it
+Change default environment variables defined in fig.yml 
 
-KANBAN_SECRET_KEY - Token used to sign boards JSON Web Token
+**Where**
+
+Main variables
+
+> GITLAB_HOST - Your Gitlab installation host, required
+>
+> KANBAN_SECRET_KEY - Your Random secret key, used to generate jwt token, required
+>
+> GITLAB_API_TOKEN - Your Gitlab private API token, Using for gitlab api request for all users
+
+**Then**
+
+> fig up -d
+
+### 2. Register App For GitLab OAuth
+
+Go to https://gitlab.com/profile/applications or you installation gitlab and register your application to get the application keys needed for OAuth.
+
+**Where**
+
+> Redirect url https://{your-kanban-installation-host}/assets/html/user/views/oauth.html
+
+### 3. Configure OAuth Environment
+
+Change default environment variables defined in fig.yml 
+
+> GITLAB_OAUTH_CLIENT_ID - Application ID
+> 
+> GITLAB_OAUTH_CLIENT_SECRET - Application Secret 
+
+### 4. Upgrading Kanban.leanlabs
+
+For upgrading Kanban LeanLabs to last version
+
+> fig pull
+> fig up -d
+
+### 5. Basic Auth
+
+If you gitlab installation secured with basic authentication
+
+> GITLAB_BASIC_LOGIN - HTTP basic authentication login
+>
+> GITLAB_BASIC_PASSWORD -  HTTP basic authentication password
 
