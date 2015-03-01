@@ -1,212 +1,267 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8">
-		<title>Gitlab kanban board</title>
-		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-		<meta name="description" content="Gitlab kanban board" />
-		<meta name="keywords" content="Gitlab kanban board" />
-		<link rel="apple-touch-icon" sizes="57x57" href="/images/favicons/apple-icon-57x57.png">
-		<link rel="apple-touch-icon" sizes="60x60" href="/images/favicons/apple-icon-60x60.png">
-		<link rel="apple-touch-icon" sizes="72x72" href="/images/favicons/apple-icon-72x72.png">
-		<link rel="apple-touch-icon" sizes="76x76" href="/images/favicons/apple-icon-76x76.png">
-		<link rel="apple-touch-icon" sizes="114x114" href="/images/favicons/apple-icon-114x114.png">
-		<link rel="apple-touch-icon" sizes="120x120" href="/images/favicons/apple-icon-120x120.png">
-		<link rel="apple-touch-icon" sizes="144x144" href="/images/favicons/apple-icon-144x144.png">
-		<link rel="apple-touch-icon" sizes="152x152" href="/images/favicons/apple-icon-152x152.png">
-		<link rel="apple-touch-icon" sizes="180x180" href="/images/favicons/apple-icon-180x180.png">
-		<link rel="icon" type="image/png" sizes="192x192"  href="/images/favicons/android-icon-192x192.png">
-		<link rel="icon" type="image/png" sizes="32x32" href="/images/favicons/favicon-32x32.png">
-		<link rel="icon" type="image/png" sizes="96x96" href="/images/favicons/favicon-96x96.png">
-		<link rel="icon" type="image/png" sizes="16x16" href="/images/favicons/favicon-16x16.png">
-		<link rel="manifest" href="/images/favicons/manifest.json">
-		<meta name="msapplication-TileColor" content="#ffffff">
-		<meta name="msapplication-TileImage" content="/images/favicons/ms-icon-144x144.png">
-		<meta name="theme-color" content="#ffffff">
-		<!--[if lte IE 8]><script src="css/ie/html5shiv.js"></script><![endif]-->
-		<script src="js/jquery.min.js"></script>
-		<script src="js/skel.min.js"></script>
-		<script src="js/skel-layers.min.js"></script>
-		<script src="js/init.js"></script>
-		<noscript>
-			<link rel="stylesheet" href="css/skel.css" />
-			<link rel="stylesheet" href="css/style.css" />
-			<link rel="stylesheet" href="css/style-xlarge.css" />
-		</noscript>
-		<!--[if lte IE 8]><link rel="stylesheet" href="css/ie/v8.css" /><![endif]-->
-	</head>
-	<body class="landing">
+<head>
+    <meta charset="UTF-8">
+    <title>Gitlab kanban board</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <meta name="description" content="Gitlab kanban board"/>
+    <meta name="keywords" content="Gitlab kanban board"/>
+    <link rel="apple-touch-icon" sizes="57x57" href="/images/favicons/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/images/favicons/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/images/favicons/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/images/favicons/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/images/favicons/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/images/favicons/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/images/favicons/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/images/favicons/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/favicons/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/images/favicons/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/images/favicons/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicons/favicon-16x16.png">
+    <link rel="manifest" href="/images/favicons/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/images/favicons/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!--[if lte IE 8]>
+    <script src="css/ie/html5shiv.js"></script><![endif]-->
+    <script src="js/jquery.min.js"></script>
+    <script src="js/skel.min.js"></script>
+    <script src="js/skel-layers.min.js"></script>
+    <script src="js/init.js"></script>
+    <noscript>
+        <link rel="stylesheet" href="css/skel.css"/>
+        <link rel="stylesheet" href="css/style.css"/>
+        <link rel="stylesheet" href="css/style-xlarge.css"/>
+    </noscript>
+    <!--[if lte IE 8]>
+    <link rel="stylesheet" href="css/ie/v8.css"/><![endif]-->
+</head>
+<body class="landing">
 
-		<!-- Header -->
-			<header id="header">
-				<h1><a href="index.html"><img src="images/logo.png" alt="leanlabs" style="height:40px; margin-top: 15px;"></a></h1>
-				<nav id="nav">
-					<ul>
-						<li><a href="/">Home</a></li>
-						<li><a target="blank" href="https://gitlab.com/leanlabsio/kanban/wikis/home">Documentation</a></li>
-						<li><a href="http://blog.leanlabs.io" target="blank">Blog</a></li>
-					</ul>
-				</nav>
-			</header>
+<!-- Header -->
+<header id="header">
+    <h1><a href="index.html"><img src="images/logo.png" alt="leanlabs" style="height:40px; margin-top: 15px;"></a></h1>
+    <nav id="nav">
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a target="blank" href="https://gitlab.com/leanlabsio/kanban/wikis/home">Documentation</a></li>
+            <li><a href="http://blog.leanlabs.io" target="blank">Blog</a></li>
+        </ul>
+    </nav>
+</header>
 
-		<!-- Banner -->
-			<section id="banner">
-				<h2>Gitlab kanban</h2>
-				<p>Simple kanban board for gitlab issues</p>
-				<ul class="actions">
-					<li>
-						<a href="http://demo.kanban.leanlabs.io" class="button big">Try demo</a>
-					</li>
-				</ul>
-			</section>
+<!-- Banner -->
+<section id="banner">
+    <h2>Gitlab kanban</h2>
 
-		<!-- One -->
-			<section id="one" class="wrapper style1 align-center">
-				<div class="container">
-					<header>
-						<h2>Instant project management for your Gitlab issues</h2>
-						<p>Leanlabs kanban is built from the ground up using the Gitlab public API. Kanban issues are Gitlab issues, you will never have to deal with syncronization problems. Keep issues where they belong, in the repository with your code! </p>
-					</header>
-					<div class="row 200%">
-						<section class="4u 12u$(small)">
-							<i class="icon big rounded fa-cogs"></i>
-							<p>Fully customizable task board gives developers instant feedback into the status of tasks thoughout your progress.</p>
-						</section>
-						<section class="4u 12u$(small)">
-							<i class="icon big rounded fa-cloud-download"></i>
-							<p>Easy deployment in less then 5 minutes, install on your own servers 
-								or any cloud provider supporting Docker</p>
-						</section>
-						<section class="4u$ 12u$(small)">
-							<i class="icon big rounded fa-user"></i>
-							<p>You control who can see your repositories. We respect the same permissions you have setup with your Gitlab repositories</p>
-						</section>
-					</div>
-				</div>
-			</section>
+    <p>Simple kanban board for gitlab issues</p>
+    <ul class="actions">
+        <li>
+            <a href="http://demo.kanban.leanlabs.io" class="button big">Try demo</a>
+        </li>
+    </ul>
+</section>
 
-		<!-- Two -->
-			<section id="two" class="wrapper style2 align-center">
-				<div class="container">
-					<header>
-						<h2>Features</h2>
-					</header>
-					<div class="row">
-						<section class="feature 6u 12u$(small)">
-							<img class="image fit" style="max-height: 187px;
-														  max-width: 400px;margin: 0px auto;" src="images/example4.gif" alt="Simple Drag and drop" />
-							<h3 class="title">Simple drag and drop</h3>
-						</section>
-						<section class="feature 6u$ 12u$(small)">
-							<img class="image fit"  style="max-height: 187px;
-														  max-width: 400px;margin: 0px auto;" src="images/example3.gif" alt="Simple todo list" />
-							<h3 class="title">Simple todo list</h3>
-						</section>
-						<section class="feature 6u 12u$(small)">
-							<img class="image fit"  style="max-height: 187px;
-														  max-width: 400px;margin: 0px auto;" src="images/example1.gif" alt="Gitlab marckdown workflow" />
-							<h3 class="title">Gitlab flavoured markdown</h3>
-						</section>
-						<section class="feature 6u$ 12u$(small)">
-							<img class="image fit"  style="max-height: 187px;
-														  max-width: 400px;margin: 0px auto;" src="images/example2.gif" alt="Multiple user syncronisation" />
-							<h3 class="title">Multiple user syncronisation</h3>
-						</section>
-					</div>
-					<footer>
-						<ul class="actions">
-							<li>
-								<a href="http://demo.kanban.leanlabs.io" class="button alt big">Try demo</a>
-							</li>
-						</ul>
-					</footer>
-				</div>
-			</section>
+<!-- One -->
+<section id="one" class="wrapper style1 align-center">
+    <div class="container">
+        <header>
+            <h2>Instant project management for your Gitlab issues</h2>
 
-			<section id="three" class="wrapper style1 align-center">
-				<div class="container">
-					<header>
-						<h2>Video tour</h2>
-					</header>
-					<div class="row">
-						<section class="feature 12u 12u$(small)">
-							<iframe width="800" height="480" src="https://www.youtube.com/embed/7D5Xs12agew" frameborder="0" allowfullscreen></iframe>
-						</section>
-					</div>
-					<br/>
-					<footer>
-						<ul class="actions">
-							<li>
-								<a href="http://demo.kanban.leanlabs.io" class="button big">Try demo</a>
-							</li>
-						</ul>
-					</footer>
-				</div>
-			</section>
+            <p>Leanlabs kanban is built from the ground up using the Gitlab public API. Kanban issues are Gitlab issues,
+                you will never have to deal with syncronization problems. Keep issues where they belong, in the
+                repository with your code! </p>
+        </header>
+        <div class="row 200%">
+            <section class="4u 12u$(small)">
+                <i class="icon big rounded fa-cogs"></i>
 
-		<!-- Footer -->
-			<footer id="footer">
-				<div class="container">
-					<div class="row">
-						<section class="4u 6u(medium) 12u$(small)">
-							<h3>Documentation</h3>
-							<ul class="alt">
-								<li><a target="blank" href="https://github.com/leanlabsio/kanban/wiki">Github wiki</a></li>
-								<li><a target="blank" href="https://gitlab.com/leanlabsio/kanban/wikis/home">Gitlab wiki</a></li>
-								<li><a target="blank"  href="https://gitlab.com/leanlabsio/kanban">Project in gitlab</a></li>
-								<li><a target="blank" href="https://github.com/leanlabsio/kanban">Project in github</a></li>
-							</ul>
-						</section>
-						<section class="4u 6u$(medium) 12u$(small)">
-							<h3>Other repositories</h3>
-							<ul class="alt">
-								<li><a target="blank" href="https://gitlab.com/kanban/backend">Backend in php</a></li>
-								<li><a target="blank"  href="https://gitlab.com/kanban/client">Client in javascript</a></li>
-								<li><a target="blank"  href="https://gitlab.com/kanban/wsserver">Wsserver in erlang</a></li>
-								<li><a target="blank" href="https://hub.docker.com/u/leanlabs/">Docker images for building</a></li>
-							</ul>
-						</section>
-						<section class="4u$ 12u$(medium) 12u$(small)">
-								<h3>Any questions?</h3>
-								<ul class="alt">
-									<li><a href="mailto:support@leanlabs.io">support@leanlabs.io</a></li>
-								<ul>
-						</section>
-					</div>
-					<ul class="copyright">
-						<li>&copy; Leanlabs. All rights reserved.</li>
-					</ul>
-				</div>
-			</footer>
+                <p>Fully customizable task board gives developers instant feedback into the status of tasks thoughout
+                    your progress.</p>
+            </section>
+            <section class="4u 12u$(small)">
+                <i class="icon big rounded fa-cloud-download"></i>
 
-					<!-- Yandex.Metrika counter -->
-		<script type="text/javascript">
-		(function (d, w, c) {
-		    (w[c] = w[c] || []).push(function() {
-		        try {
-		            w.yaCounter28745811 = new Ya.Metrika({id:28745811,
-		                    webvisor:true,
-		                    clickmap:true,
-		                    trackLinks:true,
-		                    accurateTrackBounce:true});
-		        } catch(e) { }
-		    });
+                <p>Easy deployment in less then 5 minutes, install on your own servers
+                    or any cloud provider supporting Docker</p>
+            </section>
+            <section class="4u$ 12u$(small)">
+                <i class="icon big rounded fa-user"></i>
 
-		    var n = d.getElementsByTagName("script")[0],
-		        s = d.createElement("script"),
-		        f = function () { n.parentNode.insertBefore(s, n); };
-		    s.type = "text/javascript";
-		    s.async = true;
-		    s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js";
+                <p>You control who can see your repositories. We respect the same permissions you have setup with your
+                    Gitlab repositories</p>
+            </section>
+        </div>
+    </div>
+</section>
 
-		    if (w.opera == "[object Opera]") {
-		        d.addEventListener("DOMContentLoaded", f, false);
-		    } else { f(); }
-		})(document, window, "yandex_metrika_callbacks");
-		</script>
-		<noscript><div><img src="//mc.yandex.ru/watch/28745811" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-		<!-- /Yandex.Metrika counter -->
+<!-- Two -->
+<section id="two" class="wrapper style2 align-center">
+    <div class="container">
+        <header>
+            <h2>Features</h2>
+        </header>
+        <div class="row">
+            <section class="feature 6u 12u$(small)">
+                <img class="image fit" style="max-height: 187px;
+														  max-width: 400px;margin: 0px auto;" src="images/example4.gif"
+                     alt="Simple Drag and drop"/>
 
-	</body>
+                <h3 class="title">Simple drag and drop</h3>
+            </section>
+            <section class="feature 6u$ 12u$(small)">
+                <img class="image fit" style="max-height: 187px;
+														  max-width: 400px;margin: 0px auto;" src="images/example3.gif"
+                     alt="Simple todo list"/>
+
+                <h3 class="title">Simple todo list</h3>
+            </section>
+            <section class="feature 6u 12u$(small)">
+                <img class="image fit" style="max-height: 187px;
+														  max-width: 400px;margin: 0px auto;" src="images/example1.gif"
+                     alt="Gitlab marckdown workflow"/>
+
+                <h3 class="title">Gitlab flavoured markdown</h3>
+            </section>
+            <section class="feature 6u$ 12u$(small)">
+                <img class="image fit" style="max-height: 187px;
+														  max-width: 400px;margin: 0px auto;" src="images/example2.gif"
+                     alt="Multiple user syncronisation"/>
+
+                <h3 class="title">Multiple user syncronisation</h3>
+            </section>
+        </div>
+        <footer>
+            <ul class="actions">
+                <li>
+                    <a href="http://demo.kanban.leanlabs.io" class="button alt big">Try demo</a>
+                </li>
+            </ul>
+        </footer>
+    </div>
+</section>
+
+<section id="three" class="wrapper style1 align-center">
+    <div class="container">
+        <header>
+            <h2>Video tour</h2>
+        </header>
+        <div class="row">
+            <section class="feature 12u 12u$(small)">
+                <iframe width="800" height="480" src="https://www.youtube.com/embed/7D5Xs12agew" frameborder="0"
+                        allowfullscreen></iframe>
+            </section>
+        </div>
+        <br/>
+        <footer>
+            <ul class="actions">
+                <li>
+                    <a href="http://demo.kanban.leanlabs.io" class="button big">Try demo</a>
+                </li>
+            </ul>
+        </footer>
+    </div>
+</section>
+
+<section id="two" class="wrapper style2 align-center">
+    <div class="container">
+        <header>
+            <h2>Installation</h2>
+        </header>
+        <div class="row">
+            <section class="feature 6u 12u$(small)">
+                <h3 class="title">Self hosted</h3>
+                <p>
+                    You can deploy Leanlabs Kanban on any server with ease.
+                    The only requirement for installation is Docker.
+                    You can find detailed instructions on installation in
+                    <a href="https://gitlab.com/leanlabsio/kanban/wikis/install" title="Leanlabs Kanban installation guide">project wiki</a>.
+                </p>
+            </section>
+            <section class="feature 6u$ 12u$(small)">
+                <h3 class="title">Online</h3>
+                <p>
+                    Coming soon! For now you can try our
+                    <a href="http://demo.kanban.leanlabs.io" title="Try Leanlabs Kanban demo">demo installation</a>.
+                </p>
+            </section>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer id="footer">
+    <div class="container">
+        <div class="row">
+            <section class="4u 6u(medium) 12u$(small)">
+                <h3>Documentation</h3>
+                <ul class="alt">
+                    <li><a target="blank" href="https://github.com/leanlabsio/kanban/wiki">Github wiki</a></li>
+                    <li><a target="blank" href="https://gitlab.com/leanlabsio/kanban/wikis/home">Gitlab wiki</a></li>
+                    <li><a target="blank" href="https://gitlab.com/leanlabsio/kanban">Project in gitlab</a></li>
+                    <li><a target="blank" href="https://github.com/leanlabsio/kanban">Project in github</a></li>
+                </ul>
+            </section>
+            <section class="4u 6u$(medium) 12u$(small)">
+                <h3>Other repositories</h3>
+                <ul class="alt">
+                    <li><a target="blank" href="https://gitlab.com/kanban/backend">Backend in php</a></li>
+                    <li><a target="blank" href="https://gitlab.com/kanban/client">Client in javascript</a></li>
+                    <li><a target="blank" href="https://gitlab.com/kanban/wsserver">Wsserver in erlang</a></li>
+                    <li><a target="blank" href="https://hub.docker.com/u/leanlabs/">Docker images for building</a></li>
+                </ul>
+            </section>
+            <section class="4u$ 12u$(medium) 12u$(small)">
+                <h3>Any questions?</h3>
+                <ul class="alt">
+                    <li><a href="mailto:support@leanlabs.io">support@leanlabs.io</a></li>
+                    <ul>
+            </section>
+        </div>
+        <ul class="copyright">
+            <li>&copy; Leanlabs. All rights reserved.</li>
+        </ul>
+    </div>
+</footer>
+
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function (d, w, c) {
+        (w[c] = w[c] || []).push(function () {
+            try {
+                w.yaCounter28745811 = new Ya.Metrika({
+                    id: 28745811,
+                    webvisor: true,
+                    clickmap: true,
+                    trackLinks: true,
+                    accurateTrackBounce: true
+                });
+            } catch (e) {
+            }
+        });
+
+        var n = d.getElementsByTagName("script")[0],
+                s = d.createElement("script"),
+                f = function () {
+                    n.parentNode.insertBefore(s, n);
+                };
+        s.type = "text/javascript";
+        s.async = true;
+        s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js";
+
+        if (w.opera == "[object Opera]") {
+            d.addEventListener("DOMContentLoaded", f, false);
+        } else {
+            f();
+        }
+    })(document, window, "yandex_metrika_callbacks");
+</script>
+<noscript>
+    <div><img src="//mc.yandex.ru/watch/28745811" style="position:absolute; left:-9999px;" alt=""/></div>
+</noscript>
+<!-- /Yandex.Metrika counter -->
+
+</body>
 </html>
 
