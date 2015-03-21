@@ -1,5 +1,9 @@
 proxy:
-  image: leanlabs/proxy
+  image: leanlabs/nginx
+  volumes:
+    - "./build/conf.d:/etc/nginx/conf.d"
+    - "./build/certs:/etc/nginx/certs"
+    - "./build/sites-enabled:/etc/nginx/sites-enabled"
   links: 
     - client:client
     - backend:backend
@@ -9,12 +13,12 @@ proxy:
     - "80:80"
 
 client:
-  image: leanlabs/client
+  image: leanlabs/client:1.0.0
   environment:
     - GITLAB_HOST=https://gitlab.com/
 
 backend: 
-  image: leanlabs/backend
+  image: leanlabs/backend:1.0.0
   links:
     - rabbitmq:rabbitmq
     - redis:redis
@@ -28,7 +32,7 @@ backend:
     - KANBAN_SECRET_KEY=secret
 
 wsserver: 
-  image: leanlabs/wsserver
+  image: leanlabs/wsserver:0.0.1
   links:
     - rabbitmq:rabbitmq
 
