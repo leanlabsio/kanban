@@ -37,7 +37,7 @@ wsserver:
     - rabbitmq:rabbitmq
 
 rabbitmq:
-  image: rabbitmq:latest
+  image: rabbitmq:3.4.4
 
 redis:
   image: leanlabs/redis
