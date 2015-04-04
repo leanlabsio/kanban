@@ -18,7 +18,7 @@ client:
     - GITLAB_HOST=https://gitlab.com/
 
 backend: 
-  image: leanlabs/backend:1.0.0
+  image: leanlabs/backend:1.0.1
   links:
     - rabbitmq:rabbitmq
     - redis:redis
