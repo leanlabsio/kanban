@@ -70,15 +70,15 @@
                                 </header>
                                 <div class="wiki-holder">
                                 <div class="wiki">
-                                <p>The easiest way to deploy Leanlabs Kanban board is to use fig.
-                                Assuming you have installed <a href="http://www.fig.sh/">fig</a> and <a href="https://www.docker.com/">Docker</a>.</p>
+                                <p>The easiest way to deploy Leanlabs Kanban board is to use docker-compose.
+                                Assuming you have installed <a href="https://docs.docker.com/compose/">docker-compose</a> and <a href="https://www.docker.com/">Docker</a>.</p>
                                 <h3 id="1-simple-usage">1. Simple usage<a href="#1-simple-usage"></a></h3>
                                 <blockquote>
                                 git clone <a href="https://github.com/leanlabsio/kanban.git">https://github.com/leanlabsio/kanban.git</a><br/>
                                 cd kanban
                                 </blockquote>
 
-                                <p>Change default environment variables defined in fig.yml </p>
+                                <p>Change default environment variables defined in docker-compose.yml </p>
 
                                 <p><strong>Where</strong></p>
 
@@ -94,7 +94,7 @@
                                 <p><strong>Then</strong></p>
 
                                 <blockquote>
-                                fig up -d
+                                docker-compose up -d
                                 </blockquote>
                                 <h3 id="2-register-app-for-gitlab-oauth">2. Register App For GitLab OAuth<a href="#2-register-app-for-gitlab-oauth"></a></h3>
                                 <p>Go to <a href="https://gitlab.com/profile/applications">https://gitlab.com/profile/applications</a> or you installation gitlab and register your application to get the application keys needed for OAuth.</p>
@@ -105,7 +105,7 @@
                                 Redirect url http://{your-kanban-installation-host}/assets/html/user/views/oauth.html
                                 </blockquote>
                                 <h3 id="3-configure-oauth-environment">3. Configure OAuth Environment<a href="#3-configure-oauth-environment"></a></h3>
-                                <p>Change default environment variables defined in fig.yml </p>
+                                <p>Change default environment variables defined in docker-compose.yml </p>
 
                                 <blockquote>
                                 <span class="danger">GITLAB_OAUTH_CLIENT_ID</span>     - Application ID<br/>
@@ -115,8 +115,8 @@
                                 <p>For upgrading Kanban LeanLabs to last version</p>
 
                                 <blockquote>
-                                fig pull<br/>
-                                fig up -d
+                                docker-compose pull<br/>
+                                docker-compose up -d
                                 </blockquote>
                                 <h3 id="5-basic-auth">5. Basic Auth<a href="#5-basic-auth"></a></h3>
                                 <p>If you gitlab installation secured with basic authentication</p>
