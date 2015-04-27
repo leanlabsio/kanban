@@ -11,8 +11,8 @@
 
 ## Installation
 
-The easiest way to deploy Leanlabs Kanban board is to use fig. 
-Assuming you have installed [fig](http://www.fig.sh/) and [Docker](https://www.docker.com/).
+The easiest way to deploy Leanlabs Kanban board is to use docker-compose. 
+Assuming you have installed [docker-compose](https://docs.docker.com/compose/) and [Docker](https://www.docker.com/).
 
 ### 1. Simple usage
 
@@ -20,7 +20,7 @@ Assuming you have installed [fig](http://www.fig.sh/) and [Docker](https://www.d
 >
 > cd kanban
 
-Change default environment variables defined in fig.yml 
+Change default environment variables defined in docker-compose.yml 
 
 **Where**
 
@@ -34,7 +34,7 @@ Main variables
 
 **Then**
 
-> fig up -d
+> docker-compose up -d
 
 ### 2. Register App For GitLab OAuth
 
@@ -46,7 +46,7 @@ Go to https://gitlab.com/profile/applications or you installation gitlab and reg
 
 ### 3. Configure OAuth Environment
 
-Change default environment variables defined in fig.yml 
+Change default environment variables defined in docker-compose.yml 
 
 > GITLAB_OAUTH_CLIENT_ID - Application ID
 > 
@@ -56,8 +56,9 @@ Change default environment variables defined in fig.yml
 
 For upgrading Kanban LeanLabs to last version
 
-> fig pull
-> fig up -d
+> docker-compose pull
+>
+> docker-compose up -d
 
 ### 5. Basic Auth
 
