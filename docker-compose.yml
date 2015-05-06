@@ -13,12 +13,12 @@ proxy:
     - "80:80"
 
 client:
-  image: leanlabs/client:1.0.0
+  image: leanlabs/client:1.1.0
   environment:
     - GITLAB_HOST=https://gitlab.com/
 
 backend: 
-  image: leanlabs/backend:1.0.1
+  image: leanlabs/backend:1.1.0
   links:
     - rabbitmq:rabbitmq
     - redis:redis
