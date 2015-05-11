@@ -1,3 +1,10 @@
+# 1.0.8 (2015-05-11)
+
+## Features:
+
+- Filter by milestones with "^" notation. Part of [#12](https://gitlab.com/leanlabsio/kanban/issues/12).
+- Filter autocomplete for users and milestones. Part of [#12](https://gitlab.com/leanlabsio/kanban/issues/12).
+
 # 1.0.7 (2015-05-07)
 
 ## Features:
