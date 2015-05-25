@@ -1,3 +1,14 @@
+# 1.0.9 (2015-05-25)
+
+## Features:
+
+- Hide archived projects from boards list. Closes [#36](https://gitlab.com/leanlabsio/kanban/issues/36).
+
+## Bugfixes:
+
+- TODO can be added when issue description is empty. Closes [#29](https://gitlab.com/leanlabsio/kanban/issues/29).
+- Fixed websocket connection issue, thanks to Markus Zimmermann. Closes [#14](https://gitlab.com/leanlabsio/kanban/issues/14).
+
 # 1.0.8 (2015-05-11)
 
 ## Features:
