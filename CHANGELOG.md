@@ -1,3 +1,10 @@
+# 1.0.10 (2015-05-28)
+
+## Features:
+
+- Allow to change the title and description of an issue. Closes [#23](https://gitlab.com/leanlabsio/kanban/issues/23).
+- Add links to GitLab issues from card view. Closes [#21](https://gitlab.com/leanlabsio/kanban/issues/21).
+
 # 1.0.9 (2015-05-25)
 
 ## Features:
