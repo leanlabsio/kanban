@@ -1,3 +1,13 @@
+# 1.0.11 (2015-05-29)
+
+## Features:
+
+- Board shows 100 issues. Closes [#27](https://gitlab.com/leanlabsio/kanban/issues/27).
+
+## Bugfixes:
+
+- Reload the page on websocket connection fail. Closes [#33](https://gitlab.com/leanlabsio/kanban/issues/33).
+
 # 1.0.10 (2015-05-28)
 
 ## Features:
