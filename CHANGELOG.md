@@ -1,3 +1,16 @@
+# 1.1.0 (2015-06-03)
+
+## Features:
+
+- Add "cancel" button for edit issue functionality. Closes [#39](https://gitlab.com/leanlabsio/kanban/issues/39).
+- Rename "Edit card" to "Edit issue" and "/boards/.../cards/..." to "/boards/.../issues/...". Closes [#41](https://gitlab.com/leanlabsio/kanban/issues/41).
+
+## Bugfixes:
+
+- Every TODO item adds a new line to the beginning of the description. Closes [#46](https://gitlab.com/leanlabsio/kanban/issues/46).
+- Modifying the issue title updates title in board without safing. Closes [#42](https://gitlab.com/leanlabsio/kanban/issues/42).
+- Fixed base docker images versions. Fixed Redis container version. Fixed proxy container version.
+
 # 1.0.11 (2015-05-29)
 
 ## Features:

@@ -1,5 +1,5 @@
 proxy:
-  image: leanlabs/nginx
+  image: leanlabs/nginx:1.0.1
   volumes:
     - "./build/conf.d:/etc/nginx/conf.d"
     - "./build/certs:/etc/nginx/certs"
@@ -13,12 +13,12 @@ proxy:
     - "80:80"
 
 client:
-  image: leanlabs/client:1.1.5
+  image: leanlabs/client:1.1.6
   environment:
     - GITLAB_HOST=https://gitlab.com/
 
 backend: 
-  image: leanlabs/backend:1.1.2
+  image: leanlabs/backend:1.1.3
   links:
     - rabbitmq:rabbitmq
     - redis:redis
@@ -40,7 +40,7 @@ rabbitmq:
   image: rabbitmq:3.4.4
 
 redis:
-  image: leanlabs/redis
+  image: leanlabs/redis:1.0.0
   volumes:
     - "/data:/data"
 
