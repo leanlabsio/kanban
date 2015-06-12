@@ -1,3 +1,10 @@
+# 1.1.2 (2015-06-12)
+
+## Features:
+
+- Filter cards by label. Closes [#233](https://gitlab.com/kanban/client/issues/233).
+- Textarea in comment form. Closes [#40](https://gitlab.com/leanlabsio/kanban/issues/40).
+
 # 1.1.1 (2015-06-12)
 
 ## Refactoring:
