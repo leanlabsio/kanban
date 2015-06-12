@@ -32,7 +32,7 @@ backend:
     - KANBAN_SECRET_KEY=secret
 
 wsserver: 
-  image: leanlabs/wsserver:0.0.1
+  image: leanlabs/wsserver:0.0.2
   links:
     - rabbitmq:rabbitmq
 
