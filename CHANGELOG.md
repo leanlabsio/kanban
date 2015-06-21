@@ -1,3 +1,18 @@
+# 1.1.3 (2015-06-21)
+
+## Features:
+
+- Mobile friendly card view, card create.
+- Redesigned comments.
+
+## Bugfixes:
+
+- Do not add empty TODO items. Closes [#53](https://gitlab.com/leanlabsio/kanban/issues/53).
+- Every TODO item adds a new line to the beginning of the description. Closes [#46](https://gitlab.com/leanlabsio/kanban/issues/46).
+- Every second TODO item has a newline. Closes [#45](https://gitlab.com/leanlabsio/kanban/issues/45).
+- margin of columns lets board overflow. Closes [#35](https://gitlab.com/leanlabsio/kanban/issues/35).
+- The horizontal scroll bar is only visible when you scroll down, instead of always showing in the viewport. Closes [#6](https://gitlab.com/leanlabsio/kanban/issues/6).
+
 # 1.1.2 (2015-06-12)
 
 ## Features:
