@@ -1,3 +1,15 @@
+# 1.1.4 (2015-07-05)
+
+## Features:
+
+- Implemented andon
+- Card movement notifications
+- Markdown preview in textareas
+
+## Bugfixes:
+
+- Cannot remove last todo. Closes [#44](https://gitlab.com/leanlabsio/kanban/issues/44).
+
 # 1.1.3 (2015-06-21)
 
 ## Features:
