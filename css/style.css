@@ -64,6 +64,7 @@ h2 {
 h3 {
     font-size: 1.35em;
     line-height: 1.5em;
+    padding-top: 0.5rem;
 }
 
 h4 {
@@ -434,12 +435,13 @@ input[type="radio"] + label:before {
 
 .icon.rounded {
     border-radius: 100%;
-    border: 1px solid #28b5df;
+    border: 1px solid #444444;
     display: inline-block;
     height: 2em;
     line-height: 2em;
     text-align: center;
     width: 2em;
+    margin-bottom: 1em;
 }
 
 .icon.rounded.big {
@@ -715,18 +717,10 @@ input[type="submit"],
 input[type="reset"],
 input[type="button"],
 .button {
-    -moz-appearance: none;
-    -webkit-appearance: none;
-    -o-appearance: none;
-    -ms-appearance: none;
-    appearance: none;
-    -moz-transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
-    -webkit-transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
-    -o-transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
-    -ms-transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
-    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
-    background-color: #259CC3;
-    border-radius: 4px;
+    -webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.08), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+    -moz-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.08), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.08), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+    background-color: #e53935;
     border: 0;
     color: #ffffff !important;
     cursor: pointer;
@@ -738,20 +732,27 @@ input[type="button"],
     text-align: center;
     text-decoration: none;
     white-space: nowrap;
+    text-transform: uppercase;
 }
 
 input[type="submit"]:hover,
 input[type="reset"]:hover,
 input[type="button"]:hover,
 .button:hover {
-    background-color: #28b5df;
+    background-color: #f44336;
+    -webkit-box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15);
+    -moz-box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15);
+    box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15);
 }
 
 input[type="submit"]:active,
 input[type="reset"]:active,
 input[type="button"]:active,
 .button:active {
-    background-color: #259CC3;
+    background-color: #f44336;
+    -webkit-box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15);
+    -moz-box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15);
+    box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15);
 }
 
 input[type="submit"].icon,
@@ -788,31 +789,9 @@ input[type="submit"].big,
 input[type="reset"].big,
 input[type="button"].big,
 .button.big {
-    font-size: 1.35em;
+    font-size: 1em;
 }
 
-input[type="submit"].alt,
-input[type="reset"].alt,
-input[type="button"].alt,
-.button.alt {
-    background-color: transparent;
-    box-shadow: inset 0 0 0 2px rgba(144, 144, 144, 0.25);
-    color: #666 !important;
-}
-
-input[type="submit"].alt:hover,
-input[type="reset"].alt:hover,
-input[type="button"].alt:hover,
-.button.alt:hover {
-    background-color: rgba(144, 144, 144, 0.075);
-}
-
-input[type="submit"].alt:active,
-input[type="reset"].alt:active,
-input[type="button"].alt:active,
-.button.alt:active {
-    background-color: rgba(144, 144, 144, 0.2);
-}
 
 input[type="submit"].alt.icon:before,
 input[type="reset"].alt.icon:before,
@@ -867,7 +846,7 @@ body.landing #header {
 }
 
 #header {
-    background-color: #202222;
+    background-color: #3F51B5;
     color: #ffffff;
     cursor: default;
     height: 4.75em;
@@ -957,14 +936,10 @@ body.landing #header {
 /* Banner */
 
 #banner {
-    background: url("images/overlay.png"), url("../images/banner.jpg");
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
+    background-color: #3F51B5;
     color: #ffffff;
-    padding: 16em 0em 14em;
+    padding: 16em 0em 0em;
     text-align: center;
-    min-height: 100vh;
 }
 
 #banner h2 {
@@ -984,16 +959,6 @@ body.landing #header {
     margin: 3em 0 0 0;
 }
 
-#banner .button {
-    background-color: transparent;
-    border: 1px solid #ffffff;
-    font-weight: 300;
-}
-
-#banner .button:hover {
-    background-color: rgba(255, 255, 255, 0.2);
-}
-
 /* Wrapper */
 
 .wrapper {
@@ -1001,12 +966,12 @@ body.landing #header {
 }
 
 .wrapper.style1 {
-    background-color: #259CC3;
-    -moz-background-image: linear-gradient(60deg, #259CC3 50%, #228aae 50%);
-    -webkit-background-image: linear-gradient(60deg, #259CC3 50%, #228aae 50%);
-    -o-background-image: linear-gradient(60deg, #259CC3 50%, #228aae 50%);
-    -ms-background-image: linear-gradient(60deg, #259CC3 50%, #228aae 50%);
-    background-image: linear-gradient(60deg, #259CC3 50%, #228aae 50%);
+    background-color: #3F51B5;
+    -moz-background-image: linear-gradient(60deg, #3F51B5 50%, #2D3880 50%);
+    -webkit-background-image: linear-gradient(60deg, #3F51B5 50%, #2D3880 50%);
+    -o-background-image: linear-gradient(60deg, #3F51B5 50%, #2D3880 50%);
+    -ms-background-image: linear-gradient(60deg, #3F51B5 50%, #2D3880 50%);
+    background-image: linear-gradient(60deg, #3F51B5 50%, #2D3880 50%);
     color: #ffffff;
 }
 
@@ -1014,7 +979,7 @@ body.landing #header {
     margin-bottom: 4em;
 }
 
-.wrapper.style1 h2 {
+.wrapper.style1 h2, .style1 h3 {
     color: #ffffff;
 }
 
@@ -1099,4 +1064,45 @@ body.landing #header {
 
 .danger{
     color: #ff0000;
+}
+
+.home-mockups {
+    position: relative;
+    margin-top: 3rem;
+    margin-bottom: -1rem;
+    z-index: 3;
+    line-height: 0;
+}
+
+.home-mockup {
+    position: absolute;
+    margin: 0 auto;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    width: 80%;
+    max-width: 1200px;
+}
+
+.home-mockup.main-mockup{
+    position: relative;
+}
+
+.waves-effect {
+    position: relative;
+    cursor: pointer;
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: bottom;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-transition: all 650ms ease;
+    -moz-transition: all 650ms ease;
+    -o-transition: all 650ms ease;
+    -ms-transition: all 650ms ease;
+    transition: all 650ms ease;
 }
