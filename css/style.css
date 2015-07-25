@@ -41,7 +41,12 @@ em, i {
 }
 
 p {
-    margin: 0 0 2em 0;
+    opacity: 0.64;
+    font-weight: 300;
+    font-size: 1rem;
+    letter-spacing: 0.02rem;
+    line-height: 1.72rem;
+    margin: 0px 0px 1.72rem 0px;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -57,14 +62,21 @@ h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
 }
 
 h2 {
-    font-size: 1.75em;
-    line-height: 1.5em;
+    opacity: 0.64;
+    font-weight: 300;
+    letter-spacing: -0.13rem;
+    font-size: 3.21rem;
+    line-height: 3.44rem;
+    margin: 1.72rem 0 1.72rem 0;
 }
 
 h3 {
-    font-size: 1.35em;
-    line-height: 1.5em;
-    padding-top: 0.5rem;
+    opacity: 0.64;
+    font-weight: 400;
+    letter-spacing: -0.10rem;
+    font-size: 2rem;
+    line-height: 2.86rem;
+    margin: 0 0 1.14rem 0;
 }
 
 h4 {
@@ -943,16 +955,27 @@ body.landing #header {
 }
 
 #banner h2 {
-    color: #ffffff;
-    font-size: 3em;
-    line-height: 1em;
-    margin: 0 0 0.5em 0;
-    padding: 0;
+    color: #fff;
+    opacity: 0.64;
+    font-weight: 300;
+    letter-spacing: -0.13rem;
+    font-size: 3.21rem;
+    line-height: 3.44rem;
+    margin: 1.72rem 0px 1.72rem 0px;
 }
 
-#banner p {
-    font-size: 1.5em;
-    margin: 1.5em 0 0 0;
+#banner h6 {
+    color: #fff;
+    opacity: 0.87;
+    font-weight: 500;
+    letter-spacing: 0.02rem;
+    font-size: 1rem;
+    line-height: 1.72rem;
+    margin: 0px 0px 0rem 0px;
+}
+
+.liter-background{
+    background-color: #fafafa;
 }
 
 #banner .actions {
@@ -993,12 +1016,20 @@ body.landing #header {
     padding-bottom: 1em;
 }
 
+.wrapper.style2.install{
+    padding: 0;
+}
+
 .wrapper.style2 header {
     margin-bottom: 4em;
 }
 
 .wrapper.style2 .feature {
     margin: 0 0 2em 0;
+}
+
+.feature img{
+    padding-top: 15px;
 }
 
 /* Footer */
@@ -1069,7 +1100,7 @@ body.landing #header {
 .home-mockups {
     position: relative;
     margin-top: 3rem;
-    margin-bottom: -1rem;
+    margin-bottom: 0;
     z-index: 3;
     line-height: 0;
 }
