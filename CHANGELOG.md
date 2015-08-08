@@ -1,3 +1,11 @@
+# 1.2.0 (2015-08-08)
+
+## Features:
+
+- Implemented swimlanes by users [#243](https://gitlab.com/kanban/client/issues/243).
+- Added ability to unassign issues [#61](https://gitlab.com/leanlabsio/kanban/issues/61).
+- Redesigned boards
+
 # 1.1.4 (2015-07-05)
 
 ## Features:

@@ -13,7 +13,7 @@ proxy:
     - "80:80"
 
 client:
-  image: leanlabs/client:1.1.9
+  image: leanlabs/client:1.2.0
   environment:
     - GITLAB_HOST=https://gitlab.com/
 
