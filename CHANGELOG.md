@@ -1,3 +1,9 @@
+# 1.2.1 (2015-08-13)
+
+## Bugfixes
+
+- assets versioning
+
 # 1.2.0 (2015-08-08)
 
 ## Features:
