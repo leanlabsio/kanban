@@ -1,6 +1,8 @@
 
 # GitLab issues made awesome
 
+[![Join the chat at https://gitter.im/leanlabsio/kanban](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/leanlabsio/kanban?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 #### Instant project management for your GitLab repositories
 
 # FAQ
