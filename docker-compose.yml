@@ -18,7 +18,7 @@ client:
     - GITLAB_HOST=https://gitlab.com/
 
 backend: 
-  image: leanlabs/backend:1.1.5
+  image: leanlabs/backend:1.1.6
   links:
     - rabbitmq:rabbitmq
     - redis:redis
@@ -32,7 +32,7 @@ backend:
     - KANBAN_SECRET_KEY=secret
 
 wsserver: 
-  image: leanlabs/wsserver:0.0.2
+  image: leanlabs/wsserver:0.0.3
   links:
     - rabbitmq:rabbitmq
 

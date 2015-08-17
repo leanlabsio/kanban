@@ -1,3 +1,9 @@
+# 1.2.2 (2015-08-17)
+
+## Features:
+
+- Enabled plugins integration
+
 # 1.2.1 (2015-08-13)
 
 ## Bugfixes
