@@ -87,7 +87,7 @@
                                 <blockquote>
                                     <span class="danger">GITLAB_HOST</span>       - Your Gitlab installation host, required<br/>
                                     <span class="danger">KANBAN_SECRET_KEY</span> - Your Random secret key, used to generate jwt token, required<br/>
-                                    <span class="danger">GITLAB_API_TOKEN (deprecated, not usage)</span>  - Your Gitlab private API token, Using for gitlab api request for all users
+                                    <span class="danger">GITLAB_API_TOKEN (deprecated, not usage)</span>  - This is legacy variable and not used internally, but should be present, we will remove it future releases.
                                     <br/>
                                 </blockquote>
 
@@ -181,42 +181,41 @@
 				</div>
 			</section>
 
-		<!-- Footer -->
-			<footer id="footer">
-				<div class="container">
-					<div class="row">
-						<section class="4u 6u(medium) 12u$(small)">
-							<h3>Documentation</h3>
-							<ul class="alt">
-								<li><a target="blank" href="https://github.com/leanlabsio/kanban/wiki">Github wiki</a></li>
-								<li><a target="blank" href="https://gitlab.com/leanlabsio/kanban/wikis/home">Gitlab wiki</a></li>
-								<li><a target="blank" href="https://gitlab.com/leanlabsio/kanban"><li><a target="blank" href="https://gitlab.com/u/leanlabsio">Project in gitlab</a></li>
-                                <li><a target="blank" href="https://github.com/leanlabsio">Project in github</a></li>
-							</ul>
-						</section>
-						<section class="4u 6u$(medium) 12u$(small)">
-							<h3>Other repositories</h3>
-							<ul class="alt">
-								<li><a target="blank" href="https://gitlab.com/kanban/backend">Backend in php</a></li>
-								<li><a target="blank" href="https://gitlab.com/kanban/client">Client in javascript</a></li>
-								<li><a target="blank" href="https://gitlab.com/kanban/wsserver">Wsserver in erlang</a></li>
-								<li><a target="blank" href="https://hub.docker.com/u/leanlabs/">Docker images for building</a></li>
-							</ul>
-						</section>
-						<section class="4u$ 12u$(medium) 12u$(small)">
-								<h3>Any questions?</h3>
-								<ul class="alt">
-                                    <li><a target="_blank" href="https://twitter.com/leanlabsio">Follow on Twitter</a></li>
-                                    <li><a target="_blank" href="http://blog.leanlabs.io">All features on blog</a></li>
-									<li><a href="mailto:support@leanlabs.io">support@leanlabs.io</a></li>
-								<ul>
-						</section>
-					</div>
-					<ul class="copyright">
-						<li>&copy; Leanlabs. All rights reserved.</li>
-					</ul>
-				</div>
-			</footer>
+		<footer id="footer">
+            <div class="container">
+                <div class="row">
+                    <section class="4u 6u(medium) 12u$(small)">
+                        <h3>Documentation</h3>
+                        <ul class="alt">
+                            <li><a target="blank" href="https://github.com/leanlabsio/kanban/wiki">GitHub wiki</a></li>
+                            <li><a target="blank" href="https://gitlab.com/leanlabsio/kanban/wikis/home">GitLab wiki</a></li>
+                            <li><a target="blank" href="https://gitlab.com/u/leanlabsio">Project on GitLab</a></li>
+                            <li><a target="blank" href="https://github.com/leanlabsio">Project on GitHub</a></li>
+                        </ul>
+                    </section>
+                    <section class="4u 6u$(medium) 12u$(small)">
+                        <h3>Other repositories</h3>
+                        <ul class="alt">
+                            <li><a target="blank" href="https://gitlab.com/kanban/backend">Backend in php</a></li>
+                            <li><a target="blank" href="https://gitlab.com/kanban/client">Client in javascript</a></li>
+                            <li><a target="blank" href="https://gitlab.com/kanban/wsserver">Wsserver in erlang</a></li>
+                            <li><a target="blank" href="https://hub.docker.com/u/leanlabs/">Docker images for building</a></li>
+                        </ul>
+                    </section>
+                    <section class="4u$ 12u$(medium) 12u$(small)">
+                        <h3>Any questions?</h3>
+                        <ul class="alt">
+                            <li><a target="_blank" href="https://twitter.com/leanlabsio">Follow on Twitter</a></li>
+                            <li><a target="_blank" href="http://blog.leanlabs.io">All features on blog</a></li>
+                            <li><a href="mailto:support@leanlabs.io">support@leanlabs.io</a></li>
+                        <ul>
+                    </section>
+                </div>
+                <ul class="copyright">
+                    <li>&copy; Leanlabs. All rights reserved.</li>
+                </ul>
+            </div>
+        </footer>
 
 					<!-- Yandex.Metrika counter -->
 		<script type="text/javascript">
