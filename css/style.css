@@ -983,7 +983,7 @@ body.landing #header {
 /* Wrapper */
 
 .wrapper {
-    padding: 6em 0em 4em;
+    padding: 3em 0em 4em;
 }
 
 .wrapper.style1 {
@@ -1028,6 +1028,7 @@ body.landing #header {
 
 .feature img{
     padding-top: 15px;
+    max-width: 100%;
 }
 
 /* Footer */
