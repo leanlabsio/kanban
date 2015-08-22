@@ -10,6 +10,10 @@
 		font-size: 13pt;
 	}
 
+	.hiden-for-medium {
+		display: none;
+	}
+
 /* Banner */
 
 	#banner {

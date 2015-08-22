@@ -10,6 +10,12 @@
 		font-size: 12pt;
 	}
 
+	.hiden-for-small {
+		display: none;
+	}
+	.hiden-for-medium {
+		display: block;
+	}
 /* Section/Article */
 
 	section.special, article.special {
