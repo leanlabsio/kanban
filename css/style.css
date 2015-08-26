@@ -851,6 +851,19 @@ body.landing #header {
     top: 0;
 }
 
+.landing-style1 #banner{
+    background-color: #607d8b;
+    padding: 6em 0em 0em;
+}
+
+.landing-style1 #banner .button{
+    background-color: #03a9f4;
+}
+
+.landing-style1 #header{
+    background-color: #607d8b;    
+}
+
 #header {
     background-color: #3F51B5;
     color: #ffffff;
@@ -904,13 +917,16 @@ body.landing #header {
     -o-transition: color 0.2s ease-in-out;
     -ms-transition: color 0.2s ease-in-out;
     transition: color 0.2s ease-in-out;
-    color: #cee8d8;
+    color: #fff;
     display: inline-block;
     text-decoration: none;
+    opacity: 0.8;
+    font-weight: normal;
 }
 
 #header nav > ul > li a:hover {
     color: #ffffff;
+    opacity: 1;
 }
 
 #header nav > ul > li:first-child {
@@ -983,7 +999,7 @@ body.landing #header {
 /* Wrapper */
 
 .wrapper {
-    padding: 3em 0em 4em;
+    padding: 3em 0em 3em;
 }
 
 .wrapper.style1 {
