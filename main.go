@@ -30,7 +30,7 @@ func main() {
     		title := strings.Replace(f.Name(), ".md", "", 1)
             var url string
             if title == "Home" {
-                url = "documentation.html"
+                url = "documentation/index.html"
             } else {
                 url = "documentation/" + title + ".html"  
             }

@@ -5,6 +5,7 @@ help:
 build:
 	@rm -rf documentation/*
 	@rm documentation.html
+	@docker run --rm -v $(CURDIR):/data leanlabs/git-builder submodule update --force
 	@docker run --rm -w /data -v $(CURDIR):/data alpine ./main
 
 start:
