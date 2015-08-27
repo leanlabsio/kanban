@@ -5,7 +5,7 @@ help:
 build:
 	@rm -rf documentation/*
 	@docker run --rm -w /data/kanban.wiki -v $(CURDIR):/data leanlabs/git-builder pull origin master
-	@docker run --rm -w /data -v $(CURDIR):/data alpine ./main
+	@docker run --rm -w /data -v $(CURDIR):/data alpine ./md2html
 
 start:
 	@docker-compose up -d
