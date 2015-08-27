@@ -12,16 +12,25 @@ import (
 type Page struct {
     Title string
     Url string
-    Body  template.HTML
+    Body template.HTML
     Items []Page
+    Sidebar template.HTML
 }
 
+const MdDir = "kanban.wiki"
+const MdSidebar = MdDir + "/_Sidebar.md"
+const HtmlDir = "documentation"
+const HtmlTemplare = "documentation.tpl"
+
 func main() {
-	files, _ := ioutil.ReadDir("kanban.wiki")
+	files, _ := ioutil.ReadDir(MdDir)
 	var pages []Page
+    var page Page
+    var sidebar template.HTML
+
     for _, f := range files {
     	if strings.HasSuffix(f.Name(), ".md") && ! strings.HasPrefix(f.Name(), "_") {
-    		markdown, err := ioutil.ReadFile("kanban.wiki/"+f.Name())
+    		markdown, err := ioutil.ReadFile(MdDir + "/"+f.Name())
 
             if (err != nil) {
                 log.Panic(err);
@@ -30,33 +39,45 @@ func main() {
     		title := strings.Replace(f.Name(), ".md", "", 1)
             var url string
             if title == "Home" {
-                url = "documentation/index.html"
+                url = HtmlDir + "/index.html"
             } else {
-                url = "documentation/" + title + ".html"  
+                url = HtmlDir + "/" + title + ".html"  
             }
 
-            page := Page{Title: title, Url:url, Body: template.HTML(github_flavored_markdown.Markdown(markdown))}
+            page = Page{}
+            page.Title = title
+            page.Url = url
+            page.Body = template.HTML(github_flavored_markdown.Markdown(markdown))
+
             pages = append(pages, page)
     	}
     }
 
+    file, err := ioutil.ReadFile(MdSidebar);
+
+    if err == nil {
+        sidebar = template.HTML(github_flavored_markdown.Markdown(file))
+    }
+
     for _, p := range pages {
         p.Items = pages
+        p.Sidebar = sidebar
         p.save()
     }
 }
 
 func (p *Page) save() error {
     file, err := os.Create(p.Url)
+
     if (err != nil) {
         log.Panic(err);
     }
 
-    return renderTemplate(file, "documentation", p)
+    return renderTemplate(file, p)
 }
 
-func renderTemplate(f *os.File, tmpl string, p *Page) error {
-    t, err := template.ParseFiles(tmpl + ".tpl")
+func renderTemplate(f *os.File, p *Page) error {
+    t, err := template.ParseFiles(HtmlTemplare)
 
     if (err != nil) {
         log.Panic(err);

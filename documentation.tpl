@@ -58,15 +58,19 @@
 					<div class="row">
 						<section id="sidebar" class="feature 3u 12u$(small)">
 							<nav>
-                                <ul>
-                                    <li><a href="/documentation">Home</a></li>
-                                {{range .Items}}
-                                    {{if eq .Title "Home" }}
-                                    {{else}}
-                                    <li><a href="/{{ .Url}}">{{ .Title}}</a></li>
+                                {{if.Sidebar}}
+                                {{ .Sidebar}}
+                                {{else}}
+                                    <ul>
+                                        <li><a href="/documentation">Home</a></li>
+                                    {{range .Items}}
+                                        {{if eq .Title "Home" }}
+                                        {{else}}
+                                        <li><a href="/{{ .Url}}">{{ .Title}}</a></li>
+                                        {{end}}
                                     {{end}}
+                                    </ul>
                                 {{end}}
-                                </ul>
 							</nav>
 						</section>
 						<section class="9u 12u$(small)">
