@@ -59,8 +59,12 @@
 						<section id="sidebar" class="feature 3u 12u$(small)">
 							<nav>
                                 <ul>
+                                    <li><a href="/documentation">Home</a></li>
                                 {{range .Items}}
+                                    {{if eq .Title "Home" }}
+                                    {{else}}
                                     <li><a href="/{{ .Url}}">{{ .Title}}</a></li>
+                                    {{end}}
                                 {{end}}
                                 </ul>
 							</nav>
