@@ -43,16 +43,10 @@ func main() {
             }
 
             title := strings.Replace(f.Name(), ".md", "", 1)
-            var url string
-            if title == "Home" {
-                url = HtmlDir + "/index.html"
-            } else {
-                url = HtmlDir + "/" + title + ".html"  
-            }
 
             page = Page{}
             page.Title = title
-            page.Url = url
+            page.Url = HtmlDir + "/" + title + ".html"
             page.Body = template.HTML(github_flavored_markdown.Markdown(markdown))
 
             pages = append(pages, page)
