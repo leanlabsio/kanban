@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/codegangsta/cli"
-	"gitlab.com/kanban/new/cmd"
+	"gitlab.com/kanban/kanban/cmd"
 	"os"
 )
 

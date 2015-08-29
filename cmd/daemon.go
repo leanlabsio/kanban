@@ -15,7 +15,7 @@ var DaemonCmd = cli.Command{
 		cli.StringFlag{
 			Name:  "ip",
 			Value: "0.0.0.0",
-			Usage: "ip to bind",
+			Usage: "IP address to listen on",
 		},
 		cli.StringFlag{
 			Name:  "port",
