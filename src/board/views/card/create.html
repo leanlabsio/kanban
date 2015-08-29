@@ -1,0 +1,203 @@
+<div data-ll-modal data-window-class="full card-create">
+    <div class="row">
+
+        <div class="hide-for-large-up medium-12 small-12 columns mobile-header">
+            <h5>
+                <i class="fa fa-chevron-left" data-ng-click="modal.close()">&nbsp;</i>
+                New issue
+            </h5>
+        </div>
+        <div class="hide-for-large-up medium-12 small-12 columns" style="height: 50px;"></div>
+        <div class="large-9 medium-12 small-12 columns hide-for-medium-down">
+            <h3>New issue</h3>
+        </div>
+
+        <form novalidate name="issueForm" data-ng-submit="createIssue()">
+
+            <div class="large-9 medium-12 small-12 columns">
+                <input type="hidden" name="project_id" data-ng-model="card.project_id">
+                <input data-ng-class="{ 'error' : issueForm.title.$invalid && !issueForm.title.$pristine}" name="title"
+                       type="text"
+                       placeholder="Title" required data-ng-model="card.title">
+                <small class="error" data-ng-show="issueForm.title.$invalid && !issueForm.title.$pristine">
+                    This Field is required
+                </small>
+                <div class="mdeditor">
+                    <div class="mdeditor-panel">
+                        <a class="icon-edit" 
+                           data-ng-show="!isPreview"
+                           data-ng-click="isPreview=true">
+                           <i class="fa fa-eye"></i>
+                        </a>
+                        <a class="icon-edit"
+                           data-ng-show="isPreview"
+                           data-ng-click="isPreview=false">
+                           <i class="fa fa-eye-slash"></i>
+                        </a>&nbsp;
+                        <a class="icon-edit" target="_blank" href="https://gitlab.com/help/markdown/markdown">
+                            <i class="fa fa-question"></i>
+                        </a>
+                    </div>
+                    <div class="preview" style="min-height: 228px;"
+                         data-ng-show="isPreview"
+                         data-ll-markdown
+                         data-markdown="card.description"></div>
+                    <textarea data-ng-show="! isPreview" 
+                              name="description" 
+                              placeholder="Description" 
+                              rows="10"
+                              data-ng-model="card.description"></textarea>
+                </div>
+                <button class="button right" type="submit" data-ng-disabled="issueForm.$invalid || isSaving">
+                    Create
+                </button>
+            </div>
+
+            <div class="large-3 medium-3 small-3 columns hide-for-medium-down">
+                <div id="participants" class="row collapse">
+                    <div class="row collapse assignee" style="margin-bottom:15px;">
+                        <div class="row collapse">
+                            <div class="large-8 medium-8 small-8 columns">
+                                <h5 class="subheader">
+                                    Assignee
+                                </h5>
+                            </div>
+
+                            <div class="large-4 medium-4 small-4 columns">
+                                <h5 class="subheader right" data-dropdown-toggle="#dropdown-example-2">&nbsp;
+                                    <a class="dropdown">
+                                        <i class="fa fa-gear">&nbsp;</i>
+                                    </a>
+                                </h5>
+                            </div>
+
+                            <ul id="dropdown-example-2" class="f-dropdown">
+                                <li data-ng-repeat="user in options">
+                                    <a data-ng-click="update(user)">
+                                        <span class="avatar" data-ng-show="user.avatar_url != undefined">
+                                            <img alt="{{user.name}}" data-ng-src="{{user.avatar_url}}"/>
+                                        </span>
+                                        <span class="avatar {{ user.username|lowercase|limitTo : 1}}-ava" data-ng-show="user.avatar_url == undefined">
+                                                {{ user.username|lowercase|limitTo : 1}}
+                                        </span>&nbsp;
+                                        {{user.name}}
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="row collapse">
+                            <div class="large-1 medium-1 small-1 columns avatar" data-ng-if="!isEmpty(card.assignee)">
+                                <span class="avatar" data-ng-show="card.assignee.avatar_url != undefined">
+                                    <img alt="{{card.assignee.name}}" data-ng-src="{{card.assignee.avatar_url}}"/>&nbsp;
+                                </span>
+                                <span class="avatar {{  card.assignee.username|lowercase| limitTo : 1}}-ava" data-ng-show="card.assignee.avatar_url == undefined">
+                                        {{ card.assignee.username| lowercase| limitTo : 1}}
+                                </span>
+                            </div>
+
+                            <div class="large-10 medium-10 small-10 columns" data-ng-if="!isEmpty(card.assignee)">
+                                <h6>{{card.assignee.name}}</h6>
+                            </div>
+
+                            <div class="large-12 medium-12 small-12 columns" data-ng-if="isEmpty(card.assignee)">
+                                <h6>Not assigned</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Milestone -->
+                <div class="row collapse" style="margin-bottom:15px;">
+                    <div class="row collapse">
+                        <div class="large-8 medium-8 small-8 columns">
+                            <h5 class="subheader">
+                                Milestone
+                            </h5>
+                        </div>
+
+                        <div class="large-4 medium-4 small-4 columns">
+                            <h5 class="subheader right" data-dropdown-toggle="#select-milestone">&nbsp;
+                                <a class="dropdown">
+                                    <i class="fa fa-gear">&nbsp;</i>
+                                </a>
+                            </h5>
+                        </div>
+
+                        <ul id="select-milestone" class="f-dropdown">
+                            <li data-ng-repeat="milestone in milestones" data-ng-if="milestones.length > 0">
+                                <a data-ng-click="updateMilestone(milestone)">{{milestone.title}}</a>
+                            </li>
+
+                            <li data-ng-if="milestones.length == 0">
+                                <a>
+                                    No milestones
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="row collapse">
+                        <div class="large-12 medium-12 small-12 columns">
+                            <h6 data-ng-if="!isEmpty(card.milestone)">{{card.milestone.title}}</h6>
+                            <h6 data-ng-if="isEmpty(card.milestone)">Not selected</h6>
+                        </div>
+                    </div>
+                </div>
+                <!-- Milestone END -->
+
+                <!-- Labels -->
+                <div class="row collapse" style="margin-bottom:15px;">
+                    <div class="row collapse">
+                        <div class="large-8 medium-8 small-8 columns">
+                            <h5 class="subheader">
+                                Labels
+                            </h5>
+                        </div>
+
+                        <div class="large-4 medium-4 small-4 columns">
+                            <h5 class="subheader right" data-dropdown-toggle="#select-labels">&nbsp;
+                                <a class="dropdown">
+                                    <i class="fa fa-gear">&nbsp;</i>
+                                </a>
+                            </h5>
+                        </div>
+
+                        <ul id="select-labels" class="f-dropdown">
+                            <li data-ng-repeat="label in labels" data-ng-if="labels.length > 0">
+                                <a data-ng-click="updateLabels(label)">
+                                    <span class="label" style="background-color: {{label.color}}">
+                                        {{label.name}}
+                                    </span>
+
+                                    <i class="fa fa-check" ng-if="card.labels.indexOf(label) !== -1">&nbsp;</i>
+                                </a>
+                            </li>
+                            <li data-ng-if="labels.length === 0">
+                                <a>
+                                    No labels
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="row collapse">
+                        <ul style="list-style: none; margin-left:0;">
+                            <li data-ng-repeat="label in card.labels" data-ng-if="!isEmpty(card.labels)">
+                                <span class="label" style="background-color: {{label.color}}">
+                                    {{ label.name }}
+                                </span>
+                            </li>
+
+                            <li data-ng-if="isEmpty(card.labels)">
+                                <h6>No labels</h6>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                    <!-- Labels END -->
+
+            </div>
+        </form>
+    </div>
+</div>

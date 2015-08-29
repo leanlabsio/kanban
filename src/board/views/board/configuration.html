@@ -1,0 +1,33 @@
+<div id="main-section">
+	<div class="row">
+	    <div class="large-6 medium-4 small-12 large-centered medium-centered small-centered columns" data-ng-class="{isSaving: loading}">
+            <form>
+                <fieldset class="text-center">
+                    <h4>We noticed your repository issue tracker is not yet configured for Leanlabs Kanban</h4>
+                    <div class="row collapse">
+                        <div class="large-12 columns">
+                            <p>
+                                <br/>
+                                 No worries, Leanlabs Kanban can automatically get you started with a default label configuration.
+                                <br/>
+                                 Leanlabs Kanban will create the following labels
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row collapse text-left">
+                        <div class="large-12 columns">
+                            <ul>
+                                <li>KB[stage][0][Backlog]</li>
+                                <li>KB[stage][1][Development]</li>
+                                <li>KB[stage][2][Testing]</li>
+                                <li>KB[stage][3][Production]</li>
+                                <li>KB[stage][4][Ready]</li>
+                            </ul>
+                        </div>
+                    </div>
+	                <button data-ng-disabled="isSaving" class="large-12 btn" data-ng-click="configure()">Yes, Do it for me!</button>
+                </fieldset>
+            </form>
+	    </div>
+	</div>
+</div>

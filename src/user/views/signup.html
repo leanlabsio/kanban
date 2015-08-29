@@ -1,0 +1,92 @@
+<div class="row" style="padding-top: 18px">
+    <div class="large-5 medium-8 small-12 large-centered medium-centered small-centered columns text-center panel">
+        <form name="signupForm" novalidate data-ng-submit="signup()">
+            <div class="row">
+                <div class="columns large-12">
+                    <h3>
+                        Sign up
+                    </h3>
+                </div>
+            </div>
+
+            <hr style="margin-top: 5px;"/>
+
+            <div class="row">
+                <div class="large-12 columns">
+                    <input placeholder="Login"
+                           type="text"
+                           data-ng-class="{ 'error' : signupForm.username.$invalid && !signupForm.username.$pristine}"
+                           name="username"
+                           data-ng-model="user.username"
+                           required="required"
+                           class="border"/>
+                    <small class="error"
+                           data-ng-show="signupForm.username.$invalid && !signupForm.username.$pristine">
+                        Login required
+                    </small>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="large-12 columns">
+                    <input placeholder="E-mail"
+                           type="email"
+                           data-ng-class="{ 'error' : signupForm.email.$invalid && !signupForm.email.$pristine}"
+                           name="email"
+                           data-ng-model="user.email"
+                           required="required"
+                           class="border"/>
+                    <small class="error" data-ng-show="signupForm.email.$invalid && !signupForm.email.$pristine">
+                        Please type valid e-mail
+                    </small>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="large-12 columns">
+                    <input placeholder="Password"
+                           type="password"
+                           data-ng-class="{ 'error' : signupForm.password.$invalid && !signupForm.password.$pristine}"
+                           name="password"
+                           data-ng-model="user.password"
+                           required="required"
+                           class="border"/>
+                    <small class="error"
+                           data-ng-show="signupForm.password.$invalid && !signupForm.password.$pristine">
+                        Password required
+                    </small>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="large-12 columns text-left">
+                    <small>
+                        <a data-ng-href="{{host_url}}/profile/account" target="_blank">Where can i find GitLab private token?</a>
+                    </small>
+                    <input placeholder="Private token"
+                           type="text"
+                           data-ng-class="{ 'error' : signupForm.token.$invalid && !signupForm.token.$pristine}"
+                           data-ng-model="user.token"
+                           required="required"
+                           class="border"/>
+                    <small class="error" data-ng-show="signupForm.token.$invalid && !signupForm.token.$pristine">
+                        Private token required
+                    </small>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="large-12 columns">
+                    <button class="buttom large-12 small-12 medium-12"
+                            data-ng-disabled="signupForm.$invalid || isSaving" type="submit">
+                        Sign up
+                    </button>
+                </div>
+            </div>
+
+            <div class="row">
+                <a title="Sign in" data-ui-sref="login()">Sign in</a>
+            </div>
+        </form>
+    </div>
+</div>

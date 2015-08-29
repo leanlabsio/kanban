@@ -1,0 +1,379 @@
+<div data-ll-modal data-window-class="full card-view">
+    <div class="row">
+        <div class="hide-for-large-up medium-12 small-12 columns mobile-header">
+            <h5>
+                <i class="fa fa-chevron-left" data-ng-click="modal.close()">&nbsp;</i>
+                #{{card.iid}} {{ card.title }}
+            </h5>
+        </div>
+        <div class="hide-for-large-up medium-12 small-12 columns" style="height: 50px;"></div>
+
+        <div class="large-9 medium-12 small-12 columns">
+
+            <h3 data-ng-show="isEdit">Edit issue</h3>
+            <h3 class="subheader hide-for-medium-down" data-ng-show="! isEdit">
+                <a data-ng-href="{{card_url}}/issues/{{card.iid}}" target="_blank">#{{card.iid}}</a> {{ card.title }}
+            </h3>
+
+        <div data-ng-show="! isEdit" data-ll-markdown data-markdown="card.description">
+        </div>
+
+        <div data-ng-show="isEdit">
+            <form novalidate="novalidate" data-ng-submit="isEdit=false; updateCard(newCard);isPreview=false;" name="issueForm">
+                <input data-ng-class="{ 'error' : issueForm.title.$invalid && !issueForm.title.$pristine}" 
+                       name="title"
+                       type="text"
+                       placeholder="Title" 
+                       required 
+                       data-ng-model="newCard.title">
+                <div class="mdeditor">
+                    <div class="mdeditor-panel">
+                        <a class="icon-edit" 
+                           data-ng-show="!isPreview"
+                           data-ng-click="isPreview=true">
+                           <i class="fa fa-eye"></i>
+                        </a>
+                        <a class="icon-edit"
+                           data-ng-show="isPreview"
+                           data-ng-click="isPreview=false">
+                           <i class="fa fa-eye-slash"></i>
+                        </a>&nbsp;
+                        <a class="icon-edit" target="_blank" href="https://gitlab.com/help/markdown/markdown">
+                            <i class="fa fa-question"></i>
+                        </a>
+                    </div>
+                    <div class="preview" style="min-height: 228px;"
+                         data-ng-show="isPreview"
+                         data-ll-markdown
+                         data-markdown="newCard.description"></div>
+                    <textarea data-ng-show="! isPreview" 
+                              name="description" 
+                              placeholder="Description" 
+                              rows="10"
+                              data-ng-model="newCard.description"></textarea>
+                </div>
+                <button class="button small right" type="submit" data-ng-disabled="issueForm.$invalid || isSaving">Update</button>
+            </form>
+            <button class="button small left secondary" data-ng-click="isEdit=false;isPreview=false;">Cancel</button>
+        </div>
+
+            <div class="checklist">
+                <div class="row">
+                    <div class="large-12 small-12 medium-12 columns">
+                        <div data-ng-repeat="(checkboxId, checkbox) in card.todo" class="clearfix checkline">
+                            <label for="todo-{{ checkboxId }}">
+                                <input data-ng-disabled="isSavingTodo" class="left" data-ng-change="updateTodo(card)" type="checkbox" id="todo-{{ checkboxId }}" data-ng-model="checkbox.checked">
+                                <span data-ng-disabled="isSavingTodo" style="padding-left: 5px;" class="right info" data-ng-click="removeTodo($index, card)">
+                                    <i style="color:#DADADA;" class="fa fa-remove"></i>
+                                </span> 
+                                <span>{{ checkbox.body }}</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="large-12 small-12 medium-12  columns">
+                        <form name="todoForm" data-ng-submit="todoForm.$valid && submitTodo(card)">
+                            <div class="row collapse prefix-round">
+                                <div class="small-12 columns">
+                                    <input data-ng-focus="isTodoAdd"
+                                           class="todo-field"
+                                           data-ng-disabled="isSavingTodo"
+                                           data-ng-required="true"
+                                           data-ng-minlength="3"
+                                           type="text"
+                                           name="body"
+                                           data-ng-model="todoFormData.body"
+                                           placeholder="Add Todo">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div id="comments" class="row collapse">
+                <div data-ng-repeat="comment in comments">
+                    <div data-ng-if="!comment.is_info" class="comment row collapse">
+                        <div class="avatar hide-for-medium-down left" style="padding-right: 20px;">
+                            <span class="avatar-block" data-ng-show="comment.author.avatar_url != undefined">
+                                    <img alt="{{comment.author.name}}" data-ng-src="{{comment.author.avatar_url}}"/>&nbsp;
+                            </span>
+                            <span class="avatar-block {{  comment.author.username  | lowercase| limitTo : 1}}-ava" data-ng-show="comment.author.avatar_url == undefined">
+                                    {{ comment.author.username| lowercase| limitTo : 1}}
+                            </span>
+                        </div>
+                        <div class="comment-content">
+                            <h5 class="comment-header">{{comment.author.name}}
+                                <small class="text-lither">@{{comment.author.username}}</small>
+                                <small class="right date hide-for-small-only">{{comment.created_at * 1000 | date:'dd-MM-yyyy HH:mm'}}</small>
+                            </h5>
+                            <div class="comment-body" data-ll-markdown data-markdown="comment.body"></div>
+                        </div>
+                    </div>
+                    <div data-ng-if="comment.is_info" class="row collapse comment info">
+                        <div class="comment-content">
+                            <span class="avatar-block" data-ng-show="comment.author.avatar_url != undefined">
+                                    <img alt="{{comment.author.name}}" data-ng-src="{{comment.author.avatar_url}}"/>&nbsp;
+                            </span>
+                            <span class="avatar-block {{  comment.author.username  | lowercase| limitTo : 1}}-ava" data-ng-show="comment.author.avatar_url == undefined">
+                                    {{ comment.author.username| lowercase| limitTo : 1}}
+                            </span>
+                            <small class="author-name">{{comment.author.name}}</small>
+                            <small class="text-lither" data-ll-markdown data-markdown="comment.body"></small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row collapse">
+                <form name="commentForm" data-ng-submit="submitComment();isPreviewComment=false;commentFormData.comment='';" class="comment-form">
+                    <div class="row collapse prefix-round">
+                        <div class="small-12 columns">
+                            <div class="mdeditor">
+                                <div class="mdeditor-panel">
+                                    <a class="icon-edit" 
+                                       data-ng-show="!isPreviewComment"
+                                       data-ng-click="isPreviewComment=true">
+                                       <i class="fa fa-eye"></i>
+                                    </a>
+                                    <a class="icon-edit"
+                                       data-ng-show="isPreviewComment"
+                                       data-ng-click="isPreviewComment=false">
+                                       <i class="fa fa-eye-slash"></i>
+                                    </a>&nbsp;
+                                    <a class="icon-edit" 
+                                       target="_blank" 
+                                       href="https://gitlab.com/help/markdown/markdown">
+                                        <i class="fa fa-question"></i>
+                                    </a>
+                                </div>
+                                <div class="preview" style="min-height: 123px;"
+                                     data-ng-show="isPreviewComment"
+                                     data-ll-markdown
+                                     data-markdown="commentFormData.comment"></div>
+                                <textarea data-ng-show="! isPreviewComment"
+                                      data-ng-focus="isCommentAdd"
+                                      data-ng-disabled="isSaving"
+                                      name="comment"
+                                      data-ng-model="commentFormData.comment"
+                                      placeholder="Leave a comment"
+                                      rows="5"
+                                    ></textarea>
+                            </div>
+                                <button 
+                                    class="button small right" 
+                                    type="submit" 
+                                    data-ng-disabled="commentForm.$invalid || isSaving">
+                                        <i class="fa fa-comment"></i>&nbsp;&nbsp;Comment</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="large-3 medium-12 small-12 columns">
+            <div class="hide-for-medium-down">
+                <div id="participants" class="row collapse">
+
+                    <div class="row collapse" data-ng-show="card.author != undefined" style="margin-bottom:15px;">
+                        <h5 class="subheader">
+                            Author
+                        </h5>
+
+                        <div class="large-1 medium-1 small-1 columns avatar">
+                            <span class="avatar" data-ng-show="card.author.avatar_url != undefined">
+                                <img alt="{{card.author.name}}" data-ng-src="{{card.author.avatar_url}}"/>&nbsp;
+                            </span>
+                            <span class="avatar {{  card.author.username|lowercase|limitTo : 1}}-ava" data-ng-show="card.author.avatar_url == undefined">
+                                    {{ card.author.username| lowercase| limitTo : 1}}
+                            </span>
+                        </div>
+
+                        <div class="large-10 medium-10 small-10 columns">
+                            <h6>{{card.author.name}}</h6>
+                        </div>
+                    </div>
+
+                    <div class="row collapse assignee" style="margin-bottom:15px;">
+                        <div class="row collapse">
+                            <div class="large-8 medium-8 small-8 columns">
+                                <h5 class="subheader">
+                                    Assignee
+                                </h5>
+                            </div>
+
+                            <div class="large-4 medium-4 small-4 columns">
+                                <h5 class="subheader right" data-dropdown-toggle="#dropdown-example-2">&nbsp;
+                                    <a class="dropdown">
+                                        <i class="fa fa-gear">&nbsp;</i>
+                                    </a>
+                                </h5>
+                            </div>
+
+                            <ul id="dropdown-example-2" class="f-dropdown">
+                                <li data-ng-repeat="user in options">
+                                    <a data-ng-click="update(card, user)">
+                                        <span class="avatar" data-ng-show="user.avatar_url != undefined">
+                                            <img alt="{{user.name}}" data-ng-src="{{user.avatar_url}}"/>
+                                        </span>
+                                        <span class="avatar {{ user.username|lowercase|limitTo : 1}}-ava" data-ng-show="user.avatar_url == undefined">
+                                                {{ user.username|lowercase|limitTo : 1}}
+                                        </span>
+                                        &nbsp;
+                                        {{user.name}}
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="row collapse">
+                            <div class="large-1 medium-1 small-1 columns avatar" data-ng-if="!isEmpty(card.assignee)">
+                                <span class="avatar" data-ng-show="card.assignee.avatar_url != undefined">
+                                    <img alt="{{card.assignee.name}}" data-ng-src="{{card.assignee.avatar_url}}"/>&nbsp;
+                                </span>
+                                <span class="avatar {{  card.assignee.username|lowercase|limitTo : 1}}-ava" data-ng-show="card.assignee.avatar_url == undefined">
+                                        {{ card.assignee.username| lowercase| limitTo : 1}}
+                                </span>
+                            </div>
+
+                            <div class="large-10 medium-10 small-10 columns" data-ng-if="!isEmpty(card.assignee)">
+                                <h6>{{card.assignee.name}}</h6>
+                            </div>
+
+                            <div class="large-12 medium-12 small-12 columns" data-ng-if="isEmpty(card.assignee)">
+                                <h6>Not assigned</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Milestone -->
+                <div class="row collapse" style="margin-bottom:15px;">
+                    <div class="row collapse">
+                        <div class="large-8 medium-8 small-8 columns">
+                            <h5 class="subheader">
+                                Milestone
+                            </h5>
+                        </div>
+
+                        <div class="large-4 medium-4 small-4 columns">
+                            <h5 class="subheader right" data-dropdown-toggle="#select-milestone">&nbsp;
+                                <a class="dropdown">
+                                    <i class="fa fa-gear">&nbsp;</i>
+                                </a>
+                            </h5>
+                        </div>
+
+                        <ul id="select-milestone" class="f-dropdown">
+                            <li data-ng-repeat="milestone in milestones" data-ng-if="milestones.length > 0">
+                                <a data-ng-click="updateMilestone(card, milestone)">{{milestone.title}}</a>
+                            </li>
+
+                            <li data-ng-if="milestones.length == 0">
+                                <a>No milestones</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="row collapse">
+                        <div class="large-12 medium-12 small-12 columns">
+                            <h6 data-ng-if="!isEmpty(card.milestone)">{{card.milestone.data.title}}</h6>
+                            <h6 data-ng-if="isEmpty(card.milestone)">Not selected</h6>
+                        </div>
+                    </div>
+                </div>
+                <!-- Milestone END -->
+
+                <!-- Labels -->
+                <div class="row collapse" style="margin-bottom:15px;">
+                    <div class="row collapse">
+                        <div class="large-8 medium-8 small-8 columns">
+                            <h5 class="subheader">
+                                Labels
+                            </h5>
+                        </div>
+
+                        <div class="large-4 medium-4 small-4 columns">
+                            <h5 class="subheader right" data-dropdown-toggle="#select-labels">&nbsp;
+                                <a class="dropdown">
+                                    <i class="fa fa-gear">&nbsp;</i>
+                                </a>
+                            </h5>
+                        </div>
+
+                        <ul id="select-labels" class="f-dropdown">
+                            <li data-ng-repeat="(key, label) in labels" data-ng-if="labels.length > 0">
+                                <a data-ng-click="updateLabels(card, label)">
+                                    <span class="label" style="background-color: {{label.color}}">
+                                        {{label.name}}
+                                    </span>
+                                    <i class="fa fa-check" data-ng-if="card.viewLabels.indexOf(label) !== -1">&nbsp;</i>
+                                </a>
+                            </li>
+                            <li data-ng-if="isEmpty(labels)">
+                                <a>No labels</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="row collapse">
+                        <ul style="list-style: none; margin-left:0;">
+                            <li data-ng-repeat="label in card.viewLabels" data-ng-if="!isEmpty(card.viewLabels)">
+                                <span class="label" style="background-color: {{label.color}}">
+                                    {{ label.name }}
+                                </span>
+                            </li>
+                            <li data-ng-if="isEmpty(card.viewLabels)">
+                                <h6>No labels</h6>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- Labels END -->
+                <div class="row collapse" style="margin-bottom:15px;">
+                    <div class="row collapse">
+                        <input id="ready-checkbox"
+                               type="checkbox"
+                               data-ng-true-value="'ready'"
+                               data-ng-false-value="'none'"
+                               data-ng-change="markAsReady(card)"
+                               data-ng-model="card.properties.andon">
+                        <label for="ready-checkbox">Ready for next stage</label>
+                    </div>
+                    <div class="row collapse">
+                        <form name="blockedFormData" data-ng-submit="markAsBlocked(card, blockedFormData.comment); blockedFormData.blockCB.$setPristine(); blockedFormData.comment=''">
+                            <input id="blocked-checkbox"
+                                   type="checkbox"
+                                   name="blockCB"
+                                   data-ng-true-value="'blocked'"
+                                   data-ng-false-value="'none'"
+                                   data-ng-change="markAsUnBlocked(card)"
+                                   data-ng-model="card.properties.andon">
+                            <label for="blocked-checkbox">Mark as blocked</label>
+                            <div class="row collapse" data-ng-show="blockedFormData.blockCB.$dirty && card.properties.andon === 'blocked'">
+                                <textarea data-ng-model="blockedFormData.comment"
+                                          data-ng-required="true"
+                                          placeholder="Why blocked?"></textarea>
+                                <button class="button tiny">Blocked</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row collapse">
+                <a data-ng-click="editCard(card); isEdit=true;" class="button tiny secondary expand">
+                    <i class="fa fa-pencil">&nbsp;</i> Edit issue
+                </a>
+            </div>
+
+            <div class="row collapse">
+                <a data-ng-click="remove(card)" class="button tiny alert expand">
+                    <i class="fa fa-trash">&nbsp;</i> Mark as closed
+                </a>
+            </div>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,27 @@
+.mdeditor{
+	position: relative;
+	.mdeditor-panel{
+		position: absolute; 
+		bottom: 0px; 
+		right: 10px;
+		display: none;
+		a.icon-edit{
+			font-size: 24px;
+			color: #ccc;
+			&:hover{
+				color: #999;
+			}
+		}
+
+	}
+	&:hover{
+		.mdeditor-panel{
+			display: block;
+		}
+	}
+	.preview{
+		margin-bottom: 16px;
+  		padding: 9px;
+  		overflow: auto;
+	}
+}

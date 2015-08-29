@@ -1,0 +1,58 @@
+<section id="main-section">
+    <div class="row boards">
+        <ul class="board" data-ng-class="boards[key].visible ? 'open' : ''" data-ng-repeat="(key, group) in boards">
+            <li class="board-view">
+                <div class="row">
+                    <div class="small-12 medium-5 large-3 columns" data-ng-click="setVisible(key)">
+                        <span data-ng-show="!boards[key].visible" class="left avatar" data-ng-if="!isEmpty(group[0].namespace.avatar.url)">
+                            <img data-ng-src="{{host_url}}{{ group[0].namespace.avatar.url }}" class="img-round" alt="{{ key }}" title="{{ key }}">
+                        </span>
+
+                        <span data-ng-show="!boards[key].visible" class="left avatar" style="padding-right: 10px" data-ng-if="!isEmpty(group[0].owner.avatar_url)">
+                            <img data-ng-src="{{ group[0].owner.avatar_url }}" class="img-round" alt="{{ project.name }}" title="{{ key }}">
+                        </span>
+
+                        <span data-ng-show="!boards[key].visible" data-ng-if="isEmpty(group[0].namespace.avatar.url) && isEmpty(group[0].owner.avatar_url)" class="left avatar">
+                            <span class="pseudo-avatar {{ key | lowercase| limitTo : 1}}-ava">
+                                {{ key | lowercase| limitTo : 1}}
+                            </span>
+                        </span>
+                        <h4>{{key}}</h4>
+                    </div>
+                    <div class="medium-7 large-9 hide-for-small-only columns small-descriptions" data-ng-show="!boards[key].visible">
+                        <span class="small-desc" data-ng-repeat="project in group">
+                            <span data-ng-if="$index != 0">,&nbsp;</span>
+                            <a data-ui-sref="board.cards({project_id: project.id, project_path: project.path_with_namespace})" title="{{project.name}}">
+                                {{project.name}}
+                            </a>
+                        </span>
+                    </div>
+                </div>
+            </li>
+            <li data-ng-show="boards[key].visible" class="project ng-hide-animate" data-ng-repeat="project in group">
+                <div class="row">
+                    <div class="medium-3 small-12 columns">
+                        <a data-ui-sref="board.cards({project_id: project.id, project_path: project.path_with_namespace})">
+                            <span class="left avatar" style="padding-right: 10px">
+                                <span data-ng-if="isEmpty(project.avatar_url)"
+                                      class="pseudo-avatar {{ project.name | lowercase| limitTo : 1}}-ava">
+                                    {{ project.name | lowercase | limitTo : 1}}
+                                </span>
+                                <span data-ng-if="!isEmpty(project.avatar_url)" >
+                                    <img data-ng-src="{{ project.avatar_url }}"
+                                         class="img-round" alt="{{ project.name }}"
+                                         title="{{ project.name }}">
+                                </span>
+                            </span>
+                        <h4>{{ project.name }}</h4></a>
+                    </div>
+                    <div class="medium-9 hide-for-small-only columns small-descriptions">
+                        <span class="small-desc">
+                            <p>{{project.description}}</p>
+                        </span>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</section>

@@ -32,7 +32,7 @@ func daemon(c *cli.Context) {
 	m.Use(macaron.Recovery())
 	m.Use(macaron.Logger())
 	m.Use(macaron.Renderer(macaron.RenderOptions{Directory: "templates"}))
-	m.Use(macaron.Static("public"))
+	m.Use(macaron.Static("web"))
 
 	m.Get("/*", func(ctx *macaron.Context) {
 		ctx.HTML(200, "index")

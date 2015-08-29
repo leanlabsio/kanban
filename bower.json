@@ -1,0 +1,26 @@
+{
+  "name": "gitlab-kb",
+  "dependencies": {
+    "foundation": "5.5.1",
+    "ng-sortable": "1.3.0",
+    "font-awesome": "~4.2.0",
+    "angular-ui-router": "~0.2.11",
+    "angular-foundation": "pineconellc/angular-foundation#master",
+    "angular-loading-bar": "~0.5.2",
+    "angular": "~1.3.0",
+    "angular-underscore": "~0.5.0",
+    "underscore": "~1.7.0",
+    "a0-angular-storage": "~0.0.6",
+    "markdown-it": "4.2.2",
+    "sass-flex-mixin": "1.0.0",
+    "reconnectingWebsocket": "*"
+  },
+  "resolutions": {
+    "jquery": ">= 2.1.0",
+    "angular-mocks": "~1.3.0",
+    "angular": "~1.3.0"
+  },
+  "devDependencies": {
+    "angular-mocks": "~1.3.0"
+  }
+}

@@ -1,0 +1,69 @@
+<div class="fixed">
+
+    <nav data-ng-controller=TopBarController>
+        <top-bar is-hover="false">
+            <section class="top-bar-section">
+                <ul class="left title-area" style="width: auto;">
+                    <li class="name">
+                        <a data-ui-sref="board.boards()"><i class="fa fa-database">&nbsp;</i>&nbsp;boards</a>
+                    </li>
+                    <li data-ng-show="!isEmpty(project)" class="hide-for-medium-down">
+                        <a data-ui-sref="board.cards({project_id: project.id, project_path: project.path_with_namespace})">{{project.name_with_namespace}}</a>
+                    </li>
+                    <li class="has-form hide-for-small-only" data-ng-show="!isEmpty(project)">
+                        <div class="row collapse">
+                            <form method="get" data-ng-submit="filter(filterval)">
+                                <div class="large-12 small-9 columns">
+                                    <input type="text" placeholder="Filter by @username or ^milestone or ~label"
+                                           data-ng-model="filterval"
+                                           data-typeahead-on-select="filter(filterval)"
+                                           data-typeahead="u for u in getFilter($viewValue)" class="form-control">
+                                </div>
+                            </form>
+                        </div>
+                    </li>
+                </ul>
+
+                <ul class="right hide-for-medium-down">
+                    <li has-dropdown data-ng-show="!isEmpty(project)">
+                        <a href="#"><i class="fa fa-align-justify"></i>&nbsp;&nbsp;Swimlane</a>
+                        <ul top-bar-dropdown>
+                            <li><a data-ng-click="group()"><i class="fa fa-group"></i>&nbsp;&nbsp;Users</a></li>
+                            <li><a data-ng-click="reset()"><i class="fa fa-reply"></i>&nbsp;&nbsp;Reset</a></li>
+                        </ul>
+                    </li>
+                    <li data-ng-show="!isEmpty(project)">
+                        <a data-ui-sref="board.cards.create({ project_id: project.id, project_path: project.path_with_namespace })">
+                            <i class="fa fa-plus"></i>&nbsp;&nbsp;Add issue
+                        </a>
+                    </li>
+                    <li>
+                        <a data-ng-click="logout()">
+                            <i class="fa fa-sign-out"></i>&nbsp;&nbsp;Logout
+                        </a>
+                    </li>
+                </ul>
+
+                <ul class="right hide-for-large-up" style="width: auto;">
+                    <li has-dropdown class="hide-for-small-down" data-ng-show="!isEmpty(project)">
+                        <a href="#"><i class="fa fa-align-justify"></i>&nbsp;&nbsp;</a>
+                        <ul top-bar-dropdown>
+                            <li><a data-ng-click="group()"><i class="fa fa-group"></i>&nbsp;&nbsp;Users</a></li>
+                            <li><a data-ng-click="reset()"><i class="fa fa-reply"></i>&nbsp;&nbsp;Reset</a></li>
+                        </ul>
+                    </li>
+                    <li class="right">
+                        <a data-ng-click="logout()" style="font-size: 1rem;padding-right: 15px">
+                            <i class="fa fa-sign-out"></i>
+                        </a>
+                    </li>
+                    <li data-ng-show="!isEmpty(project)" class="right">
+                        <a data-ui-sref="board.cards.create({ project_id: project.id, project_path: project.path_with_namespace })"
+                           style="font-size: 1rem;padding-right: 15px">
+                            <i class="fa fa-plus"></i>
+                        </a>
+                    </li>
+                </ul>
+            </section>
+    </nav>
+</div>

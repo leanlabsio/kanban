@@ -1,0 +1,53 @@
+@each $key in a, c, d {
+    .#{$key}-ava {
+        background-color: $key-color-1 !important;
+    }
+}
+
+@each $key in  e, g, h {
+    .#{$key}-ava {
+        background-color: $key-color-2 !important;
+    }
+}
+
+@each $key in  i, k, l  {
+    .#{$key}-ava {
+        background-color: $key-color-3 !important;
+    }
+}
+
+@each $key in  m, o, p {
+    .#{$key}-ava {
+        background-color: $key-color-4 !important;
+    }
+}
+
+@each $key in  q, s, t {
+    .#{$key}-ava {
+        background-color: $key-color-5 !important;
+    }
+}
+
+@each $key in  u, v, w {
+    .#{$key}-ava {
+        background-color: $key-color-6 !important;
+    }
+}
+
+@each $key in x, y, z {
+    .#{$key}-ava {
+        background-color: $key-color-7 !important;
+    }
+}
+
+@each $key in f, b, g {
+    .#{$key}-ava {
+        background-color: $key-color-8 !important;
+    }
+}
+
+@each $key in n, r {
+    .#{$key}-ava {
+        background-color: $key-color-9 !important;
+    }
+}

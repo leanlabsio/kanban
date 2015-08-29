@@ -1,0 +1,76 @@
+<section id="main-section" class="board-view noselect" style="width: auto;max-width: none;">
+    <div class="row board" style="border-bottom: solid 1px #bbb">
+        <div class="large-2 medium-4 small-12 columns stage-container" data-ng-repeat="s in board.labels">
+            <div class="panel column-header">
+                <h4>
+                    {{ s | stagename }}
+                </h4>
+            </div>
+        </div>
+    </div>
+
+    <section data-ng-repeat="(groupName, group) in groups" style="width: auto; max-width: none;">
+        <div class="row board" style="background: #fff;border-bottom: solid 1px #bbb;padding: 10px; font-weight: bold" ng-show="board.grouped">
+            <h5 style="margin: 0">{{groupName}}</h5>
+        </div>
+
+        <div class="row board">
+            <div class="large-2 medium-4 small-12 columns stage-container" data-ng-repeat="(stageName, cards) in groups[groupName]" style="min-height: 100px">
+                <div class="stage">
+                    <div data-as-sortable="dragControlListeners"
+                         data-ng-model="groups[groupName][stageName]"
+                         class="board-stage">
+                        <div class="row collapse card"
+                             data-ng-repeat="card in groups[groupName][stageName] track by card.id"
+                             data-as-sortable-item>
+                            <div data-as-sortable-item-handle class="row collapse" style="padding: 10px">
+                                <div class="large-10 medium-10 small-10 columns">
+                                    <h6>
+                                        <a data-ui-sref="board.cards.view({project_id: state.params.project_id, project_path: state.params.project_path, issue_id: card.iid})"
+                                           data-no-drag>
+                                            <b>Issue #{{card.iid}}</b>
+                                        </a>
+                                    </h6>
+                                    <h6>
+                                        {{card.title}}
+                                    </h6>
+                                    <div class="row collapse">
+                                    <span class="label" data-ng-repeat="label in card.viewLabels track by label.name" style="background-color: {{label.color}}">
+                                        {{label.name}}
+                                    </span>
+                                    </div>
+                                </div>
+
+                                <div class="large-2 medium-2 small-2 columns" style="position:initial;">
+                                    <div data-ng-show="card.assignee != undefined">
+                                    <span class="right" data-ng-show="card.assignee.avatar_url != undefined">
+                                        <img style="border-radius: 50%; width: 32px;" alt="{{card.assignee.name}}" data-ng-src="{{card.assignee.avatar_url}}"/>
+                                    </span>
+                                    <span class="right avatar" data-ng-show="card.assignee.avatar_url == undefined">
+                                        <span class="pseudo-avatar {{  card.assignee.username  | lowercase| limitTo : 1}}-ava">
+                                            {{ card.assignee.username| lowercase| limitTo : 1}}
+                                        </span>
+                                    </span>
+                                    </div>
+                                    <div>
+                                        <span data-ng-show="card.properties.andon=='ready'" class="fa fa-play card-andon ready"></span>
+                                        <span data-ng-show="card.properties.andon=='blocked'" class="fa fa-pause card-andon blocked"></span>
+                                    </div>
+                                </div>
+                                <div data-ng-if="$parent.$parent.$last">
+                                    <button class="button right small close" data-ng-click="remove(card)">
+                                        <i class="fa fa-trash"></i>&nbsp;&nbsp;close
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+    </section>
+</section>

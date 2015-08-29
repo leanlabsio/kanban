@@ -1,0 +1,57 @@
+<div class="row" style="padding-top: 18px">
+    <div class="large-5 medium-8 small-12 large-centered medium-centered small-centered columns text-center panel">
+
+        <div class="row">
+            <div class="columns large-12">
+                <h3>
+                    Sign in
+                </h3>
+            </div>
+        </div>
+        <hr style="margin-top: 5px;"/>
+        <div class="row">
+            <div class="columns large-12">
+                <button data-ng-click="oauth()" class="button large-12  small-12 medium-12">
+                    <img style="width: 30px;" src="/images/gitlab-logo.png" alt="gitlab.com">&nbsp; with {{host_url}}
+                </button>
+            </div>
+        </div>
+
+        <div class="row" style="margin-bottom: 15px;">
+            or with your existing account
+        </div>
+        
+        <form name="signinForm" novalidate data-ng-submit="authenticate()">
+            <span class="error" data-ng-show="data.errors.length != 0" data-ng-repeat="error in data.errors">
+                {{error}}
+            </span>
+
+            <div class="row">
+                <div class="large-12 medium-12 small-12  columns">
+                    <input class="border" type="text" name="_username" required="required"
+                           data-ng-model="data.signin.username"
+                           placeholder="login"/>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="large-12 medium-12 small-12  columns">
+                    <input class="border" type="password" name="_password" required="required"
+                           data-ng-model="data.signin.password"
+                           placeholder="password"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="large-12 medium-12 small-12 columns">
+                    <button id="signin-button" class="button large-12 small-12 medium-12"
+                            data-ng-disabled="signinForm.$invalid || data.isSaving" type="submit">
+                        Sign in
+                    </button>
+                </div>
+            </div>
+            <div class="row">
+                <a data-ui-sref="signup()" title="Sign up">Sign up</a>
+            </div>
+        </form>
+    </div>
+</div>
