@@ -16,7 +16,7 @@ module.exports = function (grunt) {
                     outputStyle: 'compressed'
                 },
                 files: {
-                    'web/assets/v1.2.0/css/app.css': 'src/scss/app.scss'
+                    'web/assets/css/app.css': 'src/scss/app.scss'
                 }
             }
         },
@@ -27,14 +27,14 @@ module.exports = function (grunt) {
                     "src/**/*.module.js", 
                     "src/**/**!(.module).js"
                 ],
-                dest: "web/assets/v1.2.0/js/app.js"
+                dest: "web/assets/js/app.js"
             }
         },
 
         uglify: {
             dist: {
                 files: {
-                    "web/assets/v1.2.0/js/app.min.js": ["web/assets/v1.2.0/js/app.js"]
+                    "web/assets/js/app.min.js": ["web/assets/js/app.js"]
                 }
             }
         },
@@ -45,127 +45,127 @@ module.exports = function (grunt) {
                     {
                         flatten: true,
                         src: ['bower_components/angular-mocks/angular-mocks.js'],
-                        dest: 'web/assets/v1.2.0/js/angular-mocks.js',
+                        dest: 'web/assets/js/angular-mocks.js',
                         filter: 'isFile'
                     },
                     {
                         flatten: true,
                         src: ['bower_components/reconnectingWebsocket/reconnecting-websocket.js'],
-                        dest: 'web/assets/v1.2.0/js/reconnecting-websocket.js',
+                        dest: 'web/assets/js/reconnecting-websocket.js',
                         filter: 'isFile'
                     },
                     {
                         flatten: true,
                         src: ['bower_components/markdown-it/dist/markdown-it.js'],
-                        dest: 'web/assets/v1.2.0/js/markdown-it.js',
+                        dest: 'web/assets/js/markdown-it.js',
                         filter: 'isFile'
                     },
                     {
                         flatten: true,
                         src: ['bower_components/a0-angular-storage/dist/angular-storage.js'],
-                        dest: 'web/assets/v1.2.0/js/angular-storage.js',
+                        dest: 'web/assets/js/angular-storage.js',
                         filter: 'isFile'
                     },
                     {
                         flatten: true,
                         src: ['bower_components/angular-underscore/angular-underscore.js'],
-                        dest: 'web/assets/v1.2.0/js/angular-underscore.js',
+                        dest: 'web/assets/js/angular-underscore.js',
                         filter: 'isFile'
                     },
                     {
                         flatten: true,
                         src: ['bower_components/underscore/underscore.js'],
-                        dest: 'web/assets/v1.2.0/js/underscore.js',
+                        dest: 'web/assets/js/underscore.js',
                         filter: 'isFile'
                     },
                     {
                         flatten: true, 
                         src: ['bower_components/angular-foundation/src/topbar/topbar.js'],
-                        dest: 'web/assets/v1.2.0/js/topbar.js',
+                        dest: 'web/assets/js/topbar.js',
                         filter: 'isFile'
                     },
                     {
                         flatten: true,
                         src: ['bower_components/angular-foundation/src/dropdownToggle/dropdownToggle.js'],
-                        dest: 'web/assets/v1.2.0/js/dropdownToggle.js',
+                        dest: 'web/assets/js/dropdownToggle.js',
                         filter: 'isFile'
                     },
                     {
                         flatten: true, 
                         src: ['bower_components/angular-foundation/src/position/position.js'], 
-                        dest: 'web/assets/v1.2.0/js/position.js',
+                        dest: 'web/assets/js/position.js',
                         filter: 'isFile'
                     },
                     {
                         flatten: true,
                         src: ['bower_components/angular-foundation/src/typeahead/typeahead.js'],
-                        dest: 'web/assets/v1.2.0/js/typeahead.js',
+                        dest: 'web/assets/js/typeahead.js',
                         filter: 'isFile'
                     },
                     {
                         flatten: true,
                         src: ['bower_components/angular-foundation/src/bindHtml/bindHtml.js'],
-                        dest: 'web/assets/v1.2.0/js/bindHtml.js',
+                        dest: 'web/assets/js/bindHtml.js',
                         filter: 'isFile'
                     },
                     {
                         flatten: true, 
                         src: ['bower_components/angular-foundation/src/mediaQueries/mediaQueries.js'], 
-                        dest: 'web/assets/v1.2.0/js/mediaQueries.js',
+                        dest: 'web/assets/js/mediaQueries.js',
                         filter: 'isFile'
                     },
                     {
                         flatten: true, 
                         src: ['bower_components/marked/lib/marked.js'], 
-                        dest: 'web/assets/v1.2.0/js/marked.js',
+                        dest: 'web/assets/js/marked.js',
                         filter: 'isFile'
                     },
                     {
                         flatten: true, 
                         src: ['bower_components/angular-loading-bar/build/loading-bar.js'], 
-                        dest: 'web/assets/v1.2.0/js/loading-bar.js',
+                        dest: 'web/assets/js/loading-bar.js',
                         filter: 'isFile'
                     },
                     {
                         flatten: true, 
                         src: ['bower_components/angular-loading-bar/build/loading-bar.css'], 
-                        dest: 'web/assets/v1.2.0/css/loading-bar.css',
+                        dest: 'web/assets/css/loading-bar.css',
                         filter: 'isFile'
                     },
                     {
                         flatten: true, 
                         src: ['bower_components/angular-foundation/src/transition/transition.js'], 
-                        dest: 'web/assets/v1.2.0/js/transition.js',
+                        dest: 'web/assets/js/transition.js',
                         filter: 'isFile'
                     },
                     {
                         flatten: true, 
                         src: ['bower_components/ng-sortable/dist/ng-sortable.js'], 
-                        dest: 'web/assets/v1.2.0/js/ng-sortable.js',
+                        dest: 'web/assets/js/ng-sortable.js',
                         filter: 'isFile'
                     },
                     {
                         flatten: true, 
                         src: ['bower_components/angular/angular.js'], 
-                        dest: 'web/assets/v1.2.0/js/angular.js',
+                        dest: 'web/assets/js/angular.js',
                         filter: 'isFile'
                     },
                     {
                         flatten: true, 
                         src: ['bower_components/angular-ui-router/release/angular-ui-router.min.js'], 
-                        dest: 'web/assets/v1.2.0/js/angular-ui-router.js',
+                        dest: 'web/assets/js/angular-ui-router.js',
                         filter: 'isFile'
                     },
                     {
                         flatten: true, 
                         src: ['bower_components/ng-sortable/dist/ng-sortable.min.css'], 
-                        dest: 'web/assets/v1.2.0/css/ng-sortable.min.css',
+                        dest: 'web/assets/css/ng-sortable.min.css',
                         filter: 'isFile'
                     },
                     {
                         flatten: true, 
                         src: ['bower_components/jquery/dist/jquery.min.js'], 
-                        dest: 'web/assets/v1.2.0/js/jquery.min.js',
+                        dest: 'web/assets/js/jquery.min.js',
                         filter: 'isFile'
                     },
                     {
@@ -181,7 +181,7 @@ module.exports = function (grunt) {
                         expand: true, 
                         cwd: 'bower_components/foundation/js/foundation/', 
                         src: '**', 
-                        dest: 'web/assets/v1.2.0/js',
+                        dest: 'web/assets/js',
                         filter: 'isFile'
                     },
                     {
@@ -189,7 +189,7 @@ module.exports = function (grunt) {
                         expand: true, 
                         cwd: 'bower_components/font-awesome/fonts/', 
                         src: '**', 
-                        dest: 'web/assets/v1.2.0/fonts/',
+                        dest: 'web/assets/fonts/',
                         filter: 'isFile'
                     },
                     {
@@ -197,7 +197,7 @@ module.exports = function (grunt) {
                         expand: true, 
                         cwd: 'src/', 
                         src: ['**/*.js'], 
-                        dest: 'web/assets/v1.2.0/js/',
+                        dest: 'web/assets/js/',
                         filter: 'isFile'
                     },
                     {
@@ -205,7 +205,7 @@ module.exports = function (grunt) {
                         expand: true, 
                         cwd: 'src/', 
                         src: ['**/*.html'], 
-                        dest: 'web/assets/v1.2.0/html/',
+                        dest: 'web/assets/html/',
                         filter: 'isFile'
                     },
                     {
@@ -248,7 +248,7 @@ watch: {
         },
 
         uglify: {
-            files: ['web/assets/v1.2.0/js/app.js'],
+            files: ['web/assets/js/app.js'],
             tasks: ['uglify']
         }
     }

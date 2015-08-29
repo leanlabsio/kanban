@@ -22,6 +22,11 @@ var DaemonCmd = cli.Command{
 			Value: "9000",
 			Usage: "port to bind",
 		},
+		cli.StringFlag{
+			Name:  "gh",
+			Value: "https://gitlab.org",
+			Usage: "GitLab host",
+		},
 	},
 	Action: daemon,
 }
@@ -32,9 +37,13 @@ func daemon(c *cli.Context) {
 	m.Use(macaron.Recovery())
 	m.Use(macaron.Logger())
 	m.Use(macaron.Renderer(macaron.RenderOptions{Directory: "templates"}))
-	m.Use(macaron.Static("web"))
+	m.Use(macaron.Static("web",
+		macaron.StaticOptions{
+			Prefix: c.App.Version,
+		}))
 
 	m.Get("/*", func(ctx *macaron.Context) {
+		ctx.Data["Version"] = c.App.Version
 		ctx.HTML(200, "index")
 	})
 
