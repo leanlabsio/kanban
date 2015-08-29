@@ -1,4 +1,4 @@
-(function(angular) {
+(function(angular, CLIENT_VERSION) {
     'use strict';
     /**
     * @todo избавиться от блоков resolve v будущем
@@ -20,15 +20,28 @@
                 is: regexpMatches,
                 pattern: /[^/]+\/[^/]+/
             });
+
+            $stateProvider.decorator('views', function(state, parent) {
+                var result = {},
+                    views = parent(state);
+
+                angular.forEach(views, function(config, name) {
+                    config.templateUrl =  CLIENT_VERSION + "/" + config.templateUrl;
+                    result[name] = config;
+                });
+
+                return result;
+            });
+
             $stateProvider
                 .state('board', {
                     url: '/boards',
                     views: {
                         '': {
-                            templateUrl: 'assets/v1.2.0/html/board/views/index.html'
+                            templateUrl: 'assets/html/board/views/index.html'
                         },
                         'top-bar@board': {
-                            templateUrl: 'assets/v1.2.0/html/board/views/top_bar.html',
+                            templateUrl: 'assets/html/board/views/top_bar.html',
                             controller: 'TopBarController'
                         }
                     },
@@ -40,7 +53,7 @@
                     url: '/',
                     views: {
                         'content@board': {
-                            templateUrl: 'assets/v1.2.0/html/board/views/board/boards.html',
+                            templateUrl: 'assets/html/board/views/board/boards.html',
                             controller: 'BoardListController'
                         }
                     },
@@ -53,15 +66,15 @@
                     url: '/{project_path:MyType}?assignee&milestone&label&group',
                     views: {
                         'content@board': {
-                            templateUrl: 'assets/v1.2.0/html/board/views/board/cards.html',
+                            templateUrl: 'assets/html/board/views/board/cards.html',
                             controller: 'BoardController'
                         },
                         'top-bar@board': {
-                            templateUrl: 'assets/v1.2.0/html/board/views/top_bar.html',
+                            templateUrl: 'assets/html/board/views/top_bar.html',
                             controller: 'TopBarController'
                         },
                         'title@': {
-                            templateUrl: 'assets/v1.2.0/html/board/views/title.html',
+                            templateUrl: 'assets/html/board/views/title.html',
                             controller: 'TopBarController'
                         }
                     },
@@ -73,7 +86,7 @@
                     url: '/{project_path:MyType}/import',
                     views: {
                         'content@board': {
-                            templateUrl: 'assets/v1.2.0/html/board/views/board/configuration.html',
+                            templateUrl: 'assets/html/board/views/board/configuration.html',
                             controller: 'ConfigurationController'
                         }
                     },
@@ -85,7 +98,7 @@
                     url: '/issues/new',
                     views: {
                         'modal@board': {
-                            templateUrl: 'assets/v1.2.0/html/board/views/card/create.html',
+                            templateUrl: 'assets/html/board/views/card/create.html',
                             controller: 'NewIssueController'
                         }
                     },
@@ -97,7 +110,7 @@
                     url: '/issues/:issue_id',
                     views: {
                         'modal@board': {
-                            templateUrl: 'assets/v1.2.0/html/board/views/card/view.html',
+                            templateUrl: 'assets/html/board/views/card/view.html',
                             controller: 'ViewController'
                         }
                     },
@@ -114,4 +127,4 @@
                 $markdownProvider.registerPlugin(window.merge_request_plugin);
         }])
         .constant('stage_regexp', /KB\[stage\]\[\d\]\[(.*)\]/);
-})(window.angular);
+})(window.angular, window.CLIENT_VERSION);

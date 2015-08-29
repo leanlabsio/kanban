@@ -18,7 +18,7 @@
     });
 
     // Directive: modal
-    angular.module('ll.modal').directive('llModal', ['$modal', '$document', function($modal, $document) {
+    angular.module('ll.modal').directive('llModal', ['$modal', '$document','version', function($modal, $document, version) {
         return {
             restrict: 'A',
             link: linkFn,
@@ -27,7 +27,7 @@
                 close: '@onClose',
                 submit: '@onSubmit'
             },
-            templateUrl: 'assets/v1.2.0/html/modal/views/modal.html'
+            templateUrl: version + 'assets/html/modal/views/modal.html'
         };
 
         function linkFn($scope, $elem, $attrs) {

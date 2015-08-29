@@ -1,11 +1,23 @@
-(function(angular) {
+(function(angular, CLIENT_VERSION) {
     'use strict';
 
     angular.module('gitlabKBApp.user', ['ui.router', 'angular-storage']).config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
+        $stateProvider.decorator('views', function(state, parent) {
+            var result = {},
+                views = parent(state);
+
+            angular.forEach(views, function(config, name) {
+                config.templateUrl =  CLIENT_VERSION + "/" + config.templateUrl;
+                result[name] = config;
+            });
+
+            return result;
+        });
+
         $stateProvider
             .state('login', {
                 url: '/',
-                templateUrl: 'assets/v1.2.0/html/user/views/signin.html',
+                templateUrl: 'assets/html/user/views/signin.html',
                 controller: 'SigninController',
                 data: {
                     access: 0
@@ -13,7 +25,7 @@
             })
             .state('signup', {
                 url: '/signup',
-                templateUrl: 'assets/v1.2.0/html/user/views/signup.html',
+                templateUrl: 'assets/html/user/views/signup.html',
                 controller: 'SignupController',
                 data: {
                     access: 0
@@ -43,4 +55,4 @@
             }
         }]);
     }]);
-})(window.angular);
+})(window.angular, window.CLIENT_VERSION);
