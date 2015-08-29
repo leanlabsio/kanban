@@ -209,12 +209,6 @@ module.exports = function (grunt) {
                         filter: 'isFile'
                     },
                     {
-                        flatten: true, 
-                        src: ['src/index.html'], 
-                        dest: 'web/index.html', 
-                        filter: 'isFile'
-                    },
-                    {
                         flatten: true,
                         src: ['src/user/views/oauth.html'],
                         dest: 'web/assets/html/user/views/oauth.html',
