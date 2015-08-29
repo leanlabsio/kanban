@@ -28,9 +28,18 @@ var DaemonCmd = cli.Command{
 
 func daemon(c *cli.Context) {
 	m := macaron.New()
-	m.Use(macaron.Static("cmd"))
+
 	m.Use(macaron.Recovery())
+	m.Use(macaron.Logger())
+	m.Use(macaron.Renderer(macaron.RenderOptions{Directory: "templates"}))
+	m.Use(macaron.Static("public"))
+
+	m.Get("/*", func(ctx *macaron.Context) {
+		ctx.HTML(200, "index")
+	})
+
 	listenAddr := fmt.Sprintf("%s:%s", c.String("ip"), c.String("port"))
 	log.Printf("Listen: %s", listenAddr)
+
 	http.ListenAndServe(listenAddr, m)
 }
