@@ -6,7 +6,7 @@ import (
 	"os"
 )
 
-const APP_VER = "1.2.4"
+const APP_VER = "1.2.6"
 
 func main() {
 	app := cli.NewApp()

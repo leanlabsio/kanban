@@ -1,4 +1,4 @@
-(function(angular, CLIENT_VERSION) {
+(function(angular, CLIENT_VERSION, GITLAB_HOST) {
     'use strict';
 
     var app = angular.module('gitlabKBApp', 
@@ -22,7 +22,7 @@
                 }
             });
         }])
-        .constant('host_url', 'GITLAB_HOST')
+        .constant('host_url', GITLAB_HOST)
         .constant('version', CLIENT_VERSION)
 
         .config(
@@ -33,5 +33,5 @@
                 }
             ]
         );
-})(window.angular, window.CLIENT_VERSION);
+})(window.angular, window.CLIENT_VERSION, window.GITLAB_HOST);
 

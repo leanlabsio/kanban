@@ -24,7 +24,7 @@ var DaemonCmd = cli.Command{
 		},
 		cli.StringFlag{
 			Name:  "gh",
-			Value: "https://gitlab.org",
+			Value: "https://gitlab.com",
 			Usage: "GitLab host",
 		},
 	},
@@ -42,8 +42,11 @@ func daemon(c *cli.Context) {
 			Prefix: c.App.Version,
 		}))
 
-	m.Get("/*", func(ctx *macaron.Context) {
+	m.Use(macaron.Static("web"))
+
+	m.Get("/*.*", func(ctx *macaron.Context) {
 		ctx.Data["Version"] = c.App.Version
+		ctx.Data["GitlabHost"] = c.String("gh")
 		ctx.HTML(200, "index")
 	})
 
