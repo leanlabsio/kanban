@@ -4,6 +4,9 @@ import (
 	"fmt"
 	"github.com/Unknwon/macaron"
 	"github.com/codegangsta/cli"
+	"github.com/macaron-contrib/bindata"
+	"gitlab.com/kanban/kanban/templates"
+	"gitlab.com/kanban/kanban/web"
 	"log"
 	"net/http"
 )
@@ -36,18 +39,55 @@ func daemon(c *cli.Context) {
 
 	m.Use(macaron.Recovery())
 	m.Use(macaron.Logger())
-	m.Use(macaron.Renderer(macaron.RenderOptions{Directory: "templates"}))
+	m.Use(macaron.Renderer(
+		macaron.RenderOptions{
+			Directory: "templates",
+			TemplateFileSystem: bindata.Templates(bindata.Options{
+				Asset:      templates.Asset,
+				AssetDir:   templates.AssetDir,
+				AssetNames: templates.AssetNames,
+				Prefix:     "",
+			}),
+		},
+	))
+	m.Use(macaron.Static("web/images",
+		macaron.StaticOptions{
+			Prefix: "images",
+			FileSystem: bindata.Static(bindata.Options{
+				Asset:      web.Asset,
+				AssetDir:   web.AssetDir,
+				AssetNames: web.AssetNames,
+				Prefix:     "web/images",
+			}),
+		},
+	))
+	m.Use(macaron.Static("web/template",
+		macaron.StaticOptions{
+			Prefix: "template",
+			FileSystem: bindata.Static(bindata.Options{
+				Asset:      web.Asset,
+				AssetDir:   web.AssetDir,
+				AssetNames: web.AssetNames,
+				Prefix:     "web/template",
+			}),
+		},
+	))
 	m.Use(macaron.Static("web",
 		macaron.StaticOptions{
+			FileSystem: bindata.Static(bindata.Options{
+				Asset:      web.Asset,
+				AssetDir:   web.AssetDir,
+				AssetNames: web.AssetNames,
+				Prefix:     "web",
+			}),
 			Prefix: c.App.Version,
-		}))
+		},
+	))
 
-	m.Use(macaron.Static("web"))
-
-	m.Get("/*.*", func(ctx *macaron.Context) {
+	m.Get("/*", func(ctx *macaron.Context) {
 		ctx.Data["Version"] = c.App.Version
 		ctx.Data["GitlabHost"] = c.String("gh")
-		ctx.HTML(200, "index")
+		ctx.HTML(200, "templates/index")
 	})
 
 	listenAddr := fmt.Sprintf("%s:%s", c.String("ip"), c.String("port"))
