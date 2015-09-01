@@ -7,7 +7,7 @@ build:
 	@docker run --rm -v $(CURDIR):/data leanlabs/git-builder submodule init
 	@docker run --rm -v $(CURDIR):/data leanlabs/git-builder submodule update
 	@docker run --rm -w /data/kanban.wiki -v $(CURDIR):/data leanlabs/git-builder pull origin master
-	@docker run --rm -w /data -v $(CURDIR):/data alpine ./build/md2html
+	@docker run --rm -v $(CURDIR):/data cnam/md2html -o documentation -t build/templates/documentation.tpl -i kanban.wiki
 
 start:
 	@docker-compose up -d
