@@ -84,6 +84,10 @@ func daemon(c *cli.Context) {
 		},
 	))
 
+	m.Get("/oauth", func(ctx *macaron.Context) {
+		ctx.HTML(200, "templates/oauth")
+	})
+
 	m.Get("/*", func(ctx *macaron.Context) {
 		ctx.Data["Version"] = c.App.Version
 		ctx.Data["GitlabHost"] = c.String("gh")
@@ -91,7 +95,6 @@ func daemon(c *cli.Context) {
 	})
 
 	listenAddr := fmt.Sprintf("%s:%s", c.String("ip"), c.String("port"))
-	log.Printf("Listen: %s", listenAddr)
-
+	log.Printf("Starting listening on %s", listenAddr)
 	http.ListenAndServe(listenAddr, m)
 }
