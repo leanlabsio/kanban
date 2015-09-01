@@ -88,6 +88,10 @@ func daemon(c *cli.Context) {
 		ctx.HTML(200, "templates/oauth")
 	})
 
+	m.Get("/assets/html/user/views/oauth.html", func(ctx *macaron.Context) {
+		ctx.HTML(200, "templates/oauth")
+	})
+
 	m.Get("/*", func(ctx *macaron.Context) {
 		ctx.Data["Version"] = c.App.Version
 		ctx.Data["GitlabHost"] = c.String("gh")
