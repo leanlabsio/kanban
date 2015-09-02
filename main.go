@@ -1,4 +1,4 @@
-package main
+package main // import "gitlab.com/kanban/kanban"
 
 import (
 	"github.com/codegangsta/cli"
