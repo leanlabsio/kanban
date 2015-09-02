@@ -84,10 +84,6 @@ func daemon(c *cli.Context) {
 		},
 	))
 
-	m.Get("/oauth", func(ctx *macaron.Context) {
-		ctx.HTML(200, "templates/oauth")
-	})
-
 	m.Get("/assets/html/user/views/oauth.html", func(ctx *macaron.Context) {
 		ctx.HTML(200, "templates/oauth")
 	})
