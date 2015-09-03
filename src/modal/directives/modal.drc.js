@@ -27,7 +27,7 @@
                 close: '@onClose',
                 submit: '@onSubmit'
             },
-            templateUrl: version + 'assets/html/modal/views/modal.html'
+            templateUrl: version + '/assets/html/modal/views/modal.html'
         };
 
         function linkFn($scope, $elem, $attrs) {
