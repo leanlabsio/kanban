@@ -6,14 +6,15 @@ import (
 	"os"
 )
 
-const APP_VER = "1.2.6"
+// AppVer defines application version
+const AppVer = "1.2.6"
 
 func main() {
 	app := cli.NewApp()
 	app.Name = "kanban"
 	app.Email = "support@leanlabs.io"
 	app.Usage = "Leanlab.io kanban board"
-	app.Version = APP_VER
+	app.Version = AppVer
 	app.Commands = []cli.Command{
 		cmd.DaemonCmd,
 	}

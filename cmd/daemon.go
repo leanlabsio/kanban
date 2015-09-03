@@ -11,6 +11,7 @@ import (
 	"net/http"
 )
 
+// DaemonCmd is implementation of command to run application in daemon mode
 var DaemonCmd = cli.Command{
 	Name:  "daemon",
 	Usage: "Start serving web traffic",
