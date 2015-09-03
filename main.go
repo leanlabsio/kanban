@@ -7,7 +7,7 @@ import (
 )
 
 // AppVer defines application version
-const AppVer = "1.2.6"
+const AppVer = "1.2.4"
 
 func main() {
 	app := cli.NewApp()

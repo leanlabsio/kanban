@@ -1,5 +1,5 @@
 IMAGE = leanlabs/client
-TAG   = 1.3.0
+TAG   = 1.2.4
 
 help:
 	@echo "Here will be brief doc"
