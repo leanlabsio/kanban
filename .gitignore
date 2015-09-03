@@ -6,3 +6,5 @@ web/
 *.swo
 .DS_Store
 \#*\#
+templates/templates.go
+web/web.go
