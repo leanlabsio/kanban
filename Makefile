@@ -25,4 +25,8 @@ release:
 	@docker push $(IMAGE):latest
 	@docker push $(IMAGE):$(TAG)
 
+clean:
+	@rm -f web/web.go
+	@rm -f templates/templates.go
+
 .PHONY: help test build release
