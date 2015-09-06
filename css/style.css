@@ -117,6 +117,10 @@ blockquote {
     padding: 0.5em 0 0.5em 2em;
 }
 
+blockquote p {
+    margin: 0;
+}
+
 code {
     background: rgba(144, 144, 144, 0.075);
     border-radius: 4px;
@@ -1106,6 +1110,10 @@ body.landing #header {
     list-style: none;
     margin: 0;
     padding-left: 0;
+}
+
+#sidebar nav p {
+    margin: 0px 0px 0.5rem 0px;
 }
 
 .danger{
