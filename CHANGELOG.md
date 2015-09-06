@@ -1,3 +1,15 @@
+# 1.3.0 (2015-09-06)
+
+## Features:
+- Started complete rewrite in golang.
+
+## Bugfixes:
+
+- Added versioning for static assets [#252](https://gitlab.com/kanban/client/issues/252).
+- Use project avatar if not empty [#248](https://gitlab.com/kanban/client/issues/248).
+- Project description is styled correctly [#247](https://gitlab.com/kanban/client/issues/247)
+- <code> block styles [#241](https://gitlab.com/kanban/client/issues/241).
+
 # 1.2.2 (2015-08-17)
 
 ## Features:
