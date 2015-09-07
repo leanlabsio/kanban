@@ -5,8 +5,10 @@ import (
 	"github.com/Unknwon/macaron"
 	"github.com/codegangsta/cli"
 	"github.com/macaron-contrib/bindata"
+	"github.com/macaron-contrib/sockets"
 	"gitlab.com/kanban/kanban/templates"
 	"gitlab.com/kanban/kanban/web"
+	"gitlab.com/kanban/kanban/ws"
 	"log"
 	"net/http"
 )
@@ -94,7 +96,8 @@ func daemon(c *cli.Context) {
 		ctx.Data["GitlabHost"] = c.String("gh")
 		ctx.HTML(200, "templates/index")
 	})
-
+	s := &ws.Server{}
+	m.Get("/ws/", sockets.JSON(ws.Message{}), s.ListenAndServe)
 	listenAddr := fmt.Sprintf("%s:%s", c.String("ip"), c.String("port"))
 	log.Printf("Starting listening on %s", listenAddr)
 	http.ListenAndServe(listenAddr, m)
