@@ -17,7 +17,8 @@ type Server struct {
 
 // Message is
 type Message struct {
-	Data string `json:"data"`
+	Event string                 `json:"event"`
+	Data  map[string]interface{} `json:"data"`
 }
 
 //New creates new Server instance
@@ -56,12 +57,18 @@ func (serv *Server) ListenAndServe(r <-chan *Message, s chan<- *Message, d <-cha
 		DisconnectChan: disc,
 		ErrChan:        e,
 	}
-	h := serv.GetHub("hub1")
-	h.append(c)
-	log.Printf("%+v", h.clients)
 	for {
 		select {
 		case msg := <-c.ReceivingChan:
+			b := msg.Data["board"]
+			str, ok := b.(string)
+			if !ok {
+				log.Printf("BoardId if not a string %s", ok)
+				panic("Could not resolve Hub")
+			}
+			h := serv.GetHub(str)
+			h.append(c)
+			log.Printf("%+v", h.clients)
 			log.Printf("%s: %+v", "Recieved message", msg)
 		}
 	}
