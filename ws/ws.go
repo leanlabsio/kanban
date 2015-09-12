@@ -14,15 +14,6 @@ type Server struct {
 	clients []*Client
 }
 
-// Client is
-type Client struct {
-	ReceivingChan  <-chan *Message
-	SendingChan    chan<- *Message
-	DoneChan       <-chan bool
-	DisconnectChan chan<- int
-	ErrChan        <-chan error
-}
-
 // Message is
 type Message struct {
 	Data string `json:"data"`
