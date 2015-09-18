@@ -25,11 +25,6 @@ type Message struct {
 	Data  map[string]interface{} `json:"data"`
 }
 
-//New creates new Server instance
-func New() *Server {
-	return &Server{hubs: make(map[string]*Hub)}
-}
-
 //GetHub returns existing named Hub or creates new one
 func (serv *Server) GetHub(id string) *Hub {
 	h, ok := serv.hubs[id]
