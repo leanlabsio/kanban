@@ -15,6 +15,10 @@ type Server struct {
 	hubs    map[string]*Hub
 }
 
+var S = &Server{
+	hubs: make(map[string]*Hub),
+}
+
 // Message is
 type Message struct {
 	Event string                 `json:"event"`
