@@ -40,14 +40,14 @@ func (serv *Server) append(c *Client) {
 }
 
 //Broadcast sends message to all subscribed clients
-func (serv *Server) Broadcast(m *Message) {
+func (serv *Server) Broadcast(m string) {
 	for _, h := range serv.hubs {
 		h.Broadcast(m)
 	}
 }
 
 // ListenAndServe start ws
-func (serv *Server) ListenAndServe(r <-chan *Message, s chan<- *Message, d <-chan bool, disc chan<- int, e <-chan error) {
+func (serv *Server) ListenAndServe(r <-chan string, s chan<- string, d <-chan bool, disc chan<- int, e <-chan error) {
 	c := &Client{
 		ReceivingChan:  r,
 		SendingChan:    s,
@@ -59,7 +59,7 @@ func (serv *Server) ListenAndServe(r <-chan *Message, s chan<- *Message, d <-cha
 }
 
 //ListenAndServePlugin start ws endpoint for plugins
-func (serv *Server) ListenAndServePlugin(r <-chan *Message, s chan<- *Message, d <-chan bool, disc chan<- int, e <-chan error) {
+func (serv *Server) ListenAndServePlugin(r <-chan string, s chan<- string, d <-chan bool, disc chan<- int, e <-chan error) {
 	c := &Client{
 		ReceivingChan:  r,
 		SendingChan:    s,

@@ -7,7 +7,7 @@ type Hub struct {
 }
 
 //Broadcast sends message to all Client's on Hub
-func (h *Hub) Broadcast(m *Message) {
+func (h *Hub) Broadcast(m string) {
 	for _, c := range h.clients {
 		c.SendingChan <- m
 	}

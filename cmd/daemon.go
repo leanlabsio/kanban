@@ -96,7 +96,7 @@ func daemon(c *cli.Context) {
 		ctx.Data["GitlabHost"] = c.String("gh")
 		ctx.HTML(200, "templates/index")
 	})
-	m.Get("/ws/", sockets.JSON(ws.Message{}), ws.S.ListenAndServe)
+	m.Get("/ws/", sockets.Messages(), ws.S.ListenAndServe)
 	m.Get("/ws/plugin", sockets.JSON(ws.Message{}), ws.S.ListenAndServePlugin)
 	listenAddr := fmt.Sprintf("%s:%s", c.String("ip"), c.String("port"))
 	log.Printf("Starting listening on %s", listenAddr)
