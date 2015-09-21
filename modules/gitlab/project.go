@@ -1,7 +1,5 @@
 package gitlab
 
-import _ "encoding/json"
-
 type Project struct {
 	Id                int64      `json:"id"`
 	Name              string     `json:"name"`
@@ -15,11 +13,6 @@ type Project struct {
 	AvatarUrl         string     `json:"avatar_url,nil,omitempty"`
 }
 
-type Label struct {
-	Color string `json:"color"`
-	Name  string `json:"name"`
-}
-
 type Namespace struct {
 	Id     int64   `json:"id"`
 	Name   string  `json:"name,omitempty"`
@@ -28,19 +21,4 @@ type Namespace struct {
 
 type Avatar struct {
 	Url string `json:"url"`
-}
-
-type ProjectSingleResponse struct {
-	Data Project  `json:"data"`
-	Meta []string `json:"meta"`
-}
-
-type ProjectListResponse struct {
-	Data []Project `json:"data"`
-	Meta []string  `json:"meta"`
-}
-
-type LabelListResponse struct {
-	Data []Label  `json:"data"`
-	Meta []string `json:"meta"`
 }

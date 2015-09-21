@@ -1,19 +1,13 @@
 package gitlab
 
 import (
-	"github.com/Unknwon/macaron"
-	"github.com/dgrijalva/jwt-go"
 	"github.com/pmylund/sortutil"
 	"golang.org/x/oauth2"
-	"log"
 	"net/http"
 	"net/url"
-	"time"
 )
 
-type ApiGitlab struct {
-	config *Config
-	token  []byte
+type GitlabClient struct {
 }
 
 type Config struct {
@@ -22,147 +16,95 @@ type Config struct {
 	Oauth2   *oauth2.Config
 }
 
+type GitlabContext struct {
+	client *http.Client
+}
+
+var (
+	cfg *Config
+)
+
 // New gitlab api client
-func New(c *Config, token string) *ApiGitlab {
-	return &ApiGitlab{
-		config: c,
-		token:  []byte(token),
-	}
+func NewEngine(c *Config) {
+	cfg = c
 }
 
-// Get redirect url for gitlab authorisation
-func (g *ApiGitlab) OauthUrl(ctx *macaron.Context) {
-	ctx.Redirect(g.config.Oauth2.AuthCodeURL("state", oauth2.AccessTypeOffline))
+// AuthCodeURL returns a URL to OAuth 2.0 provider's consent page
+// that asks for permissions for the required scopes explicitly.
+func AuthCodeURL() string {
+	return  cfg.Oauth2.AuthCodeURL("state", oauth2.AccessTypeOffline)
 }
 
-// Login with gitlab and get access token
-func (g *ApiGitlab) OauthLogin(ctx *macaron.Context, data Oauth2) {
-	tok, err := g.config.Oauth2.Exchange(oauth2.NoContext, data.Code)
-
-	token := jwt.New(jwt.SigningMethodHS256)
-	token.Claims["gitlab_token"] = tok.AccessToken
-	token.Claims["exp"] = time.Now().Add(time.Hour * 72).Unix()
-
-	tokenString, err := token.SignedString(g.token)
-
-	if err != nil {
-		log.Printf("%s", err.Error())
-	}
-
-	ctx.JSON(http.StatusOK, KbAuth{
-		Success: true,
-		Token:   tokenString,
-	})
+// Exchange is
+func Exchange(c string) (*oauth2.Token, error) {
+	return cfg.Oauth2.Exchange(oauth2.NoContext, c)
 }
 
-// Check auth current user and return http client with credential for gitlab request
-func (g *ApiGitlab) isAuth(ctx *macaron.Context, log *log.Logger) (*http.Client, error) {
-	jwtToken, err := jwt.Parse(ctx.Req.Header["X-Kb-Access-Token"][0], func(token *jwt.Token) (interface{}, error) {
-		return []byte(g.token), nil
-	})
-
-	if err != nil || !jwtToken.Valid {
-		log.Print("%s", err.Error())
-		return nil, err
+// NewContext
+func NewContext(t *oauth2.Token) (*GitlabContext) {
+	return &GitlabContext{
+		client: cfg.Oauth2.Client(oauth2.NoContext, t),
 	}
-
-	gitlab_token, _ := jwtToken.Claims["gitlab_token"].(string)
-	exp, _ := jwtToken.Claims["exp"].(time.Time)
-
-	tok := &oauth2.Token{
-		AccessToken: gitlab_token,
-		Expiry:      exp,
-	}
-
-	return g.config.Oauth2.Client(oauth2.NoContext, tok), nil
 }
 
 // List projects from gitlab
-func (g *ApiGitlab) ListProjects(ctx *macaron.Context, log *log.Logger) {
-	cl, err := g.isAuth(ctx, log)
-
-	if err != nil {
-		ctx.JSON(http.StatusUnauthorized, ApiErr{
-			Success: false,
-			Message: err.Error(),
-		})
-	}
-
+func (g *GitlabContext) ListProjects(per_page, page string) ([]*Project, error) {
+	cl := g.client
 	path := g.GetUrl([]string{"projects"})
 
 	req, _ := http.NewRequest("GET", path, nil)
 	q := req.URL.Query()
-	q.Add("per_page", "100")
-	q.Add("page", "1")
+	q.Add("per_page", per_page)
+	q.Add("page", page)
+	q.Add("archived", "false")
 	req.URL.RawQuery = q.Encode()
 
-	var ret ProjectListResponse
-	if err := g.Do(cl, req, &ret.Data); err != nil {
-		g.SendError(ctx, err)
+	var ret []*Project
+	if err := g.Do(cl, req, &ret); err != nil {
+		return  nil, err
 	}
-	ctx.JSON(http.StatusOK, ret)
+
+	return ret, nil
 }
 
-// Get single project from gitlab
-func (g *ApiGitlab) SingleProjects(ctx *macaron.Context, log *log.Logger) {
-	cl, err := g.isAuth(ctx, log)
-
-	if err != nil {
-		ctx.JSON(http.StatusUnauthorized, ApiErr{
-			Success: false,
-			Message: err.Error(),
-		})
-	}
-
-	path := g.GetUrl([]string{"projects", url.QueryEscape(ctx.Query("project_id"))})
+// ItemProject returns project item from gitlab
+func (g *GitlabContext) ItemProject(project_id string) (*Project, error) {
+	cl := g.client
+	path := g.GetUrl([]string{"projects", url.QueryEscape(project_id)})
 
 	req, _ := http.NewRequest("GET", path, nil)
 
-	var ret ProjectSingleResponse
-	if err := g.Do(cl, req, &ret.Data); err != nil {
-		g.SendError(ctx, err)
+	var ret Project
+	if err := g.Do(cl, req, &ret); err != nil {
+		return nil, err
 	}
-	ctx.JSON(http.StatusOK, ret)
+
+	return &ret, nil
 }
 
 // Get list issues for gitlab projects
-func (g *ApiGitlab) ListIssues(ctx *macaron.Context, log *log.Logger) {
-	cl, err := g.isAuth(ctx, log)
-
-	if err != nil {
-		ctx.JSON(http.StatusUnauthorized, ApiErr{
-			Success: false,
-			Message: err.Error(),
-		})
-	}
-
-	path := g.GetUrl([]string{"projects", url.QueryEscape(ctx.Query("project_id")), "issues"})
+func (g *GitlabContext) ListIssues(project_id, per_page, page string) ([]*Issue, error) {
+	cl := g.client
+	path := g.GetUrl([]string{"projects", url.QueryEscape(project_id), "issues"})
 
 	req, _ := http.NewRequest("GET", path, nil)
 	q := req.URL.Query()
-	q.Add("per_page", "200")
-	q.Add("page", "1")
+	q.Add("per_page", per_page)
+	q.Add("page", page)
 	req.URL.RawQuery = q.Encode()
 
-	var ret IssueListResponse
-	if err := g.Do(cl, req, &ret.Data); err != nil {
-		g.SendError(ctx, err)
+	var ret []*Issue
+	if err := g.Do(cl, req, &ret); err != nil {
+		return nil, err
 	}
-	ctx.JSON(http.StatusOK, ret)
+
+	return ret, nil
 }
 
 // Get list milestones for gitlab projects
-func (g *ApiGitlab) ListMilestones(ctx *macaron.Context, log *log.Logger) {
-	cl, err := g.isAuth(ctx, log)
-
-	if err != nil {
-		ctx.JSON(http.StatusUnauthorized, ApiErr{
-			Success: false,
-			Message: err.Error(),
-		})
-	}
-
-	path := g.GetUrl([]string{"projects", url.QueryEscape(ctx.Query("project_id")), "milestones"})
+func (g *GitlabContext) ListMilestones(project_id string) ([]*Milestone, error) {
+	cl := g.client
+	path := g.GetUrl([]string{"projects", url.QueryEscape(project_id), "milestones"})
 
 	req, _ := http.NewRequest("GET", path, nil)
 	q := req.URL.Query()
@@ -170,25 +112,18 @@ func (g *ApiGitlab) ListMilestones(ctx *macaron.Context, log *log.Logger) {
 	q.Add("page", "1")
 	req.URL.RawQuery = q.Encode()
 
-	var ret MilestoneListResponse
-	if err := g.Do(cl, req, &ret.Data); err != nil {
-		g.SendError(ctx, err)
+	var ret []*Milestone
+	if err := g.Do(cl, req, &ret); err != nil {
+		return nil, err
 	}
-	ctx.JSON(http.StatusOK, ret)
+
+	return ret, nil
 }
 
 // Get list project members for gitlab projects
-func (g *ApiGitlab) ListProjectMembers(ctx *macaron.Context, log *log.Logger) {
-	cl, err := g.isAuth(ctx, log)
-
-	if err != nil {
-		ctx.JSON(http.StatusUnauthorized, ApiErr{
-			Success: false,
-			Message: err.Error(),
-		})
-	}
-
-	path := g.GetUrl([]string{"projects", url.QueryEscape(ctx.Query("project_id")), "members"})
+func (g *GitlabContext) ListProjectMembers(project_id string) ([]*User, error) {
+	cl := g.client
+	path := g.GetUrl([]string{"projects", url.QueryEscape(project_id), "members"})
 
 	req, _ := http.NewRequest("GET", path, nil)
 	q := req.URL.Query()
@@ -196,55 +131,57 @@ func (g *ApiGitlab) ListProjectMembers(ctx *macaron.Context, log *log.Logger) {
 	q.Add("page", "1")
 	req.URL.RawQuery = q.Encode()
 
-	var ret MemberListResponse
-	if err := g.Do(cl, req, &ret.Data); err != nil {
-		g.SendError(ctx, err)
+	var ret []*User
+	if err := g.Do(cl, req, &ret); err != nil {
+		return nil, err
 	}
-	ctx.JSON(http.StatusOK, ret.Data)
+
+	return ret, nil
 }
 
-// Get list labels for gitlab projects
-func (g *ApiGitlab) ListLabels(ctx *macaron.Context, log *log.Logger) {
-	cl, err := g.isAuth(ctx, log)
-
-	if err != nil {
-		ctx.JSON(http.StatusUnauthorized, ApiErr{
-			Success: false,
-			Message: err.Error(),
-		})
-	}
-
-	path := g.GetUrl([]string{"projects", url.QueryEscape(ctx.Query("board_id")), "labels"})
+// ListLabels returns list labels for gitlab projects
+func (g *GitlabContext) ListLabels(project_id string) ([]*Label, error) {
+	cl := g.client
+	path := g.GetUrl([]string{"projects", url.QueryEscape(project_id), "labels"})
 
 	req, _ := http.NewRequest("GET", path, nil)
 
-	var ret LabelListResponse
-	if err := g.Do(cl, req, &ret.Data); err != nil {
-		g.SendError(ctx, err)
+	var ret []*Label
+	if err := g.Do(cl, req, &ret); err != nil {
+		return nil, err
 	}
-	ctx.JSON(http.StatusOK, ret)
+
+	return ret, nil
 }
 
-// Get list comeent for gitlab issue
-func (g *ApiGitlab) ListComments(ctx *macaron.Context, log *log.Logger) {
-	cl, err := g.isAuth(ctx, log)
-
-	if err != nil {
-		ctx.JSON(http.StatusUnauthorized, ApiErr{
-			Success: false,
-			Message: err.Error(),
-		})
-	}
-
-	path := g.GetUrl([]string{"projects", url.QueryEscape(ctx.Query("project_id")), "issues", ctx.Query("issue_id"), "notes"})
+// ListComments returns list comments for gitlab issue
+func (g *GitlabContext) ListComments(project_id, issue_id string) ([]*Comment, error) {
+	cl := g.client
+	path := g.GetUrl([]string{"projects", url.QueryEscape(project_id), "issues", issue_id, "notes"})
 
 	req, _ := http.NewRequest("GET", path, nil)
 
-	var ret CommentListResponse
-	if err := g.Do(cl, req, &ret.Data); err != nil {
-		g.SendError(ctx, err)
+	var ret []*Comment
+	if err := g.Do(cl, req, &ret); err != nil {
+		return nil, err
 	}
 
-	sortutil.AscByField(ret.Data, "CreatedAt")
-	ctx.JSON(http.StatusOK, ret)
+	sortutil.AscByField(ret, "CreatedAt")
+
+	return ret, nil
+}
+
+// CurrentUser returns current authentificated user
+func (g *GitlabContext) CurrentUser() (*User, error) {
+	cl := g.client
+	path := g.GetUrl([]string{"user"})
+
+	req, _ := http.NewRequest("GET", path, nil)
+
+	var ret *User
+	if err := g.Do(cl, req, &ret); err != nil {
+		return nil, err
+	}
+
+	return ret, nil
 }

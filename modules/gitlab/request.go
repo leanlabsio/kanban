@@ -10,7 +10,7 @@ import (
 )
 
 // Execute request to gitlab and chek err
-func (g *ApiGitlab) Do(cl *http.Client, req *http.Request, v interface{}) error {
+func (g *GitlabContext) Do(cl *http.Client, req *http.Request, v interface{}) error {
 	res, err := cl.Do(req)
 
 	if err != nil {
@@ -32,6 +32,7 @@ func (g *ApiGitlab) Do(cl *http.Client, req *http.Request, v interface{}) error 
 	return nil
 }
 
-func (g *ApiGitlab) GetUrl(p []string) string {
-	return g.config.BasePath + "/" + strings.Join(p, "/")
+// GetUrl creates url with base host and path
+func (g *GitlabContext) GetUrl(p []string) string {
+	return cfg.BasePath + "/" + strings.Join(p, "/")
 }
