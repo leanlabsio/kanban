@@ -1,13 +1,13 @@
 package models
 
 import (
-	"github.com/dgrijalva/jwt-go"
-	"golang.org/x/oauth2"
-	"time"
-	"gitlab.com/kanban/kanban/modules/setting"
 	"encoding/json"
+	"github.com/dgrijalva/jwt-go"
 	"gitlab.com/kanban/kanban/modules/gitlab"
+	"gitlab.com/kanban/kanban/modules/setting"
+	"golang.org/x/oauth2"
 	"strings"
+	"time"
 )
 
 type User struct {
@@ -21,17 +21,16 @@ type User struct {
 	Username   string
 }
 
-
 type Credential struct {
 	Token        *oauth2.Token
 	PrivateToken string
 }
 
 type ResponseUser struct {
-	Id      int64    `json:"id"`
+	Id      int64  `json:"id"`
 	Name    string `json:"name"`
 	Token   string `json:"token"`
-	Success bool `json:"success"`
+	Success bool   `json:"success"`
 }
 
 var (
@@ -62,8 +61,8 @@ func LoadUserByUsername(uname string) (*User, error) {
 	}
 
 	return &User{
-		Name: val[1].(string),
-		Username: val[2].(string),
+		Name:       val[1].(string),
+		Username:   val[2].(string),
 		Credential: cr,
 	}, nil
 
@@ -101,14 +100,14 @@ func Create(u *User) (*User, error) {
 	).Result()
 
 	return &User{
-		Name: u.Name,
-		Username: u.Username,
+		Name:       u.Name,
+		Username:   u.Username,
 		Credential: u.Credential,
 	}, err
 }
 
 // ListMembers is
-func ListMembers(u *User, provider, board_id string)  ([]*User, error)  {
+func ListMembers(u *User, provider, board_id string) ([]*User, error) {
 	var mem []*User
 	switch provider {
 	case "gitlab":
@@ -138,17 +137,18 @@ func (u *User) SignedString() (string, error) {
 
 	return u.Token.SigningString()
 }
+
 // mapUserFromGitlab mapped data from gitlab user to kanban user
 func mapUserFromGitlab(u *gitlab.User) *User {
 	if u == nil {
 		return nil
 	}
 	return &User{
-		Id: u.Id,
-		Name: u.Name,
-		Username: u.Username,
+		Id:        u.Id,
+		Name:      u.Name,
+		Username:  u.Username,
 		AvatarUrl: u.AvatarUrl,
-		State: u.State,
+		State:     u.State,
 	}
 }
 
@@ -162,10 +162,10 @@ func (u *User) MarshalJSON() ([]byte, error) {
 		AvatarUrl string `json:"avatar_url,nil,omitempty"`
 		State     string `json:"state,omitempty"`
 	}{
-		Id: u.Id,
-		Name: u.Name,
-		Username: u.Username,
+		Id:        u.Id,
+		Name:      u.Name,
+		Username:  u.Username,
 		AvatarUrl: u.AvatarUrl,
-		State: u.State,
+		State:     u.State,
 	})
 }

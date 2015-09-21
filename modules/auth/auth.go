@@ -1,11 +1,11 @@
 package auth
 
 import (
-	"github.com/dgrijalva/jwt-go"
+	"errors"
 	"github.com/Unknwon/macaron"
+	"github.com/dgrijalva/jwt-go"
 	"gitlab.com/kanban/kanban/models"
 	"gitlab.com/kanban/kanban/modules/setting"
-	"errors"
 )
 
 func SignedInUser(ctx *macaron.Context) (*models.User, error) {

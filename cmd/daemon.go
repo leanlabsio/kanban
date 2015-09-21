@@ -3,22 +3,22 @@ package cmd
 import (
 	"fmt"
 	"github.com/Unknwon/macaron"
-	"github.com/macaron-contrib/binding"
 	"github.com/codegangsta/cli"
 	"github.com/macaron-contrib/bindata"
+	"github.com/macaron-contrib/binding"
 	"gitlab.com/kanban/kanban/templates"
 	"gitlab.com/kanban/kanban/web"
 	"log"
 	"net/http"
 
-	"gitlab.com/kanban/kanban/modules/setting"
 	"gitlab.com/kanban/kanban/modules/auth"
+	"gitlab.com/kanban/kanban/modules/setting"
 
+	"gitlab.com/kanban/kanban/models"
+	"gitlab.com/kanban/kanban/modules/middleware"
+	"gitlab.com/kanban/kanban/routers"
 	"gitlab.com/kanban/kanban/routers/board"
 	"gitlab.com/kanban/kanban/routers/user"
-	"gitlab.com/kanban/kanban/routers"
-	"gitlab.com/kanban/kanban/modules/middleware"
-	"gitlab.com/kanban/kanban/models"
 )
 
 // DaemonCmd is implementation of command to run application in daemon mode
@@ -37,7 +37,7 @@ var DaemonCmd = cli.Command{
 			Usage: "port to bind",
 		},
 		cli.StringFlag{
-			Name: "config",
+			Name:  "config",
 			Value: "",
 			Usage: "Custom config file",
 		},

@@ -11,7 +11,7 @@ type Milestone struct {
 }
 
 // ListMilestones returns list milestones by project
-func ListMilestones(u *User, provider, board_id string)  ([]*Milestone, error)  {
+func ListMilestones(u *User, provider, board_id string) ([]*Milestone, error) {
 	var mem []*Milestone
 	switch provider {
 	case "gitlab":
@@ -33,7 +33,7 @@ func ListMilestones(u *User, provider, board_id string)  ([]*Milestone, error)  
 // mapMilestoneFromGitlab returns map from gitlab milestone to gitlab milestone
 func mapMilestoneFromGitlab(m *gitlab.Milestone) *Milestone {
 	return &Milestone{
-		Id: m.Id,
+		Id:    m.Id,
 		State: m.State,
 		Title: m.Title,
 	}

@@ -1,7 +1,8 @@
 package board
+
 import (
-	"gitlab.com/kanban/kanban/modules/middleware"
 	"gitlab.com/kanban/kanban/models"
+	"gitlab.com/kanban/kanban/modules/middleware"
 	"net/http"
 )
 
@@ -19,4 +20,3 @@ func ListCards(ctx *middleware.Context) {
 		Data: boards,
 	})
 }
-

@@ -1,8 +1,8 @@
 package routers
 
 import (
-	"gitlab.com/kanban/kanban/modules/setting"
 	"github.com/Unknwon/macaron"
+	"gitlab.com/kanban/kanban/modules/setting"
 )
 
 func Home(ctx *macaron.Context) {

@@ -1,11 +1,11 @@
 package models
 
 import (
-	"time"
-	"gitlab.com/kanban/kanban/modules/gitlab"
 	"encoding/json"
+	"gitlab.com/kanban/kanban/modules/gitlab"
 	"regexp"
 	"strings"
+	"time"
 )
 
 type Comment struct {
@@ -58,7 +58,7 @@ func ListComments(u *User, provider, project_id, card_id string) ([]*Comment, er
 // mapCommentCollectionFromGitlab transforms gitlab coments to kanban comments
 func mapCommentCollectionFromGitlab(c []*gitlab.Comment) []*Comment {
 	var b []*Comment
-	for _, co := range (c) {
+	for _, co := range c {
 		b = append(b, mapCommentFromGitlab(co))
 	}
 
@@ -68,11 +68,11 @@ func mapCommentCollectionFromGitlab(c []*gitlab.Comment) []*Comment {
 // mapCommentFromGitlab transform gitlab comment to kanban comment
 func mapCommentFromGitlab(c *gitlab.Comment) *Comment {
 	return &Comment{
-		Id: c.Id,
-		Author: mapUserFromGitlab(c.Author),
-		Body: c.Body,
+		Id:        c.Id,
+		Author:    mapUserFromGitlab(c.Author),
+		Body:      c.Body,
 		CreatedAt: c.CreatedAt,
-		IsInfo: mapCommentIsInfoFromGitlab(c.Body),
+		IsInfo:    mapCommentIsInfoFromGitlab(c.Body),
 	}
 }
 

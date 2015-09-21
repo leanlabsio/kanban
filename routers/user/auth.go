@@ -2,11 +2,11 @@ package user
 
 import (
 	"github.com/Unknwon/macaron"
-	"log"
-	"net/http"
-	"gitlab.com/kanban/kanban/modules/middleware"
 	"gitlab.com/kanban/kanban/models"
 	"gitlab.com/kanban/kanban/modules/auth"
+	"gitlab.com/kanban/kanban/modules/middleware"
+	"log"
+	"net/http"
 )
 
 // OauthUrl redirects to url for authorisation
@@ -51,13 +51,13 @@ func OauthLogin(ctx *middleware.Context, form auth.Oauth2) {
 
 	ctx.JSON(http.StatusOK, auth.ResponseAuth{
 		Success: true,
-		Token:  tokens,
+		Token:   tokens,
 	})
 }
 
 // SignUp registers with user data
 func SignUp(ctx *macaron.Context, form auth.SignIn) {
-	User, err  := models.UserSignIn(form.Login, form.Pass)
+	User, err := models.UserSignIn(form.Login, form.Pass)
 
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, models.ResponseError{
@@ -70,7 +70,7 @@ func SignUp(ctx *macaron.Context, form auth.SignIn) {
 
 	ctx.JSON(http.StatusOK, auth.ResponseAuth{
 		Success: true,
-		Token:  tokens,
+		Token:   tokens,
 	})
 }
 
@@ -89,7 +89,7 @@ func SignIn(ctx *middleware.Context, form auth.SignUp) {
 
 	ctx.JSON(http.StatusOK, auth.ResponseAuth{
 		Success: true,
-		Token:  tokens,
+		Token:   tokens,
 	})
 }
 

@@ -1,4 +1,5 @@
 package models
+
 import (
 	"gitlab.com/kanban/kanban/modules/gitlab"
 )
@@ -63,14 +64,14 @@ func ItemBoard(u *User, provider string, board_id string) (*Board, error) {
 
 func mapBoardFromGitlab(r *gitlab.Project) *Board {
 	return &Board{
-		Id: r.Id,
-		Name: r.Name,
+		Id:                r.Id,
+		Name:              r.Name,
 		NamespaceWithName: r.NamespaceWithName,
 		PathWithNamespace: r.PathWithNamespace,
-		Namespace: mapNamespaceFromGitlab(r.Namespace),
-		Description: r.Description,
-		Owner: mapUserFromGitlab(r.Owner),
-		AvatarUrl: r.AvatarUrl,
+		Namespace:         mapNamespaceFromGitlab(r.Namespace),
+		Description:       r.Description,
+		Owner:             mapUserFromGitlab(r.Owner),
+		AvatarUrl:         r.AvatarUrl,
 	}
 }
 
@@ -79,8 +80,8 @@ func mapNamespaceFromGitlab(n *gitlab.Namespace) *Namespace {
 		return nil
 	}
 	return &Namespace{
-		Id: n.Id,
-		Name: n.Name,
+		Id:     n.Id,
+		Name:   n.Name,
 		Avatar: mapAvatarFromGitlab(n.Avatar),
 	}
 }
@@ -93,5 +94,3 @@ func mapAvatarFromGitlab(n *gitlab.Avatar) *Avatar {
 		Url: n.Url,
 	}
 }
-
-

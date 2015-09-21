@@ -1,10 +1,9 @@
 package board
 
 import (
-
+	"gitlab.com/kanban/kanban/models"
 	"gitlab.com/kanban/kanban/modules/middleware"
 	"net/http"
-	"gitlab.com/kanban/kanban/models"
 )
 
 func ListBoards(ctx *middleware.Context) {

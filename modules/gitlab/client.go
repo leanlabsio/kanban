@@ -32,7 +32,7 @@ func NewEngine(c *Config) {
 // AuthCodeURL returns a URL to OAuth 2.0 provider's consent page
 // that asks for permissions for the required scopes explicitly.
 func AuthCodeURL() string {
-	return  cfg.Oauth2.AuthCodeURL("state", oauth2.AccessTypeOffline)
+	return cfg.Oauth2.AuthCodeURL("state", oauth2.AccessTypeOffline)
 }
 
 // Exchange is
@@ -41,7 +41,7 @@ func Exchange(c string) (*oauth2.Token, error) {
 }
 
 // NewContext
-func NewContext(t *oauth2.Token) (*GitlabContext) {
+func NewContext(t *oauth2.Token) *GitlabContext {
 	return &GitlabContext{
 		client: cfg.Oauth2.Client(oauth2.NoContext, t),
 	}
@@ -61,7 +61,7 @@ func (g *GitlabContext) ListProjects(per_page, page string) ([]*Project, error) 
 
 	var ret []*Project
 	if err := g.Do(cl, req, &ret); err != nil {
-		return  nil, err
+		return nil, err
 	}
 
 	return ret, nil

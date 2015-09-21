@@ -6,7 +6,7 @@ import (
 )
 
 var (
-	Cfg *ini.File
+	Cfg         *ini.File
 	CustomPath  string
 	App_Version string
 )

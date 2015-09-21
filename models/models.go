@@ -1,17 +1,17 @@
 package models
 
 import (
+	"fmt"
 	"gitlab.com/kanban/kanban/modules/gitlab"
 	"gitlab.com/kanban/kanban/modules/setting"
 	"golang.org/x/oauth2"
-	"strings"
 	"gopkg.in/redis.v3"
-	"fmt"
+	"strings"
 )
 
 var (
 	gc *gitlab.GitlabClient
-	c *redis.Client
+	c  *redis.Client
 )
 
 // NewEngine creates new services for data from config settings
@@ -21,8 +21,8 @@ func NewEngine() error {
 	d := strings.TrimSuffix(setting.Cfg.Section("server").Key("ROOT_URL").String(), "/")
 
 	gitlab.NewEngine(&gitlab.Config{
-		BasePath: gh+"/api/v3",
-		Domain: d,
+		BasePath: gh + "/api/v3",
+		Domain:   d,
 		Oauth2: &oauth2.Config{
 			ClientID:     setting.Cfg.Section("gitlab").Key("OAUTH_CLIENT_ID").String(),
 			ClientSecret: setting.Cfg.Section("gitlab").Key("OAUTH_SECRET_KEY").String(),
@@ -37,9 +37,9 @@ func NewEngine() error {
 	db, _ := setting.Cfg.Section("cache").Key("DB").Int64()
 
 	c = redis.NewClient(&redis.Options{
-		Addr: setting.Cfg.Section("cache").Key("HOST").String(),
+		Addr:     setting.Cfg.Section("cache").Key("HOST").String(),
 		Password: setting.Cfg.Section("cache").Key("PASS").String(),
-		DB: db,
+		DB:       db,
 	})
 
 	_, err := c.Ping().Result()

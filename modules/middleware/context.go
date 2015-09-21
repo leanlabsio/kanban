@@ -28,9 +28,9 @@ func Contexter() macaron.Handler {
 		ctx.User, err = auth.SignedInUser(ctx.Context)
 
 		// Hardcore default data provider
-		ctx.Provider  = "gitlab"
+		ctx.Provider = "gitlab"
 
-		if (err != nil) {
+		if err != nil {
 			ctx.JSON(http.StatusUnauthorized, `{"success": false}`)
 		}
 

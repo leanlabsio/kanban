@@ -1,4 +1,5 @@
 package models
+
 import "gitlab.com/kanban/kanban/modules/gitlab"
 
 type Label struct {
@@ -25,9 +26,9 @@ func ListLabels(u *User, provider, board_id string) ([]*Label, error) {
 }
 
 // mapLabelCollectionFromGitlab transforms gitlab labels to kanban labels
-func mapLabelCollectionFromGitlab(l []*gitlab.Label) ([]*Label) {
+func mapLabelCollectionFromGitlab(l []*gitlab.Label) []*Label {
 	var b []*Label
-	for _, v := range(l) {
+	for _, v := range l {
 		b = append(b, mapLabelFromGitlab(v))
 	}
 
@@ -38,6 +39,6 @@ func mapLabelCollectionFromGitlab(l []*gitlab.Label) ([]*Label) {
 func mapLabelFromGitlab(l *gitlab.Label) *Label {
 	return &Label{
 		Color: l.Color,
-		Name: l.Name,
+		Name:  l.Name,
 	}
 }

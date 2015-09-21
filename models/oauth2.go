@@ -1,8 +1,8 @@
 package models
 
 import (
-	"golang.org/x/oauth2"
 	"gitlab.com/kanban/kanban/modules/gitlab"
+	"golang.org/x/oauth2"
 )
 
 //AuthCodeUrl return url for redirect user for oauth.
@@ -30,7 +30,7 @@ func UserOauthSignIn(provider string, tok *oauth2.Token) (*User, error) {
 
 	m := map[string]*Credential{
 		provider: &Credential{
-			Token: tok,
+			Token:        tok,
 			PrivateToken: "",
 		},
 	}

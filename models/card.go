@@ -1,9 +1,9 @@
 package models
 
 import (
+	"encoding/json"
 	"gitlab.com/kanban/kanban/modules/gitlab"
 	"regexp"
-	"encoding/json"
 )
 
 type Card struct {
@@ -57,17 +57,17 @@ func ListCards(u *User, provider, board_id string) ([]*Card, error) {
 // mapCardFromGitlab mapped gitlab issue to kanban card
 func mapCardFromGitlab(c *gitlab.Issue) *Card {
 	return &Card{
-		Id: c.Id,
-		Iid: c.Iid,
-		Title: c.Title,
-		State: c.State,
-		Assignee: mapUserFromGitlab(c.Assignee),
-		Author: mapUserFromGitlab(c.Author),
+		Id:          c.Id,
+		Iid:         c.Iid,
+		Title:       c.Title,
+		State:       c.State,
+		Assignee:    mapUserFromGitlab(c.Assignee),
+		Author:      mapUserFromGitlab(c.Author),
 		Description: mapCardDescriptionFromGitlab(c.Description),
-		Labels: c.Labels,
-		ProjectId: c.ProjectId,
-		Properties: mapCardPropertiesFromGitlab(c.Description),
-		Todo: mapCardTodoFromGitlab(c.Description),
+		Labels:      c.Labels,
+		ProjectId:   c.ProjectId,
+		Properties:  mapCardPropertiesFromGitlab(c.Description),
+		Todo:        mapCardTodoFromGitlab(c.Description),
 	}
 }
 
@@ -109,7 +109,6 @@ func mapCardDescriptionFromGitlab(d string) string {
 	r = regProp.ReplaceAllString(r, "")
 	return r
 }
-
 
 // mapCardPropertiesFromGitlab transforms gitlab description to card properties
 func mapCardPropertiesFromGitlab(d string) *Properties {
