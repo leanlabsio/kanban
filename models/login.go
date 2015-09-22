@@ -1,9 +1,39 @@
 package models
 
+import (
+	"errors"
+)
+
+// UserSignIn is
 func UserSignIn(uname, pass string) (*User, error) {
-	return &User{}, nil
+	u, err := LoadUserByUsername(uname)
+
+	if err != nil {
+		return nil, err
+	}
+
+	if !u.ValidatePassword(pass) {
+		return nil, errors.New("Invalid username or password")
+	}
+
+	return u, nil
 }
 
-func UserSignUp(uname, email, pass, token string) (*User, error) {
-	return &User{}, nil
+// UserSignUp is
+func UserSignUp(uname, email, pass, token, provider string) (*User, error) {
+	cr := map[string]*Credential{
+		provider: &Credential{
+			PrivateToken: token,
+		},
+	}
+
+	u := &User{
+		Name:       uname,
+		Username:   uname,
+		Email:      email,
+		Passwd:     pass,
+		Credential: cr,
+	}
+
+	return CreateUser(u)
 }

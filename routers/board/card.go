@@ -14,6 +14,7 @@ func ListCards(ctx *middleware.Context) {
 			Success: false,
 			Message: err.Error(),
 		})
+		return
 	}
 
 	ctx.JSON(http.StatusOK, &models.Response{

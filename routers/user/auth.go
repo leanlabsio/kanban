@@ -1,6 +1,7 @@
 package user
 
 import (
+	"fmt"
 	"github.com/Unknwon/macaron"
 	"gitlab.com/kanban/kanban/models"
 	"gitlab.com/kanban/kanban/modules/auth"
@@ -28,7 +29,24 @@ func OauthLogin(ctx *middleware.Context, form auth.Oauth2) {
 		return
 	}
 
-	user, err = models.Create(user)
+	user, err = models.LoadByToken(user, ctx.Provider)
+	if err != nil {
+		log.Printf("%s", err.Error())
+		ctx.JSON(http.StatusBadRequest, models.ResponseError{
+			Success: false,
+			Message: err.Error(),
+		})
+		return
+	}
+
+	user.Username = fmt.Sprintf("%s_%s", user.Username, ctx.Provider)
+	_, err = models.UpdateUser(user)
+
+	// todo add validation by oauth provider
+	if err != nil {
+		user, err = models.CreateUser(user)
+	}
+
 	if err != nil {
 		log.Printf("%s", err.Error())
 		ctx.JSON(http.StatusInternalServerError, models.ResponseError{
@@ -56,17 +74,18 @@ func OauthLogin(ctx *middleware.Context, form auth.Oauth2) {
 }
 
 // SignUp registers with user data
-func SignUp(ctx *macaron.Context, form auth.SignIn) {
-	User, err := models.UserSignIn(form.Login, form.Pass)
+func SignIn(ctx *macaron.Context, form auth.SignIn) {
+	u, err := models.UserSignIn(form.Uname, form.Pass)
 
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, models.ResponseError{
 			Success: false,
 			Message: err.Error(),
 		})
+		return
 	}
 
-	tokens, _ := User.SignedString()
+	tokens, _ := u.SignedString()
 
 	ctx.JSON(http.StatusOK, auth.ResponseAuth{
 		Success: true,
@@ -75,17 +94,18 @@ func SignUp(ctx *macaron.Context, form auth.SignIn) {
 }
 
 // SignIn logins with data
-func SignIn(ctx *middleware.Context, form auth.SignUp) {
-	User, err := models.UserSignUp(form.Login, form.Email, form.Pass, form.Token)
+func SignUp(ctx *middleware.Context, form auth.SignUp) {
+	u, err := models.UserSignUp(form.Uname, form.Email, form.Pass, form.Token, ctx.Provider)
 
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, models.ResponseError{
 			Success: false,
 			Message: err.Error(),
 		})
+		return
 	}
 
-	tokens, _ := User.SignedString()
+	tokens, _ := u.SignedString()
 
 	ctx.JSON(http.StatusOK, auth.ResponseAuth{
 		Success: true,

@@ -1,15 +1,15 @@
 package auth
 
 type SignIn struct {
-	Login string `json:"login"`
-	Pass  string `json:"password"`
+	Uname string `json:"_username"`
+	Pass  string `json:"_password"`
 }
 
 type SignUp struct {
-	Login string `json:"login"`
-	Email string `json:"email"`
-	Pass  string `json:"password"`
-	Token string `json:"token"`
+	Email string `json:"_email"`
+	Pass  string `json:"_password"`
+	Token string `json:"_token"`
+	Uname string `json:"_username"`
 }
 
 type ResponseAuth struct {

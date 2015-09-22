@@ -10,8 +10,7 @@ import (
 )
 
 var (
-	gc *gitlab.GitlabClient
-	c  *redis.Client
+	c *redis.Client
 )
 
 // NewEngine creates new services for data from config settings

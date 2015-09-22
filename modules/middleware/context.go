@@ -4,7 +4,6 @@ import (
 	"github.com/Unknwon/macaron"
 	"gitlab.com/kanban/kanban/models"
 	"gitlab.com/kanban/kanban/modules/auth"
-	"net/http"
 )
 
 type Context struct {
@@ -31,7 +30,7 @@ func Contexter() macaron.Handler {
 		ctx.Provider = "gitlab"
 
 		if err != nil {
-			ctx.JSON(http.StatusUnauthorized, `{"success": false}`)
+
 		}
 
 		ctx.IsSigned = true

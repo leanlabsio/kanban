@@ -14,7 +14,7 @@ func ListLabels(u *User, provider, board_id string) ([]*Label, error) {
 	case "gitlab":
 		c := gitlab.NewContext(u.Credential["gitlab"].Token)
 		r, err := c.ListLabels(board_id, &gitlab.ListOptions{
-			Page: "1",
+			Page:    "1",
 			PerPage: "100",
 		})
 

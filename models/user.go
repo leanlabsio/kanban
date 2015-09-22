@@ -1,10 +1,15 @@
 package models
 
 import (
+	"crypto/sha512"
+	"encoding/base64"
 	"encoding/json"
+	"errors"
+	"fmt"
 	"github.com/dgrijalva/jwt-go"
 	"gitlab.com/kanban/kanban/modules/gitlab"
 	"gitlab.com/kanban/kanban/modules/setting"
+	"golang.org/x/crypto/pbkdf2"
 	"golang.org/x/oauth2"
 	"strings"
 	"time"
@@ -19,11 +24,14 @@ type User struct {
 	AvatarUrl  string
 	State      string
 	Username   string
+	Passwd     string
+	Salt       string
+	Email      string
 }
 
 type Credential struct {
+	PrivateToken string `json:"private_token"`
 	Token        *oauth2.Token
-	PrivateToken string
 }
 
 type ResponseUser struct {
@@ -33,40 +41,50 @@ type ResponseUser struct {
 	Success bool   `json:"success"`
 }
 
-var (
-	fields = []string{
-		"username",
-		"email",
-		"password",
-		"credentials",
-		"role",
-		"token",
-	}
-)
-
 // LoadUserByUsername is
 func LoadUserByUsername(uname string) (*User, error) {
-	cmd := c.HMGet("users:"+strings.ToLower(uname), "credentials", "name", "username")
+	cmd := c.HMGet(fmt.Sprintf("users:%s", strings.ToLower(uname)),
+		"credentials",
+		"name",
+		"username",
+		"passwrd",
+		"email",
+	)
 	val, err := cmd.Result()
 	if err != nil {
 		return nil, err
 	}
 
-	var cr map[string]*Credential
+	// user creates empty struct
+	u := User{}
 
-	err = json.Unmarshal([]byte(val[0].(string)), &cr)
+	if val[0] != nil {
+		var cr map[string]*Credential
+		err = json.Unmarshal([]byte(val[0].(string)), &cr)
 
-	if err != nil {
-		return nil, err
+		if err != nil {
+			return nil, err
+		}
+		u.Credential = cr
 	}
 
-	return &User{
-		Name:       val[1].(string),
-		Username:   val[2].(string),
-		Credential: cr,
-	}, nil
+	if val[1] != nil {
+		u.Name = val[1].(string)
+	}
 
-	return nil, nil
+	if val[2] != nil {
+		u.Username = val[2].(string)
+	}
+
+	if val[3] != nil {
+		u.Passwd = val[3].(string)
+	}
+
+	if val[4] != nil {
+		u.Email = val[4].(string)
+	}
+
+	return &u, nil
 }
 
 // LoadByToken is
@@ -87,23 +105,64 @@ func LoadByToken(u *User, provider string) (*User, error) {
 	return user, nil
 }
 
-// Create creates new user
-func Create(u *User) (*User, error) {
+// CreateUser creates new user
+func CreateUser(u *User) (*User, error) {
+	res, err := LoadUserByUsername(u.Username)
+
+	if err != nil {
+		return nil, err
+	}
+
+	if res.Username != "" {
+		return nil, errors.New(fmt.Sprintf("User with username %s exists", u.Username))
+	}
+
+	u.EncodePasswd()
+	return saveUser(u)
+}
+
+// UpdateUser updates user's information.
+func UpdateUser(u *User) (*User, error) {
+	user, err := LoadUserByUsername(u.Username)
+	if err != nil {
+		return user, err
+	}
+
+	if user.Username == "" {
+		return user, errors.New(fmt.Sprintf("User with username %s not exists", u.Username))
+	}
+
+	user.Credential = u.Credential
+
+	return saveUser(user)
+}
+
+// saveUser saved user's information.
+func saveUser(u *User) (*User, error) {
 	val, err := json.Marshal(u.Credential)
 	if err != nil {
 		return nil, err
 	}
+
 	_, err = c.HMSet("users:"+strings.ToLower(u.Username),
 		"credentials", string(val),
 		"name", u.Name,
 		"username", u.Username,
+		"passwrd", u.Passwd,
+		"email", u.Email,
 	).Result()
+
+	if err != nil {
+		return nil, err
+	}
 
 	return &User{
 		Name:       u.Name,
 		Username:   u.Username,
 		Credential: u.Credential,
-	}, err
+		Passwd:     u.Passwd,
+		Email:      u.Email,
+	}, nil
 }
 
 // ListMembers is
@@ -113,7 +172,7 @@ func ListMembers(u *User, provider, board_id string) ([]*User, error) {
 	case "gitlab":
 		c := gitlab.NewContext(u.Credential["gitlab"].Token)
 		r, err := c.ListProjectMembers(board_id, &gitlab.ListOptions{
-			Page: "1",
+			Page:    "1",
 			PerPage: "100",
 		})
 
@@ -139,6 +198,19 @@ func (u *User) SignedString() (string, error) {
 	}
 
 	return u.Token.SigningString()
+}
+
+// ValidatePassword checks if given password matches the one belongs to the user.
+func (u *User) ValidatePassword(pass string) bool {
+	newUser := &User{Passwd: pass, Salt: ""}
+	newUser.EncodePasswd()
+	return u.Passwd == newUser.Passwd
+}
+
+// EncodePasswd encodes password to safe format.
+func (u *User) EncodePasswd() {
+	newPasswd := base64.StdEncoding.EncodeToString(pbkdf2.Key([]byte(u.Passwd), []byte(""), 5000, 100, sha512.New))
+	u.Passwd = fmt.Sprintf("%s", newPasswd)
 }
 
 // mapUserFromGitlab mapped data from gitlab user to kanban user
