@@ -4,12 +4,12 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/google/go-querystring/query"
 	"log"
 	"net/http"
-	"strings"
-	"reflect"
 	"net/url"
-	"github.com/google/go-querystring/query"
+	"reflect"
+	"strings"
 )
 
 // Execute request to gitlab and chek err
@@ -39,7 +39,6 @@ func (g *GitlabContext) Do(cl *http.Client, req *http.Request, v interface{}) er
 func getUrl(p []string) string {
 	return cfg.BasePath + "/" + strings.Join(p, "/")
 }
-
 
 // addOptions adds the parameters in opt as URL query parameters to s.  opt
 // must be a struct whose fields may contain "url" tags.

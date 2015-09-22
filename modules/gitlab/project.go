@@ -1,4 +1,5 @@
 package gitlab
+
 import (
 	"net/http"
 	"net/url"
@@ -27,7 +28,7 @@ type Avatar struct {
 	Url string `json:"url"`
 }
 
-type ProjectListOptions struct  {
+type ProjectListOptions struct {
 	// State filters issues based on their state.  Possible values are: open,
 	// closed.  Default is "open".
 	Archived string `url:"archived,omitempty"`

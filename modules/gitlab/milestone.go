@@ -1,4 +1,5 @@
 package gitlab
+
 import (
 	"net/http"
 	"net/url"
@@ -9,7 +10,6 @@ type Milestone struct {
 	State string `json:"state,omitempty"`
 	Title string `json:"title,omitempty"`
 }
-
 
 // Get list milestones for gitlab projects
 func (g *GitlabContext) ListMilestones(project_id string, o *ListOptions) ([]*Milestone, error) {

@@ -5,9 +5,6 @@ import (
 	"net/http"
 )
 
-type GitlabClient struct {
-}
-
 type Config struct {
 	BasePath string
 	Domain   string

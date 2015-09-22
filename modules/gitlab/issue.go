@@ -1,7 +1,8 @@
 package gitlab
+
 import (
-	"net/url"
 	"net/http"
+	"net/url"
 )
 
 type Issue struct {
@@ -16,8 +17,7 @@ type Issue struct {
 	Title       string   `json:"title"`
 }
 
-
-type IssueListOptions struct  {
+type IssueListOptions struct {
 	// State filters issues based on their state.  Possible values are: open,
 	// closed.  Default is "open".
 	State string `url:"state,omitempty"`

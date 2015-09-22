@@ -1,14 +1,14 @@
 package gitlab
+
 import (
-	"net/url"
 	"net/http"
+	"net/url"
 )
 
 type Label struct {
 	Color string `json:"color"`
 	Name  string `json:"name"`
 }
-
 
 // ListLabels returns list labels for gitlab projects
 func (g *GitlabContext) ListLabels(project_id string, o *ListOptions) ([]*Label, error) {
@@ -28,4 +28,3 @@ func (g *GitlabContext) ListLabels(project_id string, o *ListOptions) ([]*Label,
 
 	return ret, nil
 }
-

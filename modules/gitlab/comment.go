@@ -1,10 +1,10 @@
 package gitlab
 
 import (
-	"time"
-	"net/url"
-	"net/http"
 	"github.com/pmylund/sortutil"
+	"net/http"
+	"net/url"
+	"time"
 )
 
 type Comment struct {
@@ -13,7 +13,6 @@ type Comment struct {
 	Body      string    `json:"body"`
 	CreatedAt time.Time `json:"created_at"`
 }
-
 
 // ListComments returns list comments for gitlab issue
 func (g *GitlabContext) ListComments(project_id, issue_id string, o *ListOptions) ([]*Comment, error) {

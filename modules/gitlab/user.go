@@ -1,7 +1,8 @@
 package gitlab
+
 import (
-	"net/url"
 	"net/http"
+	"net/url"
 )
 
 type User struct {
@@ -12,7 +13,6 @@ type User struct {
 	Username  string `json:"username,omitempty"`
 	WebUrl    string `json:"web_url,omitempty"`
 }
-
 
 // Get list project members for gitlab projects
 func (g *GitlabContext) ListProjectMembers(project_id string, o *ListOptions) ([]*User, error) {
