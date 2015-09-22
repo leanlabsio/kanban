@@ -32,7 +32,13 @@ func ListBoards(u *User, provider string) ([]*Board, error) {
 	switch provider {
 	case "gitlab":
 		c := gitlab.NewContext(u.Credential["gitlab"].Token)
-		r, err := c.ListProjects("100", "1")
+
+		op := &gitlab.ProjectListOptions{}
+		op.Page = "1"
+		op.PerPage = "100"
+		op.Archived = "false"
+
+		r, err := c.ListProjects(op)
 
 		if err != nil {
 			return nil, err

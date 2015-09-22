@@ -43,7 +43,10 @@ func ListComments(u *User, provider, project_id, card_id string) ([]*Comment, er
 	switch provider {
 	case "gitlab":
 		c := gitlab.NewContext(u.Credential["gitlab"].Token)
-		r, err := c.ListComments(project_id, card_id)
+		r, err := c.ListComments(project_id, card_id, &gitlab.ListOptions{
+			Page: "1",
+			PerPage: "100",
+		})
 
 		if err != nil {
 			return nil, err

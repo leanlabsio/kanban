@@ -40,7 +40,13 @@ func ListCards(u *User, provider, board_id string) ([]*Card, error) {
 	switch provider {
 	case "gitlab":
 		c := gitlab.NewContext(u.Credential["gitlab"].Token)
-		r, err := c.ListIssues(board_id, "200", "1")
+		op := &gitlab.IssueListOptions{
+			State: "opened",
+		}
+		op.Page = "1"
+		op.PerPage = "200"
+
+		r, err := c.ListIssues(board_id, op)
 
 		if err != nil {
 			return nil, err

@@ -1,4 +1,8 @@
 package gitlab
+import (
+	"net/http"
+	"net/url"
+)
 
 type Project struct {
 	Id                int64      `json:"id"`
@@ -21,4 +25,44 @@ type Namespace struct {
 
 type Avatar struct {
 	Url string `json:"url"`
+}
+
+type ProjectListOptions struct  {
+	// State filters issues based on their state.  Possible values are: open,
+	// closed.  Default is "open".
+	Archived string `url:"archived,omitempty"`
+
+	ListOptions
+}
+
+// List projects from gitlab
+func (g *GitlabContext) ListProjects(o *ProjectListOptions) ([]*Project, error) {
+	cl := g.client
+	u, err := addOptions(getUrl([]string{"projects"}), o)
+	if err != nil {
+		return nil, err
+	}
+
+	req, _ := http.NewRequest("GET", u, nil)
+
+	var ret []*Project
+	if err := g.Do(cl, req, &ret); err != nil {
+		return nil, err
+	}
+
+	return ret, nil
+}
+
+// ItemProject returns project item from gitlab
+func (g *GitlabContext) ItemProject(project_id string) (*Project, error) {
+	cl := g.client
+	path := getUrl([]string{"projects", url.QueryEscape(project_id)})
+	req, _ := http.NewRequest("GET", path, nil)
+
+	var ret Project
+	if err := g.Do(cl, req, &ret); err != nil {
+		return nil, err
+	}
+
+	return &ret, nil
 }
