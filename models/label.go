@@ -22,20 +22,12 @@ func ListLabels(u *User, provider, board_id string) ([]*Label, error) {
 			return nil, err
 		}
 
-		l = mapLabelCollectionFromGitlab(r)
+		for _, v := range r {
+			l = append(l, mapLabelFromGitlab(v))
+		}
 	}
 
 	return l, nil
-}
-
-// mapLabelCollectionFromGitlab transforms gitlab labels to kanban labels
-func mapLabelCollectionFromGitlab(l []*gitlab.Label) []*Label {
-	var b []*Label
-	for _, v := range l {
-		b = append(b, mapLabelFromGitlab(v))
-	}
-
-	return b
 }
 
 // mapLabelFromGitlab transforms gitlab label to kanban label
