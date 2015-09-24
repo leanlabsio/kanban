@@ -12,7 +12,6 @@ type Label struct {
 
 // ListLabels returns list labels for gitlab projects
 func (g *GitlabContext) ListLabels(project_id string, o *ListOptions) ([]*Label, error) {
-	cl := g.client
 	path := getUrl([]string{"projects", url.QueryEscape(project_id), "labels"})
 	u, err := addOptions(path, o)
 	if err != nil {
@@ -22,7 +21,7 @@ func (g *GitlabContext) ListLabels(project_id string, o *ListOptions) ([]*Label,
 	req, _ := http.NewRequest("GET", u, nil)
 
 	var ret []*Label
-	if err := g.Do(cl, req, &ret); err != nil {
+	if _, err := g.Do(req, &ret); err != nil {
 		return nil, err
 	}
 

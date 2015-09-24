@@ -73,7 +73,7 @@ func OauthLogin(ctx *middleware.Context, form auth.Oauth2) {
 	})
 }
 
-// SignUp registers with user data
+// SignIn registers with user data
 func SignIn(ctx *macaron.Context, form auth.SignIn) {
 	u, err := models.UserSignIn(form.Uname, form.Pass)
 
@@ -93,7 +93,7 @@ func SignIn(ctx *macaron.Context, form auth.SignIn) {
 	})
 }
 
-// SignIn logins with data
+// SignUp logins with data
 func SignUp(ctx *middleware.Context, form auth.SignUp) {
 	u, err := models.UserSignUp(form.Uname, form.Email, form.Pass, form.Token, ctx.Provider)
 

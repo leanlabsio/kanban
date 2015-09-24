@@ -4,12 +4,16 @@ import (
 	"encoding/json"
 	"gitlab.com/kanban/kanban/modules/gitlab"
 	"regexp"
+	"fmt"
+	"strings"
+	"strconv"
 )
 
 type Card struct {
 	Id          int64       `json:"id"`
 	Iid         int64       `json:"iid"`
 	Assignee    *User       `json:"assignee"`
+	Milestone   *Milestone  `json:"milestone"`
 	Author      *User       `json:"author"`
 	Description string      `json:"description"`
 	Labels      []string    `json:"labels"`
@@ -18,6 +22,19 @@ type Card struct {
 	State       string      `json:"state"`
 	Title       string      `json:"title"`
 	Todo        []*Todo     `json:"todo"`
+}
+
+type CardRequest struct {
+	CardId      int64       		`json:"issue_id"`
+	ProjectId   int64      		    `json:"project_id"`
+	Title       string      		`json:"title"`
+	Description string      		`json:"description"`
+	AssigneeId  int64      		    `json:"assignee_id"`
+	MilestoneId int64      		    `json:"milestone_id"`
+	Labels      string      		`json:"labels"`
+	Properties  *Properties 		`json:"properties"`
+	Stage       map[string]string   `json:"stage"`
+	Todo        []*Todo     		`json:"todo"`
 }
 
 type Properties struct {
@@ -60,6 +77,104 @@ func ListCards(u *User, provider, board_id string) ([]*Card, error) {
 	return b, nil
 }
 
+// CreateCard create new card on board
+func CreateCard(u *User, provider string, form *CardRequest) (*Card, int, error) {
+	var cr *Card
+	var code int
+	switch provider {
+	case "gitlab":
+		c := gitlab.NewContext(u.Credential["gitlab"].Token)
+		r, code, err := c.CreateIssue(strconv.FormatInt(form.ProjectId, 10), mapCardRequestToGitlab(form))
+		if err != nil {
+			return nil, code, err
+		}
+
+		cr = mapCardFromGitlab(r)
+	}
+
+	return cr, code, nil
+}
+
+// UpdateCard updates existing card on board
+func UpdateCard(u *User, provider string, form *CardRequest) (*Card, int, error) {
+	var cr *Card
+	var code int
+	switch provider {
+	case "gitlab":
+		c := gitlab.NewContext(u.Credential["gitlab"].Token)
+		r, code, err := c.UpdateIssue(
+			strconv.FormatInt(form.ProjectId, 10),
+			strconv.FormatInt(form.CardId, 10),
+			mapCardRequestToGitlab(form),
+		)
+		if err != nil {
+			return nil, code, err
+		}
+
+		cr = mapCardFromGitlab(r)
+	}
+
+	return cr, code, nil
+}
+
+// DeleteCard removes card from board
+func DeleteCard(u *User, provider string, form *CardRequest) (*Card, int, error) {
+	var cr *Card
+	var code int
+	switch provider {
+	case "gitlab":
+		c := gitlab.NewContext(u.Credential["gitlab"].Token)
+		foru := mapCardRequestToGitlab(form)
+		foru.StateEvent = "close"
+		r, code, err := c.UpdateIssue(
+			strconv.FormatInt(form.ProjectId, 10),
+			strconv.FormatInt(form.CardId, 10),
+			foru,
+		)
+		if err != nil {
+			return nil, code, err
+		}
+
+		cr = mapCardFromGitlab(r)
+	}
+
+	return cr, code, nil
+}
+
+// mapCardRequestToGitlab transforms card to gitlab issue request
+func mapCardRequestToGitlab(c *CardRequest) *gitlab.IssueRequest {
+	return &gitlab.IssueRequest{
+		Title:       c.Title,
+		Description: mapCardDescriptionToGitlab(c.Description, c.Todo, c.Properties),
+		AssigneeId:  c.AssigneeId,
+		MilestoneId: c.MilestoneId,
+		Labels:      c.Labels,
+	}
+}
+
+// mapCardDescriptionToGitlab Transforms card description to gitlab description
+func mapCardDescriptionToGitlab(desc string, t []*Todo, p *Properties) string {
+	var d string
+	var chek string
+	d = desc
+	for _, v := range t {
+		if v.Checked {
+			chek = "x"
+		} else {
+			chek = " "
+		}
+		d = fmt.Sprintf("%s\n- [%s] %s", d, chek, v.Body)
+	}
+
+	pr, err := json.Marshal(p)
+
+	if err == nil {
+		d = fmt.Sprintf("%s\n<!-- @KB:%s -->", d, string(pr))
+	}
+
+	return strings.TrimSpace(d)
+}
+
 // mapCardFromGitlab mapped gitlab issue to kanban card
 func mapCardFromGitlab(c *gitlab.Issue) *Card {
 	return &Card{
@@ -70,6 +185,7 @@ func mapCardFromGitlab(c *gitlab.Issue) *Card {
 		Assignee:    mapUserFromGitlab(c.Assignee),
 		Author:      mapUserFromGitlab(c.Author),
 		Description: mapCardDescriptionFromGitlab(c.Description),
+		Milestone:   mapMilestoneFromGitlab(c.Milestone),
 		Labels:      c.Labels,
 		ProjectId:   c.ProjectId,
 		Properties:  mapCardPropertiesFromGitlab(c.Description),
@@ -103,6 +219,8 @@ func mapCardTodoFromGitlab(d string) []*Todo {
 
 			i = append(i, t)
 		}
+	} else {
+		i = make([]*Todo, 0)
 	}
 
 	return i

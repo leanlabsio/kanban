@@ -13,7 +13,6 @@ type Milestone struct {
 
 // Get list milestones for gitlab projects
 func (g *GitlabContext) ListMilestones(project_id string, o *ListOptions) ([]*Milestone, error) {
-	cl := g.client
 	path := getUrl([]string{"projects", url.QueryEscape(project_id), "milestones"})
 	u, err := addOptions(path, o)
 	if err != nil {
@@ -23,7 +22,7 @@ func (g *GitlabContext) ListMilestones(project_id string, o *ListOptions) ([]*Mi
 	req, _ := http.NewRequest("GET", u, nil)
 
 	var ret []*Milestone
-	if err := g.Do(cl, req, &ret); err != nil {
+	if _, err := g.Do(req, &ret); err != nil {
 		return nil, err
 	}
 

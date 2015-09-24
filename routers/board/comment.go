@@ -22,3 +22,20 @@ func ListComments(ctx *middleware.Context) {
 		Data: boards,
 	})
 }
+
+// CreateComment creates new kanban comment
+func CreateComment(ctx *middleware.Context, form models.CommentRequest) {
+	com, code, err := models.CreateComment(ctx.User, ctx.Provider, &form)
+
+	if err != nil {
+		ctx.JSON(code, &models.ResponseError{
+			Success: false,
+			Message: err.Error(),
+		})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, &models.Response{
+		Data: com,
+	})
+}

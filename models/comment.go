@@ -6,6 +6,7 @@ import (
 	"regexp"
 	"strings"
 	"time"
+	"strconv"
 )
 
 type Comment struct {
@@ -14,6 +15,12 @@ type Comment struct {
 	Body      string    `json:"body"`
 	CreatedAt time.Time `json:"created_at"`
 	IsInfo    bool      `json:"is_info"`
+}
+
+type CommentRequest struct {
+	CardId      int64   `json:"issue_id"`
+	ProjectId   int64   `json:"project_id"`
+	Body        string  `json:"body"`
 }
 
 var (
@@ -52,20 +59,42 @@ func ListComments(u *User, provider, project_id, card_id string) ([]*Comment, er
 			return nil, err
 		}
 
-		b = mapCommentCollectionFromGitlab(r)
+		for _, co := range r {
+			b = append(b, mapCommentFromGitlab(co))
+		}
 	}
 
 	return b, nil
 }
 
-// mapCommentCollectionFromGitlab transforms gitlab coments to kanban comments
-func mapCommentCollectionFromGitlab(c []*gitlab.Comment) []*Comment {
-	var b []*Comment
-	for _, co := range c {
-		b = append(b, mapCommentFromGitlab(co))
+// CreateComment creates new comment
+func CreateComment(u *User, provider string, form *CommentRequest) (*Comment, int, error) {
+	var b *Comment
+	var code int
+	switch provider {
+	case "gitlab":
+		c := gitlab.NewContext(u.Credential["gitlab"].Token)
+		r, code, err := c.CreateComment(
+			strconv.FormatInt(form.ProjectId, 10),
+			strconv.FormatInt(form.CardId, 10),
+			mapCommentRequestToGitlab(form),
+		)
+
+		if err != nil {
+			return nil, code, err
+		}
+
+		b = mapCommentFromGitlab(r)
 	}
 
-	return b
+	return b, code, nil
+}
+
+// mapCommentRequestToGitlab transforms kanban comment request to gitlab comment request
+func mapCommentRequestToGitlab(c *CommentRequest) *gitlab.CommentRequest {
+	return &gitlab.CommentRequest{
+		Body: c.Body,
+	}
 }
 
 // mapCommentFromGitlab transform gitlab comment to kanban comment

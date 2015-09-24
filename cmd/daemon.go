@@ -105,20 +105,32 @@ func daemon(c *cli.Context) {
 
 	m.Get("/assets/html/user/views/oauth.html", user.OauthHandler)
 
-	m.Combo("/api/oauth").
-		Get(user.OauthUrl).
-		Post(binding.Json(auth.Oauth2{}), user.OauthLogin)
+	m.Group("/api", func() {
+		m.Combo("/oauth").
+			Get(user.OauthUrl).
+			Post(binding.Json(auth.Oauth2{}), user.OauthLogin)
 
-	m.Post("/api/login", binding.Json(auth.SignIn{}), user.SignIn)
-	m.Post("/api/register", binding.Json(auth.SignUp{}), user.SignUp)
+		m.Post("/login", binding.Json(auth.SignIn{}), user.SignIn)
+		m.Post("/register", binding.Json(auth.SignUp{}), user.SignUp)
 
-	m.Get("/api/boards", board.ListBoards)
-	m.Get("/api/board", board.ItemBoard)
-	m.Get("/api/labels", board.ListLabels)
-	m.Get("/api/cards", board.ListCards)
-	m.Get("/api/milestones", board.ListMilestones)
-	m.Get("/api/users", board.ListMembers)
-	m.Get("/api/comments", board.ListComments)
+		m.Get("/boards", board.ListBoards)
+		m.Get("/board", board.ItemBoard)
+		m.Get("/labels", board.ListLabels)
+		m.Get("/cards", board.ListCards)
+		m.Get("/milestones", board.ListMilestones)
+		m.Get("/users", board.ListMembers)
+		m.Combo("/comments").
+			Get(board.ListComments).
+			Post(binding.Json(models.CommentRequest{}), board.CreateComment)
+
+		m.Combo("/card").
+			Post(binding.Json(models.CardRequest{}), board.CreateCard).
+			Put(binding.Json(models.CardRequest{}), board.UpdateCard).
+			Delete(binding.Json(models.CardRequest{}), board.DeleteCard)
+
+		m.Put("/card/move", binding.Json(models.CardRequest{}), board.MoveToCard)
+
+	})
 
 	m.Get("/*", routers.Home)
 

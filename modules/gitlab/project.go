@@ -38,7 +38,6 @@ type ProjectListOptions struct {
 
 // List projects from gitlab
 func (g *GitlabContext) ListProjects(o *ProjectListOptions) ([]*Project, error) {
-	cl := g.client
 	u, err := addOptions(getUrl([]string{"projects"}), o)
 	if err != nil {
 		return nil, err
@@ -47,7 +46,7 @@ func (g *GitlabContext) ListProjects(o *ProjectListOptions) ([]*Project, error) 
 	req, _ := http.NewRequest("GET", u, nil)
 
 	var ret []*Project
-	if err := g.Do(cl, req, &ret); err != nil {
+	if _, err := g.Do(req, &ret); err != nil {
 		return nil, err
 	}
 
@@ -56,12 +55,11 @@ func (g *GitlabContext) ListProjects(o *ProjectListOptions) ([]*Project, error) 
 
 // ItemProject returns project item from gitlab
 func (g *GitlabContext) ItemProject(project_id string) (*Project, error) {
-	cl := g.client
 	path := getUrl([]string{"projects", url.QueryEscape(project_id)})
 	req, _ := http.NewRequest("GET", path, nil)
 
 	var ret Project
-	if err := g.Do(cl, req, &ret); err != nil {
+	if _, err := g.Do(req, &ret); err != nil {
 		return nil, err
 	}
 

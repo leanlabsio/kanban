@@ -35,6 +35,10 @@ func ListMilestones(u *User, provider, board_id string) ([]*Milestone, error) {
 
 // mapMilestoneFromGitlab returns map from gitlab milestone to gitlab milestone
 func mapMilestoneFromGitlab(m *gitlab.Milestone) *Milestone {
+	if m == nil {
+		return nil
+	}
+
 	return &Milestone{
 		Id:    m.Id,
 		State: m.State,

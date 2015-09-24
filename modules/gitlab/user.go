@@ -16,7 +16,6 @@ type User struct {
 
 // Get list project members for gitlab projects
 func (g *GitlabContext) ListProjectMembers(project_id string, o *ListOptions) ([]*User, error) {
-	cl := g.client
 	path := getUrl([]string{"projects", url.QueryEscape(project_id), "members"})
 	u, err := addOptions(path, o)
 	if err != nil {
@@ -26,7 +25,7 @@ func (g *GitlabContext) ListProjectMembers(project_id string, o *ListOptions) ([
 	req, _ := http.NewRequest("GET", u, nil)
 
 	var ret []*User
-	if err := g.Do(cl, req, &ret); err != nil {
+	if _, err := g.Do(req, &ret); err != nil {
 		return nil, err
 	}
 
@@ -35,12 +34,11 @@ func (g *GitlabContext) ListProjectMembers(project_id string, o *ListOptions) ([
 
 // CurrentUser returns current authentificated user
 func (g *GitlabContext) CurrentUser() (*User, error) {
-	cl := g.client
 	path := getUrl([]string{"user"})
 	req, _ := http.NewRequest("GET", path, nil)
 
 	var ret *User
-	if err := g.Do(cl, req, &ret); err != nil {
+	if _, err := g.Do(req, &ret); err != nil {
 		return nil, err
 	}
 
