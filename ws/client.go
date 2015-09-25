@@ -24,7 +24,7 @@ func (c *Client) Handle() {
 				log.Printf("BoardId is not s string %s", ok)
 				panic("Could not resolve hub")
 			}**/
-			h := S.GetHub("hub1")
+			h := Server.GetHub("hub1")
 			h.append(c)
 			log.Printf("%+v", h.clients)
 			log.Printf("%s: %+v", "Received message", msg)

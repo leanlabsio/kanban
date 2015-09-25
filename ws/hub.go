@@ -2,7 +2,7 @@ package ws
 
 //Hub struct represents websocket Client's group
 type Hub struct {
-	Server
+	server
 	Name string
 }
 
