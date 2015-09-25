@@ -4,6 +4,7 @@ import (
 	"gitlab.com/kanban/kanban/models"
 	"gitlab.com/kanban/kanban/modules/middleware"
 	"net/http"
+	"fmt"
 )
 
 // ListCards gets a list of card on board accessible by the authenticated user.
@@ -90,4 +91,17 @@ func MoveToCard(ctx *middleware.Context, form models.CardRequest) {
 	ctx.JSON(http.StatusOK, &models.Response{
 		Data: card,
 	})
+
+	source := models.ParseLabelToStage(form.Stage["source"])
+	dest := models.ParseLabelToStage(form.Stage["dest"])
+
+	com := models.CommentRequest{
+	CardId: form.CardId,
+		ProjectId: form.ProjectId,
+		Body: fmt.Sprintf("moved issue from **%s** to **%s**", source.Name, dest.Name),
+	}
+
+	go func() {
+		models.CreateComment(ctx.User, ctx.Provider, &com)
+	}()
 }
