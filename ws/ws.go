@@ -4,28 +4,23 @@ import (
 	"sync"
 )
 
-// Server is
+// server is generic type describing WebSocket server
 type server struct {
 	sync.Mutex
 	clients []*Client
-	hubs    map[string]*Hub
+	hubs    map[string]*hub
 }
 
+// Server is an websocket server instance
 var Server = &server{
-	hubs: make(map[string]*Hub),
-}
-
-// Message is
-type Message struct {
-	Event string                 `json:"event"`
-	Data  map[string]interface{} `json:"data"`
+	hubs: make(map[string]*hub),
 }
 
 //GetHub returns existing named Hub or creates new one
-func (serv *server) GetHub(id string) *Hub {
+func (serv *server) GetHub(id string) *hub {
 	h, ok := serv.hubs[id]
 	if !ok {
-		h = &Hub{}
+		h = &hub{}
 		serv.hubs[id] = h
 	}
 	return h
