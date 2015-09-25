@@ -6,6 +6,7 @@ import (
 	"net/http"
 )
 
+// ListBoards gets a list of board accessible by the authenticated user.
 func ListBoards(ctx *middleware.Context) {
 	boards, err := models.ListBoards(ctx.User, ctx.Provider)
 
@@ -22,7 +23,8 @@ func ListBoards(ctx *middleware.Context) {
 	})
 }
 
-// ItemBoard is
+// ItemBoard gets a specific board, identified by project ID or
+// NAMESPACE/BOARD_NAME, which is owned by the authenticated user.
 func ItemBoard(ctx *middleware.Context) {
 	board, err := models.ItemBoard(ctx.User, ctx.Provider, ctx.Query("project_id"))
 

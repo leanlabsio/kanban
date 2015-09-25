@@ -4,6 +4,7 @@ import (
 	"gitlab.com/kanban/kanban/modules/gitlab"
 )
 
+// Milestone represents a kanban milestone
 type Milestone struct {
 	Id    int64  `json:"id"`
 	State string `json:"state,omitempty"`

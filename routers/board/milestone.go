@@ -6,6 +6,7 @@ import (
 	"net/http"
 )
 
+// ListMilestones gets a list of milestone on board accessible by the authenticated user.
 func ListMilestones(ctx *middleware.Context) {
 	labels, err := models.ListMilestones(ctx.User, ctx.Provider, ctx.Query("project_id"))
 

@@ -5,6 +5,9 @@ import (
 	"net/url"
 )
 
+// Issue represents a GitLab issue.
+//
+// GitLab API docs: http://doc.gitlab.com/ce/api/issues.html
 type Issue struct {
 	Assignee    *User      `json:"assignee"`
 	Author      *User      `json:"author"`
@@ -18,6 +21,9 @@ type Issue struct {
 	Title       string     `json:"title"`
 }
 
+// IssueRequest represents the available CreateIssue() and UpdateIssue() options.
+//
+// GitLab API docs: http://doc.gitlab.com/ce/api/issues.html#new-issues
 type IssueRequest struct {
 	Title       string `json:"title"`
 	Description string `json:"description,omitempty"`
@@ -27,6 +33,9 @@ type IssueRequest struct {
 	StateEvent  string `json:"state_event,omitempty"`
 }
 
+// ListIssuesOptions represents the available ListIssues() options.
+//
+// GitLab API docs: http://doc.gitlab.com/ce/api/issues.html#list-issues
 type IssueListOptions struct {
 	// State filters issues based on their state.  Possible values are: open,
 	// closed.  Default is "open".
@@ -35,7 +44,10 @@ type IssueListOptions struct {
 	ListOptions
 }
 
-// Get list issues for gitlab projects
+// ListIssues gets all issues created by authenticated user. This function
+// takes pagination parameters page and per_page to restrict the list of issues.
+//
+// GitLab API docs: http://doc.gitlab.com/ce/api/issues.html#list-issues
 func (g *GitlabContext) ListIssues(project_id string, o *IssueListOptions) ([]*Issue, error) {
 	path := getUrl([]string{"projects", url.QueryEscape(project_id), "issues"})
 	u, err := addOptions(path, o)
@@ -53,28 +65,33 @@ func (g *GitlabContext) ListIssues(project_id string, o *IssueListOptions) ([]*I
 	return ret, nil
 }
 
-// Get list issues for gitlab projects
-func (g *GitlabContext) CreateIssue(project_id string, issue *IssueRequest) (*Issue, int, error) {
+// CreateIssue creates a new project issue.
+//
+// GitLab API docs: http://doc.gitlab.com/ce/api/issues.html#new-issues
+func (g *GitlabContext) CreateIssue(project_id string, issue *IssueRequest) (*Issue, *http.Response, error) {
 	path := []string{"projects", url.QueryEscape(project_id), "issues"}
 	req, _ := g.NewRequest("POST", path, issue)
 
 	var ret *Issue
 	if res, err := g.Do(req, &ret); err != nil {
-		return nil, res.StatusCode, err
+		return nil, res, err
 	}
 
-	return ret, 0, nil
+	return ret, nil, nil
 }
 
-// Get list issues for gitlab projects
-func (g *GitlabContext) UpdateIssue(project_id, issue_id string, issue *IssueRequest) (*Issue, int, error) {
+// UpdateIssue updates an existing project issue. This function is also used
+// to mark an issue as closed.
+//
+// GitLab API docs: http://doc.gitlab.com/ce/api/issues.html#edit-issues
+func (g *GitlabContext) UpdateIssue(project_id, issue_id string, issue *IssueRequest) (*Issue, *http.Response, error) {
 	path := []string{"projects", url.QueryEscape(project_id), "issues", issue_id}
 	req, _ := g.NewRequest("PUT", path, issue)
 
 	var ret *Issue
 	if res, err := g.Do(req, &ret); err != nil {
-		return nil, res.StatusCode, err
+		return nil, res, err
 	}
 
-	return ret, 0, nil
+	return ret, nil, nil
 }

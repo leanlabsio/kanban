@@ -4,11 +4,12 @@ import (
 	"encoding/json"
 	"gitlab.com/kanban/kanban/modules/gitlab"
 	"regexp"
+	"strconv"
 	"strings"
 	"time"
-	"strconv"
 )
 
+// Comment represents a card comment
 type Comment struct {
 	Id        int64     `json:"id"`
 	Author    *User     `json:"author"`
@@ -17,10 +18,11 @@ type Comment struct {
 	IsInfo    bool      `json:"is_info"`
 }
 
+// CommentRequest represents a request for create or update comment on card
 type CommentRequest struct {
-	CardId      int64   `json:"issue_id"`
-	ProjectId   int64   `json:"project_id"`
-	Body        string  `json:"body"`
+	CardId    int64  `json:"issue_id"`
+	ProjectId int64  `json:"project_id"`
+	Body      string `json:"body"`
 }
 
 var (
@@ -44,7 +46,7 @@ var (
 	regInfo = regexp.MustCompile("^" + reg + "$")
 )
 
-// ListComments returns list comments for card
+// ListComments gets a list of all comment for a single card.
 func ListComments(u *User, provider, project_id, card_id string) ([]*Comment, error) {
 	var b []*Comment
 	switch provider {
@@ -67,21 +69,21 @@ func ListComments(u *User, provider, project_id, card_id string) ([]*Comment, er
 	return b, nil
 }
 
-// CreateComment creates new comment
+// CreateComment creates a new comment to a single board card.
 func CreateComment(u *User, provider string, form *CommentRequest) (*Comment, int, error) {
 	var b *Comment
 	var code int
 	switch provider {
 	case "gitlab":
 		c := gitlab.NewContext(u.Credential["gitlab"].Token)
-		r, code, err := c.CreateComment(
+		r, res, err := c.CreateComment(
 			strconv.FormatInt(form.ProjectId, 10),
 			strconv.FormatInt(form.CardId, 10),
 			mapCommentRequestToGitlab(form),
 		)
 
 		if err != nil {
-			return nil, code, err
+			return nil, res.StatusCode, err
 		}
 
 		b = mapCommentFromGitlab(r)

@@ -2,13 +2,14 @@ package models
 
 import (
 	"encoding/json"
+	"fmt"
 	"gitlab.com/kanban/kanban/modules/gitlab"
 	"regexp"
-	"fmt"
-	"strings"
 	"strconv"
+	"strings"
 )
 
+// Card represents an card in kanban board
 type Card struct {
 	Id          int64       `json:"id"`
 	Iid         int64       `json:"iid"`
@@ -24,23 +25,26 @@ type Card struct {
 	Todo        []*Todo     `json:"todo"`
 }
 
+// CardRequest represents a card request for create, update, delete card on kanban
 type CardRequest struct {
-	CardId      int64       		`json:"issue_id"`
-	ProjectId   int64      		    `json:"project_id"`
-	Title       string      		`json:"title"`
-	Description string      		`json:"description"`
-	AssigneeId  int64      		    `json:"assignee_id"`
-	MilestoneId int64      		    `json:"milestone_id"`
-	Labels      string      		`json:"labels"`
-	Properties  *Properties 		`json:"properties"`
-	Stage       map[string]string   `json:"stage"`
-	Todo        []*Todo     		`json:"todo"`
+	CardId      int64             `json:"issue_id"`
+	ProjectId   int64             `json:"project_id"`
+	Title       string            `json:"title"`
+	Description string            `json:"description"`
+	AssigneeId  int64             `json:"assignee_id"`
+	MilestoneId int64             `json:"milestone_id"`
+	Labels      string            `json:"labels"`
+	Properties  *Properties       `json:"properties"`
+	Stage       map[string]string `json:"stage"`
+	Todo        []*Todo           `json:"todo"`
 }
 
+// Properties represents a card properties
 type Properties struct {
 	Andon string `json:"andon"`
 }
 
+// Todo represents an todo an card
 type Todo struct {
 	Body    string `json:"body"`
 	Checked bool   `json:"checked"`
@@ -84,9 +88,9 @@ func CreateCard(u *User, provider string, form *CardRequest) (*Card, int, error)
 	switch provider {
 	case "gitlab":
 		c := gitlab.NewContext(u.Credential["gitlab"].Token)
-		r, code, err := c.CreateIssue(strconv.FormatInt(form.ProjectId, 10), mapCardRequestToGitlab(form))
+		r, res, err := c.CreateIssue(strconv.FormatInt(form.ProjectId, 10), mapCardRequestToGitlab(form))
 		if err != nil {
-			return nil, code, err
+			return nil, res.StatusCode, err
 		}
 
 		cr = mapCardFromGitlab(r)
@@ -102,13 +106,13 @@ func UpdateCard(u *User, provider string, form *CardRequest) (*Card, int, error)
 	switch provider {
 	case "gitlab":
 		c := gitlab.NewContext(u.Credential["gitlab"].Token)
-		r, code, err := c.UpdateIssue(
+		r, res, err := c.UpdateIssue(
 			strconv.FormatInt(form.ProjectId, 10),
 			strconv.FormatInt(form.CardId, 10),
 			mapCardRequestToGitlab(form),
 		)
 		if err != nil {
-			return nil, code, err
+			return nil, res.StatusCode, err
 		}
 
 		cr = mapCardFromGitlab(r)
@@ -126,13 +130,13 @@ func DeleteCard(u *User, provider string, form *CardRequest) (*Card, int, error)
 		c := gitlab.NewContext(u.Credential["gitlab"].Token)
 		foru := mapCardRequestToGitlab(form)
 		foru.StateEvent = "close"
-		r, code, err := c.UpdateIssue(
+		r, res, err := c.UpdateIssue(
 			strconv.FormatInt(form.ProjectId, 10),
 			strconv.FormatInt(form.CardId, 10),
 			foru,
 		)
 		if err != nil {
-			return nil, code, err
+			return nil, res.StatusCode, err
 		}
 
 		cr = mapCardFromGitlab(r)

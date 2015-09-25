@@ -13,7 +13,8 @@ import (
 	"strings"
 )
 
-// Execute request to gitlab and chek err
+// Do sends an HTTP request and returns an HTTP response, following
+// policy (e.g. redirects, cookies, auth) as configured on the client.
 func (g *GitlabContext) Do(req *http.Request, v interface{}) (*http.Response, error) {
 	res, err := g.client.Do(req)
 

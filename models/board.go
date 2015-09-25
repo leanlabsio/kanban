@@ -4,6 +4,7 @@ import (
 	"gitlab.com/kanban/kanban/modules/gitlab"
 )
 
+// Board represents a kanban board.
 type Board struct {
 	Id                int64      `json:"id"`
 	Name              string     `json:"name"`
@@ -17,16 +18,19 @@ type Board struct {
 	AvatarUrl         string     `json:"avatar_url,nil,omitempty"`
 }
 
+// Board represents a namespace kanban board.
 type Namespace struct {
 	Id     int64   `json:"id"`
 	Name   string  `json:"name,omitempty"`
 	Avatar *Avatar `json:"avatar,nil,omitempty"`
 }
 
+// Avatar represent a Avatar url.
 type Avatar struct {
 	Url string `json:"url"`
 }
 
+// ListBoards returns list board for view user
 func ListBoards(u *User, provider string) ([]*Board, error) {
 	var b []*Board
 	switch provider {
@@ -52,6 +56,7 @@ func ListBoards(u *User, provider string) ([]*Board, error) {
 	return b, nil
 }
 
+// ItemBoard returns board item
 func ItemBoard(u *User, provider string, board_id string) (*Board, error) {
 	var b *Board
 	switch provider {
@@ -68,6 +73,7 @@ func ItemBoard(u *User, provider string, board_id string) (*Board, error) {
 	return b, nil
 }
 
+// mapBoardFromGitlab transforms board from gitlab project to kanban
 func mapBoardFromGitlab(r *gitlab.Project) *Board {
 	return &Board{
 		Id:                r.Id,
@@ -81,6 +87,7 @@ func mapBoardFromGitlab(r *gitlab.Project) *Board {
 	}
 }
 
+// mapNamespaceFromGitlab transforms namespace from gitlab to kanban
 func mapNamespaceFromGitlab(n *gitlab.Namespace) *Namespace {
 	if n == nil {
 		return nil
@@ -92,6 +99,7 @@ func mapNamespaceFromGitlab(n *gitlab.Namespace) *Namespace {
 	}
 }
 
+// mapAvatarFromGitlab transform gitlab avatar to kanban avatar
 func mapAvatarFromGitlab(n *gitlab.Avatar) *Avatar {
 	if n == nil {
 		return nil

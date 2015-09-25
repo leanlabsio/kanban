@@ -6,6 +6,7 @@ import (
 	"net/http"
 )
 
+// ListCards gets a list of card on board accessible by the authenticated user.
 func ListCards(ctx *middleware.Context) {
 	cards, err := models.ListCards(ctx.User, ctx.Provider, ctx.Query("project_id"))
 
@@ -22,6 +23,7 @@ func ListCards(ctx *middleware.Context) {
 	})
 }
 
+// CreateCard creates a new board card.
 func CreateCard(ctx *middleware.Context, form models.CardRequest) {
 	card, code, err := models.CreateCard(ctx.User, ctx.Provider, &form)
 
@@ -38,6 +40,7 @@ func CreateCard(ctx *middleware.Context, form models.CardRequest) {
 	})
 }
 
+// UpdateCard updates an existing board card.
 func UpdateCard(ctx *middleware.Context, form models.CardRequest) {
 	card, code, err := models.UpdateCard(ctx.User, ctx.Provider, &form)
 
@@ -54,6 +57,7 @@ func UpdateCard(ctx *middleware.Context, form models.CardRequest) {
 	})
 }
 
+// DeleteCard closed an existing board card.
 func DeleteCard(ctx *middleware.Context, form models.CardRequest) {
 	card, code, err := models.DeleteCard(ctx.User, ctx.Provider, &form)
 
@@ -70,6 +74,7 @@ func DeleteCard(ctx *middleware.Context, form models.CardRequest) {
 	})
 }
 
+// MoveToCard updates an existing board card.
 func MoveToCard(ctx *middleware.Context, form models.CardRequest) {
 	card, code, err := models.UpdateCard(ctx.User, ctx.Provider, &form)
 

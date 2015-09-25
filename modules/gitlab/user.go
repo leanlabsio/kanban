@@ -5,6 +5,9 @@ import (
 	"net/url"
 )
 
+// User represents a GitLab user.
+//
+// GitLab API docs: http://doc.gitlab.com/ce/api/users.html
 type User struct {
 	Id        int64  `json:"id"`
 	Name      string `json:"name,omitempty"`
@@ -14,7 +17,10 @@ type User struct {
 	WebUrl    string `json:"web_url,omitempty"`
 }
 
-// Get list project members for gitlab projects
+// ListProjectMembers gets a list of a project's team members.
+//
+// GitLab API docs:
+// http://doc.gitlab.com/ce/api/projects.html#list-project-team-members
 func (g *GitlabContext) ListProjectMembers(project_id string, o *ListOptions) ([]*User, error) {
 	path := getUrl([]string{"projects", url.QueryEscape(project_id), "members"})
 	u, err := addOptions(path, o)
@@ -32,7 +38,9 @@ func (g *GitlabContext) ListProjectMembers(project_id string, o *ListOptions) ([
 	return ret, nil
 }
 
-// CurrentUser returns current authentificated user
+// CurrentUser gets currently authenticated user.
+//
+// GitLab API docs: http://doc.gitlab.com/ce/api/users.html#current-user
 func (g *GitlabContext) CurrentUser() (*User, error) {
 	path := getUrl([]string{"user"})
 	req, _ := http.NewRequest("GET", path, nil)

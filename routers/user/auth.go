@@ -15,7 +15,7 @@ func OauthUrl(ctx *middleware.Context) {
 	ctx.Redirect(models.AuthCodeURL(ctx.Query("provider")))
 }
 
-// Login with gitlab and get access token
+// OauthLogin logins with gitlab and get access token
 func OauthLogin(ctx *middleware.Context, form auth.Oauth2) {
 	tok, err := models.Exchange(form.Provider, form.Code)
 	user, err := models.UserOauthSignIn(form.Provider, tok)
@@ -93,7 +93,7 @@ func SignIn(ctx *macaron.Context, form auth.SignIn) {
 	})
 }
 
-// SignUp logins with data
+// SignUp sing ups with data
 func SignUp(ctx *middleware.Context, form auth.SignUp) {
 	u, err := models.UserSignUp(form.Uname, form.Email, form.Pass, form.Token, ctx.Provider)
 

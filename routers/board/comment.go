@@ -6,7 +6,8 @@ import (
 	"net/http"
 )
 
-// ListComments returns list comments for cards
+// ListComments gets a list of comment on board and card
+// accessible by the authenticated user.
 func ListComments(ctx *middleware.Context) {
 	boards, err := models.ListComments(ctx.User, ctx.Provider, ctx.Query("project_id"), ctx.Query("issue_id"))
 

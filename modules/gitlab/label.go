@@ -5,12 +5,17 @@ import (
 	"net/url"
 )
 
+// Label represents a GitLab label.
+//
+// GitLab API docs: http://doc.gitlab.com/ce/api/labels.html
 type Label struct {
 	Color string `json:"color"`
 	Name  string `json:"name"`
 }
 
-// ListLabels returns list labels for gitlab projects
+// ListLabels gets all labels for given project.
+//
+// GitLab API docs: http://doc.gitlab.com/ce/api/labels.html#list-labels
 func (g *GitlabContext) ListLabels(project_id string, o *ListOptions) ([]*Label, error) {
 	path := getUrl([]string{"projects", url.QueryEscape(project_id), "labels"})
 	u, err := addOptions(path, o)
