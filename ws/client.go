@@ -5,7 +5,7 @@ import (
 )
 
 //Client struct represents user connected via websocket
-type Client struct {
+type client struct {
 	ReceivingChan  <-chan string
 	SendingChan    chan<- string
 	DoneChan       <-chan bool
@@ -14,16 +14,10 @@ type Client struct {
 }
 
 //Handle starts client message handling loop
-func (c *Client) Handle() {
+func (c *client) Handle() {
 	for {
 		select {
 		case msg := <-c.ReceivingChan:
-			/**			b :=
-			str, ok := b.(string)
-			if !ok {
-				log.Printf("BoardId is not s string %s", ok)
-				panic("Could not resolve hub")
-			}**/
 			h := Server.GetHub("hub1")
 			h.append(c)
 			log.Printf("%+v", h.clients)

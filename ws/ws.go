@@ -7,7 +7,7 @@ import (
 // server is generic type describing WebSocket server
 type server struct {
 	sync.Mutex
-	clients []*Client
+	clients []*client
 	hubs    map[string]*hub
 }
 
@@ -27,7 +27,7 @@ func (serv *server) GetHub(id string) *hub {
 }
 
 //append add client to current server instance
-func (serv *server) append(c *Client) {
+func (serv *server) append(c *client) {
 	serv.clients = append(serv.clients, c)
 }
 
@@ -40,7 +40,7 @@ func (serv *server) Broadcast(m string) {
 
 // ListenAndServe start ws
 func (serv *server) ListenAndServe(r <-chan string, s chan<- string, d <-chan bool, disc chan<- int, e <-chan error) {
-	c := &Client{
+	c := &client{
 		ReceivingChan:  r,
 		SendingChan:    s,
 		DoneChan:       d,
