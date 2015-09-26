@@ -1,26 +1,33 @@
 package setting
 
 import (
-	"gopkg.in/ini.v1"
 	"log"
-)
-
-var (
-	Cfg         *ini.File
-	CustomPath  string
-	App_Version string
+	"github.com/spf13/viper"
+	"github.com/codegangsta/cli"
 )
 
 // NewContext created new context for settings
-func NewContext() {
-	var err error
-	Cfg, err = ini.Load("conf/app.ini")
+func NewContext(c *cli.Context) {
+	viper.SetConfigName("config")
+	viper.AddConfigPath("conf")
+	viper.AddConfigPath(c.String("config"))
+	viper.SetConfigType("toml")
+
+	err := viper.ReadInConfig()
 
 	if err != nil {
-		log.Fatal(4, "Fail to parse 'conf/app.ini': %v", err)
+		log.Fatal("Fatal error config file: %s \n", err)
 	}
 
-	if CustomPath != "" {
-		Cfg.Append(CustomPath)
+	viper.Set("Version", c.App.Version)
+	if "" != c.String("cache-host") {
+		viper.Set("cache.host", c.String("cache-host"))
 	}
+	if "" != c.String("gitlab-client-id") {
+		viper.Set("gitlab.oauth_client_id", c.String("gitlab-client-id"))
+	}
+	if "" != c.String("gitlab-client-secret") {
+		viper.Set("gitlab.oauth_client_secret", c.String("gitlab-client-secret"))
+	}
+
 }

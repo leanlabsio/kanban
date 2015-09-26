@@ -8,11 +8,11 @@ import (
 	"fmt"
 	"github.com/dgrijalva/jwt-go"
 	"gitlab.com/kanban/kanban/modules/gitlab"
-	"gitlab.com/kanban/kanban/modules/setting"
 	"golang.org/x/crypto/pbkdf2"
 	"golang.org/x/oauth2"
 	"strings"
 	"time"
+	"github.com/spf13/viper"
 )
 
 type User struct {
@@ -194,7 +194,7 @@ func (u *User) SignedString() (string, error) {
 		token := jwt.New(jwt.SigningMethodHS256)
 		token.Claims["name"] = u.Username
 		token.Claims["exp"] = time.Now().Add(time.Hour * 72).Unix()
-		return token.SignedString([]byte(setting.Cfg.Section("security").Key("SECRET_KEY").String()))
+		return token.SignedString([]byte(viper.GetString("security.secret_key")))
 	}
 
 	return u.Token.SigningString()

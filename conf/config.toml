@@ -1,0 +1,21 @@
+[server]
+
+host = "127.0.0.1"
+domain = "http://localhost:9000"
+port = 9000
+
+[security]
+
+secret_key = "qwerty"
+
+[gitlab]
+
+oauth_client_id = "224ca1e7fcd83afa7368bf45d73d52bee1e8279ee8e322eaf7c66735ee157cce"
+oauth_client_secret = "6d532fbbfdcad6ed9efb0bf84407a0092e20fef3e51b9f12c3537c0c48ed6e78"
+host = "https://gitlab.com"
+
+[cache]
+
+host = "10.0.3.10:6379"
+passwd = ""
+DB = 0

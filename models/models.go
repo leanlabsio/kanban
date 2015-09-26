@@ -3,10 +3,10 @@ package models
 import (
 	"fmt"
 	"gitlab.com/kanban/kanban/modules/gitlab"
-	"gitlab.com/kanban/kanban/modules/setting"
 	"golang.org/x/oauth2"
 	"gopkg.in/redis.v3"
 	"strings"
+	"github.com/spf13/viper"
 )
 
 var (
@@ -16,15 +16,15 @@ var (
 // NewEngine creates new services for data from config settings
 func NewEngine() error {
 
-	gh := strings.TrimSuffix(setting.Cfg.Section("gitlab").Key("ROOT_URL").String(), "/")
-	d := strings.TrimSuffix(setting.Cfg.Section("server").Key("ROOT_URL").String(), "/")
+	gh := strings.TrimSuffix(viper.GetString("gitlab.host"), "/")
+	d := strings.TrimSuffix(viper.GetString("server.domain"), "/")
 
 	gitlab.NewEngine(&gitlab.Config{
 		BasePath: gh + "/api/v3",
 		Domain:   d,
 		Oauth2: &oauth2.Config{
-			ClientID:     setting.Cfg.Section("gitlab").Key("OAUTH_CLIENT_ID").String(),
-			ClientSecret: setting.Cfg.Section("gitlab").Key("OAUTH_SECRET_KEY").String(),
+			ClientID:     viper.GetString("server.oauth_client_id"),
+			ClientSecret: viper.GetString("server.oauth_secret_key"),
 			Endpoint: oauth2.Endpoint{
 				AuthURL:  gh + "/oauth/authorize",
 				TokenURL: gh + "/oauth/token",
@@ -33,18 +33,16 @@ func NewEngine() error {
 		},
 	})
 
-	db, _ := setting.Cfg.Section("cache").Key("DB").Int64()
-
 	c = redis.NewClient(&redis.Options{
-		Addr:     setting.Cfg.Section("cache").Key("HOST").String(),
-		Password: setting.Cfg.Section("cache").Key("PASS").String(),
-		DB:       db,
+		Addr:     viper.GetString("cache.host"),
+		Password: viper.GetString("cache.passwd"),
+		DB:       int64(viper.GetInt("cache.db")),
 	})
 
 	_, err := c.Ping().Result()
 
 	if err != nil {
-		fmt.Println("%s", err.Error())
+		fmt.Println("Error connection to cache %s", err.Error())
 	}
 
 	return nil

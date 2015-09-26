@@ -43,6 +43,21 @@ var DaemonCmd = cli.Command{
 			Value: "",
 			Usage: "Custom config file",
 		},
+		cli.StringFlag{
+			Name: "cache-host",
+			Value: "",
+			Usage: "Cache host 127.0.0.1:6379",
+		},
+		cli.StringFlag{
+			Name: "gitlab-client-id",
+			Value: "",
+			Usage: "Gitlab oauth2 client id",
+		},
+		cli.StringFlag{
+			Name: "gitlab-client-secret",
+			Value: "",
+			Usage: "Gitlab oauth2 client secret",
+		},
 	},
 	Action: daemon,
 }
@@ -50,13 +65,8 @@ var DaemonCmd = cli.Command{
 func daemon(c *cli.Context) {
 	m := macaron.New()
 
-	if c.String("config") != "" {
-		setting.CustomPath = c.String("config")
-	}
-
-	setting.NewContext()
+	setting.NewContext(c)
 	models.NewEngine()
-	setting.App_Version = c.App.Version
 	m.Use(middleware.Contexter())
 	m.Use(macaron.Recovery())
 	m.Use(macaron.Logger())

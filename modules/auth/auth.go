@@ -5,7 +5,7 @@ import (
 	"github.com/Unknwon/macaron"
 	"github.com/dgrijalva/jwt-go"
 	"gitlab.com/kanban/kanban/models"
-	"gitlab.com/kanban/kanban/modules/setting"
+	"github.com/spf13/viper"
 )
 
 func SignedInUser(ctx *macaron.Context) (*models.User, error) {
@@ -16,7 +16,7 @@ func SignedInUser(ctx *macaron.Context) (*models.User, error) {
 	}
 
 	jwtToken, err := jwt.Parse(ctx.Req.Header["X-Kb-Access-Token"][0], func(token *jwt.Token) (interface{}, error) {
-		return []byte(setting.Cfg.Section("security").Key("SECRET_KEY").String()), nil
+		return []byte(viper.GetString("security.secret_key")), nil
 	})
 
 	if err != nil {
