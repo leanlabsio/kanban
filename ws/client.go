@@ -18,7 +18,7 @@ func (c *client) Handle() {
 	for {
 		select {
 		case msg := <-c.ReceivingChan:
-			h := Server.GetHub("hub1")
+			h := Server.hub("hub1")
 			h.append(c)
 			log.Printf("%+v", h.clients)
 			log.Printf("%s: %+v", "Received message", msg)

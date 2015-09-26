@@ -17,25 +17,25 @@ var Server = &server{
 }
 
 //GetHub returns existing named Hub or creates new one
-func (serv *server) GetHub(id string) *hub {
+func (serv *server) hub(id string) *hub {
 	h, ok := serv.hubs[id]
 	if !ok {
 		h = &hub{}
 		serv.hubs[id] = h
 	}
+
 	return h
 }
 
-//append add client to current server instance
+//append adds client to current server instance
 func (serv *server) append(c *client) {
 	serv.clients = append(serv.clients, c)
 }
 
 //Broadcast sends message to all subscribed clients
-func (serv *server) Broadcast(m string) {
-	for _, h := range serv.hubs {
-		h.Broadcast(m)
-	}
+func (serv *server) Broadcast(r string, m string) {
+	h := serv.hub(r)
+	h.broadcast(m)
 }
 
 // ListenAndServe start ws
