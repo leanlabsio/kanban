@@ -15,17 +15,22 @@ build:
 	@docker run --rm -v $(CURDIR):/data -v $$HOME/node_cache:/cache leanlabs/npm-builder npm install
 	@docker run --rm -v $(CURDIR):/data -v $$HOME/node_cache:/cache leanlabs/npm-builder bower install --allow-root
 	@docker run --rm -v $(CURDIR):/data -v $$HOME/node_cache:/cache leanlabs/npm-builder grunt build
-	@go-bindata -pkg=templates -o templates/templates.go templates/...
 	@go-bindata -pkg=web -o web/web.go web/...
+
+templates/templates.go: $(find $(CURDIR)/templates -name "*.html" -type f)
+	@go-bindata -pkg=templates -o templates/templates.go templates/...
+
+kanban: $(find $(CURDIR) -name "*.go" -type f)
 	@docker run --rm -v $(CURDIR):/data leanlabs/go-builder
 
-release:
+release: build templates/templates.go kanban
 	@docker build -t $(IMAGE) .
 	@docker tag $(IMAGE):latest $(IMAGE):$(TAG)
-	@docker push $(IMAGE):latest
-	@docker push $(IMAGE):$(TAG)
+#	@docker push $(IMAGE):latest
+# 	@docker push $(IMAGE):$(TAG)
 
 clean:
+	-docker rm -f kanban_npmbuilder
 	@rm -f web/web.go
 	@rm -f templates/templates.go
 

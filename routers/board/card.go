@@ -39,6 +39,12 @@ func CreateCard(ctx *middleware.Context, form models.CardRequest) {
 	ctx.JSON(http.StatusOK, &models.Response{
 		Data: card,
 	})
+
+
+	ctx.Broadcast(card.RoutingKey(), &models.Response{
+		Data: card,
+		Event: "card.create",
+	})
 }
 
 // UpdateCard updates an existing board card.
@@ -55,6 +61,11 @@ func UpdateCard(ctx *middleware.Context, form models.CardRequest) {
 
 	ctx.JSON(http.StatusOK, &models.Response{
 		Data: card,
+	})
+
+	ctx.Broadcast(card.RoutingKey(), &models.Response{
+		Data: card,
+		Event: "card.update",
 	})
 }
 
@@ -73,6 +84,12 @@ func DeleteCard(ctx *middleware.Context, form models.CardRequest) {
 	ctx.JSON(http.StatusOK, &models.Response{
 		Data: card,
 	})
+
+
+	ctx.Broadcast(card.RoutingKey(), &models.Response{
+		Data: card,
+		Event: "card.delete",
+	})
 }
 
 // MoveToCard updates an existing board card.
@@ -90,6 +107,11 @@ func MoveToCard(ctx *middleware.Context, form models.CardRequest) {
 
 	ctx.JSON(http.StatusOK, &models.Response{
 		Data: card,
+	})
+
+	ctx.Broadcast(card.RoutingKey(), &models.Response{
+		Data: card,
+		Event: "card.move",
 	})
 
 	source := models.ParseLabelToStage(form.Stage["source"])

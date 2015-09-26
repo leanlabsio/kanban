@@ -1,6 +1,6 @@
 package models
 
 type Response struct {
-	Data interface{}       `json:"data"`
-	Meta map[string]string `json:"meta"`
+	Data interface{} `json:"data"`
+	Event string     `json:"event"`
 }

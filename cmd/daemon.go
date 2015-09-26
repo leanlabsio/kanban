@@ -6,8 +6,10 @@ import (
 	"github.com/codegangsta/cli"
 	"github.com/macaron-contrib/bindata"
 	"github.com/macaron-contrib/binding"
+	"github.com/macaron-contrib/sockets"
 	"gitlab.com/kanban/kanban/templates"
 	"gitlab.com/kanban/kanban/web"
+	"gitlab.com/kanban/kanban/ws"
 	"log"
 	"net/http"
 
@@ -131,9 +133,8 @@ func daemon(c *cli.Context) {
 		m.Put("/card/move", binding.Json(models.CardRequest{}), board.MoveToCard)
 
 	})
-
 	m.Get("/*", routers.Home)
-
+	m.Get("/ws/", sockets.Messages(), ws.ListenAndServe)
 	listenAddr := fmt.Sprintf("%s:%s", c.String("ip"), c.String("port"))
 	log.Printf("Starting listening on %s", listenAddr)
 	http.ListenAndServe(listenAddr, m)

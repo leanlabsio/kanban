@@ -230,6 +230,10 @@ func mapCardTodoFromGitlab(d string) []*Todo {
 	return i
 }
 
+func (c* Card) RoutingKey() string {
+	return fmt.Sprintf("kanban.%d", c.ProjectId)
+}
+
 // mapCardDescriptionFromGitlab clears gitlab description to card description
 func mapCardDescriptionFromGitlab(d string) string {
 	var r string
