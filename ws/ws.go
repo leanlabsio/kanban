@@ -32,9 +32,8 @@ func (serv *server) append(c *client) {
 }
 
 //Broadcast sends message to all subscribed clients
-func (serv *server) Broadcast(r string, m string) {
-	s := Server(r)
-	for _, c := range s.clients {
+func (serv *server) Broadcast(m string) {
+	for _, c := range serv.clients {
 		c.SendingChan <- m
 	}
 }
