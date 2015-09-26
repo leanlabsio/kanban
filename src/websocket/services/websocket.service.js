@@ -20,9 +20,7 @@
 
                     var timer = setInterval(function() {
                         var data = {
-                            meta: {
-                                event: 'system.ping'
-                            },
+                            event: 'system.ping',
                             data: 'ping'
                         };
                         this.ws.send(angular.toJson(data));
@@ -45,7 +43,7 @@
                 this.handle = function(event) {
                     try {
                         var data = angular.fromJson(event.data);
-                        var handler = this.handlers[data.meta.event];
+                        var handler = this.handlers[data.event];
                         handler(data.data);
                     } catch ( e ) {
                         //do nothing
@@ -54,9 +52,7 @@
 
                 this.emit = function(eventId, payload) {
                     var data = {
-                        meta: {
-                            event: eventId
-                        },
+                        event: eventId,
                         data: payload
                     };
                     if (this.ws.readyState === WebSocket.OPEN) {
