@@ -4,27 +4,26 @@ import (
 	"sync"
 )
 
-// server is generic type describing WebSocket server
+// Server is generic type describing WebSocket server
 type server struct {
+	name string
 	sync.Mutex
 	clients []*client
-	hubs    map[string]*hub
+	//	servers map[string]*Server
 }
 
-// Server is an websocket server instance
-var Server = &server{
-	hubs: make(map[string]*hub),
-}
+var servers = make(map[string]*server)
 
-//GetHub returns existing named Hub or creates new one
-func (serv *server) hub(id string) *hub {
-	h, ok := serv.hubs[id]
+// Server returns existing named Server or creates new one
+func Server(name string) *server {
+	_, ok := servers[name]
 	if !ok {
-		h = &hub{}
-		serv.hubs[id] = h
+		servers[name] = &server{
+			name: name,
+		}
 	}
 
-	return h
+	return servers[name]
 }
 
 //append adds client to current server instance
@@ -34,12 +33,14 @@ func (serv *server) append(c *client) {
 
 //Broadcast sends message to all subscribed clients
 func (serv *server) Broadcast(r string, m string) {
-	h := serv.hub(r)
-	h.broadcast(m)
+	s := Server(r)
+	for _, c := range s.clients {
+		c.SendingChan <- m
+	}
 }
 
 // ListenAndServe start ws
-func (serv *server) ListenAndServe(r <-chan string, s chan<- string, d <-chan bool, disc chan<- int, e <-chan error) {
+func ListenAndServe(r <-chan string, s chan<- string, d <-chan bool, disc chan<- int, e <-chan error) {
 	c := &client{
 		ReceivingChan:  r,
 		SendingChan:    s,

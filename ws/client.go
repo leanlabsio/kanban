@@ -1,6 +1,7 @@
 package ws
 
 import (
+	"encoding/json"
 	"log"
 )
 
@@ -18,10 +19,32 @@ func (c *client) Handle() {
 	for {
 		select {
 		case msg := <-c.ReceivingChan:
-			h := Server.hub("hub1")
-			h.append(c)
-			log.Printf("%+v", h.clients)
+			var m message
+			err := json.Unmarshal([]byte(msg), &m)
+			if nil != err {
+				log.Printf("%s", err)
+			}
+			p, err := m.resolve()
+			c.process(p)
+			log.Printf("%s, %+v", err, p)
 			log.Printf("%s: %+v", "Received message", msg)
 		}
 	}
+}
+
+// process handles different message types with appropriate method
+func (c *client) process(m interface{}) {
+	log.Printf("%T processed", m)
+	switch m.(type) {
+	case *subscribe:
+		m := m.(*subscribe)
+		c.subscribe(m.RoutingKey)
+	}
+}
+
+// subscribe binds client to listen for messages sent with routing key r
+func (c *client) subscribe(r string) {
+	h := Server(r)
+	h.append(c)
+	log.Printf("SUBSCRIBE %+v", h)
 }
