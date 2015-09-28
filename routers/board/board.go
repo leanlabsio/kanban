@@ -40,3 +40,17 @@ func ItemBoard(ctx *middleware.Context) {
 		Data: board,
 	})
 }
+
+func Configure(ctx *middleware.Context, form models.BoardRequest) {
+	status, err := models.ConfigureBoard(ctx.User, ctx.Provider, &form)
+
+	if err != nil {
+		ctx.JSON(status, &models.ResponseError{
+			Success: false,
+			Message: err.Error(),
+		})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, &models.Response{})
+}

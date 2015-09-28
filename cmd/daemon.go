@@ -44,17 +44,17 @@ var DaemonCmd = cli.Command{
 			Usage: "Custom config file",
 		},
 		cli.StringFlag{
-			Name: "cache-host",
+			Name:  "cache-host",
 			Value: "",
 			Usage: "Cache host 127.0.0.1:6379",
 		},
 		cli.StringFlag{
-			Name: "gitlab-client-id",
+			Name:  "gitlab-client-id",
 			Value: "",
 			Usage: "Gitlab oauth2 client id",
 		},
 		cli.StringFlag{
-			Name: "gitlab-client-secret",
+			Name:  "gitlab-client-secret",
 			Value: "",
 			Usage: "Gitlab oauth2 client secret",
 		},
@@ -126,6 +126,8 @@ func daemon(c *cli.Context) {
 		m.Post("/register", binding.Json(auth.SignUp{}), user.SignUp)
 
 		m.Get("/boards", board.ListBoards)
+		m.Post("/boards/configure", binding.Json(models.BoardRequest{}), board.Configure)
+
 		m.Get("/board", board.ItemBoard)
 		m.Get("/labels", board.ListLabels)
 		m.Get("/cards", board.ListCards)

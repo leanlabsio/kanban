@@ -18,6 +18,16 @@ func OauthUrl(ctx *middleware.Context) {
 // OauthLogin logins with gitlab and get access token
 func OauthLogin(ctx *middleware.Context, form auth.Oauth2) {
 	tok, err := models.Exchange(form.Provider, form.Code)
+
+	if err != nil {
+		log.Printf("%s", err.Error())
+		ctx.JSON(http.StatusBadRequest, models.ResponseError{
+			Success: false,
+			Message: err.Error(),
+		})
+		return
+	}
+
 	user, err := models.UserOauthSignIn(form.Provider, tok)
 
 	if err != nil {

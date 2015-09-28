@@ -60,7 +60,7 @@ func ListCards(u *User, provider, board_id string) ([]*Card, error) {
 	var b []*Card
 	switch provider {
 	case "gitlab":
-		c := gitlab.NewContext(u.Credential["gitlab"].Token)
+		c := gitlab.NewContext(u.Credential["gitlab"].Token, u.Credential["gitlab"].PrivateToken)
 		op := &gitlab.IssueListOptions{
 			State: "opened",
 		}
@@ -87,7 +87,7 @@ func CreateCard(u *User, provider string, form *CardRequest) (*Card, int, error)
 	var code int
 	switch provider {
 	case "gitlab":
-		c := gitlab.NewContext(u.Credential["gitlab"].Token)
+		c := gitlab.NewContext(u.Credential["gitlab"].Token, u.Credential["gitlab"].PrivateToken)
 		r, res, err := c.CreateIssue(strconv.FormatInt(form.ProjectId, 10), mapCardRequestToGitlab(form))
 		if err != nil {
 			return nil, res.StatusCode, err
@@ -105,7 +105,7 @@ func UpdateCard(u *User, provider string, form *CardRequest) (*Card, int, error)
 	var code int
 	switch provider {
 	case "gitlab":
-		c := gitlab.NewContext(u.Credential["gitlab"].Token)
+		c := gitlab.NewContext(u.Credential["gitlab"].Token, u.Credential["gitlab"].PrivateToken)
 		r, res, err := c.UpdateIssue(
 			strconv.FormatInt(form.ProjectId, 10),
 			strconv.FormatInt(form.CardId, 10),
@@ -127,7 +127,7 @@ func DeleteCard(u *User, provider string, form *CardRequest) (*Card, int, error)
 	var code int
 	switch provider {
 	case "gitlab":
-		c := gitlab.NewContext(u.Credential["gitlab"].Token)
+		c := gitlab.NewContext(u.Credential["gitlab"].Token, u.Credential["gitlab"].PrivateToken)
 		foru := mapCardRequestToGitlab(form)
 		foru.StateEvent = "close"
 		r, res, err := c.UpdateIssue(
@@ -230,7 +230,7 @@ func mapCardTodoFromGitlab(d string) []*Todo {
 	return i
 }
 
-func (c* Card) RoutingKey() string {
+func (c *Card) RoutingKey() string {
 	return fmt.Sprintf("kanban.%d", c.ProjectId)
 }
 

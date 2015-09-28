@@ -92,7 +92,7 @@ func LoadByToken(u *User, provider string) (*User, error) {
 	var user *User
 	switch provider {
 	case "gitlab":
-		c := gitlab.NewContext(u.Credential["gitlab"].Token)
+		c := gitlab.NewContext(u.Credential["gitlab"].Token, u.Credential["gitlab"].PrivateToken)
 		r, err := c.CurrentUser()
 
 		if err != nil {
@@ -170,7 +170,7 @@ func ListMembers(u *User, provider, board_id string) ([]*User, error) {
 	var mem []*User
 	switch provider {
 	case "gitlab":
-		c := gitlab.NewContext(u.Credential["gitlab"].Token)
+		c := gitlab.NewContext(u.Credential["gitlab"].Token, u.Credential["gitlab"].PrivateToken)
 		r, err := c.ListProjectMembers(board_id, &gitlab.ListOptions{
 			Page:    "1",
 			PerPage: "100",

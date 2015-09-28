@@ -30,12 +30,26 @@ type Avatar struct {
 	Url string `json:"url"`
 }
 
+type BoardRequest struct {
+	BoardId string `json:"project_id"`
+}
+
+var (
+	defaultStages = []string{
+		"KB[stage][0][Backlog]",
+		"KB[stage][1][Development]",
+		"KB[stage][2][Testing]",
+		"KB[stage][3][Production]",
+		"KB[stage][4][Ready]",
+	}
+)
+
 // ListBoards returns list board for view user
 func ListBoards(u *User, provider string) ([]*Board, error) {
 	var b []*Board
 	switch provider {
 	case "gitlab":
-		c := gitlab.NewContext(u.Credential["gitlab"].Token)
+		c := gitlab.NewContext(u.Credential["gitlab"].Token, u.Credential["gitlab"].PrivateToken)
 
 		op := &gitlab.ProjectListOptions{}
 		op.Page = "1"
@@ -61,7 +75,7 @@ func ItemBoard(u *User, provider string, board_id string) (*Board, error) {
 	var b *Board
 	switch provider {
 	case "gitlab":
-		c := gitlab.NewContext(u.Credential["gitlab"].Token)
+		c := gitlab.NewContext(u.Credential["gitlab"].Token, u.Credential["gitlab"].PrivateToken)
 		r, err := c.ItemProject(board_id)
 
 		if err != nil {
@@ -71,6 +85,27 @@ func ItemBoard(u *User, provider string, board_id string) (*Board, error) {
 	}
 
 	return b, nil
+}
+
+// ConfigureBoard creates default stages for board
+func ConfigureBoard(u *User, provider string, f *BoardRequest) (int, error) {
+	switch provider {
+	case "gitlab":
+		c := gitlab.NewContext(u.Credential["gitlab"].Token, u.Credential["gitlab"].PrivateToken)
+
+		for _, stage := range defaultStages {
+			_, res, err := c.CreateLabel(f.BoardId, &gitlab.LabelRequest{
+				Name:  stage,
+				Color: "#F5F5F5",
+			})
+
+			if err != nil {
+				return res.StatusCode, err
+			}
+		}
+	}
+
+	return 0, nil
 }
 
 // mapBoardFromGitlab transforms board from gitlab project to kanban

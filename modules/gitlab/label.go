@@ -13,6 +13,12 @@ type Label struct {
 	Name  string `json:"name"`
 }
 
+// LabelRequest represents the available CreateLabel() and UpdateLabel() options.
+type LabelRequest struct {
+	Color string `json:"color"`
+	Name  string `json:"name"`
+}
+
 // ListLabels gets all labels for given project.
 //
 // GitLab API docs: http://doc.gitlab.com/ce/api/labels.html#list-labels
@@ -31,4 +37,19 @@ func (g *GitlabContext) ListLabels(project_id string, o *ListOptions) ([]*Label,
 	}
 
 	return ret, nil
+}
+
+// CreateIssue creates a new project issue.
+//
+// GitLab API docs: http://doc.gitlab.com/ce/api/issues.html#new-issues
+func (g *GitlabContext) CreateLabel(project_id string, label *LabelRequest) (*Label, *http.Response, error) {
+	path := []string{"projects", url.QueryEscape(project_id), "labels"}
+	req, _ := g.NewRequest("POST", path, label)
+
+	var ret *Label
+	if res, err := g.Do(req, &ret); err != nil {
+		return nil, res, err
+	}
+
+	return ret, nil, nil
 }

@@ -25,6 +25,11 @@ type ListOptions struct {
 	PerPage string `url:"per_page,omitempty"`
 }
 
+type Transport struct {
+	Token string
+	Base  http.RoundTripper
+}
+
 var (
 	cfg *Config
 )
@@ -46,8 +51,24 @@ func Exchange(c string) (*oauth2.Token, error) {
 }
 
 // NewContext
-func NewContext(t *oauth2.Token) *GitlabContext {
+func NewContext(t *oauth2.Token, pt string) *GitlabContext {
+	if pt != "" {
+		return &GitlabContext{
+			client: &http.Client{
+				Transport: &Transport{
+					Base:  http.DefaultTransport,
+					Token: pt,
+				},
+			},
+		}
+	}
+
 	return &GitlabContext{
 		client: cfg.Oauth2.Client(oauth2.NoContext, t),
 	}
+}
+
+func (t *Transport) RoundTrip(req *http.Request) (*http.Response, error) {
+	req.Header.Add("Private-Token", t.Token)
+	return t.Base.RoundTrip(req)
 }

@@ -16,7 +16,7 @@ func ListMilestones(u *User, provider, board_id string) ([]*Milestone, error) {
 	var mem []*Milestone
 	switch provider {
 	case "gitlab":
-		c := gitlab.NewContext(u.Credential["gitlab"].Token)
+		c := gitlab.NewContext(u.Credential["gitlab"].Token, u.Credential["gitlab"].PrivateToken)
 		r, err := c.ListMilestones(board_id, &gitlab.ListOptions{
 			Page:    "1",
 			PerPage: "100",

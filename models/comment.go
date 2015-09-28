@@ -51,7 +51,7 @@ func ListComments(u *User, provider, project_id, card_id string) ([]*Comment, er
 	var b []*Comment
 	switch provider {
 	case "gitlab":
-		c := gitlab.NewContext(u.Credential["gitlab"].Token)
+		c := gitlab.NewContext(u.Credential["gitlab"].Token, u.Credential["gitlab"].PrivateToken)
 		r, err := c.ListComments(project_id, card_id, &gitlab.ListOptions{
 			Page:    "1",
 			PerPage: "100",
@@ -75,7 +75,7 @@ func CreateComment(u *User, provider string, form *CommentRequest) (*Comment, in
 	var code int
 	switch provider {
 	case "gitlab":
-		c := gitlab.NewContext(u.Credential["gitlab"].Token)
+		c := gitlab.NewContext(u.Credential["gitlab"].Token, u.Credential["gitlab"].PrivateToken)
 		r, res, err := c.CreateComment(
 			strconv.FormatInt(form.ProjectId, 10),
 			strconv.FormatInt(form.CardId, 10),

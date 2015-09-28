@@ -2,11 +2,11 @@ package models
 
 import (
 	"fmt"
+	"github.com/spf13/viper"
 	"gitlab.com/kanban/kanban/modules/gitlab"
 	"golang.org/x/oauth2"
 	"gopkg.in/redis.v3"
 	"strings"
-	"github.com/spf13/viper"
 )
 
 var (
@@ -23,8 +23,8 @@ func NewEngine() error {
 		BasePath: gh + "/api/v3",
 		Domain:   d,
 		Oauth2: &oauth2.Config{
-			ClientID:     viper.GetString("server.oauth_client_id"),
-			ClientSecret: viper.GetString("server.oauth_secret_key"),
+			ClientID:     viper.GetString("gitlab.oauth_client_id"),
+			ClientSecret: viper.GetString("gitlab.oauth_client_secret"),
 			Endpoint: oauth2.Endpoint{
 				AuthURL:  gh + "/oauth/authorize",
 				TokenURL: gh + "/oauth/token",

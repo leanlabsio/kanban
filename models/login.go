@@ -23,6 +23,7 @@ func UserSignIn(uname, pass string) (*User, error) {
 func UserSignUp(uname, email, pass, token, provider string) (*User, error) {
 	cr := map[string]*Credential{
 		provider: &Credential{
+			Token: nil,
 			PrivateToken: token,
 		},
 	}
