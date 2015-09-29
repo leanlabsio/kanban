@@ -8,7 +8,6 @@ import (
 	"fmt"
 	"github.com/dgrijalva/jwt-go"
 	"gitlab.com/kanban/kanban/modules/gitlab"
-	"golang.org/x/crypto/pbkdf2"
 	"golang.org/x/oauth2"
 	"strings"
 	"time"
@@ -30,7 +29,7 @@ type User struct {
 }
 
 type Credential struct {
-	PrivateToken string `json:"private_token"`
+	PrivateToken string `json:"private_access_token"`
 	Token        *oauth2.Token
 }
 
@@ -43,11 +42,11 @@ type ResponseUser struct {
 
 // LoadUserByUsername is
 func LoadUserByUsername(uname string) (*User, error) {
-	cmd := c.HMGet(fmt.Sprintf("users:%s", strings.ToLower(uname)),
+	cmd := c.HMGet(fmt.Sprintf("kanban:users:%s", strings.ToLower(uname)),
 		"credentials",
 		"name",
 		"username",
-		"passwrd",
+		"password",
 		"email",
 	)
 	val, err := cmd.Result()
@@ -144,11 +143,11 @@ func saveUser(u *User) (*User, error) {
 		return nil, err
 	}
 
-	_, err = c.HMSet("users:"+strings.ToLower(u.Username),
+	_, err = c.HMSet("kanban:users:"+strings.ToLower(u.Username),
 		"credentials", string(val),
 		"name", u.Name,
 		"username", u.Username,
-		"passwrd", u.Passwd,
+		"password", u.Passwd,
 		"email", u.Email,
 	).Result()
 
@@ -209,7 +208,17 @@ func (u *User) ValidatePassword(pass string) bool {
 
 // EncodePasswd encodes password to safe format.
 func (u *User) EncodePasswd() {
-	newPasswd := base64.StdEncoding.EncodeToString(pbkdf2.Key([]byte(u.Passwd), []byte(""), 5000, 100, sha512.New))
+	h := sha512.New()
+	s := []byte(u.Passwd)
+	var dig []byte
+	h.Write(s)
+	for i := 1; i < 5000; i++ {
+		dig = h.Sum(nil)
+		dig = append(dig[:], s[:]...)
+		h.Reset()
+		h.Write(dig)
+	}
+	newPasswd := base64.StdEncoding.EncodeToString(h.Sum(nil))
 	u.Passwd = fmt.Sprintf("%s", newPasswd)
 }
 
