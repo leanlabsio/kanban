@@ -12,6 +12,7 @@ type client struct {
 	DoneChan       <-chan bool
 	DisconnectChan chan<- int
 	ErrChan        <-chan error
+	subscriptions  []string
 }
 
 //Handle starts client message handling loop
@@ -28,13 +29,19 @@ func (c *client) Handle() {
 			c.process(p)
 			log.Printf("%s, %+v", err, p)
 			log.Printf("%s: %+v", "Received message", msg)
+		case msg := <-c.DoneChan:
+			for _, r := range c.subscriptions {
+				s := Server(r)
+				s.unsubscribe(c)
+			}
+			log.Printf("%+v", msg)
+			return
 		}
 	}
 }
 
 // process handles different message types with appropriate method
 func (c *client) process(m interface{}) {
-	log.Printf("%T processed", m)
 	switch m.(type) {
 	case *subscribe:
 		m := m.(*subscribe)
@@ -45,6 +52,6 @@ func (c *client) process(m interface{}) {
 // subscribe binds client to listen for messages sent with routing key r
 func (c *client) subscribe(r string) {
 	h := Server(r)
-	h.append(c)
-	log.Printf("SUBSCRIBE %+v", h)
+	c.subscriptions = append(c.subscriptions, r)
+	h.subscribe(c)
 }

@@ -8,8 +8,7 @@ import (
 type server struct {
 	name string
 	sync.Mutex
-	clients []*client
-	//	servers map[string]*Server
+	clients map[*client]int
 }
 
 var servers = make(map[string]*server)
@@ -19,7 +18,8 @@ func Server(name string) *server {
 	_, ok := servers[name]
 	if !ok {
 		servers[name] = &server{
-			name: name,
+			name:    name,
+			clients: make(map[*client]int),
 		}
 	}
 
@@ -27,13 +27,17 @@ func Server(name string) *server {
 }
 
 //append adds client to current server instance
-func (serv *server) append(c *client) {
-	serv.clients = append(serv.clients, c)
+func (serv *server) subscribe(c *client) {
+	serv.clients[c] = 0
+}
+
+func (serv *server) unsubscribe(c *client) {
+	delete(serv.clients, c)
 }
 
 //Broadcast sends message to all subscribed clients
 func (serv *server) Broadcast(m string) {
-	for _, c := range serv.clients {
+	for c := range serv.clients {
 		c.SendingChan <- m
 	}
 }
