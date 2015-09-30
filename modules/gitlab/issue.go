@@ -26,10 +26,10 @@ type Issue struct {
 // GitLab API docs: http://doc.gitlab.com/ce/api/issues.html#new-issues
 type IssueRequest struct {
 	Title       string `json:"title"`
-	Description string `json:"description,omitempty"`
-	AssigneeId  int64  `json:"assignee_id,omitempty"`
-	MilestoneId int64  `json:"milestone_id,omitempty"`
-	Labels      string `json:"labels,omitempty"`
+	Description string `json:"description"`
+	AssigneeId  int64  `json:"assignee_id"`
+	MilestoneId int64  `json:"milestone_id"`
+	Labels      string `json:"labels"`
 	StateEvent  string `json:"state_event,omitempty"`
 }
 

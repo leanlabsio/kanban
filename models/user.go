@@ -113,7 +113,7 @@ func CreateUser(u *User) (*User, error) {
 	}
 
 	if res.Username != "" {
-		return nil, errors.New(fmt.Sprintf("User with username %s exists", u.Username))
+		return nil, errors.New(fmt.Sprintf("User with username %s already exists", u.Username))
 	}
 
 	u.EncodePasswd()
@@ -128,7 +128,7 @@ func UpdateUser(u *User) (*User, error) {
 	}
 
 	if user.Username == "" {
-		return user, errors.New(fmt.Sprintf("User with username %s not exists", u.Username))
+		return user, errors.New(fmt.Sprintf("User with username %s does not exists", u.Username))
 	}
 
 	user.Credential = u.Credential

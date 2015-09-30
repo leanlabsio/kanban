@@ -9,3 +9,4 @@ web/
 templates/templates.go
 web/web.go
 *~
+kanban

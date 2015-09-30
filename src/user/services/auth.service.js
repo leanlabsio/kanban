@@ -19,6 +19,9 @@
                             _email: data.email,
                             _password: data.password,
                             _token: data.token
+                        }).then(function (result) {
+                            store.set('id_token', result.data.token);
+                            return store.get('id_token');
                         });
                     },
                     authenticate: function (data) {

@@ -96,7 +96,6 @@ func DeleteCard(ctx *middleware.Context, form models.CardRequest) {
 func MoveToCard(ctx *middleware.Context, form models.CardRequest) {
 	card, code, err := models.UpdateCard(ctx.User, ctx.Provider, &form)
 
-	// Todo implement method for add comments
 	if err != nil {
 		ctx.JSON(code, &models.ResponseError{
 			Success: false,
