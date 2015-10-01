@@ -208,17 +208,12 @@ func (u *User) ValidatePassword(pass string) bool {
 
 // EncodePasswd encodes password to safe format.
 func (u *User) EncodePasswd() {
-	h := sha512.New()
-	s := []byte(u.Passwd)
-	var dig []byte
-	h.Write(s)
+	hash := []byte(u.Passwd)
+	dig := sha512.Sum512(hash)
 	for i := 1; i < 5000; i++ {
-		dig = h.Sum(nil)
-		dig = append(dig[:], s[:]...)
-		h.Reset()
-		h.Write(dig)
+		dig = sha512.Sum512(append(dig[:], hash[:]...))
 	}
-	newPasswd := base64.StdEncoding.EncodeToString(h.Sum(nil))
+	newPasswd := base64.StdEncoding.EncodeToString(dig[:])
 	u.Passwd = fmt.Sprintf("%s", newPasswd)
 }
 
