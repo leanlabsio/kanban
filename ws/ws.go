@@ -26,11 +26,12 @@ func Server(name string) *server {
 	return servers[name]
 }
 
-//append adds client to current server instance
+// subscribe adds client to current server instance
 func (serv *server) subscribe(c *client) {
 	serv.clients[c] = 0
 }
 
+// unsubscribe removes client from specified server instance
 func (serv *server) unsubscribe(c *client) {
 	delete(serv.clients, c)
 }
