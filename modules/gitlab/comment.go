@@ -44,7 +44,7 @@ func (g *GitlabContext) ListComments(project_id, issue_id string, o *ListOptions
 		return nil, err
 	}
 
-	sortutil.AscByField(ret, "CreatedAt")
+	sortutil.Reverse(ret)
 
 	return ret, nil
 }
