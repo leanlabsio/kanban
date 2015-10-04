@@ -17,22 +17,11 @@
                             this.ws.send(this.queue[index]);
                         }
                     }
-
-                    var timer = setInterval(function() {
-                        var data = {
-                            meta: {
-                                event: 'system.ping'
-                            },
-                            data: 'ping'
-                        };
-                        this.ws.send(angular.toJson(data));
-                        this.missedPings++;
-                        if (this.missedPings > 3) {
-                            this.ws.close();
-                            window.location.reload();
-                        }
-                    }.bind(this), 10000);
                 }.bind(this);
+
+                this.ws.onclose = function(event) {
+                    window.location.reload();
+                };
 
                 this.ws.onmessage = function(event) {
                     this.handle(event);
@@ -45,7 +34,7 @@
                 this.handle = function(event) {
                     try {
                         var data = angular.fromJson(event.data);
-                        var handler = this.handlers[data.meta.event];
+                        var handler = this.handlers[data.event];
                         handler(data.data);
                     } catch ( e ) {
                         //do nothing
@@ -54,9 +43,7 @@
 
                 this.emit = function(eventId, payload) {
                     var data = {
-                        meta: {
-                            event: eventId
-                        },
+                        event: eventId,
                         data: payload
                     };
                     if (this.ws.readyState === WebSocket.OPEN) {

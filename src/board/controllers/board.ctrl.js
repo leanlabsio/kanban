@@ -131,8 +131,8 @@
                     };
 
 
-                    WebsocketService.emit('board.view', {
-                        board: board.project.id.toString()
+                    WebsocketService.emit('subscribe', {
+                        routing_key: 'kanban.' + board.project.id.toString()
                     });
                 });
 

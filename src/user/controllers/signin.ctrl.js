@@ -48,7 +48,7 @@
                         $http.defaults.headers.common['X-KB-Access-Token'] = result;
                         $state.go('board.boards');
                     }, function (result) {
-                        $scope.data.errors.push(result.data.error);
+                        $scope.data.errors.push(result.data.message);
                         $scope.data.isSaving = false;
                     });
                 }
