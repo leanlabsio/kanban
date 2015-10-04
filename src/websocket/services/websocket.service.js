@@ -17,20 +17,11 @@
                             this.ws.send(this.queue[index]);
                         }
                     }
-
-                    var timer = setInterval(function() {
-                        var data = {
-                            event: 'system.ping',
-                            data: 'ping'
-                        };
-                        this.ws.send(angular.toJson(data));
-                        this.missedPings++;
-                        if (this.missedPings > 3) {
-                            this.ws.close();
-                            window.location.reload();
-                        }
-                    }.bind(this), 10000);
                 }.bind(this);
+
+                this.ws.onclose = function(event) {
+                    window.location.reload();
+                };
 
                 this.ws.onmessage = function(event) {
                     this.handle(event);
