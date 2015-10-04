@@ -1,9 +1,9 @@
 package setting
 
 import (
-	"log"
-	"github.com/spf13/viper"
 	"github.com/codegangsta/cli"
+	"github.com/spf13/viper"
+	"log"
 )
 
 // NewContext created new context for settings
@@ -28,6 +28,10 @@ func NewContext(c *cli.Context) {
 	}
 	if "" != c.String("gitlab-client-secret") {
 		viper.Set("gitlab.oauth_client_secret", c.String("gitlab-client-secret"))
+	}
+
+	if l := c.String("listen"); l != "" {
+		viper.Set("listen", l)
 	}
 
 }

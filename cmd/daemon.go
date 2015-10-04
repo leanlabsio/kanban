@@ -20,6 +20,8 @@ import (
 	"gitlab.com/kanban/kanban/routers"
 	"gitlab.com/kanban/kanban/routers/board"
 	"gitlab.com/kanban/kanban/routers/user"
+
+	"github.com/spf13/viper"
 )
 
 // DaemonCmd is implementation of command to run application in daemon mode
@@ -60,7 +62,8 @@ func daemon(c *cli.Context) {
 	m := macaron.New()
 
 	setting.NewContext(c)
-	models.NewEngine()
+	err := models.NewEngine()
+
 	m.Use(middleware.Contexter())
 	m.Use(macaron.Recovery())
 	m.Use(macaron.Logger())
@@ -97,6 +100,7 @@ func daemon(c *cli.Context) {
 			}),
 		},
 	))
+
 	m.Use(macaron.Static("web",
 		macaron.StaticOptions{
 			FileSystem: bindata.Static(bindata.Options{
@@ -141,8 +145,8 @@ func daemon(c *cli.Context) {
 	})
 	m.Get("/*", routers.Home)
 	m.Get("/ws/", sockets.Messages(), ws.ListenAndServe)
-	log.Printf("Listen: %s", c.String("listen"))
-	err := http.ListenAndServe(c.String("listen"), m)
+	log.Printf("Listen: %s", viper.GetString("listen"))
+	err = http.ListenAndServe(viper.GetString("listen"), m)
 
 	if err != nil {
 		log.Fatalf("Failed to start: %s", err)
