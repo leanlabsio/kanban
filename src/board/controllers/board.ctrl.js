@@ -36,7 +36,7 @@
                         if (_.isEmpty(item.milestone)) {
                             return false;
                         }
-                        return item.milestone.data.title == milestone;
+                        return item.milestone.title == milestone;
                     };
                 }
 
