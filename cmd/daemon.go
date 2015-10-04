@@ -1,7 +1,6 @@
 package cmd
 
 import (
-	"fmt"
 	"github.com/Unknwon/macaron"
 	"github.com/codegangsta/cli"
 	"github.com/macaron-contrib/bindata"
@@ -29,14 +28,9 @@ var DaemonCmd = cli.Command{
 	Usage: "Start serving web traffic",
 	Flags: []cli.Flag{
 		cli.StringFlag{
-			Name:  "ip",
-			Value: "0.0.0.0",
-			Usage: "IP address to listen on",
-		},
-		cli.StringFlag{
-			Name:  "port",
-			Value: "9000",
-			Usage: "port to bind",
+			Name:  "listen",
+			Value: "0.0.0.0:80",
+			Usage: "IP:PORT to listen on",
 		},
 		cli.StringFlag{
 			Name:  "config",
@@ -147,7 +141,10 @@ func daemon(c *cli.Context) {
 	})
 	m.Get("/*", routers.Home)
 	m.Get("/ws/", sockets.Messages(), ws.ListenAndServe)
-	listenAddr := fmt.Sprintf("%s:%s", c.String("ip"), c.String("port"))
-	log.Printf("Starting listening on %s", listenAddr)
-	http.ListenAndServe(listenAddr, m)
+	log.Printf("Listen: %s", c.String("listen"))
+	err := http.ListenAndServe(c.String("listen"), m)
+
+	if err != nil {
+		log.Fatalf("Failed to start: %s", err)
+	}
 }
