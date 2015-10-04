@@ -31,8 +31,8 @@ type CardRequest struct {
 	ProjectId   int64             `json:"project_id"`
 	Title       string            `json:"title"`
 	Description string            `json:"description"`
-	AssigneeId  int64             `json:"assignee_id"`
-	MilestoneId int64             `json:"milestone_id"`
+	AssigneeId  *int64            `json:"assignee_id"`
+	MilestoneId *int64            `json:"milestone_id"`
 	Labels      string            `json:"labels"`
 	Properties  *Properties       `json:"properties"`
 	Stage       map[string]string `json:"stage"`
