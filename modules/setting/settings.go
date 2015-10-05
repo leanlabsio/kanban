@@ -20,8 +20,8 @@ func NewContext(c *cli.Context) {
 	}
 
 	viper.Set("Version", c.App.Version)
-	if "" != c.String("cache-host") {
-		viper.Set("cache.host", c.String("cache-host"))
+	if "" != c.String("redis") {
+		viper.Set("redis.host", c.String("redis"))
 	}
 	if "" != c.String("gitlab-client-id") {
 		viper.Set("gitlab.oauth_client_id", c.String("gitlab-client-id"))

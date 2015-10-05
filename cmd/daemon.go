@@ -40,9 +40,9 @@ var DaemonCmd = cli.Command{
 			Usage: "Custom config file",
 		},
 		cli.StringFlag{
-			Name:  "cache-host",
+			Name:  "redis",
 			Value: "",
-			Usage: "Cache host 127.0.0.1:6379",
+			Usage: "Redis host and port 127.0.0.1:6379",
 		},
 		cli.StringFlag{
 			Name:  "gitlab-client-id",

@@ -1,12 +1,12 @@
 package models
 
 import (
-	"fmt"
 	"github.com/spf13/viper"
 	"gitlab.com/kanban/kanban/modules/gitlab"
 	"golang.org/x/oauth2"
 	"gopkg.in/redis.v3"
 	"strings"
+	"log"
 )
 
 var (
@@ -34,15 +34,15 @@ func NewEngine() error {
 	})
 
 	c = redis.NewClient(&redis.Options{
-		Addr:     viper.GetString("cache.host"),
-		Password: viper.GetString("cache.passwd"),
-		DB:       int64(viper.GetInt("cache.db")),
+		Addr:     viper.GetString("redis.host"),
+		Password: viper.GetString("redis.passwd"),
+		DB:       int64(viper.GetInt("redis.db")),
 	})
 
 	_, err := c.Ping().Result()
 
 	if err != nil {
-		fmt.Println("Error connection to cache %s", err.Error())
+		log.Fatalf("Error connection to redis %s", err.Error())
 	}
 
 	return nil
