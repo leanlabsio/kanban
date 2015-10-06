@@ -160,7 +160,7 @@ func mapCardRequestToGitlab(c *CardRequest) *gitlab.IssueRequest {
 func mapCardDescriptionToGitlab(desc string, t []*Todo, p *Properties) string {
 	var d string
 	var chek string
-	d = desc
+	d = strings.TrimSpace(desc);
 	for _, v := range t {
 		if v.Checked {
 			chek = "x"
@@ -173,10 +173,10 @@ func mapCardDescriptionToGitlab(desc string, t []*Todo, p *Properties) string {
 	pr, err := json.Marshal(p)
 
 	if err == nil {
-		d = fmt.Sprintf("%s\n<!-- @KB:%s -->", d, string(pr))
+		d = fmt.Sprintf("%s\n\n<!-- @KB:%s -->", strings.TrimSpace(d), string(pr))
 	}
 
-	return strings.TrimSpace(d)
+	return strings.TrimSpace(d);
 }
 
 // mapCardFromGitlab mapped gitlab issue to kanban card
@@ -239,7 +239,7 @@ func mapCardDescriptionFromGitlab(d string) string {
 	var r string
 	r = regTodo.ReplaceAllString(d, "")
 	r = regProp.ReplaceAllString(r, "")
-	return r
+	return strings.TrimSpace(r)
 }
 
 // mapCardPropertiesFromGitlab transforms gitlab description to card properties
