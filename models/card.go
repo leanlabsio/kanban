@@ -17,7 +17,7 @@ type Card struct {
 	Milestone   *Milestone  `json:"milestone"`
 	Author      *User       `json:"author"`
 	Description string      `json:"description"`
-	Labels      []string    `json:"labels"`
+	Labels      *[]string    `json:"labels"`
 	ProjectId   int64       `json:"project_id"`
 	Properties  *Properties `json:"properties"`
 	State       string      `json:"state"`
@@ -190,11 +190,27 @@ func mapCardFromGitlab(c *gitlab.Issue) *Card {
 		Author:      mapUserFromGitlab(c.Author),
 		Description: mapCardDescriptionFromGitlab(c.Description),
 		Milestone:   mapMilestoneFromGitlab(c.Milestone),
-		Labels:      c.Labels,
+		Labels:      removeDuplicates(c.Labels),
 		ProjectId:   c.ProjectId,
 		Properties:  mapCardPropertiesFromGitlab(c.Description),
 		Todo:        mapCardTodoFromGitlab(c.Description),
 	}
+}
+
+// removeDuplicates removed duplicates
+func removeDuplicates(xs *[]string) (*[]string) {
+	found := make(map[string]bool)
+	j := 0
+	for i, x := range *xs {
+		if !found[x] {
+			found[x] = true
+			(*xs)[j] = (*xs)[i]
+			j++
+		}
+	}
+	*xs = (*xs)[:j]
+
+	return xs
 }
 
 // mapCardTodoFromGitlab tranforms gitlab todo to kanban todo

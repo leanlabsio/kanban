@@ -10,3 +10,4 @@ templates/templates.go
 web/web.go
 *~
 kanban
+kanban.iml
