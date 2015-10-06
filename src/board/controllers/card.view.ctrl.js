@@ -20,7 +20,7 @@
                     $scope.labels = _.toArray(board.viewLabels);
                 });
 
-                $scope.card_url = host_url + $stateParams.project_path;
+                $scope.card_url = host_url + "/" + $stateParams.project_path;
 
                 BoardService.getCard($stateParams.project_path, $stateParams.issue_id).then(function(card) {
                     $scope.card = card;
