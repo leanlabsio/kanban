@@ -123,10 +123,10 @@ func daemon(c *cli.Context) {
 		m.Post("/login", binding.Json(auth.SignIn{}), user.SignIn)
 		m.Post("/register", binding.Json(auth.SignUp{}), user.SignUp)
 
-		m.Get("/boards", board.ListBoards)
-		m.Post("/boards/configure", binding.Json(models.BoardRequest{}), board.Configure)
+		m.Get("/boards", middleware.Auther(), board.ListBoards)
+		m.Post("/boards/configure", middleware.Auther(), binding.Json(models.BoardRequest{}), board.Configure)
 
-		m.Get("/board", board.ItemBoard)
+		m.Get("/board", middleware.Auther(), board.ItemBoard)
 		m.Get("/labels", board.ListLabels)
 		m.Get("/cards", board.ListCards)
 		m.Get("/milestones", board.ListMilestones)

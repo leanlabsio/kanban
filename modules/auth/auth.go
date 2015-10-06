@@ -4,10 +4,11 @@ import (
 	"errors"
 	"github.com/Unknwon/macaron"
 	"github.com/dgrijalva/jwt-go"
-	"gitlab.com/kanban/kanban/models"
 	"github.com/spf13/viper"
+	"gitlab.com/kanban/kanban/models"
 )
 
+// SignedInUser returns models.User instance if user exists
 func SignedInUser(ctx *macaron.Context) (*models.User, error) {
 	if 0 == len(ctx.Req.Header["X-Kb-Access-Token"]) {
 		return &models.User{
@@ -29,6 +30,11 @@ func SignedInUser(ctx *macaron.Context) (*models.User, error) {
 
 	uname, _ := jwtToken.Claims["name"].(string)
 	user, err := models.LoadUserByUsername(uname)
+
+	if err != nil {
+		return nil, err
+	}
+
 	user.Token = jwtToken
 
 	return user, nil
