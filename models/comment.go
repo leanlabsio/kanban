@@ -41,6 +41,7 @@ var (
 		`Marked as \*\*unblocked\*\*`,
 		`mentioned in issue .*?`,
 		`Assignee removed`,
+		`Milestone removed`,
 	}, "|"))
 
 	regInfo = regexp.MustCompile("^" + reg + "$")
