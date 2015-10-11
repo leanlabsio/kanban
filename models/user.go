@@ -122,14 +122,10 @@ func LoadByToken(u *User, provider string) (*User, error) {
 
 // CreateUser creates new user
 func CreateUser(u *User) (*User, error) {
-	_, err := LoadUserByUsername(u.Username)
+	usr, _ := LoadUserByUsername(u.Username)
 
-	if err == nil {
+	if usr != nil {
 		return nil, errors.New("User already exists")
-	}
-
-	if _, ok := err.(*UserNotFound); !ok {
-		return nil, err
 	}
 
 	u.EncodePasswd()
@@ -143,7 +139,7 @@ func UpdateUser(u *User) (*User, error) {
 		return user, err
 	}
 
-	if user.Username == "" {
+	if user == nil {
 		return user, errors.New(fmt.Sprintf("User with username %s does not exists", u.Username))
 	}
 
