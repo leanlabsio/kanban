@@ -118,8 +118,8 @@ func daemon(c *cli.Context) {
 		Get(user.OauthUrl).
 		Post(binding.Json(auth.Oauth2{}), user.OauthLogin)
 
-	m.Post("/login", binding.Json(auth.SignIn{}), user.SignIn)
-	m.Post("/register", binding.Json(auth.SignUp{}), user.SignUp)
+	m.Post("/api/login", binding.Json(auth.SignIn{}), user.SignIn)
+	m.Post("/api/register", binding.Json(auth.SignUp{}), user.SignUp)
 
 	m.Group("/api", func() {
 		m.Get("/boards", board.ListBoards)
