@@ -56,7 +56,7 @@ func LoadUserByUsername(uname string) (*User, error) {
 	val, err := cmd.Result()
 
 	if err != nil {
-		return nil, err
+		panic(fmt.Sprintf("Redis unrecoverable error: %s", err))
 	}
 
 	v := val[:0]
