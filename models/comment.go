@@ -49,7 +49,7 @@ var (
 
 // ListComments gets a list of all comment for a single card.
 func ListComments(u *User, provider, project_id, card_id string) ([]*Comment, error) {
-	var b []*Comment
+	b := make([]*Comment, 0)
 	switch provider {
 	case "gitlab":
 		c := gitlab.NewContext(u.Credential["gitlab"].Token, u.Credential["gitlab"].PrivateToken)
