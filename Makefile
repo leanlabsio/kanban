@@ -1,4 +1,4 @@
-IMAGE = leanlabs/client
+IMAGE = leanlabs/kanban
 TAG   = 1.2.4
 
 help:
@@ -15,23 +15,25 @@ build:
 	@docker run --rm -v $(CURDIR):/data -v $$HOME/node_cache:/cache leanlabs/npm-builder npm install
 	@docker run --rm -v $(CURDIR):/data -v $$HOME/node_cache:/cache leanlabs/npm-builder bower install --allow-root
 	@docker run --rm -v $(CURDIR):/data -v $$HOME/node_cache:/cache leanlabs/npm-builder grunt build
-	@go-bindata -pkg=web -o web/web.go web/...
 
 templates/templates.go: $(find $(CURDIR)/templates -name "*.html" -type f)
 	@go-bindata -pkg=templates -o templates/templates.go templates/...
 
+web/web.go: $(shell find $(CURDIR)/web/ -name "*" ! -name "web.go" -type f)
+	@go-bindata -pkg=web -o web/web.go web/assets/... web/images/... web/template/...
+
 kanban: $(find $(CURDIR) -name "*.go" -type f)
 	@docker run --rm -v $(CURDIR):/data leanlabs/go-builder
 
-release: build templates/templates.go kanban
+release: clean build templates/templates.go web/web.go kanban
 	@docker build -t $(IMAGE) .
-	@docker tag $(IMAGE):latest $(IMAGE):$(TAG)
+#	@docker tag $(IMAGE):latest $(IMAGE):$(TAG)
 #	@docker push $(IMAGE):latest
 # 	@docker push $(IMAGE):$(TAG)
 
 clean:
-	-docker rm -f kanban_npmbuilder
 	@rm -f web/web.go
 	@rm -f templates/templates.go
+	@rm -f kanban
 
 .PHONY: help test build release
