@@ -7,11 +7,11 @@ import (
 	"errors"
 	"fmt"
 	"github.com/dgrijalva/jwt-go"
+	"github.com/spf13/viper"
 	"gitlab.com/kanban/kanban/modules/gitlab"
 	"golang.org/x/oauth2"
 	"strings"
 	"time"
-	"github.com/spf13/viper"
 )
 
 type User struct {
@@ -26,6 +26,10 @@ type User struct {
 	Passwd     string
 	Salt       string
 	Email      string
+}
+
+type UserNotFound struct {
+	msg string
 }
 
 type Credential struct {
@@ -50,8 +54,20 @@ func LoadUserByUsername(uname string) (*User, error) {
 		"email",
 	)
 	val, err := cmd.Result()
+
 	if err != nil {
 		return nil, err
+	}
+
+	v := val[:0]
+	for _, x := range val {
+		if x != nil {
+			v = append(v, x)
+		}
+	}
+
+	if len(v) == 0 {
+		return nil, &UserNotFound{msg: "User not found"}
 	}
 
 	// user creates empty struct
@@ -106,14 +122,10 @@ func LoadByToken(u *User, provider string) (*User, error) {
 
 // CreateUser creates new user
 func CreateUser(u *User) (*User, error) {
-	res, err := LoadUserByUsername(u.Username)
+	usr, _ := LoadUserByUsername(u.Username)
 
-	if err != nil {
-		return nil, err
-	}
-
-	if res.Username != "" {
-		return nil, errors.New(fmt.Sprintf("User with username %s already exists", u.Username))
+	if usr != nil {
+		return nil, errors.New("User already exists")
 	}
 
 	u.EncodePasswd()
@@ -127,7 +139,7 @@ func UpdateUser(u *User) (*User, error) {
 		return user, err
 	}
 
-	if user.Username == "" {
+	if user == nil {
 		return user, errors.New(fmt.Sprintf("User with username %s does not exists", u.Username))
 	}
 
@@ -247,4 +259,8 @@ func (u *User) MarshalJSON() ([]byte, error) {
 		AvatarUrl: u.AvatarUrl,
 		State:     u.State,
 	})
+}
+
+func (e *UserNotFound) Error() string {
+	return e.msg
 }

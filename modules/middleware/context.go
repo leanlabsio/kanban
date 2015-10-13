@@ -1,11 +1,10 @@
 package middleware
 
 import (
+	"encoding/json"
 	"github.com/Unknwon/macaron"
 	"gitlab.com/kanban/kanban/models"
-	"gitlab.com/kanban/kanban/modules/auth"
 	"gitlab.com/kanban/kanban/ws"
-	"encoding/json"
 )
 
 type Context struct {
@@ -15,7 +14,7 @@ type Context struct {
 	IsSigned    bool
 	IsBasicAuth bool
 
-	Provider    string
+	Provider string
 }
 
 // Contexter initializes a classic context for a request.
@@ -24,22 +23,14 @@ func Contexter() macaron.Handler {
 		ctx := &Context{
 			Context: c,
 		}
-		var err error
 
-		ctx.User, err = auth.SignedInUser(ctx.Context)
-		// Hardcore default data provider
 		ctx.Provider = "gitlab"
-
-		if err != nil {
-
-		}
-
-		ctx.IsSigned = true
 
 		c.Map(ctx)
 	}
 }
 
+// Broadcast sends message via WebSocket to all subscribed to r users
 func (*Context) Broadcast(r string, d interface{}) {
 	res, _ := json.Marshal(d)
 	go ws.Server(r).Broadcast(string(res))

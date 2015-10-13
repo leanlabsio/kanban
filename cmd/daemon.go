@@ -114,15 +114,14 @@ func daemon(c *cli.Context) {
 	))
 
 	m.Get("/assets/html/user/views/oauth.html", user.OauthHandler)
+	m.Combo("/api/oauth").
+		Get(user.OauthUrl).
+		Post(binding.Json(auth.Oauth2{}), user.OauthLogin)
+
+	m.Post("/api/login", binding.Json(auth.SignIn{}), user.SignIn)
+	m.Post("/api/register", binding.Json(auth.SignUp{}), user.SignUp)
 
 	m.Group("/api", func() {
-		m.Combo("/oauth").
-			Get(user.OauthUrl).
-			Post(binding.Json(auth.Oauth2{}), user.OauthLogin)
-
-		m.Post("/login", binding.Json(auth.SignIn{}), user.SignIn)
-		m.Post("/register", binding.Json(auth.SignUp{}), user.SignUp)
-
 		m.Get("/boards", board.ListBoards)
 		m.Post("/boards/configure", binding.Json(models.BoardRequest{}), board.Configure)
 
@@ -142,7 +141,7 @@ func daemon(c *cli.Context) {
 
 		m.Put("/card/move", binding.Json(models.CardRequest{}), board.MoveToCard)
 
-	})
+	}, middleware.Auther())
 	m.Get("/*", routers.Home)
 	m.Get("/ws/", sockets.Messages(), ws.ListenAndServe)
 	log.Printf("Listen: %s", viper.GetString("listen"))
