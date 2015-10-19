@@ -3,6 +3,8 @@ package gitlab
 import (
 	"golang.org/x/oauth2"
 	"net/http"
+	"crypto/tls"
+	"golang.org/x/net/context"
 )
 
 type Config struct {
@@ -47,7 +49,7 @@ func AuthCodeURL() string {
 
 // Exchange is
 func Exchange(c string) (*oauth2.Token, error) {
-	return cfg.Oauth2.Exchange(oauth2.NoContext, c)
+	return cfg.Oauth2.Exchange(defaultContext(), c)
 }
 
 // NewContext
@@ -56,7 +58,9 @@ func NewContext(t *oauth2.Token, pt string) *GitlabContext {
 		return &GitlabContext{
 			client: &http.Client{
 				Transport: &Transport{
-					Base:  http.DefaultTransport,
+					Base: &http.Transport{
+						TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+					},
 					Token: pt,
 				},
 			},
@@ -64,8 +68,20 @@ func NewContext(t *oauth2.Token, pt string) *GitlabContext {
 	}
 
 	return &GitlabContext{
-		client: cfg.Oauth2.Client(oauth2.NoContext, t),
+		client: cfg.Oauth2.Client(defaultContext(), t),
 	}
+}
+// defaultContext returns context for usage oauth2 with internal http.Client
+func defaultContext() (context.Context) {
+	return context.WithValue(
+		oauth2.NoContext,
+		oauth2.HTTPClient,
+		&http.Client{
+			Transport: &http.Transport{
+				TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+			},
+		},
+	)
 }
 
 func (t *Transport) RoundTrip(req *http.Request) (*http.Response, error) {
