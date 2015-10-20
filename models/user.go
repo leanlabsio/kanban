@@ -115,6 +115,7 @@ func LoadByToken(u *User, provider string) (*User, error) {
 		}
 		user = mapUserFromGitlab(r)
 		user.Credential = u.Credential
+		user.Credential[provider].PrivateToken = r.PrivateToken
 	}
 
 	return user, nil

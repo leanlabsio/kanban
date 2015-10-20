@@ -9,12 +9,13 @@ import (
 //
 // GitLab API docs: http://doc.gitlab.com/ce/api/users.html
 type User struct {
-	Id        int64  `json:"id"`
-	Name      string `json:"name,omitempty"`
-	AvatarUrl string `json:"avatar_url,nil,omitempty"`
-	State     string `json:"state,omitempty"`
-	Username  string `json:"username,omitempty"`
-	WebUrl    string `json:"web_url,omitempty"`
+	Id           int64  `json:"id"`
+	Name         string `json:"name,omitempty"`
+	AvatarUrl    string `json:"avatar_url,nil,omitempty"`
+	State        string `json:"state,omitempty"`
+	Username     string `json:"username,omitempty"`
+	WebUrl       string `json:"web_url,omitempty"`
+	PrivateToken string `json:"private_token"`
 }
 
 // ListProjectMembers gets a list of a project's team members.
