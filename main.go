@@ -10,8 +10,13 @@ const AppVer = "1.2.4"
 
 func main() {
 	kbCmd := &cobra.Command{
-		Use:  "kanban",
-		Long: "Here should be brief desc http://kanban.leanlabs.io",
+		Use: "kanban",
+		Long: `Free OpenSource self hosted Kanban board for GitLab issues.
+
+Full documentation is available on http://kanban.leanlabs.io/.
+
+Report issues to <support@leanlabs.io> or https://gitter.im/leanlabsio/kanban.
+                `,
 	}
 
 	kbCmd.AddCommand(&cmd.DaemonCmd)
