@@ -8,6 +8,6 @@ import (
 // Home returns main page
 func Home(ctx *macaron.Context) {
 	ctx.Data["Version"] = viper.GetString("version")
-	ctx.Data["GitlabHost"] = viper.GetString("gitlab.host")
+	ctx.Data["GitlabHost"] = viper.GetString("gitlab.url")
 	ctx.HTML(200, "templates/index")
 }

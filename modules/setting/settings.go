@@ -1,37 +1,77 @@
 package setting
 
 import (
-	"github.com/codegangsta/cli"
+	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
-	"log"
+	"strings"
 )
 
 // NewContext created new context for settings
-func NewContext(c *cli.Context) {
+func NewContext(c *cobra.Command) {
+
 	viper.SetConfigName("config")
 	viper.AddConfigPath("conf")
-	viper.AddConfigPath(c.String("config"))
 	viper.SetConfigType("toml")
+	viper.ReadInConfig()
 
-	err := viper.ReadInConfig()
+	repl := strings.NewReplacer(".", "_")
 
-	if err != nil {
-		log.Fatal("Fatal error config file: %s \n", err)
+	viper.SetEnvPrefix("kanban")
+	viper.SetEnvKeyReplacer(repl)
+
+	viper.SetDefault("server.listen", "0.0.0.0:80")
+	viper.BindEnv("server.listen")
+	if c.Flags().Lookup("listen").Changed {
+		viper.BindPFlag("server.listen", c.Flags().Lookup("listen"))
 	}
 
-	viper.Set("Version", c.App.Version)
-	if "" != c.String("redis") {
-		viper.Set("redis.host", c.String("redis"))
-	}
-	if "" != c.String("gitlab-client-id") {
-		viper.Set("gitlab.oauth_client_id", c.String("gitlab-client-id"))
-	}
-	if "" != c.String("gitlab-client-secret") {
-		viper.Set("gitlab.oauth_client_secret", c.String("gitlab-client-secret"))
+	viper.SetDefault("server.hostname", "http://localhost")
+	viper.BindEnv("server.hostname")
+	if c.Flags().Lookup("hostname").Changed {
+		viper.BindPFlag("server.hostname", c.Flags().Lookup("hostname"))
 	}
 
-	if l := c.String("listen"); l != "" {
-		viper.Set("listen", l)
+	viper.SetDefault("security.secret", "qwerty")
+	viper.BindEnv("security.secret")
+	if c.Flags().Lookup("security-secret").Changed {
+		viper.BindPFlag("security.secret", c.Flags().Lookup("security-secret"))
 	}
 
+	viper.SetDefault("gitlab.url", "https://gitlab.com")
+	viper.BindEnv("gitlab.url")
+	if c.Flags().Lookup("gitlab-url").Changed {
+		viper.BindPFlag("gitlab.url", c.Flags().Lookup("gitlab-url"))
+	}
+
+	viper.SetDefault("gitlab.client", "qwerty")
+	viper.BindEnv("gitlab.client")
+	if c.Flags().Lookup("gitlab-client").Changed {
+		viper.BindPFlag("gitlab.client", c.Flags().Lookup("gitlab-client"))
+	}
+
+	viper.SetDefault("gitlab.secret", "qwerty")
+	viper.BindEnv("gitlab.secret")
+	if c.Flags().Lookup("gitlab-secret").Changed {
+		viper.BindPFlag("gitlab.secret", c.Flags().Lookup("gitlab-secret"))
+	}
+
+	viper.SetDefault("redis.addr", "127.0.0.1:6379")
+	viper.BindEnv("redis.addr")
+	if c.Flags().Lookup("redis-addr").Changed {
+		viper.BindPFlag("redis.addr", c.Flags().Lookup("redis-addr"))
+	}
+
+	viper.SetDefault("redis.password", "")
+	viper.BindEnv("redis.password")
+	if c.Flags().Lookup("redis-password").Changed {
+		viper.BindPFlag("redis.password", c.Flags().Lookup("redis-password"))
+	}
+
+	viper.SetDefault("redis.db", 0)
+	viper.BindEnv("redis.db")
+	if c.Flags().Lookup("redis-db").Changed {
+		viper.BindPFlag("redis.db", c.Flags().Lookup("redis-db"))
+	}
+
+	viper.SetDefault("version", "1.3")
 }

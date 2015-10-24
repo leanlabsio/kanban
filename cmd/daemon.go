@@ -2,10 +2,10 @@ package cmd
 
 import (
 	"github.com/Unknwon/macaron"
-	"github.com/codegangsta/cli"
 	"github.com/macaron-contrib/bindata"
 	"github.com/macaron-contrib/binding"
 	"github.com/macaron-contrib/sockets"
+	"github.com/spf13/cobra"
 	"gitlab.com/kanban/kanban/templates"
 	"gitlab.com/kanban/kanban/web"
 	"gitlab.com/kanban/kanban/ws"
@@ -22,45 +22,73 @@ import (
 	"gitlab.com/kanban/kanban/routers/user"
 
 	"github.com/spf13/viper"
+
+	"strings"
 )
 
 // DaemonCmd is implementation of command to run application in daemon mode
-var DaemonCmd = cli.Command{
-	Name:  "daemon",
-	Usage: "Start serving web traffic",
-	Flags: []cli.Flag{
-		cli.StringFlag{
-			Name:  "listen",
-			Value: "0.0.0.0:80",
-			Usage: "IP:PORT to listen on",
-		},
-		cli.StringFlag{
-			Name:  "config",
-			Value: "",
-			Usage: "Custom config file",
-		},
-		cli.StringFlag{
-			Name:  "redis",
-			Value: "",
-			Usage: "Redis host and port 127.0.0.1:6379",
-		},
-		cli.StringFlag{
-			Name:  "gitlab-client-id",
-			Value: "",
-			Usage: "Gitlab oauth2 client id",
-		},
-		cli.StringFlag{
-			Name:  "gitlab-client-secret",
-			Value: "",
-			Usage: "Gitlab oauth2 client secret",
-		},
-	},
-	Action: daemon,
+var DaemonCmd = cobra.Command{
+	Use:   "server",
+	Short: "Starts LeanLabs Kanban board application",
+	Long: `Start LeanLabs Kanban board application.
+
+Please refer to http://kanban.leanlabs.io/documentation/Home for full documentation.
+
+Report bugs to <support@leanlabs.io> or https://gitter.im/leanlabsio/kanban.
+        `,
+	Run: daemon,
 }
 
-func daemon(c *cli.Context) {
-	m := macaron.New()
+func init() {
+	DaemonCmd.Flags().String(
+		"listen",
+		"0.0.0.0:80",
+		"IP:PORT to listen on",
+	)
+	DaemonCmd.Flags().String(
+		"hostname",
+		"http://localhost",
+		"URL on which Leanlabs Kanban will be reachable",
+	)
+	DaemonCmd.Flags().String(
+		"security-secret",
+		"qwerty",
+		"This string is used to generate user auth tokens",
+	)
+	DaemonCmd.Flags().String(
+		"gitlab-url",
+		"https://gitlab.com",
+		"Your GitLab host URL",
+	)
+	DaemonCmd.Flags().String(
+		"gitlab-client",
+		"qwerty",
+		"Your GitLab OAuth client ID",
+	)
+	DaemonCmd.Flags().String(
+		"gitlab-secret",
+		"qwerty",
+		"Your GitLab OAuth client secret key",
+	)
+	DaemonCmd.Flags().String(
+		"redis-addr",
+		"127.0.0.1:6379",
+		"Redis server address - IP:PORT",
+	)
+	DaemonCmd.Flags().String(
+		"redis-password",
+		"",
+		"Redis server password, empty string if none",
+	)
+	DaemonCmd.Flags().Int64(
+		"redis-db",
+		0,
+		"Redis server database numeric index, from 0 to 16",
+	)
+}
 
+func daemon(c *cobra.Command, a []string) {
+	m := macaron.New()
 	setting.NewContext(c)
 	err := models.NewEngine()
 
@@ -109,7 +137,7 @@ func daemon(c *cli.Context) {
 				AssetNames: web.AssetNames,
 				Prefix:     "web",
 			}),
-			Prefix: c.App.Version,
+			Prefix: viper.GetString("version"),
 		},
 	))
 
@@ -120,7 +148,6 @@ func daemon(c *cli.Context) {
 
 	m.Post("/api/login", binding.Json(auth.SignIn{}), user.SignIn)
 	m.Post("/api/register", binding.Json(auth.SignUp{}), user.SignUp)
-
 	m.Group("/api", func() {
 		m.Get("/boards", board.ListBoards)
 		m.Post("/boards/configure", binding.Json(models.BoardRequest{}), board.Configure)
@@ -144,8 +171,10 @@ func daemon(c *cli.Context) {
 	}, middleware.Auther())
 	m.Get("/*", routers.Home)
 	m.Get("/ws/", sockets.Messages(), ws.ListenAndServe)
-	log.Printf("Listen: %s", viper.GetString("listen"))
-	err = http.ListenAndServe(viper.GetString("listen"), m)
+
+	listen := strings.TrimSuffix(viper.GetString("server.listen"), "/")
+	log.Printf("Listen: %s", listen)
+	err = http.ListenAndServe(listen, m)
 
 	if err != nil {
 		log.Fatalf("Failed to start: %s", err)
