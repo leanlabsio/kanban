@@ -41,12 +41,12 @@ Report bugs to <support@leanlabs.io> or https://gitter.im/leanlabsio/kanban.
 
 func init() {
 	DaemonCmd.Flags().String(
-		"listen",
+		"server-listen",
 		"0.0.0.0:80",
 		"IP:PORT to listen on",
 	)
 	DaemonCmd.Flags().String(
-		"hostname",
+		"server-hostname",
 		"http://localhost",
 		"URL on which Leanlabs Kanban will be reachable",
 	)

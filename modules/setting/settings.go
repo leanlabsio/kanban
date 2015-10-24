@@ -21,14 +21,14 @@ func NewContext(c *cobra.Command) {
 
 	viper.SetDefault("server.listen", "0.0.0.0:80")
 	viper.BindEnv("server.listen")
-	if c.Flags().Lookup("listen").Changed {
-		viper.BindPFlag("server.listen", c.Flags().Lookup("listen"))
+	if c.Flags().Lookup("server-listen").Changed {
+		viper.BindPFlag("server.listen", c.Flags().Lookup("server-listen"))
 	}
 
 	viper.SetDefault("server.hostname", "http://localhost")
 	viper.BindEnv("server.hostname")
-	if c.Flags().Lookup("hostname").Changed {
-		viper.BindPFlag("server.hostname", c.Flags().Lookup("hostname"))
+	if c.Flags().Lookup("server-hostname").Changed {
+		viper.BindPFlag("server.hostname", c.Flags().Lookup("server-hostname"))
 	}
 
 	viper.SetDefault("security.secret", "qwerty")
