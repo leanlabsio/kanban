@@ -1,10 +1,10 @@
 package gitlab
 
 import (
-	"github.com/pmylund/sortutil"
 	"net/http"
 	"net/url"
 	"time"
+	"sort"
 )
 
 // Comment represents a GitLab note.
@@ -16,6 +16,9 @@ type Comment struct {
 	Body      string    `json:"body"`
 	CreatedAt time.Time `json:"created_at"`
 }
+
+// commentSlice represents list comments for usage sort.Interface
+type commentSlice []*Comment
 
 // CommentRequest represents the available CreateComment() and UpdateComment()
 // options.
@@ -39,14 +42,30 @@ func (g *GitlabContext) ListComments(project_id, issue_id string, o *ListOptions
 
 	req, _ := http.NewRequest("GET", u, nil)
 
-	var ret []*Comment
+	var ret commentSlice
 	if _, err := g.Do(req, &ret); err != nil {
 		return nil, err
 	}
 
-	sortutil.Reverse(ret)
+	sort.Sort(ret)
 
 	return ret, nil
+}
+
+// Len is the number of elements in the collection.
+func (p commentSlice) Len() int {
+	return len(p)
+}
+
+// Less reports whether the element with
+// index i should sort before the element with index j.
+func (p commentSlice) Less(i, j int) bool {
+	return p[i].CreatedAt.Before(p[j].CreatedAt)
+}
+
+// Swap swaps the elements with indexes i and j.
+func (p commentSlice) Swap(i, j int) {
+	p[i], p[j] = p[j], p[i]
 }
 
 // CreateComment creates a new note to a single project issue.
