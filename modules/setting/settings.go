@@ -8,12 +8,6 @@ import (
 
 // NewContext created new context for settings
 func NewContext(c *cobra.Command) {
-
-	viper.SetConfigName("config")
-	viper.AddConfigPath("conf")
-	viper.SetConfigType("toml")
-	viper.ReadInConfig()
-
 	repl := strings.NewReplacer(".", "_")
 
 	viper.SetEnvPrefix("kanban")
