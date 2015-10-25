@@ -22,8 +22,6 @@ import (
 	"gitlab.com/kanban/kanban/routers/user"
 
 	"github.com/spf13/viper"
-
-	"strings"
 )
 
 // DaemonCmd is implementation of command to run application in daemon mode
@@ -172,7 +170,7 @@ func daemon(c *cobra.Command, a []string) {
 	m.Get("/*", routers.Home)
 	m.Get("/ws/", sockets.Messages(), ws.ListenAndServe)
 
-	listen := strings.TrimSuffix(viper.GetString("server.listen"), "/")
+	listen := viper.GetString("server.listen")
 	log.Printf("Listen: %s", listen)
 	err = http.ListenAndServe(listen, m)
 
