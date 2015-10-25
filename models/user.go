@@ -46,57 +46,32 @@ type ResponseUser struct {
 
 // LoadUserByUsername is
 func LoadUserByUsername(uname string) (*User, error) {
-	cmd := c.HMGet(fmt.Sprintf("kanban:users:%s", strings.ToLower(uname)),
-		"credentials",
-		"name",
-		"username",
-		"password",
-		"email",
-	)
+	cmd := c.HGetAllMap(fmt.Sprintf("kanban:users:%s", strings.ToLower(uname)))
 	val, err := cmd.Result()
 
 	if err != nil {
 		panic(fmt.Sprintf("Redis unrecoverable error: %s", err))
 	}
 
-	v := val[:0]
-	for _, x := range val {
-		if x != nil {
-			v = append(v, x)
-		}
-	}
-
-	if len(v) == 0 {
+	if len(val) == 0 {
 		return nil, &UserNotFound{msg: "User not found"}
 	}
 
-	// user creates empty struct
-	u := User{}
+	u := User{
+		Username: val["username"],
+		Passwd: val["password"],
+		Email: val["email"],
+		Name: val["name"],
+	}
 
-	if val[0] != nil {
+	if val["credentials"] != "" {
 		var cr map[string]*Credential
-		err = json.Unmarshal([]byte(val[0].(string)), &cr)
+		err = json.Unmarshal([]byte(val["credentials"]), &cr)
 
 		if err != nil {
 			return nil, err
 		}
 		u.Credential = cr
-	}
-
-	if val[1] != nil {
-		u.Name = val[1].(string)
-	}
-
-	if val[2] != nil {
-		u.Username = val[2].(string)
-	}
-
-	if val[3] != nil {
-		u.Passwd = val[3].(string)
-	}
-
-	if val[4] != nil {
-		u.Email = val[4].(string)
 	}
 
 	return &u, nil
