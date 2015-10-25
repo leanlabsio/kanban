@@ -5,8 +5,8 @@ import (
 	"gitlab.com/kanban/kanban/modules/gitlab"
 	"golang.org/x/oauth2"
 	"gopkg.in/redis.v3"
-	"strings"
 	"log"
+	"strings"
 )
 
 var (
@@ -15,16 +15,15 @@ var (
 
 // NewEngine creates new services for data from config settings
 func NewEngine() error {
-
-	gh := strings.TrimSuffix(viper.GetString("gitlab.host"), "/")
-	d := strings.TrimSuffix(viper.GetString("server.domain"), "/")
+	gh := strings.TrimSuffix(viper.GetString("gitlab.url"), "/")
+	d := strings.TrimSuffix(viper.GetString("server.hostname"), "/")
 
 	gitlab.NewEngine(&gitlab.Config{
 		BasePath: gh + "/api/v3",
 		Domain:   d,
 		Oauth2: &oauth2.Config{
-			ClientID:     viper.GetString("gitlab.oauth_client_id"),
-			ClientSecret: viper.GetString("gitlab.oauth_client_secret"),
+			ClientID:     viper.GetString("gitlab.client"),
+			ClientSecret: viper.GetString("gitlab.secret"),
 			Endpoint: oauth2.Endpoint{
 				AuthURL:  gh + "/oauth/authorize",
 				TokenURL: gh + "/oauth/token",
@@ -34,8 +33,8 @@ func NewEngine() error {
 	})
 
 	c = redis.NewClient(&redis.Options{
-		Addr:     viper.GetString("redis.host"),
-		Password: viper.GetString("redis.passwd"),
+		Addr:     viper.GetString("redis.addr"),
+		Password: viper.GetString("redis.password"),
 		DB:       int64(viper.GetInt("redis.db")),
 	})
 
