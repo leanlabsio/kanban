@@ -69,29 +69,41 @@
 						<section class="9u 12u$(small)">
                             <h2><a name="installation" class="anchor" href="#installation" rel="nofollow" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h2>
 
-<p>The easiest way to deploy Leanlabs Kanban board is to use docker-compose:
-assuming you have installed <a href="https://docs.docker.com/compose/" rel="nofollow">docker-compose</a> and <a href="https://www.docker.com/" rel="nofollow">Docker</a>.</p>
-<h3><a name="1-simple-usage" class="anchor" href="#1-simple-usage" rel="nofollow" aria-hidden="true"><span class="octicon octicon-link"></span></a>
-1. Simple usage</h3>
+<p>The easiest way to deploy LeanLabs Kanban board is to use docker-compose.
+Assuming you have installed <a href="https://docs.docker.com/compose/" rel="nofollow">docker-compose</a> and <a href="https://www.docker.com/" rel="nofollow">Docker</a>.</p>
+<h3><a name="1-installation-with-docker" class="anchor" href="#1-installation-with-docker" rel="nofollow" aria-hidden="true"><span class="octicon octicon-link"></span></a>
+1. Installation with Docker</h3>
 
 <blockquote>
-<p>git clone <a href="https://github.com/leanlabsio/kanban.git" rel="nofollow">https://github.com/leanlabsio/kanban.git</a></p>
+<p>git clone <a href="https://gitlab.com/leanlabsio/kanban.git" rel="nofollow">https://gitlab.com/leanlabsio/kanban.git</a></p>
 
 <p>cd kanban</p>
 </blockquote>
+<h4><a name="1-1-register-gitlab-application-for-oauth-to-work" class="anchor" href="#1-1-register-gitlab-application-for-oauth-to-work" rel="nofollow" aria-hidden="true"><span class="octicon octicon-link"></span></a>
+1.1 Register GitLab Application for OAuth to work</h4>
 
-<p>Change default environment variables defined in docker-compose.yml</p>
+<p>Go to <a href="https://gitlab.com/profile/applications" rel="nofollow">https://gitlab.com/profile/applications</a> or your GitLab installation and register your application to get the application client ID and client secret key required for OAuth.</p>
 
 <p><strong>Where</strong></p>
 
-<p>Main variables</p>
+<blockquote>
+<p>Redirect url http://{your-kanban-installation-host}/assets/html/user/views/oauth.html</p>
+</blockquote>
+<h4><a name="1-2-change-default-environment-variables-defined-in-docker-compose-yml" class="anchor" href="#1-2-change-default-environment-variables-defined-in-docker-compose-yml" rel="nofollow" aria-hidden="true"><span class="octicon octicon-link"></span></a>
+1.2 Change default environment variables defined in docker-compose.yml</h4>
+
+<p><strong>Where</strong></p>
 
 <blockquote>
-<p>GITLAB_HOST - Your Gitlab installation host, required</p>
+<p>KANBAN_SERVER_HOSTNAME - URL on which LeanLabs Kanban will be reachable, required</p>
 
-<p>KANBAN_SECRET_KEY - Your Random secret key, used to generate jwt token, required</p>
+<p>KANBAN_SECURITY_SECRET - This string is used to generate user auth tokens</p>
 
-<p>GITLAB_API_TOKEN - Your Gitlab private API token, Using for gitlab api request for all users</p>
+<p>KANBAN_GITLAB_URL - Your GitLab host URL, required</p>
+
+<p>KANBAN_GITLAB_CLIENT - Your GitLab OAuth client ID, required for OAuth to work</p>
+
+<p>KANBAN_GITLAB_SECRET - Your GitLab OAuth client secret key, required for OAuth to work</p>
 </blockquote>
 
 <p><strong>Then</strong></p>
@@ -99,45 +111,15 @@ assuming you have installed <a href="https://docs.docker.com/compose/" rel="nofo
 <blockquote>
 <p>docker-compose up -d</p>
 </blockquote>
-<h3><a name="2-register-app-for-gitlab-oauth" class="anchor" href="#2-register-app-for-gitlab-oauth" rel="nofollow" aria-hidden="true"><span class="octicon octicon-link"></span></a>
-2. Register App For GitLab OAuth</h3>
+<h2><a name="upgrading" class="anchor" href="#upgrading" rel="nofollow" aria-hidden="true"><span class="octicon octicon-link"></span></a>
+Upgrading</h2>
 
-<p>Go to <a href="https://gitlab.com/profile/applications" rel="nofollow">https://gitlab.com/profile/applications</a> or use your installed gitlab and create a new application to use OAuth authorization.</p>
-
-<p><strong>Where</strong></p>
+<p>If you followed instructions from &#34;Installation with Docker&#34;, then the easiest way to upgrade would be:</p>
 
 <blockquote>
-<p>Redirect url http://{your-kanban-installation-host}/assets/html/user/views/oauth.html</p>
-</blockquote>
-<h3><a name="3-configure-oauth-environment" class="anchor" href="#3-configure-oauth-environment" rel="nofollow" aria-hidden="true"><span class="octicon octicon-link"></span></a>
-3. Configure OAuth Environment</h3>
-
-<p>Change default environment variables defined in docker-compose.yml</p>
-
-<blockquote>
-<p>GITLAB_OAUTH_CLIENT_ID - Application ID</p>
-
-<p>GITLAB_OAUTH_CLIENT_SECRET - Application Secret</p>
-</blockquote>
-<h3><a name="4-upgrading-kanban-leanlabs" class="anchor" href="#4-upgrading-kanban-leanlabs" rel="nofollow" aria-hidden="true"><span class="octicon octicon-link"></span></a>
-4. Upgrading Kanban.leanlabs</h3>
-
-<p>For upgrading Kanban LeanLabs to the last version</p>
-
-<blockquote>
-<p>docker-compose pull</p>
+<p>git pull</p>
 
 <p>docker-compose up -d</p>
-</blockquote>
-<h3><a name="5-basic-auth" class="anchor" href="#5-basic-auth" rel="nofollow" aria-hidden="true"><span class="octicon octicon-link"></span></a>
-5. Basic Auth</h3>
-
-<p>If your gitlab installation is secured with basic authentication</p>
-
-<blockquote>
-<p>GITLAB_BASIC_LOGIN - HTTP basic authentication login</p>
-
-<p>GITLAB_BASIC_PASSWORD -  HTTP basic authentication password</p>
 </blockquote>
 
                             <footer class="align-center">
