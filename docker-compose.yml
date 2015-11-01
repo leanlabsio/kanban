@@ -15,7 +15,7 @@ kanban:
   environment:
     # URL on which Leanlabs Kanban will be reachable
     - KANBAN_SERVER_HOSTNAME=http://kanban.gitlab.com
-    # This string is user to generate user auth tokens
+    # This string is used to generate user auth tokens
     - KANBAN_SECURITY_SECRET=qwerty
     # Your GitLab host URL
     - KANBAN_GITLAB_URL=https://gitlab.com

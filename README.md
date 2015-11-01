@@ -15,29 +15,13 @@
 The easiest way to deploy Leanlabs Kanban board is to use docker-compose. 
 Assuming you have installed [docker-compose](https://docs.docker.com/compose/) and [Docker](https://www.docker.com/).
 
-### 1. Simple usage
+### 1. Installation with Docker
 
 > git clone https://gitlab.com/leanlabsio/kanban.git
 >
 > cd kanban
 
-Change default environment variables defined in docker-compose.yml 
-
-**Where**
-
-Main variables
-
-> GITLAB_HOST - Your Gitlab installation host, required
->
-> KANBAN_SECRET_KEY - Your Random secret key, used to generate jwt token, required
->
-> GITLAB_API_TOKEN - Your Gitlab private API token, Using for gitlab api request for all users
-
-**Then**
-
-> docker-compose up -d
-
-### 2. Register App For GitLab OAuth
+#### 1.1 Register GitLab Application for OAuth to work
 
 Go to https://gitlab.com/profile/applications or you installation gitlab and register your application to get the application keys needed for OAuth.
 
@@ -45,26 +29,23 @@ Go to https://gitlab.com/profile/applications or you installation gitlab and reg
 
 > Redirect url http://{your-kanban-installation-host}/assets/html/user/views/oauth.html
 
-### 3. Configure OAuth Environment
+#### 1.2 Change default environment variables defined in docker-compose.yml 
 
-Change default environment variables defined in docker-compose.yml 
+**Where**
 
-> GITLAB_OAUTH_CLIENT_ID - Application ID
-> 
-> GITLAB_OAUTH_CLIENT_SECRET - Application Secret 
-
-### 4. Upgrading Kanban.leanlabs
-
-For upgrading Kanban LeanLabs to last version
-
-> docker-compose pull
+> KANBAN_SERVER_HOSTNAME - URL on which LeanLabs Kanban will be reachable, required
 >
+> KANBAN_SECURITY_SECRET - This string is used to generate user auth tokens
+>
+> KANBAN_GITLAB_URL - Your GitLab host URL, required
+>
+> KANBAN_GITLAB_CLIENT - Your GitLab OAuth client ID, required for OAuth to work
+>
+> KANBAN_GITLAB_SECRET - Your GitLab OAuth client secret key, required for OAuth to work
+
+**Then**
+
 > docker-compose up -d
 
-### 5. Basic Auth
 
-If you gitlab installation secured with basic authentication
 
-> GITLAB_BASIC_LOGIN - HTTP basic authentication login
->
-> GITLAB_BASIC_PASSWORD -  HTTP basic authentication password
