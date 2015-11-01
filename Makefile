@@ -1,5 +1,5 @@
 IMAGE = leanlabs/kanban
-TAG   = 1.2.4
+TAG   = 1.4.0
 
 help:
 	@echo "Here will be brief doc"
@@ -42,7 +42,7 @@ templates/templates.go: $(find $(CURDIR)/templates -name "*.html" -type f)
 		-o templates/templates.go \
 		templates/...
 
-web/web.go: $(shell find $(CURDIR)/web/ -name "*" ! -name "web.go" -type f)
+web/web.go: $(find $(CURDIR)/web/ -name "*" ! -name "web.go" -type f)
 	@go-bindata -pkg=web \
 		-o web/web.go \
 		web/assets/... web/images/... web/template/...
@@ -54,9 +54,9 @@ kanban: $(find $(CURDIR) -name "*.go" -type f)
 
 release: clean build templates/templates.go web/web.go kanban
 	@docker build -t $(IMAGE) .
-#	@docker tag $(IMAGE):latest $(IMAGE):$(TAG)
-#	@docker push $(IMAGE):latest
-# 	@docker push $(IMAGE):$(TAG)
+	@docker tag $(IMAGE):latest $(IMAGE):$(TAG)
+	@docker push $(IMAGE):latest
+	@docker push $(IMAGE):$(TAG)
 
 clean:
 	@rm -rf web/
