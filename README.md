@@ -4,12 +4,6 @@
 [![Analytics](https://ga-beacon.appspot.com/UA-66361671-1/leanlabs/kanban)](https://github.com/igrigorik/ga-beacon)
 #### Instant project management for your GitLab repositories
 
-# FAQ
-
-1. [How to install Kanban.Leanlabs](https://gitlab.com/leanlabsio/kanban/wikis/Installation)
-2. [How to customize column](https://gitlab.com/leanlabsio/kanban/wikis/Customizing-columns)
-
-
 ## Installation
 
 The easiest way to deploy Leanlabs Kanban board is to use docker-compose. 
@@ -55,4 +49,10 @@ If you followed instructions from "Installation with Docker", then the easiest w
 > git pull
 >
 > docker-compose up -d
+
+
+# FAQ
+
+1. [How to install Kanban.Leanlabs](http://kanban.leanlabs.io/documentation/Installation)
+2. [How to customize column](http://kanban.leanlabs.io/documentation/Customizing-columns)
 
