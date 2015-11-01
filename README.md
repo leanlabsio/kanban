@@ -2,6 +2,7 @@
 
 [![Join the chat at https://gitter.im/leanlabsio/kanban](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/leanlabsio/kanban?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Analytics](https://ga-beacon.appspot.com/UA-66361671-1/leanlabs/kanban)](https://github.com/igrigorik/ga-beacon)
+[![](https://badge.imagelayers.io/leanlabs/kanban:1.4.0.svg)](https://imagelayers.io/?images=leanlabs/kanban:1.4.0 'Get your own badge on imagelayers.io')
 #### Instant project management for your GitLab repositories
 
 ## Installation
