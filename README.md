@@ -48,4 +48,11 @@ Go to https://gitlab.com/profile/applications or your GitLab installation and re
 > docker-compose up -d
 
 
+## Upgrading
+
+If you followed instructions from "Installation with Docker", then the easiest way to upgrade would be:
+
+> git pull
+>
+> docker-compose up -d
 
