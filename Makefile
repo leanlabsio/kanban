@@ -12,18 +12,45 @@ test:
 	@protractor $(CURDIR)/tests/e2e.conf.js
 
 build:
-	@docker run --rm -v $(CURDIR):/data -v $$HOME/node_cache:/cache leanlabs/npm-builder npm install
-	@docker run --rm -v $(CURDIR):/data -v $$HOME/node_cache:/cache leanlabs/npm-builder bower install --allow-root
-	@docker run --rm -v $(CURDIR):/data -v $$HOME/node_cache:/cache leanlabs/npm-builder grunt build
+	@docker run --rm \
+		-v $(CURDIR):/data \
+		-v $$HOME/node_cache:/cache \
+		-v /etc/passwd:/etc/passwd \
+		-v /etc/group:/etc/group \
+		-u $$USER \
+		leanlabs/npm-builder npm install
+
+	@docker run --rm \
+		-v $(CURDIR):/data \
+		-v $$HOME/node_cache:/cache \
+		-v /etc/passwd:/etc/passwd \
+		-v /etc/group:/etc/group \
+		-e HOME=/cache \
+		-u $$USER \
+		leanlabs/npm-builder bower install
+
+	@docker run --rm \
+		-v $(CURDIR):/data \
+		-v $$HOME/node_cache:/cache \
+		-v /etc/passwd:/etc/passwd \
+		-v /etc/group:/etc/group \
+		-u $$USER \
+		leanlabs/npm-builder grunt build
 
 templates/templates.go: $(find $(CURDIR)/templates -name "*.html" -type f)
-	@go-bindata -pkg=templates -o templates/templates.go templates/...
+	@go-bindata -pkg=templates \
+		-o templates/templates.go \
+		templates/...
 
 web/web.go: $(shell find $(CURDIR)/web/ -name "*" ! -name "web.go" -type f)
-	@go-bindata -pkg=web -o web/web.go web/assets/... web/images/... web/template/...
+	@go-bindata -pkg=web \
+		-o web/web.go \
+		web/assets/... web/images/... web/template/...
 
 kanban: $(find $(CURDIR) -name "*.go" -type f)
-	@docker run --rm -v $(CURDIR):/data leanlabs/go-builder
+	@docker run --rm \
+		-v $(CURDIR):/src \
+		leanlabs/golang-builder
 
 release: clean build templates/templates.go web/web.go kanban
 	@docker build -t $(IMAGE) .
@@ -32,7 +59,7 @@ release: clean build templates/templates.go web/web.go kanban
 # 	@docker push $(IMAGE):$(TAG)
 
 clean:
-	@rm -f web/web.go
+	@rm -rf web/
 	@rm -f templates/templates.go
 	@rm -f kanban
 

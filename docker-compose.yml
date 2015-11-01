@@ -5,39 +5,29 @@ proxy:
     - "./build/certs:/etc/nginx/certs"
     - "./build/sites-enabled:/etc/nginx/sites-enabled"
   links: 
-    - client:client
-    - backend:backend
-    - wsserver:wsserver
+    - kanban:kanban
   ports:
     - "443:443"
     - "80:80"
 
-client:
-  image: leanlabs/client:1.2.4
+kanban:
+  image: leanlabs/kanban:1.4.0
   environment:
-    - GITLAB_HOST=https://gitlab.com/
-
-backend: 
-  image: leanlabs/backend:1.1.8
+    # URL on which Leanlabs Kanban will be reachable
+    - KANBAN_SERVER_HOSTNAME=http://kanban.gitlab.com
+    # This string is user to generate user auth tokens
+    - KANBAN_SECURITY_SECRET=qwerty
+    # Your GitLab host URL
+    - KANBAN_GITLAB_URL=https://gitlab.com
+    # Your GitLab OAuth client ID
+    - KANBAN_GITLAB_CLIENT=qwerty
+    # Your GitLab OAuth client secret key
+    - KANBAN_GITLAB_SECRET=qwerty
+    # Redis server address - IP:PORT
+    - KANBAN_REDIS_ADDR=redis:6379
   links:
-    - rabbitmq:rabbitmq
     - redis:redis
-  environment: 
-    - GITLAB_HOST=https://gitlab.com/
-    - GITLAB_OAUTH_CLIENT_ID=qwerty
-    - GITLAB_OAUTH_CLIENT_SECRET=qwerty
-    - GITLAB_API_TOKEN=qwerty
-    - GITLAB_BASIC_LOGIN=0
-    - GITLAB_BASIC_PASSWORD=0
-    - KANBAN_SECRET_KEY=secret
-
-wsserver: 
-  image: leanlabs/wsserver:0.0.3
-  links:
-    - rabbitmq:rabbitmq
-
-rabbitmq:
-  image: rabbitmq:3.4.4
+  command: ./kanban server
 
 redis:
   image: leanlabs/redis:1.0.0
