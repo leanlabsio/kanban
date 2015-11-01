@@ -114,11 +114,19 @@ blockquote {
     border-left: solid 4px rgba(144, 144, 144, 0.25);
     font-style: italic;
     margin: 0 0 2em 0;
-    padding: 0.5em 0 0.5em 2em;
+    padding: 0 0 0 0.5em;
 }
 
-blockquote p {
-    margin: 0;
+blockquote p{
+    margin-bottom: 16px;
+}
+
+blockquote p:first-child {
+    margin-top: 0;
+}
+
+blockquote p:last-child {
+    margin-top: 0;
 }
 
 code {
