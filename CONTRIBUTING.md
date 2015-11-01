@@ -4,5 +4,5 @@ Want to hack on Kanban? Awesome! This page contains information about reporting 
 
 ## Reporting issues
 
-When reporting issues, please first check that our [issues database](https://gitlab.com/kanban/kanban/issues) doesn't already include that problem or suggestion before submitting an issue.
+When reporting issues, please first check that our [issues database](https://gitlab.com/leanlabsio/kanban/issues) doesn't already include that problem or suggestion before submitting an issue.
 
