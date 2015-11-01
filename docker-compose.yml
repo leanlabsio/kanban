@@ -1,0 +1,46 @@
+proxy:
+  image: leanlabs/nginx:1.0.1
+  volumes:
+    - "./build/conf.d:/etc/nginx/conf.d"
+    - "./build/certs:/etc/nginx/certs"
+    - "./build/sites-enabled:/etc/nginx/sites-enabled"
+  links: 
+    - client:client
+    - backend:backend
+    - wsserver:wsserver
+  ports:
+    - "443:443"
+    - "80:80"
+
+client:
+  image: leanlabs/client:1.2.4
+  environment:
+    - GITLAB_HOST=https://gitlab.com/
+
+backend: 
+  image: leanlabs/backend:1.1.8
+  links:
+    - rabbitmq:rabbitmq
+    - redis:redis
+  environment: 
+    - GITLAB_HOST=https://gitlab.com/
+    - GITLAB_OAUTH_CLIENT_ID=qwerty
+    - GITLAB_OAUTH_CLIENT_SECRET=qwerty
+    - GITLAB_API_TOKEN=qwerty
+    - GITLAB_BASIC_LOGIN=0
+    - GITLAB_BASIC_PASSWORD=0
+    - KANBAN_SECRET_KEY=secret
+
+wsserver: 
+  image: leanlabs/wsserver:0.0.3
+  links:
+    - rabbitmq:rabbitmq
+
+rabbitmq:
+  image: rabbitmq:3.4.4
+
+redis:
+  image: leanlabs/redis:1.0.0
+  volumes:
+    - "/data:/data"
+
