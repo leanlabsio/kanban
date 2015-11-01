@@ -23,7 +23,7 @@ Assuming you have installed [docker-compose](https://docs.docker.com/compose/) a
 
 #### 1.1 Register GitLab Application for OAuth to work
 
-Go to https://gitlab.com/profile/applications or you installation gitlab and register your application to get the application keys needed for OAuth.
+Go to https://gitlab.com/profile/applications or your GitLab installation and register your application to get the application client ID and client secret key required for OAuth.
 
 **Where**
 
