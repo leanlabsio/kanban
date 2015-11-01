@@ -1,3 +1,9 @@
+# 1.4.0 (2015-11-01)
+
+## Features:
+
+- Rewritten server side to enable installation without docker
+
 # 1.3.0 (2015-09-06)
 
 ## Features:
