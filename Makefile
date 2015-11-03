@@ -52,6 +52,27 @@ kanban: $(find $(CURDIR) -name "*.go" -type f)
 		-v $(CURDIR):/src \
 		leanlabs/golang-builder
 
+
+bin/linux/x86_64/kanban: $(find $(CURDIR) -name "*.go" -type f)
+	@docker run --rm \
+		-v $(CURDIR):/src \
+		-e GOOS=linux \
+		-e GOARCH=amd64 \
+		leanlabs/golang-builder
+
+	-mkdir -p $(CURDIR)/bin/linux/x86_64/
+	@mv kanban $(CURDIR)/bin/linux/x86_64/
+
+bin/darwin/x86_64/kanban: $(find $(CURDIR) -name "*.go" -type f)
+	@docker run --rm \
+		-v $(CURDIR):/src \
+		-e GOOS=darwin \
+		-e GOARCH=amd64 \
+		leanlabs/golang-builder
+
+	-mkdir -p $(CURDIR)/bin/darwin/x86_64/
+	@mv kanban $(CURDIR)/bin/darwin/x86_64/
+
 release: clean build templates/templates.go web/web.go kanban
 	@docker build -t $(IMAGE) .
 	@docker tag $(IMAGE):latest $(IMAGE):$(TAG)
