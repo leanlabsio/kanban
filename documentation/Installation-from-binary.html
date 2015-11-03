@@ -2,7 +2,7 @@
 <html lang="en">
 	<head>
 		<meta charset="UTF-8">
-		<title>Kanban documentation | Customizing-columns</title>
+		<title>Kanban documentation | Installation-from-binary</title>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
 		<meta name="description" content="Documentation for installation and custumisation gitlab kanban board for issues"/>
 		<meta name="keywords" content="gitlab, kanban, gitlab kanban board documentation"/>
@@ -77,38 +77,34 @@ Advanced</h4>
 							</nav>
 						</section>
 						<section class="9u 12u$(small)">
-                            <h2><a name="customizing-columns" class="anchor" href="#customizing-columns" rel="nofollow" aria-hidden="true"><span class="octicon octicon-link"></span></a>Customizing columns</h2>
-
-<p>Kanban LeanLabs relies on specially formatted labels in your project for it&#39;s work. Kanban LeanLabs labels use the following pattern.</p>
+                            <h2><a name="installation-from-binary" class="anchor" href="#installation-from-binary" rel="nofollow" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation from binary</h2>
+<h3><a name="1-download" class="anchor" href="#1-download" rel="nofollow" aria-hidden="true"><span class="octicon octicon-link"></span></a>
+1. Download</h3>
 
 <blockquote>
-<p>KB[stage][0][Backlog]</p>
+<p><a href="https://github.com/leanlabsio/kanban/releases/download/1.4.1/kanban_x86_64_linux" rel="nofollow">Linux x86_64</a></p>
+
+<p><a href="https://github.com/leanlabsio/kanban/releases/download/1.4.1/kanban_x86_64_darwin" rel="nofollow">MacOS x86_64</a></p>
 </blockquote>
+<h4><a name="1-2-install-redis" class="anchor" href="#1-2-install-redis" rel="nofollow" aria-hidden="true"><span class="octicon octicon-link"></span></a>
+1.2 Install redis</h4>
 
-<p><strong>Where:</strong></p>
+<p><a href="http://redis.io/download#installation" rel="nofollow">Redis</a></p>
+<h4><a name="1-3-start-server" class="anchor" href="#1-3-start-server" rel="nofollow" aria-hidden="true"><span class="octicon octicon-link"></span></a>
+1.3 Start server</h4>
 
 <blockquote>
-<p>KB[stage]  - reserved prefix for columns</p>
+<p>chmod +x kanban</p>
 
-<p>[0] - position columns</p>
-
-<p>[Backlog] - column title</p>
+<p>./kanban server --redis-addr 127.0.0.1:6379</p>
 </blockquote>
+<h4><a name="1-4-command-line-flags" class="anchor" href="#1-4-command-line-flags" rel="nofollow" aria-hidden="true"><span class="octicon octicon-link"></span></a>
+1.4 Command line flags</h4>
 
-<p>LeanLabs board configuration by default creates labels</p>
+<p>List available cli flags:</p>
 
 <blockquote>
-<p>KB[stage][0][Backlog]</p>
-
-<p>KB[stage][1][Analysis]</p>
-
-<p>KB[stage][2][Development]</p>
-
-<p>KB[stage][3][Testing]</p>
-
-<p>KB[stage][4][Production]</p>
-
-<p>KB[stage][5][Ready]</p>
+<p>./kanban server -h</p>
 </blockquote>
 
                             <footer class="align-center">
