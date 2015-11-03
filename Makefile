@@ -52,14 +52,26 @@ kanban: $(find $(CURDIR) -name "*.go" -type f)
 		-v $(CURDIR):/src \
 		leanlabs/golang-builder
 
-# Here we should repeat build for target platform and architectures
-# may be there would be and array of both
-bin/linux/amd64: $(find $(CURDIR) -name "*.go" -type f)
+
+bin/linux/x86_64/kanban: $(find $(CURDIR) -name "*.go" -type f)
 	@docker run --rm \
 		-v $(CURDIR):/src \
 		-e GOOS=linux \
 		-e GOARCH=amd64 \
 		leanlabs/golang-builder
+
+	-mkdir -p $(CURDIR)/bin/linux/x86_64/
+	@mv kanban $(CURDIR)/bin/linux/x86_64/
+
+bin/darwin/x86_64/kanban: $(find $(CURDIR) -name "*.go" -type f)
+	@docker run --rm \
+		-v $(CURDIR):/src \
+		-e GOOS=darwin \
+		-e GOARCH=amd64 \
+		leanlabs/golang-builder
+
+	-mkdir -p $(CURDIR)/bin/darwin/x86_64/
+	@mv kanban $(CURDIR)/bin/darwin/x86_64/
 
 release: clean build templates/templates.go web/web.go kanban
 	@docker build -t $(IMAGE) .
