@@ -43,12 +43,13 @@
 			<header id="header">
 				<h1><a href="/"><img style="height:50px; margin-top: 15px;" src="/images/logo.png" alt="leanlabs"></a></h1>
 				<nav id="nav">
-					<ul>
-						<li><a href="/">Home</a></li>
+                    <ul>
+                        <li><a href="/">Home</a></li>
                         <li><a href="/enterprise">Enterprise</a></li>
-						<li><a href="/documentation/Home">Documentation</a></li>
-						<li><a href="http://blog.leanlabs.io" target="blank">Blog</a></li>
-					</ul>
+                        <li><a href="/documentation/Home">Documentation</a></li>
+                        <li><a href="http://blog.leanlabs.io" target="_blank">Blog</a></li>
+                        <li><a href="/downloads" class="button disabled"><span class="fa fa-download"></span>&nbsp;Download</a></li>
+                    </ul>
 				</nav>
 			</header>
 
