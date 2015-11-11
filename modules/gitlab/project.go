@@ -72,7 +72,7 @@ func (g *GitlabContext) ListProjects(o *ProjectListOptions) ([]*Project, error) 
 // GitLab API docs:
 // http://doc.gitlab.com/ce/api/projects.html#get-single-project
 func (g *GitlabContext) ItemProject(project_id string) (*Project, error) {
-	path := getUrl([]string{"projects", strings.Replace(url.QueryEscape(project_id), ".", "%2E", -1)}))
+	path := getUrl([]string{"projects", strings.Replace(url.QueryEscape(project_id), ".", "%2E", -1)})
 	req, _ := http.NewRequest("GET", path, nil)
 
 	var ret Project
