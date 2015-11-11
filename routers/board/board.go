@@ -29,7 +29,13 @@ func ItemBoard(ctx *middleware.Context) {
 	board, err := models.ItemBoard(ctx.User, ctx.Provider, ctx.Query("project_id"))
 
 	if err != nil {
-		ctx.JSON(http.StatusUnauthorized, &models.ResponseError{
+		if err, ok := err.(models.ReceivedDataErr); ok {
+			ctx.JSON(err.StatusCode, &models.ResponseError{
+				Success: false,
+				Message: err.Error(),
+			})
+		}
+		ctx.JSON(http.StatusInternalServerError, &models.ResponseError{
 			Success: false,
 			Message: err.Error(),
 		})

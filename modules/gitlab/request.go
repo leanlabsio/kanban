@@ -3,7 +3,6 @@ package gitlab
 import (
 	"bytes"
 	"encoding/json"
-	"errors"
 	"fmt"
 	"github.com/google/go-querystring/query"
 	"io"
@@ -12,6 +11,16 @@ import (
 	"reflect"
 	"strings"
 )
+
+type ResponseError struct {
+	message string
+	StatusCode int
+}
+
+// Type response error for usage logic
+func (r ResponseError) Error() string {
+	return r.message
+}
 
 // Do sends an HTTP request and returns an HTTP response, following
 // policy (e.g. redirects, cookies, auth) as configured on the client.
@@ -51,7 +60,12 @@ func CheckResponse(r *http.Response) error {
 	var res interface{}
 	json.NewDecoder(r.Body).Decode(&res)
 
-	return errors.New(fmt.Sprintf("Bad response code: %s \n Request url: %s \n Data %+v", r.StatusCode, r.Request.URL.RequestURI(), res))
+	logs := fmt.Sprintf("Bad response code: %d \n Request url: %s \n Data %+v", r.StatusCode, r.Request.URL.RequestURI(), res)
+	fmt.Print(logs)
+	return ResponseError{
+		message: logs,
+		StatusCode: r.StatusCode,
+	}
 }
 
 // NewRequest creates an API request. A relative URL can be provided in urlStr,
