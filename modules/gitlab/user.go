@@ -39,6 +39,27 @@ func (g *GitlabContext) ListProjectMembers(project_id string, o *ListOptions) ([
 	return ret, nil
 }
 
+// ListProjectMembers gets a list of a group's team members.
+//
+// GitLab API docs:
+// http://doc.gitlab.com/ce/api/groups.html#list-group-members
+func (g *GitlabContext) ListGroupMembers(group_id string, o *ListOptions) ([]*User, error)  {
+	path := getUrl([]string{"groups", group_id, "members"})
+	u, err := addOptions(path, o)
+	if err != nil {
+		return nil, err
+	}
+
+	req, _ := http.NewRequest("GET", u, nil)
+
+	var ret []*User
+	if _, err := g.Do(req, &ret); err != nil {
+		return nil, err
+	}
+
+	return ret, nil
+}
+
 // CurrentUser gets currently authenticated user.
 //
 // GitLab API docs: http://doc.gitlab.com/ce/api/users.html#current-user

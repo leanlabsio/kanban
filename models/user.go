@@ -167,8 +167,28 @@ func ListMembers(u *User, provider, board_id string) ([]*User, error) {
 			return nil, err
 		}
 
+		b, err := ItemBoard(u, provider, board_id)
+		fmt.Printf("%+v", b)
+
+		if err != nil {
+			return nil, err
+		}
+
+		exist := make(map[string]bool)
+
+		if (b.Owner == nil) {
+			u, _ := c.ListGroupMembers(fmt.Sprintf("%d", b.Namespace.Id), &gitlab.ListOptions{})
+
+			for _, item := range u {
+				exist[item.Username] = true;
+				mem = append(mem, mapUserFromGitlab(item))
+			}
+		}
+
 		for _, item := range r {
-			mem = append(mem, mapUserFromGitlab(item))
+			if !exist[item.Username] {
+				mem = append(mem, mapUserFromGitlab(item))
+			}
 		}
 	}
 
