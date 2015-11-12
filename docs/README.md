@@ -10,4 +10,4 @@ This is work in progress, feel free to [submit an issues](https://gitlab.com/lea
 
 ### Configuration
 
-[Configuration guides](configuration)
+[Configuration guides](docs/configuration)
