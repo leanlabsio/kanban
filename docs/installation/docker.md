@@ -39,7 +39,7 @@ LeanLabs Kanban image requires Redis, which [we are also providing](https://hub.
 
     Go to your GitLab profile section "Application" and press button "New Application"
 
-    ![applications page](gitlab_oauths/applications.jpg)
+    ![applications page](gitlab_oauth/applications.jpg)
 
     After this you will see "New application" form, where "Name" is arbitrary name, e.g. "kanban", and "Redirect URI" is an URL in kanban where users will be sent after authorization in GitLab.
 
