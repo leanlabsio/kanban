@@ -7,19 +7,21 @@
 
 ## Installation
 
-Install Requrements:  
-OS: kernel minimum 3.10 (centOS 7)  
+Minimum Install Requrements:  
+OS: kernel minimum 3.10 (centOS 7, Ubuntu 14.04)  
 Packages: git, curl  
-`sudo yum -y install git, curl`  
+
+>`sudo yum -y install git, curl`  
 
 The easiest way to deploy Leanlabs Kanban board is to use docker-compose. Install instructions here.
 Assuming you have installed [Docker](http://docs.docker.com/engine/installation/) and [docker-compose](http://docs.docker.com/compose/install/).
 
 ### 1. Installation with Docker
 
-> git clone https://gitlab.com/leanlabsio/kanban.git
+>` git clone https://gitlab.com/leanlabsio/kanban.git`
 >
-> cd kanban
+>` cd kanban`
+
 
 #### 1.1 Register GitLab Application for OAuth to work
 
@@ -27,34 +29,34 @@ Go to https://gitlab.com/profile/applications or your GitLab installation and re
 
 **Where**
 
-> Redirect url http[s]://{KANBAN_SERVER_HOSTNAME}/assets/html/user/views/oauth.html
+> `Redirect url http[s]://{KANBAN_SERVER_HOSTNAME}/assets/html/user/views/oauth.html`
 
 #### 1.2 Change default environment variables defined in docker-compose.yml 
 
 **Where**
 
-> KANBAN_SERVER_HOSTNAME | http[s]://{KANBAN_SERVER_HOSTNAME} - URL on which LeanLabs Kanban will be reachable [same as redirect url with out /assets/html...], required
+> `KANBAN_SERVER_HOSTNAME` | http[s]://{KANBAN_SERVER_HOSTNAME} - URL on which LeanLabs Kanban will be reachable [same as redirect url with out /assets/html...], required
 >
-> KANBAN_SECURITY_SECRET | Change this string to antyhing you like. This string is used to generate user auth tokens
+> `KANBAN_SECURITY_SECRET` | Change this string to antyhing you like. This string is used to generate user auth tokens
 >
-> KANBAN_GITLAB_URL | http[s]://{gitlab.example.com:port} - Your GitLab host URL, required
+> `KANBAN_GITLAB_URL` | http[s]://{gitlab.example.com:port} - Your GitLab host URL, required
 >
-> KANBAN_GITLAB_CLIENT | Your GitLab OAuth client application ID, required for OAuth to work. Git this from your gitlab server.
+> `KANBAN_GITLAB_CLIENT` | Your GitLab OAuth client application ID, required for OAuth to work. Git this from your gitlab server.
 >
-> KANBAN_GITLAB_SECRET | Your GitLab OAuth client secret key, required for OAuth to work. Git this from your gitlab server.
+> `KANBAN_GITLAB_SECRET` | Your GitLab OAuth client secret key, required for OAuth to work. Git this from your gitlab server.
 
 **Then**
 
-> docker-compose up -d
+> `docker-compose up -d`
 
 
 ## Upgrading
 
 If you followed instructions from "Installation with Docker", then the easiest way to upgrade would be:
 
-> git pull
+> `git pull`
 >
-> docker-compose up -d
+> `docker-compose up -d`
 
 
 # FAQ
