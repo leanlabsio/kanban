@@ -1,4 +1,4 @@
-### Apache web server configuration guide
+# Apache web server configuration guide
 
 The configuration files in this directory was tested with Apache version 2.4.7.
 
@@ -8,7 +8,7 @@ To set up kanban you first need to enable several additional apache modules:
 - proxy
 - proxy_http
 
-### Common issues
+## Common issues
 
 Internally Kanban uses GitLab API. So misconfiguration of GitLab web server could lead to potentially kanban malfunction.
 Here you will find common issues we faced with GitLab + Apache setup and how to solve them.
