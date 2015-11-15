@@ -78,6 +78,10 @@ func ItemBoard(u *User, provider string, board_id string) (*Board, error) {
 		c := gitlab.NewContext(u.Credential["gitlab"].Token, u.Credential["gitlab"].PrivateToken)
 		r, err := c.ItemProject(board_id)
 
+		if err, ok := err.(gitlab.ResponseError); ok {
+			return nil, ReceivedDataErr{err.Error(), err.StatusCode}
+		}
+
 		if err != nil {
 			return nil, err
 		}
