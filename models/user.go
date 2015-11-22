@@ -8,7 +8,7 @@ import (
 	"fmt"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/spf13/viper"
-	"gitlab.com/kanban/kanban/modules/gitlab"
+	"gitlab.com/leanlabsio/kanban/modules/gitlab"
 	"golang.org/x/oauth2"
 	"strings"
 	"time"
@@ -59,9 +59,9 @@ func LoadUserByUsername(uname string) (*User, error) {
 
 	u := User{
 		Username: val["username"],
-		Passwd: val["password"],
-		Email: val["email"],
-		Name: val["name"],
+		Passwd:   val["password"],
+		Email:    val["email"],
+		Name:     val["name"],
 	}
 
 	if val["credentials"] != "" {
@@ -176,11 +176,11 @@ func ListMembers(u *User, provider, board_id string) ([]*User, error) {
 
 		exist := make(map[string]bool)
 
-		if (b.Owner == nil) {
+		if b.Owner == nil {
 			u, _ := c.ListGroupMembers(fmt.Sprintf("%d", b.Namespace.Id), &gitlab.ListOptions{})
 
 			for _, item := range u {
-				exist[item.Username] = true;
+				exist[item.Username] = true
 				mem = append(mem, mapUserFromGitlab(item))
 			}
 		}

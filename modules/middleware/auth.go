@@ -2,8 +2,8 @@ package middleware
 
 import (
 	"github.com/Unknwon/macaron"
-	"gitlab.com/kanban/kanban/models"
-	"gitlab.com/kanban/kanban/modules/auth"
+	"gitlab.com/leanlabsio/kanban/models"
+	"gitlab.com/leanlabsio/kanban/modules/auth"
 )
 
 // Auther checks jwt authentication

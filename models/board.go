@@ -1,7 +1,7 @@
 package models
 
 import (
-	"gitlab.com/kanban/kanban/modules/gitlab"
+	"gitlab.com/leanlabsio/kanban/modules/gitlab"
 )
 
 // Board represents a kanban board.

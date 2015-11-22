@@ -2,7 +2,7 @@ package models
 
 import (
 	"github.com/spf13/viper"
-	"gitlab.com/kanban/kanban/modules/gitlab"
+	"gitlab.com/leanlabsio/kanban/modules/gitlab"
 	"golang.org/x/oauth2"
 	"gopkg.in/redis.v3"
 	"log"
