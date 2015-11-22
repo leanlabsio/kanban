@@ -221,6 +221,14 @@ module.exports = function (grunt) {
                         src: ['**/*.png'], 
                         dest: 'web/images/', 
                         filter: 'isFile'
+                    },
+                    {
+                        flatten: false,
+                        expand: true, 
+                        cwd: 'src/static/images/', 
+                        src: ['**/*.svg'], 
+                        dest: 'web/images/', 
+                        filter: 'isFile'
                     }
         ]
     }
