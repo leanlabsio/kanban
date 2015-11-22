@@ -1,3 +1,6 @@
 [submodule "kanban.wiki"]
 	path = kanban.wiki
 	url = https://github.com/leanlabsio/kanban.wiki.git
+[submodule "docs.source"]
+	path = docs.source
+	url = git@github.com:leanlabsio/kanban.git
