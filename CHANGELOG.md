@@ -1,3 +1,13 @@
+# 1.4.2 (2015-11-22)
+
+## Bugfixes:
+
+- Projects with dot in name now works, resolves [#91](https://gitlab.com/leanlabsio/kanban/issues/91) (Anton Popov).
+- Show group and project members in "Assign" menu, resolves [#94](https://gitlab.com/leanlabsio/kanban/issues/94) (Anton Popov).
+- Updated GitLab logo in signin form (Michael Filonenko).
+- Fixed comments spam, when moving card in same column (Michael Filonenko).
+- Changed confusing text in sign in form to be more user friendly (Anton Popov)
+
 # 1.4.0 (2015-11-01)
 
 ## Features:

@@ -67,5 +67,5 @@ func NewContext(c *cobra.Command) {
 		viper.BindPFlag("redis.db", c.Flags().Lookup("redis-db"))
 	}
 
-	viper.SetDefault("version", "1.4.1")
+	viper.SetDefault("version", "1.4.2")
 }
