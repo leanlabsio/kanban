@@ -3,9 +3,9 @@ package user
 import (
 	"fmt"
 	"github.com/Unknwon/macaron"
-	"gitlab.com/kanban/kanban/models"
-	"gitlab.com/kanban/kanban/modules/auth"
-	"gitlab.com/kanban/kanban/modules/middleware"
+	"gitlab.com/leanlabsio/kanban/models"
+	"gitlab.com/leanlabsio/kanban/modules/auth"
+	"gitlab.com/leanlabsio/kanban/modules/middleware"
 	"log"
 	"net/http"
 )

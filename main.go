@@ -1,8 +1,8 @@
-package main // import "gitlab.com/kanban/kanban"
+package main // import "gitlab.com/leanlabsio/kanban"
 
 import (
 	"github.com/spf13/cobra"
-	"gitlab.com/kanban/kanban/cmd"
+	"gitlab.com/leanlabsio/kanban/cmd"
 )
 
 // AppVer defines application version

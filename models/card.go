@@ -3,7 +3,7 @@ package models
 import (
 	"encoding/json"
 	"fmt"
-	"gitlab.com/kanban/kanban/modules/gitlab"
+	"gitlab.com/leanlabsio/kanban/modules/gitlab"
 	"regexp"
 	"strconv"
 	"strings"
@@ -17,7 +17,7 @@ type Card struct {
 	Milestone   *Milestone  `json:"milestone"`
 	Author      *User       `json:"author"`
 	Description string      `json:"description"`
-	Labels      *[]string    `json:"labels"`
+	Labels      *[]string   `json:"labels"`
 	ProjectId   int64       `json:"project_id"`
 	Properties  *Properties `json:"properties"`
 	State       string      `json:"state"`
@@ -160,7 +160,7 @@ func mapCardRequestToGitlab(c *CardRequest) *gitlab.IssueRequest {
 func mapCardDescriptionToGitlab(desc string, t []*Todo, p *Properties) string {
 	var d string
 	var chek string
-	d = strings.TrimSpace(desc);
+	d = strings.TrimSpace(desc)
 	for _, v := range t {
 		if v.Checked {
 			chek = "x"
@@ -176,7 +176,7 @@ func mapCardDescriptionToGitlab(desc string, t []*Todo, p *Properties) string {
 		d = fmt.Sprintf("%s\n\n<!-- @KB:%s -->", strings.TrimSpace(d), string(pr))
 	}
 
-	return strings.TrimSpace(d);
+	return strings.TrimSpace(d)
 }
 
 // mapCardFromGitlab mapped gitlab issue to kanban card
@@ -198,7 +198,7 @@ func mapCardFromGitlab(c *gitlab.Issue) *Card {
 }
 
 // removeDuplicates removed duplicates
-func removeDuplicates(xs *[]string) (*[]string) {
+func removeDuplicates(xs *[]string) *[]string {
 	found := make(map[string]bool)
 	j := 0
 	for i, x := range *xs {

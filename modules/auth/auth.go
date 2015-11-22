@@ -5,7 +5,7 @@ import (
 	"github.com/Unknwon/macaron"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/spf13/viper"
-	"gitlab.com/kanban/kanban/models"
+	"gitlab.com/leanlabsio/kanban/models"
 )
 
 // SignedInUser returns models.User instance if user exists

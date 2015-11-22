@@ -1,7 +1,7 @@
 package models
 
 import (
-	"gitlab.com/kanban/kanban/modules/gitlab"
+	"gitlab.com/leanlabsio/kanban/modules/gitlab"
 	"regexp"
 	"strconv"
 )
@@ -12,14 +12,13 @@ type Label struct {
 }
 
 type Stage struct {
-	Name string
+	Name     string
 	Position int
 }
 
 var (
 	stageReg = regexp.MustCompile(`KB\[stage\]\[(\d)\]\[(.*)\]`)
 )
-
 
 // ListLabels returns list kanban labels for board
 func ListLabels(u *User, provider, board_id string) ([]*Label, error) {

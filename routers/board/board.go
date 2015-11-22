@@ -1,8 +1,8 @@
 package board
 
 import (
-	"gitlab.com/kanban/kanban/models"
-	"gitlab.com/kanban/kanban/modules/middleware"
+	"gitlab.com/leanlabsio/kanban/models"
+	"gitlab.com/leanlabsio/kanban/modules/middleware"
 	"net/http"
 )
 

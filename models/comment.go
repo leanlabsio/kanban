@@ -2,7 +2,7 @@ package models
 
 import (
 	"encoding/json"
-	"gitlab.com/kanban/kanban/modules/gitlab"
+	"gitlab.com/leanlabsio/kanban/modules/gitlab"
 	"regexp"
 	"strconv"
 	"strings"

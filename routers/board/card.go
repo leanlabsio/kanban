@@ -1,10 +1,10 @@
 package board
 
 import (
-	"gitlab.com/kanban/kanban/models"
-	"gitlab.com/kanban/kanban/modules/middleware"
-	"net/http"
 	"fmt"
+	"gitlab.com/leanlabsio/kanban/models"
+	"gitlab.com/leanlabsio/kanban/modules/middleware"
+	"net/http"
 )
 
 // ListCards gets a list of card on board accessible by the authenticated user.
@@ -40,9 +40,8 @@ func CreateCard(ctx *middleware.Context, form models.CardRequest) {
 		Data: card,
 	})
 
-
 	ctx.Broadcast(card.RoutingKey(), &models.Response{
-		Data: card,
+		Data:  card,
 		Event: "card.create",
 	})
 }
@@ -64,7 +63,7 @@ func UpdateCard(ctx *middleware.Context, form models.CardRequest) {
 	})
 
 	ctx.Broadcast(card.RoutingKey(), &models.Response{
-		Data: card,
+		Data:  card,
 		Event: "card.update",
 	})
 }
@@ -85,9 +84,8 @@ func DeleteCard(ctx *middleware.Context, form models.CardRequest) {
 		Data: card,
 	})
 
-
 	ctx.Broadcast(card.RoutingKey(), &models.Response{
-		Data: card,
+		Data:  card,
 		Event: "card.delete",
 	})
 }
@@ -109,7 +107,7 @@ func MoveToCard(ctx *middleware.Context, form models.CardRequest) {
 	})
 
 	ctx.Broadcast(card.RoutingKey(), &models.Response{
-		Data: card,
+		Data:  card,
 		Event: "card.move",
 	})
 
@@ -118,9 +116,9 @@ func MoveToCard(ctx *middleware.Context, form models.CardRequest) {
 
 	if source.Name != dest.Name {
 		com := models.CommentRequest{
-		CardId: form.CardId,
+			CardId:    form.CardId,
 			ProjectId: form.ProjectId,
-			Body: fmt.Sprintf("moved issue from **%s** to **%s**", source.Name, dest.Name),
+			Body:      fmt.Sprintf("moved issue from **%s** to **%s**", source.Name, dest.Name),
 		}
 
 		go func() {

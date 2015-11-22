@@ -3,8 +3,8 @@ package middleware
 import (
 	"encoding/json"
 	"github.com/Unknwon/macaron"
-	"gitlab.com/kanban/kanban/models"
-	"gitlab.com/kanban/kanban/ws"
+	"gitlab.com/leanlabsio/kanban/models"
+	"gitlab.com/leanlabsio/kanban/ws"
 )
 
 type Context struct {
