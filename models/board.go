@@ -2,6 +2,7 @@ package models
 
 import (
 	"gitlab.com/leanlabsio/kanban/modules/gitlab"
+	"fmt"
 )
 
 // Board represents a kanban board.
@@ -96,9 +97,14 @@ func ConfigureBoard(u *User, provider string, f *BoardRequest) (int, error) {
 	switch provider {
 	case "gitlab":
 		c := gitlab.NewContext(u.Credential["gitlab"].Token, u.Credential["gitlab"].PrivateToken)
+		b, err := ItemBoard(u, provider, f.BoardId)
+
+		if err != nil {
+			return 0, err
+		}
 
 		for _, stage := range defaultStages {
-			_, res, err := c.CreateLabel(f.BoardId, &gitlab.LabelRequest{
+			_, res, err := c.CreateLabel(fmt.Sprintf("%d", b.Id), &gitlab.LabelRequest{
 				Name:  stage,
 				Color: "#F5F5F5",
 			})
