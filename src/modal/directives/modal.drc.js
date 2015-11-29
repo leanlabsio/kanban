@@ -18,7 +18,7 @@
     });
 
     // Directive: modal
-    angular.module('ll.modal').directive('llModal', ['$modal', '$document','version', function($modal, $document, version) {
+    angular.module('ll.modal').directive('llModal', ['$modal', '$document','version', '$state', function($modal, $document, version, $state) {
         return {
             restrict: 'A',
             link: linkFn,
@@ -61,7 +61,7 @@
             function hideModal() {
                 $modal.clear();
                 $body.removeClass('modal-open');
-                history.back();
+                $state.go('^');
             };
         };
     }]);
