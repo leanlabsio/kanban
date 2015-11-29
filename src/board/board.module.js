@@ -3,8 +3,16 @@
     /**
     * @todo избавиться от блоков resolve v будущем
     **/
-    angular.module('gitlabKBApp.board', ['ui.router', 'as.sortable', 'mm.foundation.dropdownToggle', 'gitlabKBApp.websocket', 'll.markdown', 'll.modal', 'mm.foundation.typeahead'])
-        .config(['$stateProvider', '$urlMatcherFactoryProvider', function($stateProvider, $urlMatcherFactoryProvider) {
+    angular.module('gitlabKBApp.board', [
+        'ui.router',
+        'as.sortable',
+        'mm.foundation.dropdownToggle',
+        'gitlabKBApp.websocket',
+        'll.markdown',
+        'll.modal',
+        'mm.foundation.typeahead',
+        '720kb.datepicker']
+    ).config(['$stateProvider', '$urlMatcherFactoryProvider', function($stateProvider, $urlMatcherFactoryProvider) {
             function valToString(val) {
                 return val != null ? val.toString() : val;
             }
@@ -112,6 +120,18 @@
                         'modal@board': {
                             templateUrl: 'assets/html/board/views/card/view.html',
                             controller: 'ViewController'
+                        }
+                    },
+                    data: {
+                        access: 1
+                    }
+                })
+                .state('board.cards.milestone_create', {
+                    url: '/milestones/new',
+                    views: {
+                        'modal@board': {
+                            templateUrl: 'assets/html/board/views/milestone/create.html',
+                            controller: 'NewMilestoneController'
                         }
                     },
                     data: {

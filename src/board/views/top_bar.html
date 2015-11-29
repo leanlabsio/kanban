@@ -25,17 +25,27 @@
                 </ul>
 
                 <ul class="right hide-for-medium-down">
-                    <li has-dropdown data-ng-show="!isEmpty(project)">
+                    <li data-has-dropdown data-ng-show="!isEmpty(project)">
                         <a href="#"><i class="fa fa-align-justify"></i>&nbsp;&nbsp;Swimlane</a>
-                        <ul top-bar-dropdown>
+                        <ul data-top-bar-dropdown>
                             <li><a data-ng-click="group()"><i class="fa fa-group"></i>&nbsp;&nbsp;Users</a></li>
                             <li><a data-ng-click="reset()"><i class="fa fa-reply"></i>&nbsp;&nbsp;Reset</a></li>
                         </ul>
                     </li>
-                    <li data-ng-show="!isEmpty(project)">
-                        <a data-ui-sref="board.cards.create({ project_id: project.id, project_path: project.path_with_namespace })">
-                            <i class="fa fa-plus"></i>&nbsp;&nbsp;Add issue
-                        </a>
+                    <li data-has-dropdown data-ng-show="!isEmpty(project)">
+                        <a href="#"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add</a>
+                        <ul data-top-bar-dropdown>
+                            <li>
+                                <a data-ui-sref="board.cards.create({ project_id: project.id, project_path: project.path_with_namespace })">
+                                    <i class="fa fa-exclamation-circle"></i>&nbsp;&nbsp;Issue
+                                </a>
+                            </li>
+                            <li>
+                                <a data-ui-sref="board.cards.milestone_create({ project_id: project.id, project_path: project.path_with_namespace })">
+                                    <i class="fa fa-clock-o"></i>&nbsp;&nbsp;Milestone
+                                </a>
+                            </li>
+                        </ul>
                     </li>
                     <li>
                         <a data-ng-click="logout()">
@@ -45,9 +55,9 @@
                 </ul>
 
                 <ul class="right hide-for-large-up" style="width: auto;">
-                    <li has-dropdown class="hide-for-small-down" data-ng-show="!isEmpty(project)">
+                    <li data-has-dropdown class="hide-for-small-down" data-ng-show="!isEmpty(project)">
                         <a href="#"><i class="fa fa-align-justify"></i>&nbsp;&nbsp;</a>
-                        <ul top-bar-dropdown>
+                        <ul data-top-bar-dropdown>
                             <li><a data-ng-click="group()"><i class="fa fa-group"></i>&nbsp;&nbsp;Users</a></li>
                             <li><a data-ng-click="reset()"><i class="fa fa-reply"></i>&nbsp;&nbsp;Reset</a></li>
                         </ul>
@@ -57,11 +67,21 @@
                             <i class="fa fa-sign-out"></i>
                         </a>
                     </li>
-                    <li data-ng-show="!isEmpty(project)" class="right">
-                        <a data-ui-sref="board.cards.create({ project_id: project.id, project_path: project.path_with_namespace })"
-                           style="font-size: 1rem;padding-right: 15px">
-                            <i class="fa fa-plus"></i>
-                        </a>
+                    <li data-has-dropdown data-ng-show="!isEmpty(project)" class="right">
+                        <a href="#"><i class="fa fa-plus"></i></a>
+                        <ul data-top-bar-dropdown>
+                            <li>
+                                <a data-ui-sref="board.cards.create({ project_id: project.id, project_path: project.path_with_namespace })"
+                                   style="font-size: 1rem;padding-right: 15px">
+                                    <i class="fa fa-plus"></i>&nbsp;&nbsp;Add issue
+                                </a>
+                            </li>
+                            <li>
+                                <a data-ui-sref="board.cards.milestone_create({ project_id: project.id, project_path: project.path_with_namespace })">
+                                    <i class="fa fa-plus"></i>&nbsp;&nbsp;Add milestone
+                                </a>
+                            </li>
+                        </ul>
                     </li>
                 </ul>
             </section>

@@ -1392,8 +1392,8 @@ $reveal-overlay-bg: rgba($black, .45);
  $topbar-link-font-size: rem-calc(14);
  $topbar-link-hover-lightness: -10%; // Darken by 10%
  $topbar-link-bg: $topbar-bg-color;
- $topbar-link-bg-color-hover: $topbar-bg-color;
- $topbar-link-bg-hover: $topbar-bg-color;
+ $topbar-link-bg-color-hover: #1A6D88;
+ $topbar-link-bg-hover: #1A6D88;
  $topbar-link-bg-active: $topbar-bg-color;
  $topbar-link-bg-active-hover: $topbar-bg-color;
 // $topbar-link-font-family: $body-font-family;
@@ -1408,6 +1408,7 @@ $reveal-overlay-bg: rgba($black, .45);
 // $topbar-dropdown-label-font-weight: $font-weight-bold;
 // $topbar-dropdown-label-font-size: rem-calc(10);
 // $topbar-dropdown-label-bg: $oil;
+ $topbar-dropdown-link-bg-hover: #1A6D88;
 
 // Top menu icon styles
 // $topbar-menu-link-transform: uppercase;
