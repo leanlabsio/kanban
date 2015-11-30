@@ -1,8 +1,7 @@
 IMAGE = leanlabs/kanban
 TAG   = 1.4.2
 
-help:
-	@echo "Here will be brief doc"
+all: clean kanban
 
 test:
 	@docker run -d -P --name selenium-hub selenium/hub:2.47.1
@@ -46,7 +45,7 @@ web/web.go: $(shell find $(CURDIR)/web/ -name "*" ! -name "web.go" -type f)
 		-pkg=web -o web/web.go \
 		web/assets/... web/images/... web/template/...
 
-kanban: $(find $(CURDIR) -name "*.go" -type f)
+kanban: build templates/templates.go web/web.go $(find $(CURDIR) -name "*.go" -type f)
 	@docker run --rm \
 		-v $(CURDIR):/src \
 		leanlabs/golang-builder
