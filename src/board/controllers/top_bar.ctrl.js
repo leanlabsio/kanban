@@ -106,11 +106,11 @@
                     $state.go('board.cards', params);
                 };
 
-                $scope.group = function() {
+                $scope.group = function(field) {
                     var params = {
                         project_id: $stateParams.project_id,
                         project_path: $stateParams.project_path,
-                        group: 'user'
+                        group: field
                     };
                     $state.go('board.cards', params);
                 };
