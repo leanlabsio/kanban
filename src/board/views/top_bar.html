@@ -28,7 +28,8 @@
                     <li data-has-dropdown data-ng-show="!isEmpty(project)">
                         <a href="#"><i class="fa fa-align-justify"></i>&nbsp;&nbsp;Swimlane</a>
                         <ul data-top-bar-dropdown>
-                            <li><a data-ng-click="group()"><i class="fa fa-group"></i>&nbsp;&nbsp;Users</a></li>
+                            <li><a data-ng-click="group('user')"><i class="fa fa-group"></i>&nbsp;&nbsp;Users</a></li>
+                            <li><a data-ng-click="group('milestone')"><i class="fa fa-clock-o"></i>&nbsp;&nbsp;Milestones</a></li>
                             <li><a data-ng-click="reset()"><i class="fa fa-reply"></i>&nbsp;&nbsp;Reset</a></li>
                         </ul>
                     </li>

@@ -17,7 +17,7 @@
 
                 var filter = function(item) {return true;};
                 var group = function(item) {return 'none';};
-                var grouped = !!$stateParams.group;
+                var grouped = $stateParams.group;
 
                 if (!!$stateParams.assignee) {
                     var username = $stateParams.assignee.replace(/@/, '');
@@ -49,11 +49,19 @@
 
                 if (grouped) {
                     group = function (item) {
-                        if (!item.assignee) {
-                            return 'Unassigned';
-                        }
+                        if(grouped == 'milestone') {
+                            if (_.isEmpty(item.milestone)) {
+                                return 'No Milestone';
+                            }
 
-                        return item.assignee.name;
+                            return item.milestone.title;
+                        } else if(grouped == 'user') {
+                            if (!item.assignee) {
+                                return 'Unassigned';
+                            }
+
+                            return item.assignee.name;
+                        }
                     };
                 }
 
