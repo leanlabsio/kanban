@@ -8,7 +8,8 @@ module.exports = function (grunt) {
                 includePaths: [
                     'bower_components/foundation/scss',
                     'bower_components/font-awesome/scss/',
-                    'bower_components/sass-flex-mixin/'
+                    'bower_components/sass-flex-mixin/',
+                    'bower_components/angularjs-datepicker/src/css/'
                 ]
             },
             dist: {
@@ -127,8 +128,8 @@ module.exports = function (grunt) {
                         filter: 'isFile'
                     },
                     {
-                        flatten: true, 
-                        src: ['bower_components/angular-loading-bar/build/loading-bar.css'], 
+                        flatten: true,
+                        src: ['bower_components/angular-loading-bar/build/loading-bar.css'],
                         dest: 'web/assets/css/loading-bar.css',
                         filter: 'isFile'
                     },
@@ -163,9 +164,9 @@ module.exports = function (grunt) {
                         filter: 'isFile'
                     },
                     {
-                        flatten: true, 
-                        src: ['bower_components/jquery/dist/jquery.min.js'], 
-                        dest: 'web/assets/js/jquery.min.js',
+                        flatten: true,
+                        src: ['bower_components/angularjs-datepicker/dist/angular-datepicker.min.js'],
+                        dest: 'web/assets/js/angularjs-datepicker.min.js',
                         filter: 'isFile'
                     },
                     {

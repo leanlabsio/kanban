@@ -1,0 +1,18 @@
+@import "angular-datepicker";
+
+.create-milestone{
+  ._720kb-datepicker-calendar{
+    visibility: visible;
+    min-width: 205px;
+    ._720kb-datepicker-calendar-day:hover,
+    ._720kb-datepicker-calendar-day{
+      &._720kb-datepicker-active{
+        background: rgba(0,0,0,0.1);
+      }
+    }
+  }
+
+  ._720kb-datepicker-calendar-header:nth-child(odd) {
+    background: #008CBA;
+  }
+}

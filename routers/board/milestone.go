@@ -22,3 +22,21 @@ func ListMilestones(ctx *middleware.Context) {
 		Data: labels,
 	})
 }
+
+
+// CreateMilestone creates a new board milestone.
+func CreateMilestone(ctx *middleware.Context, form models.MilestoneRequest) {
+	milestone, code, err := models.CreateMilestone(ctx.User, ctx.Provider, &form)
+
+	if err != nil {
+		ctx.JSON(code, &models.ResponseError{
+			Success: false,
+			Message: err.Error(),
+		})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, &models.Response{
+		Data: milestone,
+	})
+}
