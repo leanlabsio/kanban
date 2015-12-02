@@ -28,6 +28,13 @@
                             }
                             this.milestones[data.project_id].push(result.data.data)
                         }.bind(this));
+                    },
+                    findByName: function(projectId, name) {
+                        return this.list(projectId).then(function(milestones) {
+                            return _.find(milestones, function(milestone) {
+                                return milestone.title == name;
+                            });
+                        }.bind(this));
                     }
                 };
             }

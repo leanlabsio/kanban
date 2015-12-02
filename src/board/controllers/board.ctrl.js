@@ -12,7 +12,8 @@
             'UserService',
             'stage_regexp',
             '$rootScope',
-            'WebsocketService', function($scope, $http, $stateParams, BoardService, $state, $window, UserService, stage_regexp, $rootScope, WebsocketService) {
+            'WebsocketService',
+            'MilestoneService', function($scope, $http, $stateParams, BoardService, $state, $window, UserService, stage_regexp, $rootScope, WebsocketService, MilestoneService) {
                 $window.scrollTo(0, 0);
 
                 var filter = function(item) {return true;};
@@ -126,11 +127,19 @@
                             };
 
                             if (oldGroup != newGroup) {
-                                return UserService.findByName(card.project_id, newGroup).then(function (user) {
-                                    data.assignee_id = user === undefined ? 0 : user.id;
-                                    card.assignee = user;
-                                    return $http.put('/api/card/move', data);
-                                });
+                                if(grouped == 'milestone') {
+                                    return MilestoneService.findByName(card.project_id, newGroup).then(function (milestone) {
+                                        data.milestone_id = milestone === undefined ? 0 : milestone.id;
+                                        card.milestone = milestone;
+                                        return $http.put('/api/card/move', data);
+                                    });
+                                } else if (grouped == 'user') {
+                                    return UserService.findByName(card.project_id, newGroup).then(function (user) {
+                                        data.assignee_id = user === undefined ? 0 : user.id;
+                                        card.assignee = user;
+                                        return $http.put('/api/card/move', data);
+                                    });
+                                }
                             } else {
                                 return $http.put('/api/card/move', data);
                             }
