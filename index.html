@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Gitlab kanban board</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <meta name="description" content="Gitlab kanban board"/>
+    <meta name="keywords" content="Gitlab kanban board"/>
+    <link rel="apple-touch-icon" sizes="57x57" href="/images/favicons/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/images/favicons/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/images/favicons/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/images/favicons/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/images/favicons/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/images/favicons/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/images/favicons/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/images/favicons/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/favicons/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/images/favicons/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/images/favicons/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicons/favicon-16x16.png">
+    <link rel="manifest" href="/images/favicons/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/images/favicons/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!--[if lte IE 8]>
+    <script src="css/ie/html5shiv.js"></script><![endif]-->
+    <script src="js/jquery.min.js"></script>
+    <script src="js/skel.min.js"></script>
+    <script src="js/skel-layers.min.js"></script>
+    <script src="js/init.js"></script>
+    <noscript>
+        <link rel="stylesheet" href="css/skel.css"/>
+        <link rel="stylesheet" href="css/style.css"/>
+        <link rel="stylesheet" href="css/style-xlarge.css"/>
+    </noscript>
+    <!--[if lte IE 8]>
+    <link rel="stylesheet" href="css/ie/v8.css"/><![endif]-->
+</head>
+<body class="landing">
+
+<!-- Header -->
+<header id="header">
+    <h1><a href="index.html"><img style="height:50px; margin-top: 15px;" src="images/logo.png" alt="leanlabs"></a></h1>
+    <nav id="nav">
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/enterprise">Enterprise</a></li>
+            <li><a href="/documentation/Home">Documentation</a></li>
+            <li><a href="http://blog.leanlabs.io" target="_blank">Blog</a></li>
+            <li><a href="/downloads" class="button disabled"><span class="fa fa-download"></span>&nbsp;Download</a></li>
+        </ul>
+    </nav>
+</header>
+
+<!-- Banner -->
+<section id="banner">
+        <h2>GitLab Kanban Board</h2>
+        <p>Free OpenSource self hosted Kanban board for GitLab issues</p>
+
+        <ul class="actions">
+            <li>
+                <a href="http://demo.kanban.leanlabs.io" target="_blank" class="button big waves-effect">Try demo</a>
+            </li>
+        </ul>
+
+        <div class="home-mockups">
+            <img src="images/banners/banner2.png" alt="leanlabs kanban board view board list" title=" view board list" class="home-mockup" width="940px">
+            <img src="images/banners/banner3.png" title="edit card on board" alt="leanlabs kanban board edit card on board" class="home-mockup" width="940px">
+            <img src="images/banners/banner1.png" title="swimline and filters cards in board" alt="leanlabs kanban board swimline and filters" class="home-mockup main-mockup" width="940px">
+        </div>
+</section>
+
+<!-- One -->
+<section id="one" class="wrapper style2 align-center liter-background">
+    <div class="container">
+        <h4>Leanlabs kanban is built from the ground up using the Gitlab public API. Kanban issues are Gitlab issues,
+            you will never have to deal with syncronization problems. Keep issues where they belong, in the
+            repository with your code! </h4>
+    </div>
+</section>
+
+<!-- Two -->
+<section id="two">
+    <div class="container">
+        <div class="row wrapper style2">
+            <div class="feature 6u 12u$(small)">
+                <h3>Stay connected!</h3>
+                <p>Leanlabs.io Kanban board gives your team clear understanding of who’s working on what. With instant board updates, event notifications and card states you will never miss anything and will be able to take right decisions at the right time.</p>
+            </div>
+            <div class="feature 6u 12u$(small)">
+                <img class="image" src="images/features/andon.png"
+                     alt="andon lean manufacturing"/>
+            </div>
+        </div>
+         <div class="row">
+            <div class="feature 6u 12u$(small) not-medium">
+                <img class="image" src="images/features/drag-and-drop.png"
+                     alt="drag and drop beetween stages in kanban board"/>
+            </div>
+            <div class="feature 6u 12u$(small)">
+                <h3>Stay simple!</h3>
+                <p>Manage every aspect of your projects from single place. With our easy yet powerful plugins architecture of kanban board you can trigger any action from within the board. For example you can setup our Jenkins plugin to trigger jobs on card movement.</p>
+            </div>
+            <div class="feature 6u 12u$(small) only-medium">
+                <img class="image" src="images/features/drag-and-drop.png"
+                     alt="drag and drop beetween stages in kanban board"/>
+            </div>
+        </div>
+        <div class="row wrapper style2">
+            <div class="fature 6u 12u$(small)">
+                <h3>Stay agile!</h3>
+                <p>Visualize your delivery process, find development activities that does not produces value to your customers and start tuning! With our customizable task boards you can easily change your delivery process to get perfect.</p>
+            </div>
+            <div class="feature 6u$ 12u$(small) align-center">
+                <img class="image" src="images/features/swimlines.png"
+                     alt="swimmlines, card view as multilines"/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="feature 6u 12u$(small) not-medium">
+                <img class="image" src="images/features/opensource.png"
+                     alt="opensource"/>
+            </div>
+            <div class="feature 6u 12u$(small)">
+                <h3>Stay open!</h3>
+                <p>Leanlabs.io Kanban board is open source project and based on open source technologies and products. You can extend or fine tune it according to your business needs at any time.</p>
+            </div>
+            <div class="feature 6u 12u$(small) only-medium">
+                <img class="image" src="images/features/opensource.png"
+                     alt="opensource"/>
+            </div>
+        </div>
+        <div class="row wrapper style2">
+            <div class="feature 6u 12u$(small)">
+                <h3>Stay tuned!</h3>
+                <p>We are releasing every week or two and your feedback is very valuable for us, so stay tuned and join us at:
+                <ul>
+                    <li><a href="https://gitter.im/leanlabsio/kanban" target="_blank">gitter chat room</a></li>
+                    <li><a href="https://twitter.com/leanlabsio" target="_blank">twitter</a></li>
+                    <li><a href="https://gitlab.com/leanlabsio/kanban" target="_blank">bug tracker</a></li>
+                </ul>
+                </p>
+            </div>
+            <div class="feature 6u 12u$(small)">
+                <img class="image" src="images/features/messages.png"
+                     alt="contacts, messages"/>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="three" class="wrapper style2 install align-center">
+    <div class="container">
+        <header>
+            <h2>Installation</h2>
+        </header>
+        <div class="row">
+            <section class="feature 6u 12u$(small)">
+                <i class="icon big rounded fa-server"></i>
+                <p>
+                    Self hosted. You can deploy Leanlabs Kanban on any server with ease.
+                    The only requirement for installation is Docker.
+                    You can find detailed instructions on installation in
+                    <a href="https://gitlab.com/leanlabsio/kanban/wikis/Installation" target="_blank"  title="Leanlabs Kanban installation guide">project wiki</a>.
+                </p>
+            </section>
+            <section class="feature 6u$ 12u$(small)">
+                <i class="icon big rounded fa-cloud"></i>
+                <p>
+                    Online version coming soon! For now you can try our<br/><br/>
+                    <a href="https://demo.kanban.leanlabs.io" target="_blank" class="button big">Try demo</a>
+                </p>
+            </section>
+        </div>
+    </div>
+</section>
+
+<section class="wrapper style2 align-center liter-background">
+    <div class="container">
+        <header>
+            <h2>Video tour</h2>
+        </header>
+        <div class="row">
+            <section class="feature 12u 12u$(small)">
+                <iframe style="width: 80%; height: 400px;" src="https://www.youtube.com/embed/7D5Xs12agew" frameborder="0"
+                        allowfullscreen></iframe>
+            </section>
+        </div>
+        <br/>
+        <footer>
+            <ul class="actions">
+                <li>
+                    <a href="http://demo.kanban.leanlabs.io" target="_blank" class="button big">Try demo</a>
+                </li>
+            </ul>
+        </footer>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer id="footer">
+    <div class="container">
+        <div class="row">
+            <section class="4u 6u(medium) 12u$(small)">
+                <h3>Documentation</h3>
+                <ul class="alt">
+                    <li><a target="_blank" href="https://github.com/leanlabsio/kanban/wiki">GitHub wiki</a></li>
+                    <li><a target="_blank" href="https://gitlab.com/leanlabsio/kanban/wikis/home">GitLab wiki</a></li>
+                </ul>
+            </section>
+            <section class="4u 6u$(medium) 12u$(small)">
+                <h3>Repositories</h3>
+                <ul class="alt">
+                    <li><a target="_blank" href="https://gitlab.com/leanlabsio/kanban">Project on GitLab</a></li>
+                    <li><a target="_blank" href="https://github.com/leanlabsio/kanban">Project on GitHub</a></li>
+                    <li><a target="_blank" href="https://hub.docker.com/r/leanlabs/kanban/">Project on Docker Hub</a></li>
+                </ul>
+            </section>
+            <section class="4u$ 12u$(medium) 12u$(small)">
+                <h3>Any questions?</h3>
+                <ul class="alt">
+                    <li><a target="_blank" href="https://twitter.com/leanlabsio">Twitter</a></li>
+                    <li><a href="https://gitter.im/leanlabsio/kanban" target="_blank">Gitter chat room</a></li>
+                    <li><a href="mailto:support@leanlabs.io">support@leanlabs.io</a></li>
+                </ul>
+            </section>
+        </div>
+        <ul class="copyright">
+            <li>&copy; Leanlabs. All rights reserved.</li>
+        </ul>
+    </div>
+</footer>
+
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function (d, w, c) {
+        (w[c] = w[c] || []).push(function () {
+            try {
+                w.yaCounter28745811 = new Ya.Metrika({
+                    id: 28745811,
+                    webvisor: true,
+                    clickmap: true,
+                    trackLinks: true,
+                    accurateTrackBounce: true
+                });
+            } catch (e) {
+            }
+        });
+
+        var n = d.getElementsByTagName("script")[0],
+                s = d.createElement("script"),
+                f = function () {
+                    n.parentNode.insertBefore(s, n);
+                };
+        s.type = "text/javascript";
+        s.async = true;
+        s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js";
+
+        if (w.opera == "[object Opera]") {
+            d.addEventListener("DOMContentLoaded", f, false);
+        } else {
+            f();
+        }
+    })(document, window, "yandex_metrika_callbacks");
+</script>
+<noscript>
+    <div><img src="//mc.yandex.ru/watch/28745811" style="position:absolute; left:-9999px;" alt=""/></div>
+</noscript>
+<!-- /Yandex.Metrika counter -->
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-60280085-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+</body>
+</html>
+

@@ -1,0 +1,7 @@
+client:
+  image: leanlabs/nginx:1.0.1
+  volumes: 
+    - "./build/sites-enabled:/etc/nginx/sites-enabled"
+    - "./:/data"
+  ports:
+    - "80:80"

@@ -1,0 +1,13 @@
+/*
+	Interphase by TEMPLATED
+	templated.co @templatedco
+	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
+*/
+
+/* Banner */
+
+	#banner {
+		background: url("../../images/banner.jpg");
+		background-size: cover;
+		-ms-behavior: url("css/ie/backgroundsize.min.htc");
+	}

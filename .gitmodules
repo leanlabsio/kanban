@@ -1,0 +1,3 @@
+[submodule "kanban.wiki"]
+	path = kanban.wiki
+	url = https://github.com/leanlabsio/kanban.wiki.git
