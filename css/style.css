@@ -1114,10 +1114,14 @@ body.landing #header {
     padding-left: 0;
 }
 
-#sidebar nav > ul {
+#sidebar nav ul {
     list-style: none;
     margin: 0;
     padding-left: 0;
+}
+
+#sidebar nav h4{
+    margin: 0.5rem;
 }
 
 #sidebar nav p {
@@ -1199,4 +1203,13 @@ body.landing #header {
     border-bottom: 1px solid #b2b2b2;
     padding-top: 30px;
     padding-bottom: 30px;
+}
+
+.docs a {
+    color: #4078c0;
+}
+
+.docs h1 a, .docs h2 a, .docs h3 a, .docs h4 a, .docs h5 a, .docs h6 a {
+    color: inherit;
+    text-decoration: none;
 }

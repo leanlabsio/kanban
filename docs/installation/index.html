@@ -2,10 +2,10 @@
 <html lang="en">
 	<head>
 		<meta charset="UTF-8">
-		<title>Download GitLab Kanban board</title>
+		<title>Kanban documentation | README</title>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
-		<meta name="description" content="Download and install GitLab kanban board powered by leanlabs"/>
-		<meta name="keywords" content="gitlab kanban, gitlab kanban board download, leanlabs kanban download"/>
+		<meta name="description" content="Documentation for installation and custumisation gitlab kanban board for issues"/>
+		<meta name="keywords" content="gitlab, kanban, gitlab kanban board documentation"/>
 		<link rel="apple-touch-icon" sizes="57x57" href="/images/favicons/apple-icon-57x57.png">
 		<link rel="apple-touch-icon" sizes="60x60" href="/images/favicons/apple-icon-60x60.png">
 		<link rel="apple-touch-icon" sizes="72x72" href="/images/favicons/apple-icon-72x72.png">
@@ -23,25 +23,22 @@
 		<meta name="msapplication-TileColor" content="#ffffff">
 		<meta name="msapplication-TileImage" content="/images/favicons/ms-icon-144x144.png">
 		<meta name="theme-color" content="#ffffff">
-        <!--[if lte IE 8]>
-        <script src="css/ie/html5shiv.js"></script><![endif]-->
-        <script src="js/jquery.min.js"></script>
-		<script src="js/skel.min.js"></script>
-		<script src="js/skel-layers.min.js"></script>
-		<script src="js/init.js"></script>
-		<noscript>
-			<link rel="stylesheet" href="css/skel.css"/>
-			<link rel="stylesheet" href="css/style.css"/>
-			<link rel="stylesheet" href="css/style-xlarge.css"/>
-		</noscript>
-        <!--[if lte IE 8]>
-        <link rel="stylesheet" href="css/ie/v8.css"/><![endif]-->
+        
+        <script src="/js/jquery.min.js"></script>
+		<script src="/js/skel.min.js"></script>
+		<script src="/js/skel-layers.min.js"></script>
+		<script src="/js/init.js"></script>
+        
+        <link rel="stylesheet" href="/css/github-markdown.css">
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.9.1/styles/default.min.css">
+        <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.9.1/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script>
 	</head>
-	<body>
 
-		<!-- Header -->
+	<body class="docs">
+		
 			<header id="header">
-				<h1><a href="index.html"><img style="height:50px; margin-top: 15px;" src="images/logo.png" alt="leanlabs"></a></h1>
+				<h1><a href="/"><img style="height:50px; margin-top: 15px;" src="/images/logo.png" alt="leanlabs"></a></h1>
 				<nav id="nav">
                     <ul>
                         <li><a href="/">Home</a></li>
@@ -53,73 +50,65 @@
 				</nav>
 			</header>
 
-            <section id="banner" style="padding-top: 1em;">
-                <h2>Download GitLab kanban board</h2>
-                <br/>
-            </section>
-
-		<!-- Two -->
-			<section class="wrapper style2 downloads">
+		
+			<section class="wrapper style2">
 				<div class="container">
 					<div class="row">
-						<section class="12u 12u$(small)">
-                            <h2>Select operation system</h2>
-                            <p>Before using GitLab kanban board your need install <a target="_blank" href="http://redis.io/download#installation">redis</a>.
-                                For installation for binary allowed from release 1.4.3, early release install only with docker.
-                                <br/><br/>
-                                <a href="/documentation/Home">Documentation</a><br/>
-                                <a target="_blank" href="https://github.com/leanlabsio/kanban/releases">All releases</a>
-                            </p>
-                            <div class="row">
-                                <div class="download 12u 12u$(small)" style="padding: 10px 0 0 0;"></div>
-                                <div class="12u 12u$(small) download">
-                                    <div class="row">
-                                        <div class="pull-left">
-                                            <img src="images/downloads/icon_linux-3568fb8e.png" alt="linux">
-                                        </div>
-                                        <div>
-                                            <div class="h2">Linux</div><br/>
-                                            <div class="h3">
-                                                <a href="https://github.com/leanlabsio/kanban/releases/download/1.4.3/kanban_x86_64_linux">64</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="12u 12u$(small) download">
-                                    <div class="row">
-                                        <div class="pull-left">
-                                            <img src="images/downloads/icon_darwin-c019f8c4.png" alt="max os">
-                                        </div>
-                                        <div>
-                                            <div class="h2">Mac OS</div><br/>
-                                            <div class="h3">
-                                                <a href="https://github.com/leanlabsio/kanban/releases/download/1.4.3/kanban_x86_64_darwin">64</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="12u 12u$(small) download">
-                                    <div class="row">
-                                        <div class="pull-left">
-                                            <img src="images/downloads/icon_windows-9aefff0f.png" alt="windows">
-                                        </div>
-                                        <div>
-                                            <div class="h2">Windows</div><br/>
-                                            <div class="h4">may be later</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <br/><br/>
-                            <footer class="align-center">
+						<section id="sidebar" class="feature 3u 12u$(small)">
+							<nav>
+                                
+                                <h4><a name="installation" class="anchor" href="#installation" rel="nofollow" aria-hidden="true"><span class="octicon octicon-link"></span></a><a href="/docs/installation" rel="nofollow">Installation</a></h4>
+
+<ul>
+<li><p><a href="/docs/installation/docker" rel="nofollow">With docker</a></p></li>
+
+<li><p><a href="/docs/installation/binary" rel="nofollow">From binary</a></p></li>
+</ul>
+<h4><a name="configuration" class="anchor" href="#configuration" rel="nofollow" aria-hidden="true"><span class="octicon octicon-link"></span></a>
+<a href="/docs/configuration" rel="nofollow">Configuration</a></h4>
+
+<ul>
+<li><p><a href="/docs/configuration/webserver" rel="nofollow">Web servers</a></p>
+
+<ul>
+<li><p><a href="/docs/configuration/webserver/apache" rel="nofollow">apache</a></p></li>
+
+<li><p><a href="/docs/configuration/webserver/nginx" rel="nofollow">nginx</a></p></li>
+</ul></li>
+</ul>
+<h4><a name="usage" class="anchor" href="#usage" rel="nofollow" aria-hidden="true"><span class="octicon octicon-link"></span></a>
+<a href="/docs/usage" rel="nofollow">Usage</a></h4>
+
+<ul>
+<li><a href="/docs/usage/customize-columns" rel="nofollow">Customize columns</a></li>
+</ul>
+
+                                
+							</nav>
+						</section>
+						<article class="9u 12u$(small)">
+						    <section class="markdown-body">
+                            <h1><a name="installation" class="anchor" href="#installation" rel="nofollow" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h1>
+
+<p>Here you will find guides for installing kanban board.</p>
+
+<p>For now we officially support two installation types:</p>
+
+<ul>
+<li><p><a href="/docs/installation/binary.html" rel="nofollow">Installation from binary</a></p></li>
+
+<li><p><a href="/docs/installation/docker.html" rel="nofollow">Installation with docker</a></p></li>
+</ul>
+
+                            </section>
+                            <footer style="margin-top: 40px;" class="align-center">
                                 <ul class="actions">
                                     <li>
                                         <a href="http://demo.kanban.leanlabs.io" target="_blank" class="button alt big">Try demo</a>
                                     </li>
                                 </ul>
                             </footer>
-                        </section>
-
+						</section>
 					</div>
 				</div>
 			</section>
@@ -157,7 +146,7 @@
             </div>
         </footer>
 
-					<!-- Yandex.Metrika counter -->
+					
 		<script type="text/javascript">
 		(function (d, w, c) {
             (w[c] = w[c] || []).push(function () {
@@ -190,7 +179,7 @@
         })(document, window, "yandex_metrika_callbacks");
 		</script>
 		<noscript><div><img src="//mc.yandex.ru/watch/28745811" style="position:absolute; left:-9999px;" alt=""/></div></noscript>
-		<!-- /Yandex.Metrika counter -->
+		
 
         <script>
           (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

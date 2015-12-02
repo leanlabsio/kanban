@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>Kanban documentation | docker</title>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+		<meta name="description" content="Documentation for installation and custumisation gitlab kanban board for issues"/>
+		<meta name="keywords" content="gitlab, kanban, gitlab kanban board documentation"/>
+		<link rel="apple-touch-icon" sizes="57x57" href="/images/favicons/apple-icon-57x57.png">
+		<link rel="apple-touch-icon" sizes="60x60" href="/images/favicons/apple-icon-60x60.png">
+		<link rel="apple-touch-icon" sizes="72x72" href="/images/favicons/apple-icon-72x72.png">
+		<link rel="apple-touch-icon" sizes="76x76" href="/images/favicons/apple-icon-76x76.png">
+		<link rel="apple-touch-icon" sizes="114x114" href="/images/favicons/apple-icon-114x114.png">
+		<link rel="apple-touch-icon" sizes="120x120" href="/images/favicons/apple-icon-120x120.png">
+		<link rel="apple-touch-icon" sizes="144x144" href="/images/favicons/apple-icon-144x144.png">
+		<link rel="apple-touch-icon" sizes="152x152" href="/images/favicons/apple-icon-152x152.png">
+		<link rel="apple-touch-icon" sizes="180x180" href="/images/favicons/apple-icon-180x180.png">
+		<link rel="icon" type="image/png" sizes="192x192" href="/images/favicons/android-icon-192x192.png">
+		<link rel="icon" type="image/png" sizes="32x32" href="/images/favicons/favicon-32x32.png">
+		<link rel="icon" type="image/png" sizes="96x96" href="/images/favicons/favicon-96x96.png">
+		<link rel="icon" type="image/png" sizes="16x16" href="/images/favicons/favicon-16x16.png">
+		<link rel="manifest" href="/images/favicons/manifest.json">
+		<meta name="msapplication-TileColor" content="#ffffff">
+		<meta name="msapplication-TileImage" content="/images/favicons/ms-icon-144x144.png">
+		<meta name="theme-color" content="#ffffff">
+        
+        <script src="/js/jquery.min.js"></script>
+		<script src="/js/skel.min.js"></script>
+		<script src="/js/skel-layers.min.js"></script>
+		<script src="/js/init.js"></script>
+        
+        <link rel="stylesheet" href="/css/github-markdown.css">
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.9.1/styles/default.min.css">
+        <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.9.1/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script>
+	</head>
+
+	<body class="docs">
+		
+			<header id="header">
+				<h1><a href="/"><img style="height:50px; margin-top: 15px;" src="/images/logo.png" alt="leanlabs"></a></h1>
+				<nav id="nav">
+                    <ul>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/enterprise">Enterprise</a></li>
+                        <li><a href="/docs">Documentation</a></li>
+                        <li><a href="http://blog.leanlabs.io" target="_blank">Blog</a></li>
+                        <li><a href="/downloads" class="button disabled"><span class="fa fa-download"></span>&nbsp;Download</a></li>
+                    </ul>
+				</nav>
+			</header>
+
+		
+			<section class="wrapper style2">
+				<div class="container">
+					<div class="row">
+						<section id="sidebar" class="feature 3u 12u$(small)">
+							<nav>
+                                
+                                <h4><a name="installation" class="anchor" href="#installation" rel="nofollow" aria-hidden="true"><span class="octicon octicon-link"></span></a><a href="/docs/installation" rel="nofollow">Installation</a></h4>
+
+<ul>
+<li><p><a href="/docs/installation/docker" rel="nofollow">With docker</a></p></li>
+
+<li><p><a href="/docs/installation/binary" rel="nofollow">From binary</a></p></li>
+</ul>
+<h4><a name="configuration" class="anchor" href="#configuration" rel="nofollow" aria-hidden="true"><span class="octicon octicon-link"></span></a>
+<a href="/docs/configuration" rel="nofollow">Configuration</a></h4>
+
+<ul>
+<li><p><a href="/docs/configuration/webserver" rel="nofollow">Web servers</a></p>
+
+<ul>
+<li><p><a href="/docs/configuration/webserver/apache" rel="nofollow">apache</a></p></li>
+
+<li><p><a href="/docs/configuration/webserver/nginx" rel="nofollow">nginx</a></p></li>
+</ul></li>
+</ul>
+<h4><a name="usage" class="anchor" href="#usage" rel="nofollow" aria-hidden="true"><span class="octicon octicon-link"></span></a>
+<a href="/docs/usage" rel="nofollow">Usage</a></h4>
+
+<ul>
+<li><a href="/docs/usage/customize-columns" rel="nofollow">Customize columns</a></li>
+</ul>
+
+                                
+							</nav>
+						</section>
+						<article class="9u 12u$(small)">
+						    <section class="markdown-body">
+                            <h1><a name="installation-with-docker" class="anchor" href="#installation-with-docker" rel="nofollow" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation with docker</h1>
+
+<p>We assume that you have already installed <a href="https://www.docker.com/" rel="nofollow">Docker</a> and optionally <a href="https://docs.docker.com/compose/" rel="nofollow">docker-compose</a>.</p>
+
+<p><strong>NOTE</strong> We are providing <a href="/docker-compose.yml" rel="nofollow">docker-compose.yml</a> which we are supporting, which could ease the setup for you.</p>
+<h2><a name="running-the-image" class="anchor" href="#running-the-image" rel="nofollow" aria-hidden="true"><span class="octicon octicon-link"></span></a>
+Running the image</h2>
+
+<p>LeanLabs Kanban image requires Redis, which <a href="https://hub.docker.com/r/leanlabs/redis/" rel="nofollow">we are also providing</a>, it is just 6Mb is size, which is much smaller then official redis docker image.</p>
+
+<ol>
+<li><p>Start the Redis container:</p>
+
+<pre><code class="bash">docker run -d -p 6379:6379 --name kanban_redis leanlabs/redis:1.0.0
+</code></pre>
+
+<p>This will start redis container with name kanban_redis, in daemon mode, mapping it 6379 port to host 6379 port.</p></li>
+
+<li><p>Start kanban container:</p>
+
+<pre><code class="bash">docker run -d -p
+    --link kanban_redis:kanban_redis
+    -p 80:80
+    -e KANBAN_SERVER_HOSTNAME=&#34;http://localhost&#34;
+    -e KANBAN_GITLAB_URL=&#34;http://mygitlab.com&#34;
+    -e KANBAN_REDIS_ADDR=&#34;kanban_redis:6379&#34;
+    leanlabs/kanban:1.4.0
+</code></pre>
+
+<p>This will start kanban board container in daemon mode, linked to redis container.</p>
+
+<p>That is basically all you need, now you should be able to access kanban board via <a href="http://localhost" rel="nofollow">http://localhost</a>, if you want to setup OAuth access please refer to next section.</p></li>
+</ol>
+<h2><a name="setting-up-oauth-via-gitlab" class="anchor" href="#setting-up-oauth-via-gitlab" rel="nofollow" aria-hidden="true"><span class="octicon octicon-link"></span></a>
+Setting up OAuth via GitLab</h2>
+
+<ol>
+<li><p>Setup application for OAuth in GitLab.</p>
+
+<p>Go to your GitLab profile section &#34;Application&#34; and press button &#34;New Application&#34;</p>
+
+<p><img src="gitlab_oauth/applications.jpg" alt="applications page"></p>
+
+<p>After this you will see &#34;New application&#34; form, where &#34;Name&#34; is arbitrary name, e.g. &#34;kanban&#34;, and &#34;Redirect URI&#34; is an URL in kanban where users will be sent after authorization in GitLab.</p>
+
+<p><img src="gitlab_oauth/create_desc.jpg" alt="new application"></p>
+
+<p><strong>IMPORTANT</strong> The &#34;Redirect URI&#34; is composed of 2 parts: the hostname of you kanban installation, and the fixed path part, referring to actual route to redirect.</p>
+
+<p>The path part always the same -  &#34;/assets/html/user/views/oauth.html&#34;, the hostname part strongly depends on kanban container &#34;KANBAN_SERVER_HOSTNAME&#34; environment variable, the hostname of redirect uri and env variable must be the same, including protocol and port information.</p>
+
+<p><strong>IMPORTANT</strong> Redirect URL must include port if not 80 or 443.</p>
+
+<p>Here are some examples of composing redirect uri:</p>
+
+<p>KANBAN_SERVER_HOSTNAME=<a href="http://mykanban.com" rel="nofollow">http://mykanban.com</a>, then the &#34;Redirect URI&#34; must be &#34;<a href="http://mykanban.com/assets/html/user/views/oauth.html%22" rel="nofollow">http://mykanban.com/assets/html/user/views/oauth.html&#34;</a></p>
+
+<p>KANBAN_SERVER_HOSTNAME=<a href="http://mykanban.com:9000" rel="nofollow">http://mykanban.com:9000</a>, then &#34;Redirect URI&#34; must be &#34;<a href="http://mykanban.com:9000/assets/html/user/views/oauth.html%22" rel="nofollow">http://mykanban.com:9000/assets/html/user/views/oauth.html&#34;</a></p>
+
+<p>For now we does not support setting up kanban in GitLab &#34;subdirectory&#34;, e.g. you can not setup kanban to be accessed via &#34;<a href="http://mygitlab.com/kanban%22" rel="nofollow">http://mygitlab.com/kanban&#34;</a>, this is planned in future releases.</p></li>
+
+<li><p>Pass OAuth client id and client secret to kanban.</p>
+
+<p>After registering application in GitLab you should provide OAuth client ID and client secret to kanban.</p>
+
+<p><img src="gitlab_oauth/create_success_alt.jpg" alt="installed application"></p>
+
+<p>They are passed to container via environment variables:</p>
+
+<p><strong>KANBAN_GITLAB_CLIENT</strong> - GitLab OAuth client id</p>
+
+<p><strong>KANBAN_GITLAB_SECRET</strong> - GitLab OAuth client secret</p>
+
+<p>Now the command to running the kanban container should be:</p>
+
+<pre><code class="bash">docker run -d -p
+    --link kanban_redis:kanban_redis
+    -p 80:80
+    -e KANBAN_SERVER_HOSTNAME=&#34;http://localhost&#34;
+    -e KANBAN_GITLAB_URL=&#34;http://mygitlab.com&#34;
+    -e KANBAN_GITLAB_CLIENT=&#34;Application ID&#34;
+    -e KANBAN_GITLAB_SECRET=&#34;Secret&#34;
+    -e KANBAN_REDIS_ADDR=&#34;kanban_redis:6379&#34;
+    leanlabs/kanban:1.4.0 
+</code></pre>
+
+<p>Now you should be able to access kanban via GitLab OAuth.</p>
+
+<p><img src="gitlab_oauth/login_with_oauth_alt.jpg" alt="login with oauth"></p></li>
+</ol>
+<h2><a name="environment-variables" class="anchor" href="#environment-variables" rel="nofollow" aria-hidden="true"><span class="octicon octicon-link"></span></a>
+Environment variables</h2>
+
+<p>LeanLabs kanban docker container configuration is based on environment variables.</p>
+
+<p><strong>NOTE</strong> The variables that are not explicitly set will take the default values.</p>
+
+<p>Here are the list of available variables and their meaning:</p>
+
+<ul>
+<li><p><strong>KANBAN_SERVER_LISTEN</strong> - default to &#34;0.0.0.0:80&#34;, IP:PORT (e.g. 0.0.0.0:80) which kanban will listen for incoming requests, when setting up with docker you rarely if ever will need to set this variable</p></li>
+
+<li><p><strong>KANBAN_SERVER_HOSTNAME</strong> - default to &#34;<a href="http://localhost%22" rel="nofollow">http://localhost&#34;</a>, URL on which LeanLabs Kanban will be reachable (e.g. <a href="http://mykanban.com" rel="nofollow">http://mykanban.com</a>). The hostname must be composed of the protocol part (&#34;http://&#34; or &#34;https://&#34;), the domain or ip (e.g. mykanban.com or 192.168.0.100) and the port, if not 80 or 443 (e.g. &#34;:9000&#34;). For example, if board will be reachable on domain &#34;mykanban.com&#34; and port 9000 the resulting value must be &#34;<a href="http://mykanban.com:9000%22" rel="nofollow">http://mykanban.com:9000&#34;</a>.</p></li>
+
+<li><p><strong>KANBAN_SECURITY_SECRET</strong> - default to &#34;qwerty&#34;, this string is used to generate user auth tokens. Kanban uses json web tokens to identify users, this string is used to encrypt those tokens. You must change it to something more random then &#34;qwerty&#34; if you installation could be exposed to the whole internet.</p></li>
+
+<li><p><strong>KANBAN_GITLAB_URL</strong> - default to &#34;<a href="https://gitlab.com%22" rel="nofollow">https://gitlab.com&#34;</a>, your GitLab host URL, if you use self hosted GitLab installation the value must also include the protocol, domain or ip and the port if not 80 or 443.</p>
+
+<p><strong>WARNING</strong> The kanban board should be able to resolve GitLab installation domain. If you GitLab installation domain could not be resolved, then you must explicitly define the GitLab server IP, you could do this by passing --add-host to docker run command, e.g. --add-host=&#34;mygitlab.com:192.168.0.200&#34;.</p></li>
+
+<li><p><strong>KANBAN_GITLAB_CLIENT</strong> - default to &#34;qwerty&#34;, your GitLab OAuth client id</p></li>
+
+<li><p><strong>KANBAN_GITLAB_SECRET</strong> - default to &#34;qwerty&#34;, your GitLab OAuth client secret key</p></li>
+
+<li><p><strong>KANBAN_REDIS_ADDR</strong> - default to &#34;127.0.0.1:6379&#34;, Redis server address - IP:PORT. LeanLabs Kanban requires redis server to function properly, it stores users identities there.</p></li>
+
+<li><p><strong>KANBAN_REDIS_PASSWORD</strong> - default to &#34;&#34; (empty string), Redis server password if any.</p></li>
+
+<li><p>** KANBAN_REDIS_DB** - default to &#34;0&#34;, redis server database numeric index, from 0 to 16, also rarely required to be changed if ever.</p></li>
+</ul>
+<h2><a name="setting-up-behind-proxy" class="anchor" href="#setting-up-behind-proxy" rel="nofollow" aria-hidden="true"><span class="octicon octicon-link"></span></a>
+Setting up behind proxy.</h2>
+
+<p>LeanLabs Kanban board processes http requests directly, but sometimes you want to set it behind proxy, e.g. if you want https you definitely should use proxy, because for now kanban does not able to handle https traffic directly.</p>
+
+<p>Proxy configuration, including supported configuration files also <a href="/docs/configuration/" rel="nofollow">described in our docs</a>.</p>
+
+                            </section>
+                            <footer style="margin-top: 40px;" class="align-center">
+                                <ul class="actions">
+                                    <li>
+                                        <a href="http://demo.kanban.leanlabs.io" target="_blank" class="button alt big">Try demo</a>
+                                    </li>
+                                </ul>
+                            </footer>
+						</section>
+					</div>
+				</div>
+			</section>
+
+        <footer id="footer">
+            <div class="container">
+                <div class="row">
+                    <section class="4u 6u(medium) 12u$(small)">
+                        <h3>Documentation</h3>
+                        <ul class="alt">
+                            <li><a target="_blank" href="https://github.com/leanlabsio/kanban/wiki">GitHub wiki</a></li>
+                            <li><a target="_blank" href="https://gitlab.com/leanlabsio/kanban/wikis/home">GitLab wiki</a></li>
+                        </ul>
+                    </section>
+                    <section class="4u 6u$(medium) 12u$(small)">
+                        <h3>Repositories</h3>
+                        <ul class="alt">
+                            <li><a target="_blank" href="https://gitlab.com/leanlabsio/kanban">Project on GitLab</a></li>
+                            <li><a target="_blank" href="https://github.com/leanlabsio/kanban">Project on GitHub</a></li>
+                            <li><a target="_blank" href="https://hub.docker.com/r/leanlabs/kanban/">Project on Docker Hub</a></li>
+                        </ul>
+                    </section>
+                    <section class="4u$ 12u$(medium) 12u$(small)">
+                        <h3>Any questions?</h3>
+                        <ul class="alt">
+                            <li><a target="_blank" href="https://twitter.com/leanlabsio">Twitter</a></li>
+                            <li><a href="https://gitter.im/leanlabsio/kanban" target="_blank">Gitter chat room</a></li>
+                            <li><a href="mailto:support@leanlabs.io">support@leanlabs.io</a></li>
+                        </ul>
+                    </section>
+                </div>
+                <ul class="copyright">
+                    <li>&copy; Leanlabs. All rights reserved.</li>
+                </ul>
+            </div>
+        </footer>
+
+					
+		<script type="text/javascript">
+		(function (d, w, c) {
+            (w[c] = w[c] || []).push(function () {
+                try {
+                    w.yaCounter28745811 = new Ya.Metrika({
+                        id: 28745811,
+                        webvisor: true,
+                        clickmap: true,
+                        trackLinks: true,
+                        accurateTrackBounce: true
+                    });
+                } catch (e) {
+                }
+            });
+
+            var n = d.getElementsByTagName("script")[0],
+                    s = d.createElement("script"),
+                    f = function () {
+                        n.parentNode.insertBefore(s, n);
+                    };
+            s.type = "text/javascript";
+            s.async = true;
+            s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js";
+
+            if (w.opera == "[object Opera]") {
+                d.addEventListener("DOMContentLoaded", f, false);
+            } else {
+                f();
+            }
+        })(document, window, "yandex_metrika_callbacks");
+		</script>
+		<noscript><div><img src="//mc.yandex.ru/watch/28745811" style="position:absolute; left:-9999px;" alt=""/></div></noscript>
+		
+
+        <script>
+          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+          ga('create', 'UA-60280085-1', 'auto');
+          ga('send', 'pageview');
+
+        </script>
+
+	</body>
+</html>
+
