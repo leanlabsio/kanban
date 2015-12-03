@@ -2,10 +2,10 @@ package auth
 
 import (
 	"errors"
-	"github.com/Unknwon/macaron"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/spf13/viper"
 	"gitlab.com/leanlabsio/kanban/models"
+	"gopkg.in/macaron.v1"
 )
 
 // SignedInUser returns models.User instance if user exists

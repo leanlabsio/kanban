@@ -1,14 +1,14 @@
 package cmd
 
 import (
-	"github.com/Unknwon/macaron"
-	"github.com/macaron-contrib/bindata"
-	"github.com/macaron-contrib/binding"
-	"github.com/macaron-contrib/sockets"
+	"github.com/go-macaron/bindata"
+	"github.com/go-macaron/binding"
+	"github.com/leanlabsio/sockets"
 	"github.com/spf13/cobra"
 	"gitlab.com/leanlabsio/kanban/templates"
 	"gitlab.com/leanlabsio/kanban/web"
 	"gitlab.com/leanlabsio/kanban/ws"
+	"gopkg.in/macaron.v1"
 	"log"
 	"net/http"
 

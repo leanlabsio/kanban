@@ -1,9 +1,9 @@
 package middleware
 
 import (
-	"github.com/Unknwon/macaron"
 	"gitlab.com/leanlabsio/kanban/models"
 	"gitlab.com/leanlabsio/kanban/modules/auth"
+	"gopkg.in/macaron.v1"
 )
 
 // Auther checks jwt authentication
