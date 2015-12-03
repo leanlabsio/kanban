@@ -1,3 +1,15 @@
+# 1.4.3 (2015-12-03)
+
+## Features:
+
+- Swimlanes by milestones, resolves [#109](https://gitlab.com/leanlabsio/kanban/issues/109) (Don Mahurin).
+- Create milestones from kanban, resolves [#105](https://gitlab.com/leanlabsio/kanban/issues/105) (Anton Popov).
+
+## Bugfixes:
+
+- Solved infinite page reload, resolves [#112](https://gitlab.com/leanlabsio/kanban/issues/112) (V).
+- Fixed modal window history navigation, resolves [#108](https://gitlab.com/leanlabsio/kanban/issues/108) (Anton Popov).
+
 # 1.4.2 (2015-11-22)
 
 ## Bugfixes:

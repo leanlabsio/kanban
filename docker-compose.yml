@@ -11,7 +11,7 @@ proxy:
     - "80:80"
 
 kanban:
-  image: leanlabs/kanban:1.4.2
+  image: leanlabs/kanban:1.4.3
   environment:
     # URL on which Leanlabs Kanban will be reachable
     - KANBAN_SERVER_HOSTNAME=http://kanban.gitlab.com

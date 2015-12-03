@@ -1,5 +1,5 @@
 IMAGE = leanlabs/kanban
-TAG   = 1.4.2
+TAG   = 1.4.3
 
 help:
 	@echo "Here will be brief doc"
