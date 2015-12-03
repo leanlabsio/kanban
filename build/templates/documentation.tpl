@@ -29,16 +29,15 @@
 		<script src="/js/skel.min.js"></script>
 		<script src="/js/skel-layers.min.js"></script>
 		<script src="/js/init.js"></script>
-		<noscript>
-			<link rel="stylesheet" href="/css/skel.css"/>
-			<link rel="stylesheet" href="/css/style.css"/>
-			<link rel="stylesheet" href="/css/style-xlarge.css"/>
-		</noscript>
         <!--[if lte IE 8]>
         <link rel="stylesheet" href="/css/ie/v8.css"/><![endif]-->
+        <link rel="stylesheet" href="/css/github-markdown.css">
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.9.1/styles/default.min.css">
+        <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.9.1/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script>
 	</head>
-	<body>
 
+	<body class="docs">
 		<!-- Header -->
 			<header id="header">
 				<h1><a href="/"><img style="height:50px; margin-top: 15px;" src="/images/logo.png" alt="leanlabs"></a></h1>
@@ -46,7 +45,7 @@
                     <ul>
                         <li><a href="/">Home</a></li>
                         <li><a href="/enterprise">Enterprise</a></li>
-                        <li><a href="/documentation/Home">Documentation</a></li>
+                        <li><a href="/docs">Documentation</a></li>
                         <li><a href="http://blog.leanlabs.io" target="_blank">Blog</a></li>
                         <li><a href="/downloads" class="button disabled"><span class="fa fa-download"></span>&nbsp;Download</a></li>
                     </ul>
@@ -74,9 +73,11 @@
                                 {{end}}
 							</nav>
 						</section>
-						<section class="9u 12u$(small)">
+						<article class="9u 12u$(small)">
+						    <section class="markdown-body">
                             {{ .Body}}
-                            <footer class="align-center">
+                            </section>
+                            <footer style="margin-top: 40px;" class="align-center">
                                 <ul class="actions">
                                     <li>
                                         <a href="http://demo.kanban.leanlabs.io" target="_blank" class="button alt big">Try demo</a>
