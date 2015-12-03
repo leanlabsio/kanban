@@ -2,10 +2,10 @@ package user
 
 import (
 	"fmt"
-	"github.com/Unknwon/macaron"
 	"gitlab.com/leanlabsio/kanban/models"
 	"gitlab.com/leanlabsio/kanban/modules/auth"
 	"gitlab.com/leanlabsio/kanban/modules/middleware"
+	"gopkg.in/macaron.v1"
 	"log"
 	"net/http"
 )

@@ -2,9 +2,9 @@ package middleware
 
 import (
 	"encoding/json"
-	"github.com/Unknwon/macaron"
 	"gitlab.com/leanlabsio/kanban/models"
 	"gitlab.com/leanlabsio/kanban/ws"
+	"gopkg.in/macaron.v1"
 )
 
 type Context struct {

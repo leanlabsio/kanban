@@ -1,8 +1,8 @@
 package routers
 
 import (
-	"github.com/Unknwon/macaron"
 	"github.com/spf13/viper"
+	"gopkg.in/macaron.v1"
 )
 
 // Home returns main page
