@@ -37,3 +37,23 @@ Here you will find common issues we faced with GitLab + Apache setup and how to 
 
     This could be caused by websockets proxy misconfiguration. Kanban listens for websocket connections on /ws/ location,
     so it should be proxied properly and there must be Host, Connection and Upgrade headers present.
+
+3. Config example
+
+    ```apache
+    <VirtualHost *:80>
+        ProxyPreserveHost On
+
+        <Location />
+                ProxyPass http://127.0.0.1:9000/
+                ProxyPassReverse http://127.0.0.1:9000/
+        </Location>
+
+        <Location /ws/>
+            ProxyPass ws://127.0.0.1:9000/ws/
+            ProxyPassReverse ws://127.0.0.1:9000/ws/
+        </Location>
+    </VirtualHost>
+    ```
+
+    [view in github](https://github.com/leanlabsio/kanban/blob/master/docs/configuration/webserver/apache/apache.conf)
