@@ -15,7 +15,7 @@
                 <input type="hidden"
                        name="project_id"
                        data-ng-model="milestone.project_id">
-                <input data-ng-class="{ 'error' : issueForm.title.$invalid && !issueForm.title.$pristine}"
+                <input data-ng-class="{ 'error' : milestoneForm.title.$invalid && !milestoneForm.title.$pristine}"
                        name="title"
                        type="text"
                        placeholder="Title"
@@ -52,7 +52,7 @@
                               rows="10"
                               data-ng-model="milestone.description"></textarea>
                 </div>
-                <button class="button right" type="submit" data-ng-disabled="issueForm.$invalid || isSaving">
+                <button class="button right" type="submit" data-ng-disabled="milestoneForm.$invalid || isSaving">
                     Create
                 </button>
             </div>
