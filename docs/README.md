@@ -6,7 +6,7 @@ This is work in progress, feel free to [submit an issues](https://gitlab.com/lea
 
 ### Installation
 
-[Installation instructions](http://kanban.leanlabs.io/documentation/Home)
+[Installation instructions](/docs/installation)
 
 ### Configuration
 

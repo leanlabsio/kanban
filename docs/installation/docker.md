@@ -114,7 +114,7 @@ Here are the list of available variables and their meaning:
 
 - **KANBAN_REDIS_PASSWORD** - default to "" (empty string), Redis server password if any.
 
-- ** KANBAN_REDIS_DB** - default to "0", redis server database numeric index, from 0 to 16, also rarely required to be changed if ever.
+- **KANBAN_REDIS_DB** - default to "0", redis server database numeric index, from 0 to 16, also rarely required to be changed if ever.
 
 ## Setting up behind proxy.
 
