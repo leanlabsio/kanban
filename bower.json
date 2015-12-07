@@ -14,7 +14,8 @@
     "markdown-it": "4.2.2",
     "sass-flex-mixin": "1.0.0",
     "reconnectingWebsocket": "*",
-    "angularjs-datepicker": "0.2.15"
+    "angularjs-datepicker": "0.2.15",
+    "ng-tags-input":"*"
   },
   "resolutions": {
     "jquery": ">= 2.1.0",

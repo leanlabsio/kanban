@@ -11,7 +11,8 @@
         'll.markdown',
         'll.modal',
         'mm.foundation.typeahead',
-        '720kb.datepicker']
+        '720kb.datepicker',
+        'ngTagsInput']
     ).config(['$stateProvider', '$urlMatcherFactoryProvider', function($stateProvider, $urlMatcherFactoryProvider) {
             function valToString(val) {
                 return val != null ? val.toString() : val;
@@ -71,7 +72,7 @@
 
                 })
                 .state('board.cards', {
-                    url: '/{project_path:MyType}?assignee&milestone&label&group',
+                    url: '/{project_path:MyType}?tags&group',
                     views: {
                         'content@board': {
                             templateUrl: 'assets/html/board/views/board/cards.html',

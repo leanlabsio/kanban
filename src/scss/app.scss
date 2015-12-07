@@ -253,3 +253,87 @@ fieldset {
     border: 1px solid #259CC3 !important;
     height: 4px !important;
 }
+
+
+.tag-template .left-panel {
+  float: left;
+}
+
+.tag-template .left-panel img {
+  width: 24px;
+  height: 24px;
+  vertical-align: middle;
+}
+
+.tag-template .right-panel {
+  float: left;
+  margin-left: 5px;
+}
+
+.autocomplete-template .left-panel {
+  float: left;
+}
+
+.autocomplete-template .left-panel img {
+  width: 32px;
+  height: 32px;
+  vertical-align: middle;
+}
+
+.autocomplete-template .right-panel {
+  float: left;
+  margin-left: 5px;
+  margin-top: 7px;
+}
+
+.autocomplete-template .right-panel span:first-child {
+  font-size: 16px;
+}
+
+.autocomplete-template .right-panel span:nth-child(2) {
+  font-size: 14px;
+  color: gray;
+}
+
+.autocomplete-template .right-panel span:last-child {
+  display: block;
+  font-size: 14px;
+  font-style: italic;
+}
+
+tags-input .tags .input {
+    padding: 0 !important;
+    float: none !important;
+    position: relative !important;
+    top: 0 !important;
+    border: none !important;
+    width: 400px !important;
+}
+tags-input .tags .input.invalid-tag {
+    width: 250px !important;
+}
+nav .suggestion-list {
+    .left-panel {
+        width: 50px !important;
+        height: 50px !important;
+    }
+    .suggestion-item {
+        width: 100% !important;
+    }
+}
+nav li .row form {
+    width: 600px !important;
+}
+nav {
+    tags-input .tags .tag-item .remove-button {
+        line-height: 25px !important;
+        color: #fff !important;
+    }
+    tags-input .tags .tag-item .remove-button:hover {
+        background-color: #CF2A0E;
+    }
+    tags-input .tags .tag-item {
+        height: 28px !important;
+        line-height: 25px !important;
+    }
+}

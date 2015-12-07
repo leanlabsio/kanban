@@ -12,13 +12,25 @@
                     </li>
                     <li class="has-form hide-for-small-only" data-ng-show="!isEmpty(project)">
                         <div class="row collapse">
-                            <form method="get" data-ng-submit="filter(filterval)">
-                                <div class="large-12 small-9 columns">
-                                    <input type="text" placeholder="Filter by @username or ^milestone or ~label"
-                                           data-ng-model="filterval"
-                                           data-typeahead-on-select="filter(filterval)"
-                                           data-typeahead="u for u in getFilter($viewValue)" class="form-control">
-                                </div>
+                            <form >
+                                <tags-input ng-model="tags" 
+                                            key-property="idname"
+                                            display-property="name" 
+                                            placeholder="Add a filter @user or ^milestone or ~label " 
+                                            replace-spaces-with-dashes="false"
+                                            min-length="1"
+                                            add-from-autocomplete-only="true"
+                                            spellcheck="false"
+                                            template="tag-template"
+                                            on-tag-added="applyFilter(tags)"
+                                            on-tag-removed="applyFilter(tags)">
+                                    <auto-complete source="filterTypeahead($query)"
+                                                   min-length="1"
+                                                   load-on-focus="true"
+                                                   load-on-empty="true"
+                                                   max-results-to-show="10000"
+                                                   template="autocomplete-template"></auto-complete>
+                                </tags-input>
                             </form>
                         </div>
                     </li>
@@ -88,3 +100,25 @@
             </section>
     </nav>
 </div>
+
+<script type="text/ng-template" id="tag-template">
+    <div class="tag-template">
+        <div class="left-panel" ng-if="data.avatar_url">
+            <img style="border-radius: 50%;" data-ng-src="{{data.avatar_url}}" />
+        </div>
+        <div ng-style="data.color && {'background-color': data.color}" class="right-panel">
+            <span>{{$getDisplayText()}}</span>
+            <a class="remove-button" ng-click="$removeTag()">&#10006;</a>
+        </div>
+    </div>
+</script>
+
+<script type="text/ng-template" id="autocomplete-template">
+    <div ng-style="data.color && {'background-color': data.color, 'color': '#fff'}" "autocomplete-template">
+        <div class="left-panel" ng-if="data.avatar_url">
+            <img style="border-radius: 50%" data-ng-src="{{data.avatar_url}}" />
+        </div>
+            <span ng-bind-html="$highlight($getDisplayText())"></span>
+            <span ng-bind-html="$highlight(data.username)"></span>
+    </div>
+</script>

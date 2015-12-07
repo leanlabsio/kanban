@@ -147,6 +147,18 @@ module.exports = function (grunt) {
                     },
                     {
                         flatten: true, 
+                        src: ['bower_components/ng-tags-input/ng-tags-input.min.js'], 
+                        dest: 'web/assets/js/ng-tags-input.min.js',
+                        filter: 'isFile'
+                    },
+                    {
+                        flatten: true, 
+                        src: ['bower_components/ng-tags-input/ng-tags-input.min.css'], 
+                        dest: 'web/assets/css/ng-tags-input.min.css',
+                        filter: 'isFile'
+                    },
+                    {
+                        flatten: true,
                         src: ['bower_components/angular/angular.js'], 
                         dest: 'web/assets/js/angular.js',
                         filter: 'isFile'
