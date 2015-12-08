@@ -1,8 +1,7 @@
 IMAGE = leanlabs/kanban
 TAG   = 1.4.3
 
-help:
-	@echo "Here will be brief doc"
+all: clean kanban
 
 test:
 	@docker run -d -P --name selenium-hub selenium/hub:2.47.1
@@ -11,43 +10,42 @@ test:
 	@docker run -d -P $(IMAGE):$(TAG)
 	@protractor $(CURDIR)/tests/e2e.conf.js
 
-build:
+node_modules/: package.json
 	@docker run --rm \
 		-v $(CURDIR):/data \
 		-v $$HOME/node_cache:/cache \
-		-v /etc/passwd:/etc/passwd \
-		-v /etc/group:/etc/group \
-		-u $$USER \
-		leanlabs/npm-builder npm install
-
-	@docker run --rm \
-		-v $(CURDIR):/data \
-		-v $$HOME/node_cache:/cache \
-		-v /etc/passwd:/etc/passwd \
-		-v /etc/group:/etc/group \
 		-e HOME=/cache \
-		-u $$USER \
-		leanlabs/npm-builder bower install
+		leanlabs/npm-builder:latest npm install
 
+bower_components/: bower.json
 	@docker run --rm \
 		-v $(CURDIR):/data \
 		-v $$HOME/node_cache:/cache \
-		-v /etc/passwd:/etc/passwd \
-		-v /etc/group:/etc/group \
-		-u $$USER \
+		-e HOME=cache \
+		leanlabs/npm-builder bower install --allow-root
+
+build: node_modules/ bower_components/
+	@docker run --rm \
+		-v $(CURDIR):/data \
+		-v $$HOME/node_cache:/cache \
+		-e HOME=/cache \
 		leanlabs/npm-builder grunt build
 
-templates/templates.go: $(find $(CURDIR)/templates -name "*.html" -type f)
-	@go-bindata -pkg=templates \
-		-o templates/templates.go \
+templates/templates.go: $(shell find $(CURDIR)/templates -name "*.html" -type f)
+	@docker run --rm \
+		-v $(CURDIR):/data \
+		leanlabs/go-bindata-builder \
+		-pkg=templates -o templates/templates.go \
 		templates/...
 
-web/web.go: $(find $(CURDIR)/web/ -name "*" ! -name "web.go" -type f)
-	@go-bindata -pkg=web \
-		-o web/web.go \
+web/web.go: $(shell find $(CURDIR)/web/ -name "*" ! -name "web.go" -type f)
+	@docker run --rm \
+		-v $(CURDIR):/data \
+		leanlabs/go-bindata-builder \
+		-pkg=web -o web/web.go \
 		web/assets/... web/images/... web/template/...
 
-kanban: $(find $(CURDIR) -name "*.go" -type f)
+kanban: build templates/templates.go web/web.go $(find $(CURDIR) -name "*.go" -type f)
 	@docker run --rm \
 		-v $(CURDIR):/src \
 		leanlabs/golang-builder
