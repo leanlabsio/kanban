@@ -54,7 +54,7 @@ kanban: build templates/templates.go web/web.go $(find $(CURDIR) -name "*.go" -t
 		leanlabs/golang-builder build -v
 
 
-bin/kanban_x86_64_linux: $(find $(CURDIR) -name "*.go" -type f)
+rel/kanban_x86_64_linux: clean build templates/templates.go web/web.go $(find $(CURDIR) -name "*.go" -type f)
 	@docker run --rm \
 		-v $(CURDIR):/go/src/gitlab.com/leanlabsio/kanban \
 		-w /go/src/gitlab.com/leanlabsio/kanban \
@@ -63,9 +63,9 @@ bin/kanban_x86_64_linux: $(find $(CURDIR) -name "*.go" -type f)
 		-e GO15VENDOREXPERIMENT=1 \
 		-e CGO_ENABLED=0 \
 		--entrypoint=/usr/local/go/bin/go \
-		leanlabs/golang-builder build -ldflags '-s' -v -o bin/kanban_x86_64_linux
+		leanlabs/golang-builder build -ldflags '-s' -v -o $@
 
-bin/kanban_x86_64_darwin: $(find $(CURDIR) -name "*.go" -type f)
+rel/kanban_x86_64_darwin: clean build templates/templates.go web/web.go $(find $(CURDIR) -name "*.go" -type f)
 	@docker run --rm \
 		-v $(CURDIR):/go/src/gitlab.com/leanlabsio/kanban \
 		-w /go/src/gitlab.com/leanlabsio/kanban \
@@ -74,9 +74,9 @@ bin/kanban_x86_64_darwin: $(find $(CURDIR) -name "*.go" -type f)
 		-e GO15VENDOREXPERIMENT=1 \
 		-e CGO_ENABLED=0 \
 		--entrypoint=/usr/local/go/bin/go \
-		leanlabs/golang-builder build -ldflags '-s' -v -o bin/kanban_x86_64_darwin
+		leanlabs/golang-builder build -ldflags '-s' -v -o $@
 
-release: clean build templates/templates.go web/web.go bin/kanban_x86_64_linux
+release: rel/kanban_x86_64_linux
 	@docker build -t $(IMAGE) .
 	@docker tag $(IMAGE):latest $(IMAGE):$(TAG)
 	@docker push $(IMAGE):latest
