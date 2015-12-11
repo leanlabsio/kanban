@@ -1,7 +1,7 @@
 IMAGE = leanlabs/kanban
 TAG   = 1.4.3
 
-all: clean kanban
+all: clean
 
 test:
 	@docker run -d -P --name selenium-hub selenium/hub:2.47.1
@@ -61,8 +61,9 @@ bin/kanban_x86_64_linux: $(find $(CURDIR) -name "*.go" -type f)
 		-e GOOS=linux \
 		-e GOARCH=amd64 \
 		-e GO15VENDOREXPERIMENT=1 \
+		-e CGO_ENABLED=0 \
 		--entrypoint=/usr/local/go/bin/go \
-		leanlabs/golang-builder build -v -o bin/kanban_x86_64_linux
+		leanlabs/golang-builder build -ldflags '-s' -v -o bin/kanban_x86_64_linux
 
 bin/kanban_x86_64_darwin: $(find $(CURDIR) -name "*.go" -type f)
 	@docker run --rm \
@@ -71,10 +72,11 @@ bin/kanban_x86_64_darwin: $(find $(CURDIR) -name "*.go" -type f)
 		-e GOOS=darwin \
 		-e GOARCH=amd64 \
 		-e GO15VENDOREXPERIMENT=1 \
+		-e CGO_ENABLED=0 \
 		--entrypoint=/usr/local/go/bin/go \
-		leanlabs/golang-builder build -v -o bin/kanban_x86_64_darwin
+		leanlabs/golang-builder build -ldflags '-s' -v -o bin/kanban_x86_64_darwin
 
-release: clean build templates/templates.go web/web.go kanban
+release: clean build templates/templates.go web/web.go bin/kanban_x86_64_linux
 	@docker build -t $(IMAGE) .
 	@docker tag $(IMAGE):latest $(IMAGE):$(TAG)
 	@docker push $(IMAGE):latest
