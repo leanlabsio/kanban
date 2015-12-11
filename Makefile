@@ -45,15 +45,6 @@ web/web.go: $(shell find $(CURDIR)/web/ -name "*" ! -name "web.go" -type f)
 		-pkg=web -o web/web.go \
 		web/assets/... web/images/... web/template/...
 
-kanban: build templates/templates.go web/web.go $(find $(CURDIR) -name "*.go" -type f)
-	@docker run --rm \
-		-e GO15VENDOREXPERIMENT=1 \
-		-v $(CURDIR):/go/src/gitlab.com/leanlabsio/kanban \
-		-w /go/src/gitlab.com/leanlabsio/kanban \
-		--entrypoint=/usr/local/go/bin/go \
-		leanlabs/golang-builder build -v
-
-
 rel/kanban_x86_64_linux: clean build templates/templates.go web/web.go $(find $(CURDIR) -name "*.go" -type f)
 	@docker run --rm \
 		-v $(CURDIR):/go/src/gitlab.com/leanlabsio/kanban \
