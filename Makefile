@@ -54,7 +54,7 @@ rel/kanban_x86_64_linux: clean build templates/templates.go web/web.go $(find $(
 		-e GO15VENDOREXPERIMENT=1 \
 		-e CGO_ENABLED=0 \
 		--entrypoint=/usr/local/go/bin/go \
-		leanlabs/golang-builder build -ldflags '-s' -v -o $@
+		golang:1.5.2 build -ldflags '-s' -v -o $@
 
 rel/kanban_x86_64_darwin: clean build templates/templates.go web/web.go $(find $(CURDIR) -name "*.go" -type f)
 	@docker run --rm \
@@ -65,7 +65,7 @@ rel/kanban_x86_64_darwin: clean build templates/templates.go web/web.go $(find $
 		-e GO15VENDOREXPERIMENT=1 \
 		-e CGO_ENABLED=0 \
 		--entrypoint=/usr/local/go/bin/go \
-		leanlabs/golang-builder build -ldflags '-s' -v -o $@
+		golang:1.5.2 build -ldflags '-s' -v -o $@
 
 release: rel/kanban_x86_64_linux
 	@docker build -t $(IMAGE) .
