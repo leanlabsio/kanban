@@ -10,8 +10,8 @@
     </div>
 
     <section data-ng-repeat="(groupName, group) in groups" style="width: auto; max-width: none;">
-        <div class="row board button secondary"
-             ng-init="showDetails = ! board.grouped"
+        <div class="row board"
+             ng-init="showDetails = true"
              ng-click="showDetails = ! showDetails" 
              style="border-bottom: solid 1px #bbb;padding: 10px; font-weight: bold" ng-show="board.grouped">
             <h5 style="margin: 0">{{groupName}}</h5>
