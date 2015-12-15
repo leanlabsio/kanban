@@ -88,7 +88,18 @@ clean:
 
 # Development targets
 dev_redis: 
-	@docker inspect -f {{.State.Running}} kb_dev_redis || docker run -d -p 6379:6379 --name kb_dev_redis leanlabs/redis
+	@docker inspect -f {{.State.Running}} kb_dev_redis || \
+		docker run -d -p 6379:6379 --name kb_dev_redis leanlabs/redis
+
+watch: build
+	@docker inspect -f {{.State.Running}} kb_dev_watcher || \
+		docker run -d \
+			--name kb_dev_watcher \
+			-v $(CURDIR):$(CWD) \
+			-v $$HOME/node_cache:/cache \
+			-w $(CWD) \
+			-e HOME=/cache \
+			leanlabs/npm-builder grunt watch
 
 tmp/go/pkg/: 
 	@docker run --rm \
@@ -101,7 +112,7 @@ tmp/go/pkg/:
 
 dev : DEBUG=-debug
 
-dev: templates/templates.go web/web.go dev_redis tmp/go/pkg/
+dev: watch templates/templates.go web/web.go dev_redis tmp/go/pkg/
 	-docker rm -f kb_dev
 	@docker run -d --link kb_dev_redis:redis --name kb_dev \
 		-p 9000:80 \
@@ -109,7 +120,11 @@ dev: templates/templates.go web/web.go dev_redis tmp/go/pkg/
 		-v $(CURDIR)/tmp/go/pkg:/go/pkg \
 		-w $(CWD) \
 		-e GO15VENDOREXPERIMENT=1 \
+		-e KANBAN_SERVER_HOSTNAME=$(KANBAN_SERVER_HOSTNAME) \
+		-e KANBAN_GITLAB_CLIENT=$(KANBAN_GITLAB_CLIENT) \
+		-e KANBAN_GITLAB_SECRET=$(KANBAN_GITLAB_SECRET) \
+		-e KANBAN_REDIS_ADDR=redis:6379 \
 		--entrypoint=/usr/local/go/bin/go \
-		golang:1.5.2 run -v main.go server --redis-addr redis:6379
+		golang:1.5.2 run -v main.go server
 
 .PHONY: help test build release
