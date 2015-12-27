@@ -20,33 +20,28 @@
                 var group = function(item) {return 'none';};
                 var grouped = $stateParams.group;
 
-
                 var tags = [];
-                if ($stateParams.tags)
-                    tags = JSON.parse(decodeURIComponent($stateParams.tags));
-                
+                if ($stateParams.tags) {
+                    tags = tags.concat($stateParams.tags);
+                }
+
                 if (!_.isEmpty(tags)) {
                     filter = function(item) {
                         var item_tags = [];
-                        
-                        if (!_.isEmpty(item.assignee))
+
+                        if (!_.isEmpty(item.assignee)) {
                             item_tags = item_tags.concat('@' + item.assignee.id);
-                        
-                        if (!_.isEmpty(item.milestone))
+                        }
+
+                        if (!_.isEmpty(item.milestone)) {
                             item_tags = item_tags.concat('^' + item.milestone.id);
-                        
+                        }
+
                         var labels = _.map(item.labels, function(l) {return '~'+l;});
                         item_tags = item_tags.concat(labels);
-                        
-                        var filter_tags = _.map(tags, 
-                                                function(tag) {
-                                                    if (tag.idname)
-                                                        return tag.idname;
-                                                    return '';
-                                                });
 
-                        return _.intersection(item_tags, filter_tags).length == filter_tags.length;
-                    }
+                        return _.intersection(item_tags, tags).length == tags.length;
+                    };
                 }
 
                 if (grouped) {

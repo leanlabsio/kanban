@@ -10,33 +10,17 @@
                     <li data-ng-show="!isEmpty(project)" class="hide-for-medium-down">
                         <a data-ui-sref="board.cards({project_id: project.id, project_path: project.path_with_namespace})">{{project.name_with_namespace}}</a>
                     </li>
-                    <li class="has-form hide-for-small-only" data-ng-show="!isEmpty(project)">
-                        <div class="row collapse">
-                            <form >
-                                <tags-input ng-model="tags" 
-                                            key-property="idname"
-                                            display-property="name" 
-                                            placeholder="Add a filter @user or ^milestone or ~label " 
-                                            replace-spaces-with-dashes="false"
-                                            min-length="1"
-                                            add-from-autocomplete-only="true"
-                                            spellcheck="false"
-                                            template="tag-template"
-                                            on-tag-added="applyFilter(tags)"
-                                            on-tag-removed="applyFilter(tags)">
-                                    <auto-complete source="filterTypeahead($query)"
-                                                   min-length="1"
-                                                   load-on-focus="true"
-                                                   load-on-empty="true"
-                                                   max-results-to-show="10000"
-                                                   template="autocomplete-template"></auto-complete>
-                                </tags-input>
-                            </form>
-                        </div>
-                    </li>
                 </ul>
 
                 <ul class="right hide-for-medium-down">
+                    <!-- filter button -->
+                    <li>
+                        <a href="#" data-ng-click="showFilter()">
+                            <i class="fa fa-filter"></i>&nbsp;&nbsp;Filter <span data-ng-show="!isEmpty(stateParams.tags)"> is on</span>
+                        </a>
+                    </li>
+                    <!-- filter button -->
+
                     <li data-has-dropdown data-ng-show="!isEmpty(project)">
                         <a href="#"><i class="fa fa-align-justify"></i>&nbsp;&nbsp;Swimlane</a>
                         <ul data-top-bar-dropdown>
@@ -97,28 +81,6 @@
                         </ul>
                     </li>
                 </ul>
-            </section>
+        </section>
     </nav>
 </div>
-
-<script type="text/ng-template" id="tag-template">
-    <div class="tag-template">
-        <div class="left-panel" ng-if="data.avatar_url">
-            <img style="border-radius: 50%;" data-ng-src="{{data.avatar_url}}" />
-        </div>
-        <div ng-style="data.color && {'background-color': data.color}" class="right-panel">
-            <span>{{$getDisplayText()}}</span>
-            <a class="remove-button" ng-click="$removeTag()">&#10006;</a>
-        </div>
-    </div>
-</script>
-
-<script type="text/ng-template" id="autocomplete-template">
-    <div ng-style="data.color && {'background-color': data.color, 'color': '#fff'}" "autocomplete-template">
-        <div class="left-panel" ng-if="data.avatar_url">
-            <img style="border-radius: 50%" data-ng-src="{{data.avatar_url}}" />
-        </div>
-            <span ng-bind-html="$highlight($getDisplayText())"></span>
-            <span ng-bind-html="$highlight(data.username)"></span>
-    </div>
-</script>

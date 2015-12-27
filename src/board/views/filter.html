@@ -1,0 +1,119 @@
+<div id="filter-block" class="small-12 medium-6 large-3 columns">
+    <style>
+        #filter-block {
+            position: fixed;
+            overflow-y: scroll;
+            top: 45px;
+            bottom: 0;
+            right: 0;
+            background: #edeff0;
+            box-shadow: 0 0 6px rgba(0,0,0,.4);
+        }
+        #filter-block .side-nav {
+            padding: 0;
+        }
+        #filter-block hr {
+            margin: 0.75rem 0;
+        }
+        #filter-block .side-nav li {
+            margin: 0;
+        }
+        #filter-block .side-nav a {
+            padding: 0.2375rem 0.175rem;
+        }
+        #filter-block .side-nav a:hover {
+            background: #259CC3;
+            color: #fff;
+        }
+        #filter-block .side-nav .fa-check {
+            visibility:hidden;
+        }
+        #filter-block .side-nav li.active a {
+            color: #008CBA;
+        }
+        #filter-block .side-nav li.active a:hover {
+            color: #fff;
+        }
+        #filter-block .side-nav li.active .fa-check {
+            visibility:visible;
+        }
+    </style>
+
+    <div class="row collapse">
+        <h4 style="margin-top: 10px;">
+            Filter cards
+        </h4>
+    </div>
+
+    <hr/>
+
+    <form>
+        <div class="row collapse">
+            <div class="small-12 medium-12 large-12 columns">
+                <input type="text" placeholder="type to filter" data-ng-model="query" style="margin-bottom: 0" />
+            </div>
+        </div>
+    </form>
+
+    <hr/>
+
+    <h5>
+        Labels
+    </h5>
+    <div class="row collapse">
+        <ul class="side-nav">
+            <li data-ng-repeat="label in filter.labels|filter:query" data-ng-class="{active: contains(filter.tags, '~'+label.name)}">
+                <a href="#" data-ng-click="filter.apply('~'+label.name)">
+                    <i class="fa fa-check"></i>&nbsp;
+                    <span class="label medium-text-left" style="background-color: {{label.color}}">
+                        {{label.name}}
+                    </span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <hr/>
+
+    <h5>
+        Milestones
+    </h5>
+    <div class="row collapse">
+        <ul class="side-nav">
+            <li data-ng-repeat="milestone in filter.milestones|filter:query" data-ng-class="{active: contains(filter.tags, '^'+milestone.id)}">
+                <a href="#" data-ng-click="filter.apply('^'+milestone.id)">
+                    <i class="fa fa-check"></i>&nbsp;
+                    <span class="medium-text-left">
+                        {{milestone.title}}
+                    </span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <hr/>
+
+    <h5>
+        Users
+    </h5>
+    <div class="row collapse">
+        <ul class="side-nav">
+            <li data-ng-repeat="user in filter.users|filter:query" data-ng-class="{active: contains(filter.tags, '@'+user.id)}">
+                <a href="#" data-ng-click="filter.apply('@'+user.id)">
+                    <i class="fa fa-check"></i>&nbsp;
+                    <span class="meduim-text-left">
+                    <img data-ng-src="{{user.avatar_url}}" width="24" height="24" style="border-radius: 50%"/>&nbsp;
+                        {{user.name}}
+                    </span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <hr/>
+    <div class="row collapse">
+        <a href="#" class="button expand" data-ng-click="filter.clear()">
+            Clear filters
+        </a>
+    </div>
+</div>

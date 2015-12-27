@@ -5,9 +5,10 @@
         [
             'UserService',
             'Stage',
+            'State',
             'stage_regexp',
             '$rootScope',
-            function (UserService, Stage, stage_regexp, $rootScope) {
+            function (UserService, Stage, State, stage_regexp, $rootScope) {
                 function Board(labels, issues, project) {
                     this.stages = [];
 
@@ -16,6 +17,7 @@
                     this.project = project;
                     this.grouped = false;
                     this.defaultStages = {};
+                    this.state = State;
 
                     this.stages = _.sortBy(_.filter(labels, function (label) {
                         return stage_regexp.test(label.name);
