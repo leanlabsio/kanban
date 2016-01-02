@@ -14,7 +14,7 @@
 
                 <ul class="right hide-for-medium-down">
                     <!-- filter button -->
-                    <li>
+                    <li data-ng-show="!isEmpty(project)">
                         <a href="#" data-ng-click="showFilter()">
                             <i class="fa fa-filter"></i>&nbsp;&nbsp;Filter <span data-ng-show="!isEmpty(stateParams.tags)"> is on</span>
                         </a>
