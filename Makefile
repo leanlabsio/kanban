@@ -1,5 +1,5 @@
 IMAGE = leanlabs/kanban
-TAG   = 1.4.3
+TAG   = 1.4.4
 CWD   = /go/src/gitlab.com/leanlabsio/kanban
 
 all: clean
@@ -84,7 +84,6 @@ release: rel/kanban_x86_64_linux
 clean:
 	@rm -rf web/
 	@rm -f templates/templates.go
-	@rm -f kanban
 
 # Development targets
 dev_redis: 

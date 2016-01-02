@@ -1,3 +1,10 @@
+# 1.4.4 (2016-01-02)
+
+## Features:
+
+- New filter system, by multiple tags (Michael Filonenko, V)
+- Collapsible groups when grouping enabled (Michael Filonenko)
+
 # 1.4.3 (2015-12-03)
 
 ## Features:
