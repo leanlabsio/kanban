@@ -37,11 +37,11 @@ type BoardRequest struct {
 
 var (
 	defaultStages = []string{
-		"KB[stage][0][Backlog]",
-		"KB[stage][1][Development]",
-		"KB[stage][2][Testing]",
-		"KB[stage][3][Production]",
-		"KB[stage][4][Ready]",
+		"KB[stage][10][Backlog]",
+		"KB[stage][20][Development]",
+		"KB[stage][30][Testing]",
+		"KB[stage][40][Production]",
+		"KB[stage][50][Ready]",
 	}
 )
 
