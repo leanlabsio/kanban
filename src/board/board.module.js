@@ -148,5 +148,5 @@
                 $markdownProvider.registerPlugin(window.md_merge_request_plugin);
                 $markdownProvider.registerPlugin(window.md_image_plugin);
         }])
-        .constant('stage_regexp', /KB\[stage\]\[\d\]\[(.*)\]/);
+        .constant('stage_regexp', /KB\[stage\]\[\d+\]\[(.*)\]/);
 })(window.angular, window.CLIENT_VERSION);
