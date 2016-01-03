@@ -11,7 +11,7 @@
     "angular-underscore": "~0.5.0",
     "underscore": "~1.7.0",
     "a0-angular-storage": "~0.0.6",
-    "markdown-it": "4.2.2",
+    "markdown-it": "5.0.2",
     "sass-flex-mixin": "1.0.0",
     "reconnectingWebsocket": "*",
     "angularjs-datepicker": "0.2.15",
