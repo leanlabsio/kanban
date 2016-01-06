@@ -103,10 +103,16 @@
                         $scope.isSavingTodo = false;
                     });
                 };
-
+                
+                /**
+                 * Update card assignee
+                 */
                 $scope.update = function(card, user) {
-                    if (!card.assignee || (card.assignee.id != user.id)) {
+                    if (_.isEmpty(card.assignee) || card.assignee.id != user.id) {
                         card.assignee_id = user.id;
+                        return BoardService.updateCard(card);
+                    } else {
+                        card.assignee_id = 0;
                         return BoardService.updateCard(card);
                     }
                 };
