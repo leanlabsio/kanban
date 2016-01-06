@@ -18,6 +18,7 @@
                     this.grouped = false;
                     this.defaultStages = {};
                     this.state = State;
+                    this.counts = {};
 
                     this.stages = _.sortBy(_.filter(labels, function (label) {
                         return stage_regexp.test(label.name);
@@ -53,8 +54,12 @@
                         var stages = {};
                         for (var k in this.defaultStages) {
                             stages[k] = [];
+                            this.counts[k] = 0;
                         }
                         items[index] = _.extend(stages, _.groupBy(element, 'stage', this));
+                        for (var idx in items[index]) {
+                            this.counts[idx] += items[index][idx].length;
+                        }
                     };
 
 
