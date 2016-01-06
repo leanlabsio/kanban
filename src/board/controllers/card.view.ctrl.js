@@ -149,8 +149,11 @@
                 };
 
                 $scope.updateMilestone = function(card, milestone) {
-                    if (!card.milestone || (card.milestone.id != milestone.id)) {
+                    if (_.isEmpty(card.milestone) || (card.milestone.id != milestone.id)) {
                         card.milestone_id = milestone.id;
+                        return BoardService.updateCard(card);
+                    } else {
+                        card.milestone_id = 0;
                         return BoardService.updateCard(card);
                     }
                 };

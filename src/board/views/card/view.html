@@ -268,7 +268,10 @@
 
                         <ul id="select-milestone" class="f-dropdown">
                             <li data-ng-repeat="milestone in milestones" data-ng-if="milestones.length > 0">
-                                <a data-ng-click="updateMilestone(card, milestone)">{{milestone.title}}</a>
+                                <a data-ng-click="updateMilestone(card, milestone)">
+                                    {{milestone.title}}
+                                    <i class="fa fa-check" data-ng-show="card.milestone.id == milestone.id"></i>
+                                </a>
                             </li>
 
                             <li data-ng-if="milestones.length == 0">
