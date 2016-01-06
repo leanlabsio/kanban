@@ -17,7 +17,7 @@
                     this.project = project;
                     this.grouped = false;
                     this.defaultStages = {};
-                    this.state = State;
+                    this.state = new State();
                     this.counts = {};
 
                     this.stages = _.sortBy(_.filter(labels, function (label) {
