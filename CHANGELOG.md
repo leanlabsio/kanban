@@ -1,3 +1,18 @@
+# 1.4.5 (2016-01-07)
+
+## Features:
+
+- Card counts against columns names [#52](https://gitlab.com/leanlabsio/kanban/issues/52) (V).
+- Card assignee could be cleared [#61](https://gitlab.com/leanlabsio/kanban/issues/61) (V).
+- Card milestone could be cleared [#136](https://gitlab.com/leanlabsio/kanban/issues/136) (V).
+- Use two digits for default columns [#97](https://gitlab.com/leanlabsio/kanban/issues/97) (V).
+
+## Bugfixes:
+
+- Images uploaded via GitLab are displayed correctly [#90](https://gitlab.com/leanlabsio/kanban/issues/90) (V).
+- Board state is local to every board [#134](https://gitlab.com/leanlabsio/kanban/issues/134) (V).
+- Added new info comment patterns [#137](https://gitlab.com/leanlabsio/kanban/issues/137) (V).
+
 # 1.4.4 (2016-01-02)
 
 ## Features:
