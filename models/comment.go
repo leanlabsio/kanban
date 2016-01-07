@@ -42,6 +42,8 @@ var (
 		`mentioned in issue .*?`,
 		`Assignee removed`,
 		`Milestone removed`,
+		`Marked the task .*? as completed`,
+		`Marked the task .*? as incomplete`,
 	}, "|"))
 
 	regInfo = regexp.MustCompile("^" + reg + "$")
