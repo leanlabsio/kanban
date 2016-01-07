@@ -27,7 +27,6 @@ kanban:
     - KANBAN_REDIS_ADDR=redis:6379
   links:
     - redis:redis
-  command: ./kanban server
 
 redis:
   image: leanlabs/redis:1.0.0
