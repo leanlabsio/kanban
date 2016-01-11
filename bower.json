@@ -15,7 +15,9 @@
     "sass-flex-mixin": "1.0.0",
     "reconnectingWebsocket": "*",
     "angularjs-datepicker": "0.2.15",
-    "ng-tags-input":"*"
+    "ng-tags-input": "*",
+    "markdown-it-emoji": "~1.1.0",
+    "twemoji": "~1.4.2"
   },
   "resolutions": {
     "jquery": ">= 2.1.0",
