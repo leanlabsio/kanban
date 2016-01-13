@@ -73,8 +73,15 @@
                     removeCard: function(card) {
                         return $http.delete('/api/card', {
                             data: {
-                                project_id: card.project_id,
                                 issue_id: card.id,
+                                project_id: card.project_id,
+                                assignee_id: card.assignee_id,
+                                milestone_id: card.milestone_id,
+                                title: card.title,
+                                labels: card.labels.join(', '),
+                                todo: card.todo,
+                                description: card.description,
+                                properties: card.properties,
                                 closed: 1
                             },
                             headers: {
