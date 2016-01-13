@@ -7,11 +7,11 @@ type ResponseError struct {
 
 // ReceivedDataError represents get data from storage or other api
 type ReceivedDataErr struct {
-	message    string
+	Message    string
 	StatusCode int
 }
 
 // Error realised error type ReceivedDataErr interface
 func (r ReceivedDataErr) Error() string {
-	return r.message
+	return r.Message
 }

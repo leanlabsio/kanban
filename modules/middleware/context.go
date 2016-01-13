@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"gitlab.com/leanlabsio/kanban/models"
 	"gitlab.com/leanlabsio/kanban/ws"
+	"gitlab.com/leanlabsio/kanban/datasource"
 	"gopkg.in/macaron.v1"
 )
 
@@ -13,6 +14,8 @@ type Context struct {
 	IsAdmin     bool
 	IsSigned    bool
 	IsBasicAuth bool
+
+	DataSource datasource.DataSource
 
 	Provider string
 }

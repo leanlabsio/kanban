@@ -8,7 +8,7 @@ import (
 
 // ListBoards gets a list of board accessible by the authenticated user.
 func ListBoards(ctx *middleware.Context) {
-	boards, err := models.ListBoards(ctx.User, ctx.Provider)
+	boards, err := ctx.DataSource.ListBoards()
 
 	if err != nil {
 		ctx.JSON(http.StatusUnauthorized, &models.ResponseError{
@@ -26,7 +26,7 @@ func ListBoards(ctx *middleware.Context) {
 // ItemBoard gets a specific board, identified by project ID or
 // NAMESPACE/BOARD_NAME, which is owned by the authenticated user.
 func ItemBoard(ctx *middleware.Context) {
-	board, err := models.ItemBoard(ctx.User, ctx.Provider, ctx.Query("project_id"))
+	board, err := ctx.DataSource.ItemBoard(ctx.Query("project_id"))
 
 	if err != nil {
 		if err, ok := err.(models.ReceivedDataErr); ok {
@@ -48,7 +48,7 @@ func ItemBoard(ctx *middleware.Context) {
 }
 
 func Configure(ctx *middleware.Context, form models.BoardRequest) {
-	status, err := models.ConfigureBoard(ctx.User, ctx.Provider, &form)
+	status, err := ctx.DataSource.ConfigureBoard(&form)
 
 	if err != nil {
 		ctx.JSON(status, &models.ResponseError{

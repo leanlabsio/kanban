@@ -152,48 +152,6 @@ func saveUser(u *User) (*User, error) {
 	}, nil
 }
 
-// ListMembers is
-func ListMembers(u *User, provider, board_id string) ([]*User, error) {
-	var mem []*User
-	switch provider {
-	case "gitlab":
-		c := gitlab.NewContext(u.Credential["gitlab"].Token, u.Credential["gitlab"].PrivateToken)
-		r, err := c.ListProjectMembers(board_id, &gitlab.ListOptions{
-			Page:    "1",
-			PerPage: "100",
-		})
-
-		if err != nil {
-			return nil, err
-		}
-
-		b, err := ItemBoard(u, provider, board_id)
-		fmt.Printf("%+v", b)
-
-		if err != nil {
-			return nil, err
-		}
-
-		exist := make(map[string]bool)
-
-		if b.Owner == nil {
-			u, _ := c.ListGroupMembers(fmt.Sprintf("%d", b.Namespace.Id), &gitlab.ListOptions{})
-
-			for _, item := range u {
-				exist[item.Username] = true
-				mem = append(mem, mapUserFromGitlab(item))
-			}
-		}
-
-		for _, item := range r {
-			if !exist[item.Username] {
-				mem = append(mem, mapUserFromGitlab(item))
-			}
-		}
-	}
-
-	return mem, nil
-}
 
 // SignedString returns user token for access
 func (u *User) SignedString() (string, error) {

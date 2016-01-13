@@ -17,6 +17,7 @@ func Auther() macaron.Handler {
 
 		c.User = u
 		c.IsSigned = true
+		ctx.Map(u)
 	}
 }
 

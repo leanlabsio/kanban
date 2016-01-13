@@ -147,27 +147,27 @@ func daemon(c *cobra.Command, a []string) {
 	m.Post("/api/login", binding.Json(auth.SignIn{}), user.SignIn)
 	m.Post("/api/register", binding.Json(auth.SignUp{}), user.SignUp)
 	m.Group("/api", func() {
-		m.Get("/boards", board.ListBoards)
-		m.Post("/boards/configure", binding.Json(models.BoardRequest{}), board.Configure)
+		m.Get("/boards", middleware.Datasource(), board.ListBoards)
+		m.Post("/boards/configure", middleware.Datasource(), binding.Json(models.BoardRequest{}), board.Configure)
 
-		m.Get("/board", board.ItemBoard)
+		m.Get("/board", middleware.Datasource(), board.ItemBoard)
 		m.Get("/labels", board.ListLabels)
-		m.Get("/cards", board.ListCards)
+		m.Get("/cards", middleware.Datasource(), board.ListCards)
 		m.Combo("/milestones").
 			Get(board.ListMilestones).
 			Post(binding.Json(models.MilestoneRequest{}), board.CreateMilestone)
 
-		m.Get("/users", board.ListMembers)
+		m.Get("/users", middleware.Datasource(), board.ListMembers)
 		m.Combo("/comments").
-			Get(board.ListComments).
-			Post(binding.Json(models.CommentRequest{}), board.CreateComment)
+			Get(middleware.Datasource(), board.ListComments).
+			Post(middleware.Datasource(), binding.Json(models.CommentRequest{}), board.CreateComment)
 
 		m.Combo("/card").
-			Post(binding.Json(models.CardRequest{}), board.CreateCard).
-			Put(binding.Json(models.CardRequest{}), board.UpdateCard).
-			Delete(binding.Json(models.CardRequest{}), board.DeleteCard)
+			Post(middleware.Datasource(), binding.Json(models.CardRequest{}), board.CreateCard).
+			Put(middleware.Datasource(), binding.Json(models.CardRequest{}), board.UpdateCard).
+			Delete(middleware.Datasource(), binding.Json(models.CardRequest{}), board.DeleteCard)
 
-		m.Put("/card/move", binding.Json(models.CardRequest{}), board.MoveToCard)
+		m.Put("/card/move", middleware.Datasource(), binding.Json(models.CardRequest{}), board.MoveToCard)
 
 	}, middleware.Auther())
 	m.Get("/*", routers.Home)

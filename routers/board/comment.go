@@ -9,7 +9,7 @@ import (
 // ListComments gets a list of comment on board and card
 // accessible by the authenticated user.
 func ListComments(ctx *middleware.Context) {
-	boards, err := models.ListComments(ctx.User, ctx.Provider, ctx.Query("project_id"), ctx.Query("issue_id"))
+	boards, err := ctx.DataSource.ListComments(ctx.Query("project_id"), ctx.Query("issue_id"))
 
 	if err != nil {
 		ctx.JSON(http.StatusUnauthorized, &models.ResponseError{
@@ -26,7 +26,7 @@ func ListComments(ctx *middleware.Context) {
 
 // CreateComment creates new kanban comment
 func CreateComment(ctx *middleware.Context, form models.CommentRequest) {
-	com, code, err := models.CreateComment(ctx.User, ctx.Provider, &form)
+	com, code, err := ctx.DataSource.CreateComment(&form)
 
 	if err != nil {
 		ctx.JSON(code, &models.ResponseError{
