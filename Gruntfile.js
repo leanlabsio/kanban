@@ -44,6 +44,26 @@ module.exports = function (grunt) {
             main: {
                 files: [
                     {
+                        flatten: false,
+                        expand: true,
+                        cwd: 'bower_components/twemoji/svg/',
+                        src: ['**/*.svg'],
+                        dest: 'web/images/twemoji/svg/',
+                        filter: 'isFile'
+                    },
+                    {
+                        flatten: true,
+                        src: ['bower_components/twemoji/twemoji.min.js'],
+                        dest: 'web/assets/js/twemoji.min.js',
+                        filter: 'isFile'
+                    },
+                    {
+                        flatten: true,
+                        src: ['bower_components/markdown-it-emoji/dist/markdown-it-emoji.min.js'],
+                        dest: 'web/assets/js/markdown-it-emoji.min.js',
+                        filter: 'isFile'
+                    },
+                    {
                         flatten: true,
                         src: ['bower_components/angular-mocks/angular-mocks.js'],
                         dest: 'web/assets/js/angular-mocks.js',
