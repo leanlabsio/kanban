@@ -1,18 +1,17 @@
 package models
 
 import (
-	"gitlab.com/leanlabsio/kanban/modules/gitlab"
 	"fmt"
+	"gitlab.com/leanlabsio/kanban/modules/gitlab"
 )
 
 // Milestone represents a kanban milestone
 type Milestone struct {
-	ID    int64    `json:"id"`
-	State string   `json:"state,omitempty"`
-	Title string   `json:"title,omitempty"`
+	ID      int64  `json:"id"`
+	State   string `json:"state,omitempty"`
+	Title   string `json:"title,omitempty"`
 	DueDate string `json:"due_date,omitempty"`
 }
-
 
 // MilestoneRequest represents a milestone request for create, update, delete milestone on kanban
 type MilestoneRequest struct {
@@ -39,7 +38,9 @@ func ListMilestones(u *User, provider, board_id string) ([]*Milestone, error) {
 		}
 
 		for _, item := range r {
-			mem = append(mem, mapMilestoneFromGitlab(item))
+			if item.State != "closed" {
+				mem = append(mem, mapMilestoneFromGitlab(item))
+			}
 		}
 	}
 
@@ -47,7 +48,7 @@ func ListMilestones(u *User, provider, board_id string) ([]*Milestone, error) {
 }
 
 // CreateMilestone create new milestone on board
-func CreateMilestone(u *User, provider string, form *MilestoneRequest) (*Milestone, int, error)  {
+func CreateMilestone(u *User, provider string, form *MilestoneRequest) (*Milestone, int, error) {
 	var cr *Milestone
 	var code int
 	switch provider {
