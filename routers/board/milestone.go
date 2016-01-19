@@ -8,7 +8,7 @@ import (
 
 // ListMilestones gets a list of milestone on board accessible by the authenticated user.
 func ListMilestones(ctx *middleware.Context) {
-	labels, err := models.ListMilestones(ctx.User, ctx.Provider, ctx.Query("project_id"))
+	labels, err := ctx.DataSource.ListMilestones(ctx.Query("project_id"))
 
 	if err != nil {
 		ctx.JSON(http.StatusUnauthorized, &models.ResponseError{
@@ -23,10 +23,9 @@ func ListMilestones(ctx *middleware.Context) {
 	})
 }
 
-
 // CreateMilestone creates a new board milestone.
 func CreateMilestone(ctx *middleware.Context, form models.MilestoneRequest) {
-	milestone, code, err := models.CreateMilestone(ctx.User, ctx.Provider, &form)
+	milestone, code, err := ctx.DataSource.CreateMilestone(&form)
 
 	if err != nil {
 		ctx.JSON(code, &models.ResponseError{

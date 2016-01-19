@@ -1,19 +1,10 @@
 package gitlab
 
 import (
-	"gitlab.com/leanlabsio/kanban/modules/gitlab"
-	"gitlab.com/leanlabsio/kanban/models"
 	"fmt"
+	"gitlab.com/leanlabsio/kanban/models"
+	"gitlab.com/leanlabsio/kanban/modules/gitlab"
 )
-
-// MilestoneRequest represents a milestone request for create, update, delete milestone on kanban
-type MilestoneRequest struct {
-	MilestoneID int64  `json:"milestone_id"`
-	ProjectID   int64  `json:"project_id"`
-	Title       string `json:"title"`
-	Description string `json:"description"`
-	DueDate     string `json:"due_date"`
-}
 
 // ListMilestones returns list milestones by project
 func (ds GitLabDataSource) ListMilestones(board_id string) ([]*models.Milestone, error) {
@@ -28,14 +19,16 @@ func (ds GitLabDataSource) ListMilestones(board_id string) ([]*models.Milestone,
 	}
 
 	for _, item := range r {
-		mem = append(mem, mapMilestoneFromGitlab(item))
+		if item.State != "closed" {
+			mem = append(mem, mapMilestoneFromGitlab(item))
+		}
 	}
 
 	return mem, nil
 }
 
 // CreateMilestone create new milestone on board
-func (ds GitLabDataSource) CreateMilestone(form *MilestoneRequest) (*models.Milestone, int, error)  {
+func (ds GitLabDataSource) CreateMilestone(form *models.MilestoneRequest) (*models.Milestone, int, error) {
 	var cr *models.Milestone
 	var code int
 	r, res, err := ds.client.CreateMilestone(fmt.Sprintf("%d", form.ProjectID), mapMilestoneRequestToGitlab(form))
@@ -49,7 +42,7 @@ func (ds GitLabDataSource) CreateMilestone(form *MilestoneRequest) (*models.Mile
 }
 
 // mapMilestoneRequestToGitlab transforms kanban milestone to gitlab milestone request
-func mapMilestoneRequestToGitlab(m *MilestoneRequest) *gitlab.MilestoneRequest {
+func mapMilestoneRequestToGitlab(m *models.MilestoneRequest) *gitlab.MilestoneRequest {
 	return &gitlab.MilestoneRequest{
 		Title:       m.Title,
 		Description: m.Description,

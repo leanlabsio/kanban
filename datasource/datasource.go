@@ -10,6 +10,7 @@ type DataSource interface {
 	CommentSource
 	UserSource
 	LabelSource
+	MilestoneSource
 }
 
 type CardSource interface {
@@ -36,4 +37,9 @@ type UserSource interface {
 
 type LabelSource interface {
 	ListLabels(board_id string) ([]*models.Label, error)
+}
+
+type MilestoneSource interface {
+	ListMilestones(board_id string) ([]*models.Milestone, error)
+	CreateMilestone(*models.MilestoneRequest) (*models.Milestone, int, error)
 }
