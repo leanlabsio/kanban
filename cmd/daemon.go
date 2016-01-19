@@ -151,7 +151,7 @@ func daemon(c *cobra.Command, a []string) {
 		m.Post("/boards/configure", middleware.Datasource(), binding.Json(models.BoardRequest{}), board.Configure)
 
 		m.Get("/board", middleware.Datasource(), board.ItemBoard)
-		m.Get("/labels", board.ListLabels)
+		m.Get("/labels", middleware.Datasource(), board.ListLabels)
 		m.Get("/cards", middleware.Datasource(), board.ListCards)
 		m.Combo("/milestones").
 			Get(board.ListMilestones).

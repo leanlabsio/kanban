@@ -9,6 +9,7 @@ type DataSource interface {
 	BoardSource
 	CommentSource
 	UserSource
+	LabelSource
 }
 
 type CardSource interface {
@@ -21,7 +22,7 @@ type CardSource interface {
 type BoardSource interface {
 	ListBoards() ([]*models.Board, error)
 	ItemBoard(board_id string) (*models.Board, error)
-	ConfigureBoard(*models.BoardRequest) (int, error) 
+	ConfigureBoard(*models.BoardRequest) (int, error)
 }
 
 type CommentSource interface {
@@ -31,4 +32,8 @@ type CommentSource interface {
 
 type UserSource interface {
 	ListMembers(board_id string) ([]*models.User, error)
+}
+
+type LabelSource interface {
+	ListLabels(board_id string) ([]*models.Label, error)
 }
