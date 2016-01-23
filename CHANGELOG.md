@@ -1,3 +1,15 @@
+# 1.4.6 (2016-01-16)
+
+## Features:
+
+- Show emoji [#144](https://gitlab.com/leanlabsio/kanban/issues/144) (V).
+
+## Bugfixes:
+
+- Issue description is not removed when closing issue [#145](https://gitlab.com/leanlabsio/kanban/issues/145) (V).
+- Filter now shows only active milestones [#151](https://gitlab.com/leanlabsio/kanban/issues/151) (V).
+- Card filter not duplicated [#149](https://gitlab.com/leanlabsio/kanban/issues/149) (V).
+
 # 1.4.5 (2016-01-07)
 
 ## Features:
