@@ -8,7 +8,7 @@ import (
 
 // ListLabels gets a list of label on board accessible by the authenticated user.
 func ListLabels(ctx *middleware.Context) {
-	labels, err := models.ListLabels(ctx.User, ctx.Provider, ctx.Query("board_id"))
+	labels, err := ctx.DataSource.ListLabels(ctx.Query("board_id"))
 
 	if err != nil {
 		ctx.JSON(http.StatusUnauthorized, &models.ResponseError{

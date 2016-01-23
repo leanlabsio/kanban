@@ -9,7 +9,7 @@ import (
 
 // ListCards gets a list of card on board accessible by the authenticated user.
 func ListCards(ctx *middleware.Context) {
-	cards, err := models.ListCards(ctx.User, ctx.Provider, ctx.Query("project_id"))
+	cards, err := ctx.DataSource.ListCards(ctx.Query("project_id"))
 
 	if err != nil {
 		ctx.JSON(http.StatusUnauthorized, &models.ResponseError{
@@ -26,7 +26,7 @@ func ListCards(ctx *middleware.Context) {
 
 // CreateCard creates a new board card.
 func CreateCard(ctx *middleware.Context, form models.CardRequest) {
-	card, code, err := models.CreateCard(ctx.User, ctx.Provider, &form)
+	card, code, err := ctx.DataSource.CreateCard(&form)
 
 	if err != nil {
 		ctx.JSON(code, &models.ResponseError{
@@ -48,7 +48,7 @@ func CreateCard(ctx *middleware.Context, form models.CardRequest) {
 
 // UpdateCard updates an existing board card.
 func UpdateCard(ctx *middleware.Context, form models.CardRequest) {
-	card, code, err := models.UpdateCard(ctx.User, ctx.Provider, &form)
+	card, code, err := ctx.DataSource.UpdateCard(&form)
 
 	if err != nil {
 		ctx.JSON(code, &models.ResponseError{
@@ -70,7 +70,7 @@ func UpdateCard(ctx *middleware.Context, form models.CardRequest) {
 
 // DeleteCard closed an existing board card.
 func DeleteCard(ctx *middleware.Context, form models.CardRequest) {
-	card, code, err := models.DeleteCard(ctx.User, ctx.Provider, &form)
+	card, code, err := ctx.DataSource.DeleteCard(&form)
 
 	if err != nil {
 		ctx.JSON(code, &models.ResponseError{
@@ -92,7 +92,7 @@ func DeleteCard(ctx *middleware.Context, form models.CardRequest) {
 
 // MoveToCard updates an existing board card.
 func MoveToCard(ctx *middleware.Context, form models.CardRequest) {
-	card, code, err := models.UpdateCard(ctx.User, ctx.Provider, &form)
+	card, code, err := ctx.DataSource.UpdateCard(&form)
 
 	if err != nil {
 		ctx.JSON(code, &models.ResponseError{
@@ -122,7 +122,7 @@ func MoveToCard(ctx *middleware.Context, form models.CardRequest) {
 		}
 
 		go func() {
-			models.CreateComment(ctx.User, ctx.Provider, &com)
+			ctx.DataSource.CreateComment(&com)
 		}()
 	}
 }
