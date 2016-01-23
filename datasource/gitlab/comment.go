@@ -1,8 +1,8 @@
 package gitlab
 
 import (
-	"gitlab.com/leanlabsio/kanban/modules/gitlab"
 	"gitlab.com/leanlabsio/kanban/models"
+	"gitlab.com/leanlabsio/kanban/modules/gitlab"
 	"regexp"
 	"strconv"
 	"strings"

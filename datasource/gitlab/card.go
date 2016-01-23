@@ -3,8 +3,8 @@ package gitlab
 import (
 	"encoding/json"
 	"fmt"
-	"gitlab.com/leanlabsio/kanban/modules/gitlab"
 	"gitlab.com/leanlabsio/kanban/models"
+	"gitlab.com/leanlabsio/kanban/modules/gitlab"
 	"regexp"
 	"strconv"
 	"strings"
@@ -16,7 +16,7 @@ var (
 )
 
 // ListCards returns list card
-func(ds GitLabDataSource) ListCards(board_id string) ([]*models.Card, error) {
+func (ds GitLabDataSource) ListCards(board_id string) ([]*models.Card, error) {
 	var b []*models.Card
 	op := &gitlab.IssueListOptions{
 		State: "opened",
@@ -189,8 +189,6 @@ func mapCardTodoFromGitlab(d string) []*models.Todo {
 
 	return i
 }
-
-
 
 // mapCardDescriptionFromGitlab clears gitlab description to card description
 func mapCardDescriptionFromGitlab(d string) string {

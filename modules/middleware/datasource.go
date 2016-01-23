@@ -1,9 +1,9 @@
 package middleware
 
 import (
-	"gopkg.in/macaron.v1"
 	"gitlab.com/leanlabsio/kanban/datasource/gitlab"
 	"gitlab.com/leanlabsio/kanban/models"
+	"gopkg.in/macaron.v1"
 )
 
 func Datasource() macaron.Handler {

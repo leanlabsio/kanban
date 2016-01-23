@@ -1,12 +1,12 @@
 package gitlab
 
 import (
+	gitlabclient "gitlab.com/leanlabsio/kanban/modules/gitlab"
 	"golang.org/x/oauth2"
-	gitlabclient "gitlab.com/leanlabsio/kanban/modules/gitlab" 
 )
 
 type GitLabDataSource struct {
-	client *gitlabclient.GitlabContext 
+	client *gitlabclient.GitlabContext
 }
 
 func New(t *oauth2.Token, pt string) GitLabDataSource {
