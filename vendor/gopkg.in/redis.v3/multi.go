@@ -23,8 +23,8 @@ type Multi struct {
 	closed bool
 }
 
-// Watch marks the keys to be watched for conditional execution
-// of a transaction.
+// Watch creates new transaction and marks the keys to be watched
+// for conditional execution of a transaction.
 func (c *Client) Watch(keys ...string) (*Multi, error) {
 	tx := c.Multi()
 	if err := tx.Watch(keys...).Err(); err != nil {
@@ -46,16 +46,15 @@ func (c *Client) Multi() *Multi {
 	return multi
 }
 
-func (c *Multi) putConn(cn *conn, ei error) {
-	var err error
-	if isBadConn(cn, ei) {
+func (c *Multi) putConn(cn *conn, err error) {
+	if isBadConn(cn, err) {
 		// Close current connection.
-		c.base.connPool.(*stickyConnPool).Reset()
+		c.base.connPool.(*stickyConnPool).Reset(err)
 	} else {
-		err = c.base.connPool.Put(cn)
-	}
-	if err != nil {
-		log.Printf("redis: putConn failed: %s", err)
+		err := c.base.connPool.Put(cn)
+		if err != nil {
+			log.Printf("redis: putConn failed: %s", err)
+		}
 	}
 }
 
@@ -174,6 +173,9 @@ func (c *Multi) execCmds(cn *conn, cmds []Cmder) error {
 	// Parse number of replies.
 	line, err := readLine(cn)
 	if err != nil {
+		if err == Nil {
+			err = TxFailedErr
+		}
 		setCmdsErr(cmds[1:len(cmds)-1], err)
 		return err
 	}
@@ -181,10 +183,6 @@ func (c *Multi) execCmds(cn *conn, cmds []Cmder) error {
 		err := fmt.Errorf("redis: expected '*', but got line %q", line)
 		setCmdsErr(cmds[1:len(cmds)-1], err)
 		return err
-	}
-	if len(line) == 3 && line[1] == '-' && line[2] == '1' {
-		setCmdsErr(cmds[1:len(cmds)-1], TxFailedErr)
-		return TxFailedErr
 	}
 
 	var firstCmdErr error

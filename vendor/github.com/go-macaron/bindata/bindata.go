@@ -17,6 +17,8 @@
 package bindata
 
 import (
+	"os"
+
 	"github.com/elazarl/go-bindata-assetfs"
 	"gopkg.in/macaron.v1"
 )
@@ -43,6 +45,8 @@ type (
 		Asset func(path string) ([]byte, error)
 		// AssetDir should return list of files in the path
 		AssetDir func(path string) ([]string, error)
+		// AssetInfo should return the info of file in path if exists
+		AssetInfo func(path string) (os.FileInfo, error)
 		// AssetNames should return list of all asset names
 		AssetNames func() []string
 		// Prefix would be prepended to http requests
@@ -52,9 +56,10 @@ type (
 
 func Static(opt Options) *assetfs.AssetFS {
 	fs := &assetfs.AssetFS{
-		Asset:    opt.Asset,
-		AssetDir: opt.AssetDir,
-		Prefix:   opt.Prefix,
+		Asset:     opt.Asset,
+		AssetDir:  opt.AssetDir,
+		AssetInfo: opt.AssetInfo,
+		Prefix:    opt.Prefix,
 	}
 
 	return fs
