@@ -1,7 +1,7 @@
 Overview [![Build Status](https://travis-ci.org/magiconair/properties.svg?branch=master)](https://travis-ci.org/magiconair/properties)
 ========
 
-#### Current version: 1.5.6
+#### Current version: 1.6.0
 
 properties is a Go library for reading and writing properties files.
 
@@ -11,6 +11,9 @@ Value expressions can refer to other keys like in `${key}` or to
 environment variables like in `${USER}`.
 Filenames can also contain environment variables like in
 `/home/${USER}/myapp.properties`.
+
+Properties can be decoded into structs, maps, arrays and values through
+struct tags.
 
 Comments and the order of keys are preserved. Comments can be modified
 and can be written to the output.
@@ -31,8 +34,22 @@ import "github.com/magiconair/properties"
 
 func main() {
 	p := properties.MustLoadFile("${HOME}/config.properties", properties.UTF8)
+
+	// via getters
 	host := p.MustGetString("host")
 	port := p.GetInt("port", 8080)
+
+    // or via decode
+	type Config struct {
+		Host    string        `properties:"host"`
+		Port    int           `properties:"port,default=9000"`
+		Accept  []string      `properties:"accept,default=image/png;image;gif"`
+		Timeout time.Duration `properties:"timeout,default=5s"`
+	}
+	var cfg Config
+	if err := p.Decode(&cfg); err != nil {
+		log.Fatal(err)
+	}
 }
 
 ```

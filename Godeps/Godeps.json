@@ -1,36 +1,28 @@
 {
-	"ImportPath": ".",
-	"GoVersion": "go1.5.2",
-	"Packages": [
-		"./..."
-	],
+	"ImportPath": "gitlab.com/leanlabsio/kanban",
+	"GoVersion": "go1.5",
 	"Deps": [
 		{
 			"ImportPath": "github.com/BurntSushi/toml",
-			"Comment": "v0.1.0-21-g056c9bc",
-			"Rev": "056c9bc7be7190eaa7715723883caffa5f8fa3e4"
+			"Comment": "v0.1.0-23-g5c4df71",
+			"Rev": "5c4df71dfe9ac89ef6287afc05e4c1b16ae65a1e"
 		},
 		{
 			"ImportPath": "github.com/Unknwon/com",
 			"Rev": "28b053d5a2923b87ce8c5a08f3af779894a72758"
 		},
 		{
-			"ImportPath": "github.com/cpuguy83/go-md2man/md2man",
-			"Comment": "v1.0.4",
-			"Rev": "71acacd42f85e5e82f70a55327789582a5200a90"
-		},
-		{
 			"ImportPath": "github.com/dgrijalva/jwt-go",
-			"Comment": "v2.4.0",
-			"Rev": "f164e17f59b82642a3895ba065c385db6c547344"
+			"Comment": "v2.4.0-4-gafef698",
+			"Rev": "afef698c326bfd906b11659432544e5aae441d44"
 		},
 		{
 			"ImportPath": "github.com/elazarl/go-bindata-assetfs",
-			"Rev": "d5cac425555ca5cf00694df246e04f05e6a55150"
+			"Rev": "57eb5e1fc594ad4b0b1dbea7b286d299e0cb43c2"
 		},
 		{
 			"ImportPath": "github.com/go-macaron/bindata",
-			"Rev": "361a71a09347732a694d3eea0975f92305da04e6"
+			"Rev": "de74a053830c7d338bf209adf3b711c969f63e59"
 		},
 		{
 			"ImportPath": "github.com/go-macaron/binding",
@@ -46,7 +38,11 @@
 		},
 		{
 			"ImportPath": "github.com/gorilla/websocket",
-			"Rev": "844dd6d40e1a9215ef4c8a204bfc839fcf5dd5dd"
+			"Rev": "3986be78bf859e01f01af631ad76da5b269d270c"
+		},
+		{
+			"ImportPath": "github.com/hashicorp/hcl",
+			"Rev": "197e8d3cf42199cfd53cd775deb37f3637234635"
 		},
 		{
 			"ImportPath": "github.com/inconshreveable/mousetrap",
@@ -67,95 +63,36 @@
 		},
 		{
 			"ImportPath": "github.com/magiconair/properties",
-			"Comment": "v1.5.4-11-g23b847e",
-			"Rev": "23b847ebbbdaada7234bf4b3da1e50e601fbf63b"
+			"Comment": "v1.6.0-1-gc81f9d7",
+			"Rev": "c81f9d71af8f8cba1466501d30326b99a4e56c19"
 		},
 		{
 			"ImportPath": "github.com/mitchellh/mapstructure",
 			"Rev": "281073eb9eb092240d33ef253c404f1cca550309"
 		},
 		{
-			"ImportPath": "github.com/russross/blackfriday",
-			"Comment": "v1.4-8-ge3cbadc",
-			"Rev": "e3cbadc5c960894017d53ecf49dba4c361dacddf"
-		},
-		{
-			"ImportPath": "github.com/shurcooL/sanitized_anchor_name",
-			"Rev": "10ef21a441db47d8b13ebcc5fd2310f636973c77"
-		},
-		{
 			"ImportPath": "github.com/spf13/cast",
-			"Rev": "ee815aaf958c707ad07547cd62150d973710f747"
+			"Rev": "ee7b3e0353166ab1f3a605294ac8cd2b77953778"
 		},
 		{
 			"ImportPath": "github.com/spf13/cobra",
-			"Rev": "29cddf65b2e18b9c2339f8b659f38fbefe8b98ea"
+			"Rev": "8e91712f174ced10270cf66615e0a9127e7c4de5"
 		},
 		{
 			"ImportPath": "github.com/spf13/jwalterweatherman",
-			"Rev": "c2aa07df593850a04644d77bb757d002e517a296"
+			"Rev": "d00654080cddbd2b082acaa74007cb94a2b40866"
 		},
 		{
 			"ImportPath": "github.com/spf13/pflag",
-			"Rev": "08b1a584251b5b62f458943640fc8ebd4d50aaa5"
+			"Rev": "7f60f83a2c81bc3c3c0d5297f61ddfa68da9d3b7"
 		},
 		{
 			"ImportPath": "github.com/spf13/viper",
-			"Rev": "e37b56e207dda4d79b9defe0548e960658ee8b6b"
-		},
-		{
-			"ImportPath": "gitlab.com/leanlabsio/kanban/cmd",
-			"Comment": "1.4.3-13-g6b39009",
-			"Rev": "6b39009427fdea951a5bd7cb596c3393d06593f1"
-		},
-		{
-			"ImportPath": "gitlab.com/leanlabsio/kanban/models",
-			"Comment": "1.4.3-13-g6b39009",
-			"Rev": "6b39009427fdea951a5bd7cb596c3393d06593f1"
-		},
-		{
-			"ImportPath": "gitlab.com/leanlabsio/kanban/modules/auth",
-			"Comment": "1.4.3-13-g6b39009",
-			"Rev": "6b39009427fdea951a5bd7cb596c3393d06593f1"
-		},
-		{
-			"ImportPath": "gitlab.com/leanlabsio/kanban/modules/gitlab",
-			"Comment": "1.4.3-13-g6b39009",
-			"Rev": "6b39009427fdea951a5bd7cb596c3393d06593f1"
-		},
-		{
-			"ImportPath": "gitlab.com/leanlabsio/kanban/modules/middleware",
-			"Comment": "1.4.3-13-g6b39009",
-			"Rev": "6b39009427fdea951a5bd7cb596c3393d06593f1"
-		},
-		{
-			"ImportPath": "gitlab.com/leanlabsio/kanban/modules/setting",
-			"Comment": "1.4.3-13-g6b39009",
-			"Rev": "6b39009427fdea951a5bd7cb596c3393d06593f1"
-		},
-		{
-			"ImportPath": "gitlab.com/leanlabsio/kanban/routers",
-			"Comment": "1.4.3-13-g6b39009",
-			"Rev": "6b39009427fdea951a5bd7cb596c3393d06593f1"
-		},
-		{
-			"ImportPath": "gitlab.com/leanlabsio/kanban/templates",
-			"Comment": "1.4.3-13-g6b39009",
-			"Rev": "6b39009427fdea951a5bd7cb596c3393d06593f1"
-		},
-		{
-			"ImportPath": "gitlab.com/leanlabsio/kanban/web",
-			"Comment": "1.4.3-13-g6b39009",
-			"Rev": "6b39009427fdea951a5bd7cb596c3393d06593f1"
-		},
-		{
-			"ImportPath": "gitlab.com/leanlabsio/kanban/ws",
-			"Comment": "1.4.3-13-g6b39009",
-			"Rev": "6b39009427fdea951a5bd7cb596c3393d06593f1"
+			"Rev": "a212099cbe6fbe8d07476bfda8d2d39b6ff8f325"
 		},
 		{
 			"ImportPath": "golang.org/x/net/context",
-			"Rev": "1796f9b8b7178e3c7587dff118d3bb9d37f9b0b3"
+			"Rev": "c92cdcb05f66ce5b61460e23498d2dc5fcf69aaf"
 		},
 		{
 			"ImportPath": "golang.org/x/oauth2",
@@ -167,22 +104,22 @@
 		},
 		{
 			"ImportPath": "gopkg.in/fsnotify.v1",
-			"Comment": "v1.2.5",
-			"Rev": "2cdd39bd6129c6a49c74fb07fb9d77ba1271c572"
+			"Comment": "v1.2.9",
+			"Rev": "8611c35ab31c1c28aa903d33cf8b6e44a399b09e"
 		},
 		{
 			"ImportPath": "gopkg.in/ini.v1",
-			"Comment": "v0-65-g9314fb0",
-			"Rev": "9314fb0ef64171d6a3d0a4fa570dfa33441cba05"
+			"Comment": "v1.8.6",
+			"Rev": "afbd495e5aaea13597b5e14fe514ddeaa4d76fc3"
 		},
 		{
 			"ImportPath": "gopkg.in/macaron.v1",
-			"Rev": "1c6dd87797ae9319b4658cbd48d1d0420b279fd5"
+			"Rev": "564f398778297b0b083aaa070dda26e217f1e6b3"
 		},
 		{
 			"ImportPath": "gopkg.in/redis.v3",
-			"Comment": "v3.2.21",
-			"Rev": "781f7f803d85b0281ab7bc4ea1173554c33c6f81"
+			"Comment": "v3.2.27",
+			"Rev": "dd1ac33826064181d7abaa20d976eab31ec12b58"
 		},
 		{
 			"ImportPath": "gopkg.in/yaml.v2",

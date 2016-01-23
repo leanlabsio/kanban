@@ -12,10 +12,10 @@ to work within an application, and can handle all types of configuration needs
 and formats. It supports:
 
 * setting defaults
-* reading from JSON, TOML, and YAML config files
+* reading from JSON, TOML, YAML and HCL config files
 * live watching and re-reading of config files (optional)
 * reading from environment variables
-* reading from remote config systems (Etcd or Consul), and watching changes
+* reading from remote config systems (etcd or Consul), and watching changes
 * reading from command line flags
 * reading from buffer
 * setting explicit values
@@ -31,7 +31,7 @@ Viper is here to help with that.
 
 Viper does the following for you:
 
-1. Find, load, and unmarshal a configuration file in JSON, TOML, or YAML.
+1. Find, load, and unmarshal a configuration file in JSON, TOML, YAML or HCL.
 2. Provide a mechanism to set default values for your different
    configuration options.
 3. Provide a mechanism to set override values for options specified through
@@ -58,7 +58,7 @@ Viper configuration keys are case insensitive.
 ### Establishing Defaults
 
 A good configuration system will support default values. A default value is not
-required for a key, but it's useful in the event that a key hasn’t be set via
+required for a key, but it's useful in the event that a key hasn’t been set via
 config file, environment variable, remote configuration or flag.
 
 Examples:
@@ -72,7 +72,7 @@ viper.SetDefault("Taxonomies", map[string]string{"tag": "tags", "category": "cat
 ### Reading Config Files
 
 Viper requires minimal configuration so it knows where to look for config files.
-Viper supports JSON, TOML and YAML files. Viper can search multiple paths, but
+Viper supports JSON, TOML, YAML and HCL files. Viper can search multiple paths, but
 currently a single Viper instance only supports a single configuration file.
 Viper does not default to any configuration search paths leaving defaults decision
 to an application.
@@ -235,6 +235,73 @@ serverCmd.Flags().Int("port", 1138, "Port to run Application server on")
 viper.BindPFlag("port", serverCmd.Flags().Lookup("port"))
 ```
 
+The use of [pflag](https://github.com/spf13/pflag/) in Viper does not preclude
+the use of other packages that use the [flag](https://golang.org/pkg/flag/)
+package from the standard library. The pflag package can handle the flags
+defined for the flag package by importing these flags. This is accomplished
+by a calling a convenience function provided by the pflag package called
+AddGoFlagSet().
+
+Example:
+
+```go
+package main
+
+import (
+	"flag"
+	"github.com/spf13/pflag"
+)
+
+func main() {
+	pflag.CommandLine.AddGoFlagSet(flag.CommandLine)
+	pflag.Parse()
+    ...
+}
+```
+
+#### Flag interfaces
+
+Viper provides two Go interfaces to bind other flag systems if you don't use `Pflags`.
+
+`FlagValue` represents a single flag. This is a very simple example on how to implement this interface:
+
+```go
+type myFlag struct {}
+func (f myFlag) IsChanged() { return false }
+func (f myFlag) Name() { return "my-flag-name" }
+func (f myFlag) ValueString() { return "my-flag-value" }
+func (f myFlag) ValueType() { return "string" }
+```
+
+Once your flag implements this interface, you can simply tell Viper to bind it:
+
+```go
+viper.BindFlagValue("my-flag-name", myFlag{})
+```
+
+`FlagValueSet` represents a group of flags. This is a very simple example on how to implement this interface:
+
+```go
+type myFlagSet struct {
+	flags []myFlag
+}
+
+func (f myFlagSet) VisitAll(fn func(FlagValue)) {
+	for _, flag := range flags {
+		fn(flag)	
+	}
+}
+```
+
+Once your flag set implements this interface, you can simply tell Viper to bind it:
+
+```go
+fSet := myFlagSet{
+	flags: []myFlag{myFlag{}, myFlag{}},
+}
+viper.BindFlagValues("my-flags", fSet)
+```
+
 ### Remote Key/Value Store Support
 
 To enable remote support in Viper, do a blank import of the `viper/remote`
@@ -242,8 +309,8 @@ package:
 
 `import _ "github.com/spf13/viper/remote"`
 
-Viper will read a config string (as JSON, TOML, or YAML) retrieved from a path
-in a Key/Value store such as Etcd or Consul.  These values take precedence over
+Viper will read a config string (as JSON, TOML, YAML or HCL) retrieved from a path
+in a Key/Value store such as etcd or Consul.  These values take precedence over
 default values, but are overridden by configuration values retrieved from disk,
 flags, or environment variables.
 
@@ -288,7 +355,7 @@ viper.SetConfigType("json") // because there is no file extension in a stream of
 err := viper.ReadRemoteConfig()
 ```
 
-### Watching Changes in Etcd - Unencrypted
+### Watching Changes in etcd - Unencrypted
 
 ```go
 // alternatively, you can create a new viper instance.
@@ -417,6 +484,52 @@ will be returned instead. E.g.
 GetString("datastore.metric.host") //returns "0.0.0.0"
 ```
 
+### Extract sub-tree
+
+Extract sub-tree from Viper.
+
+For example, `viper` represents:
+
+```json
+app:
+  cache1:
+    max-items: 100
+    item-size: 64
+  cache2:
+    max-items: 200
+    item-size: 80
+```
+
+After executing:
+
+```go
+subv := viper.Sub("app.cache1")
+```
+
+`subv` represents:
+
+```json
+max-items: 100
+item-size: 64
+```
+
+Suppose we have:
+
+```go
+func NewCache(cfg *Viper) *Cache {...}
+```
+
+which creates a cache based on config information formatted as `subv`.
+Now it's easy to create these 2 caches separately as:
+
+```go
+cfg1 := viper.Sub("app.cache1")
+cache1 := NewCache(cfg1)
+
+cfg2 := viper.Sub("app.cache2")
+cache2 := NewCache(cfg2)
+```
+
 ### Unmarshaling
 
 You also have the option of Unmarshaling all or a specific value to a struct, map,
@@ -433,6 +546,7 @@ Example:
 type config struct {
 	Port int
 	Name string
+	PathMap string `mapstructure:"path_map"`
 }
 
 var C config

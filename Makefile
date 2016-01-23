@@ -62,7 +62,7 @@ rel/kanban_x86_64_linux: clean build templates/templates.go web/web.go $(find $(
 		-e GO15VENDOREXPERIMENT=1 \
 		-e CGO_ENABLED=0 \
 		--entrypoint=/usr/local/go/bin/go \
-		golang:1.5.2 build -ldflags '-s' -v -o $@
+		golang:1.5.3 build -ldflags '-s' -v -o $@
 
 rel/kanban_x86_64_darwin: clean build templates/templates.go web/web.go $(find $(CURDIR) -name "*.go" -type f)
 	@docker run --rm \
@@ -73,7 +73,7 @@ rel/kanban_x86_64_darwin: clean build templates/templates.go web/web.go $(find $
 		-e GO15VENDOREXPERIMENT=1 \
 		-e CGO_ENABLED=0 \
 		--entrypoint=/usr/local/go/bin/go \
-		golang:1.5.2 build -ldflags '-s' -v -o $@
+		golang:1.5.3 build -ldflags '-s' -v -o $@
 
 release: rel/kanban_x86_64_linux
 	@docker build -t $(IMAGE) .
@@ -107,7 +107,7 @@ tmp/go/pkg/:
 		-w $(CWD) \
 		-e GO15VENDOREXPERIMENT=1 \
 		--entrypoint=/usr/local/go/bin/go \
-		golang:1.5.2 install -v
+		golang:1.5.3 install -v
 
 dev : DEBUG=-debug
 
@@ -124,6 +124,6 @@ dev: watch templates/templates.go web/web.go dev_redis tmp/go/pkg/
 		-e KANBAN_GITLAB_SECRET=$(KANBAN_GITLAB_SECRET) \
 		-e KANBAN_REDIS_ADDR=redis:6379 \
 		--entrypoint=/usr/local/go/bin/go \
-		golang:1.5.2 run -v main.go server
+		golang:1.5.3 run -v main.go server
 
 .PHONY: help test build release

@@ -1,5 +1,9 @@
 ## Changelog
 
+### [1.6.0](https://github.com/magiconair/properties/tags/v1.6.0) - 11 Dec 2015
+
+ * Add [Decode](http://godoc.org/github.com/magiconair/properties#Properties.Decode) method to populate struct from properties via tags.
+
 ### [1.5.6](https://github.com/magiconair/properties/tags/v1.5.6) - 18 Oct 2015
 
  * Vendored in gopkg.in/check.v1

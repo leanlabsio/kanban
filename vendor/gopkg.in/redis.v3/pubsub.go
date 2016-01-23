@@ -74,7 +74,7 @@ func (c *PubSub) Subscribe(channels ...string) error {
 func (c *PubSub) PSubscribe(patterns ...string) error {
 	err := c.subscribe("PSUBSCRIBE", patterns...)
 	if err == nil {
-		c.channels = append(c.channels, patterns...)
+		c.patterns = append(c.patterns, patterns...)
 	}
 	return err
 }
@@ -233,9 +233,9 @@ func (c *PubSub) Receive() (interface{}, error) {
 	return c.ReceiveTimeout(0)
 }
 
-func (c *PubSub) reconnect() {
+func (c *PubSub) reconnect(reason error) {
 	// Close current connection.
-	c.connPool.(*stickyConnPool).Reset()
+	c.connPool.(*stickyConnPool).Reset(reason)
 
 	if len(c.channels) > 0 {
 		if err := c.Subscribe(c.channels...); err != nil {
@@ -244,7 +244,7 @@ func (c *PubSub) reconnect() {
 	}
 	if len(c.patterns) > 0 {
 		if err := c.PSubscribe(c.patterns...); err != nil {
-			log.Printf("redis: Subscribe failed: %s", err)
+			log.Printf("redis: PSubscribe failed: %s", err)
 		}
 	}
 }
@@ -276,7 +276,7 @@ func (c *PubSub) ReceiveMessage() (*Message, error) {
 			if errNum > 2 {
 				time.Sleep(time.Second)
 			}
-			c.reconnect()
+			c.reconnect(err)
 			continue
 		}
 
