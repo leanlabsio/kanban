@@ -9,12 +9,14 @@
             'AuthService',
             'store',
             'host_url',
-            function ($scope, $http, $state, AuthService, store, host_url) {
+            'enable_signup',
+            function ($scope, $http, $state, AuthService, store, host_url, enable_signup) {
                 if (AuthService.isAuthenticated()) {
                     $state.go('board.boards');
                 }
 
                 $scope.host_url = host_url;
+                $scope.enable_signup = enable_signup;
 
                 $scope.data = {
                     signin: {},

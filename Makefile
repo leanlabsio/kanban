@@ -119,6 +119,7 @@ dev: watch templates/templates.go web/web.go dev_redis tmp/go/pkg/
 		-v $(CURDIR)/tmp/go/pkg:/go/pkg \
 		-w $(CWD) \
 		-e GO15VENDOREXPERIMENT=1 \
+		-e KANBAN_ENABLE_SIGNUP=$(KANBAN_ENABLE_SIGNUP) \
 		-e KANBAN_SERVER_HOSTNAME=$(KANBAN_SERVER_HOSTNAME) \
 		-e KANBAN_GITLAB_CLIENT=$(KANBAN_GITLAB_CLIENT) \
 		-e KANBAN_GITLAB_SECRET=$(KANBAN_GITLAB_SECRET) \
