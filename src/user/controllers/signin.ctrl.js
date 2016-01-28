@@ -1,4 +1,4 @@
-(function(window, angular) {
+(function (window, angular) {
     'use strict';
 
     angular.module('gitlabKBApp.user').controller('SigninController',
@@ -10,8 +10,18 @@
             'store',
             'host_url',
             function ($scope, $http, $state, AuthService, store, host_url) {
+                var goToKanban = function () {
+                    var state = store.get('state');
+                    if (state) {
+                        $state.go(state.name, state.params);
+                        store.remove('state');
+                    } else {
+                        $state.go('board.boards');
+                    }
+                };
+
                 if (AuthService.isAuthenticated()) {
-                    $state.go('board.boards');
+                    goToKanban();
                 }
 
                 $scope.host_url = host_url;
@@ -21,16 +31,15 @@
                     isSaving: false,
                     errors: []
                 };
-
-                $scope.oauth = function() {
+                $scope.oauth = function () {
                     var authWindow = window.open('/api/oauth?provider=gitlab', 'Auth', "menubar=no,location=0,resizable=yes,scrollbars=yes,status=0");
-                    var listener = function(event) {
+                    var listener = function (event) {
                         authWindow.close();
                         window.removeEventListener('message', listener);
                         $http.post('/api/oauth', {code: event.data, provider: "gitlab"}).then(function (result) {
                             store.set('id_token', result.data.token);
                             $http.defaults.headers.common['X-KB-Access-Token'] = result.data.token;
-                            $state.go('board.boards');
+                            goToKanban();
                         });
                     };
 

@@ -33,7 +33,7 @@
             });
         $urlRouterProvider.otherwise('/');
     }]).config(['$httpProvider',function($httpProvider) {
-        $httpProvider.interceptors.push(['$q', '$location', 'store', function($q, $location, store) {
+        $httpProvider.interceptors.push(['$q', '$injector', 'store', function($q, $injector, store) {
             return {
                 response: function(response){
                     if (response.status === 401) {
@@ -41,10 +41,15 @@
                     return response || $q.when(response);
                 },
                 responseError: function(rejection) {
+                    var $state;
                     if (rejection.status === 401) {
+                        $state = $injector.get('$state');
                         store.remove('id_token');
                         $httpProvider.defaults.headers.common['X-KB-Access-Token'] = '';
-                        $location.path('/');
+                        if (!store.get('state')) {
+                            store.set('state', {name: $state.current.name, params: $state.params});
+                        }
+                        $state.go('login');
                     }
                     if (rejection.status === 403) {
                         alert('Access denied');
