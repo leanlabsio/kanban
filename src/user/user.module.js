@@ -41,7 +41,7 @@
                 },
                 responseError: function(rejection) {
                     var $state;
-                    if (rejection.status === 401) {
+                    if (rejection.status === 401 || rejection.status === undefined) {
                         $state = $injector.get('$state');
                         store.remove('id_token');
                         $httpProvider.defaults.headers.common['X-KB-Access-Token'] = '';
