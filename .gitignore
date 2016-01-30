@@ -12,3 +12,4 @@ web/web.go
 kanban
 kanban.iml
 rel/
+.tern-port
