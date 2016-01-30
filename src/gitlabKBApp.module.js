@@ -1,4 +1,4 @@
-(function(angular, CLIENT_VERSION, GITLAB_HOST) {
+(function(angular, CLIENT_VERSION, GITLAB_HOST, enableSignup) {
     'use strict';
 
     var app = angular.module('gitlabKBApp', [
@@ -32,6 +32,7 @@
         ])
         .constant('host_url', GITLAB_HOST)
         .constant('version', CLIENT_VERSION)
+        .constant('enable_signup', enableSignup)
         .config(
             [
                 '$locationProvider',
@@ -40,4 +41,4 @@
                 }
             ]
         );
-})(window.angular, window.CLIENT_VERSION, window.GITLAB_HOST);
+})(window.angular, window.CLIENT_VERSION, window.GITLAB_HOST, window.ENABLE_SIGNUP);

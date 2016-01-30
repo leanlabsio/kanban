@@ -83,6 +83,11 @@ func init() {
 		0,
 		"Redis server database numeric index, from 0 to 16",
 	)
+	DaemonCmd.Flags().Bool(
+		"enable-signup",
+		true,
+		"Enable signup",
+	)
 }
 
 func daemon(c *cobra.Command, a []string) {

@@ -67,5 +67,11 @@ func NewContext(c *cobra.Command) {
 		viper.BindPFlag("redis.db", c.Flags().Lookup("redis-db"))
 	}
 
+	viper.SetDefault("enable.signup", true)
+	viper.BindEnv("enable.signup")
+	if c.Flags().Lookup("enable-signup").Changed {
+		viper.BindPFlag("enable.signup", c.Flags().Lookup("enable-signup"))
+	}
+
 	viper.SetDefault("version", "1.4.6")
 }
