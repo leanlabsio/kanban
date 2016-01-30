@@ -1,13 +1,13 @@
 (function(angular, CLIENT_VERSION) {
     'use strict';
 
-    angular.module('gitlabKBApp.user', ['ui.router', 'angular-storage']).config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
+    angular.module('gitlabKBApp.user', ['ui.router', 'angular-storage']).config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
         $stateProvider.decorator('views', function(state, parent) {
             var result = {},
                 views = parent(state);
 
             angular.forEach(views, function(config, name) {
-                config.templateUrl =  CLIENT_VERSION + "/" + config.templateUrl;
+                config.templateUrl = CLIENT_VERSION + "/" + config.templateUrl;
                 result[name] = config;
             });
 
@@ -32,12 +32,11 @@
                 }
             });
         $urlRouterProvider.otherwise('/');
-    }]).config(['$httpProvider',function($httpProvider) {
+    }]).config(['$httpProvider', function($httpProvider) {
         $httpProvider.interceptors.push(['$q', '$injector', 'store', function($q, $injector, store) {
             return {
-                response: function(response){
-                    if (response.status === 401) {
-                    }
+                response: function(response) {
+                    if (response.status === 401) {}
                     return response || $q.when(response);
                 },
                 responseError: function(rejection) {
@@ -47,9 +46,12 @@
                         store.remove('id_token');
                         $httpProvider.defaults.headers.common['X-KB-Access-Token'] = '';
                         if (!store.get('state')) {
-                            store.set('state', {name: $state.current.name, params: $state.params});
+                            store.set('state', {
+                                name: $state.current.name,
+                                params: $state.params
+                            });
                         }
-                        $state.go('login');
+                        window.location.pathname = '/';
                     }
                     if (rejection.status === 403) {
                         alert('Access denied');
@@ -57,7 +59,7 @@
 
                     return $q.reject(rejection);
                 }
-            }
+            };
         }]);
     }]);
 })(window.angular, window.CLIENT_VERSION);
