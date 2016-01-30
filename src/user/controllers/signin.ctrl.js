@@ -55,7 +55,7 @@
                         password: $scope.data.signin.password
                     }).then(function (result) {
                         $http.defaults.headers.common['X-KB-Access-Token'] = result;
-                        $state.go('board.boards');
+                        goToKanban();
                     }, function (result) {
                         $scope.data.errors.push(result.data.message);
                         $scope.data.isSaving = false;
