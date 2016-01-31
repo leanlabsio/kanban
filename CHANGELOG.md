@@ -1,3 +1,16 @@
+# 1.4.7 (2016-01-31)
+
+## Features:
+
+- Redirect back to previous URL after the restoration of the authorization session [#156](https://gitlab.com/leanlabsio/kanban/issues/156) (Алексей Кукушкин).
+- Allow to disable sign up [#68](https://gitlab.com/leanlabsio/kanban/issues/68) (V).
+
+## Maintanence:
+
+- Implemented data source adapter to enable pluggable storage backends [#154](https://gitlab.com/leanlabsio/kanban/issues/154) (V).
+- Updated vendored packages (V).
+- Compilation with go 1.5.3 (V).
+
 # 1.4.6 (2016-01-16)
 
 ## Features:

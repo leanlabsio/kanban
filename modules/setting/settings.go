@@ -73,5 +73,5 @@ func NewContext(c *cobra.Command) {
 		viper.BindPFlag("enable.signup", c.Flags().Lookup("enable-signup"))
 	}
 
-	viper.SetDefault("version", "1.4.6")
+	viper.SetDefault("version", "1.4.7")
 }
