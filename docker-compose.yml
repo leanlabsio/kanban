@@ -11,7 +11,7 @@ proxy:
     - "80:80"
 
 kanban:
-  image: leanlabs/kanban:1.4.5
+  image: leanlabs/kanban:1.4.7
   environment:
     # URL on which Leanlabs Kanban will be reachable
     - KANBAN_SERVER_HOSTNAME=http://kanban.gitlab.com
@@ -23,6 +23,8 @@ kanban:
     - KANBAN_GITLAB_CLIENT=qwerty
     # Your GitLab OAuth client secret key
     - KANBAN_GITLAB_SECRET=qwerty
+    # Wheter to enable sign up with user API token
+    - KANBAN_ENABLE_SIGNUP=true
     # Redis server address - IP:PORT
     - KANBAN_REDIS_ADDR=redis:6379
   links:
