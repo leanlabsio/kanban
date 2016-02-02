@@ -7,35 +7,44 @@
             bottom: 0;
             right: 0;
             background: #edeff0;
-            box-shadow: 0 0 6px rgba(0,0,0,.4);
+            box-shadow: 0 0 6px rgba(0, 0, 0, .4);
         }
+        
         #filter-block .side-nav {
             padding: 0;
         }
+        
         #filter-block hr {
             margin: 0.75rem 0;
         }
+        
         #filter-block .side-nav li {
             margin: 0;
         }
+        
         #filter-block .side-nav a {
             padding: 0.2375rem 0.175rem;
         }
+        
         #filter-block .side-nav a:hover {
             background: #259CC3;
             color: #fff;
         }
+        
         #filter-block .side-nav .fa-check {
-            visibility:hidden;
+            visibility: hidden;
         }
+        
         #filter-block .side-nav li.active a {
             color: #008CBA;
         }
+        
         #filter-block .side-nav li.active a:hover {
             color: #fff;
         }
+        
         #filter-block .side-nav li.active .fa-check {
-            visibility:visible;
+            visibility: visible;
         }
     </style>
 
@@ -62,6 +71,14 @@
     </h5>
     <div class="row collapse">
         <ul class="side-nav">
+            <li data-ng-class="{active: contains(filter.tags, '~')}">
+                <a href="#" data-ng-click="filter.apply('~')">
+                    <i class="fa fa-check"></i>&nbsp;
+                    <span class="medium-text-left">
+                        No label
+                    </span>
+                </a>
+            </li>
             <li data-ng-repeat="label in filter.labels|filter:query" data-ng-class="{active: contains(filter.tags, '~'+label.name)}">
                 <a href="#" data-ng-click="filter.apply('~'+label.name)">
                     <i class="fa fa-check"></i>&nbsp;
@@ -80,6 +97,14 @@
     </h5>
     <div class="row collapse">
         <ul class="side-nav">
+            <li data-ng-class="{active: contains(filter.tags, '^')}">
+                <a href="#" data-ng-click="filter.apply('^')">
+                    <i class="fa fa-check"></i>&nbsp;
+                    <span class="medium-text-left">
+                        No milestone
+                    </span>
+                </a>
+            </li>
             <li data-ng-repeat="milestone in filter.milestones|filter:query" data-ng-class="{active: contains(filter.tags, '^'+milestone.id)}">
                 <a href="#" data-ng-click="filter.apply('^'+milestone.id)">
                     <i class="fa fa-check"></i>&nbsp;
@@ -98,6 +123,14 @@
     </h5>
     <div class="row collapse">
         <ul class="side-nav">
+            <li data-ng-class="{active: contains(filter.tags, '@')}">
+                <a href="#" data-ng-click="filter.apply('@')">
+                    <i class="fa fa-check"></i>&nbsp;
+                    <span class="medium-text-left">
+                        No user
+                    </span>
+                </a>
+            </li>
             <li data-ng-repeat="user in filter.users|filter:query" data-ng-class="{active: contains(filter.tags, '@'+user.id)}">
                 <a href="#" data-ng-click="filter.apply('@'+user.id)">
                     <i class="fa fa-check"></i>&nbsp;

@@ -1,4 +1,4 @@
-(function(angular, _){
+(function(angular, _) {
     'use strict';
 
     angular.module('gitlabKBApp.board').controller('FilterController', [
@@ -10,8 +10,8 @@
         'MilestoneService',
         function($scope, $state, $stateParams, BoardService, UserService, MilestoneService) {
             var labels = [],
-            milestones = [],
-            users = [];
+                milestones = [],
+                users = [];
 
             this.tags = _.isArray($stateParams.tags) ? $stateParams.tags : [$stateParams.tags];
 
@@ -22,15 +22,15 @@
                     this.milestones = milestones;
                 }.bind(this));
 
-                UserService.list(board.project.id).then(function(users){
+                UserService.list(board.project.id).then(function(users) {
                     this.users = users;
                 }.bind(this));
 
             }.bind(this));
 
             /**
-            * Apply selected filtering criteria
-            */
+             * Apply selected filtering criteria
+             */
             this.apply = function(tag) {
                 var params = {
                     project_id: $stateParams.project_id,
@@ -60,10 +60,12 @@
             };
 
             /**
-            * Clear all filters
-            */
+             * Clear all filters
+             */
             this.clear = function() {
-                $state.go('board.cards', {tags: []});
+                $state.go('board.cards', {
+                    tags: []
+                });
             };
         }
     ]);
