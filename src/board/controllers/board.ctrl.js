@@ -63,9 +63,9 @@
                     if (fByLabel) {
                         var labels = ['~'];
 
-                        if (!_.isEmpty(item.labels)) {
-                            labels = _.map(item.labels, function(l) {
-                                return '~' + l;
+                        if (!_.isEmpty(item.viewLabels)) {
+                            labels = _.map(item.viewLabels, function(l) {
+                                return '~' + l.name;
                             });
                         }
 
