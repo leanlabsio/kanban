@@ -1,27 +1,29 @@
 (function(angular, CLIENT_VERSION) {
     'use strict';
     /**
-    * @todo избавиться от блоков resolve v будущем
-    **/
+     * @todo избавиться от блоков resolve v будущем
+     **/
     angular.module('gitlabKBApp.board', [
-        'ui.router',
-        'as.sortable',
-        'mm.foundation.dropdownToggle',
-        'gitlabKBApp.websocket',
-        'll.markdown',
-        'll.modal',
-        'mm.foundation.typeahead',
-        '720kb.datepicker',
-        'ngTagsInput']
-    ).config(['$stateProvider', '$urlMatcherFactoryProvider', function($stateProvider, $urlMatcherFactoryProvider) {
+            'ui.router',
+            'as.sortable',
+            'mm.foundation.dropdownToggle',
+            'gitlabKBApp.websocket',
+            'll.markdown',
+            'll.modal',
+            'mm.foundation.typeahead',
+            '720kb.datepicker'
+        ]).config(['$stateProvider', '$urlMatcherFactoryProvider', function($stateProvider, $urlMatcherFactoryProvider) {
             function valToString(val) {
                 return val != null ? val.toString() : val;
             }
+
             function valFromString(val) {
                 return val != null ? val.toString() : val;
             }
+
             function regexpMatches(val) {
-                /*jshint validthis:true */ return this.pattern.test(val);
+                /*jshint validthis:true */
+                return this.pattern.test(val);
             }
             $urlMatcherFactoryProvider.type('MyType', {
                 encode: valToString,
@@ -35,7 +37,7 @@
                     views = parent(state);
 
                 angular.forEach(views, function(config, name) {
-                    config.templateUrl =  CLIENT_VERSION + "/" + config.templateUrl;
+                    config.templateUrl = CLIENT_VERSION + "/" + config.templateUrl;
                     result[name] = config;
                 });
 
@@ -141,14 +143,14 @@
                 });
         }])
         .config(['$markdownProvider', function($markdownProvider) {
-                $markdownProvider.config({
-                    linkify: true,
-                    html: true
-                });
-                $markdownProvider.registerPlugin(window.md_merge_request_plugin);
-                $markdownProvider.registerPlugin(window.md_image_plugin);
-                $markdownProvider.registerPlugin(window.markdownitEmoji);
-                $markdownProvider.registerPlugin(window.md_twemoji_plugin);
+            $markdownProvider.config({
+                linkify: true,
+                html: true
+            });
+            $markdownProvider.registerPlugin(window.md_merge_request_plugin);
+            $markdownProvider.registerPlugin(window.md_image_plugin);
+            $markdownProvider.registerPlugin(window.markdownitEmoji);
+            $markdownProvider.registerPlugin(window.md_twemoji_plugin);
         }])
         .constant('stage_regexp', /KB\[stage\]\[\d+\]\[(.*)\]/);
 })(window.angular, window.CLIENT_VERSION);
