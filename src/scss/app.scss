@@ -9,6 +9,7 @@
 @import "card";
 @import "mdeditor";
 @import "datepicker";
+@import "top-bar";
 @import "emoji";
 
 body {
@@ -28,50 +29,6 @@ input.todo-field {
 
 textarea, input {
     box-shadow: none !important;
-}
-
-.top-bar-section {
-    ul li {
-        background-color: $topbar-bg-color;
-    }
-    ul.f-dropdown {
-        max-width: none !important;
-        li:not(.has-form) {
-            float: none;
-            background-color: $white;
-            a:not(.button) {
-                padding-top: 10px;
-                padding-bottom: 10px;
-                line-height: 1.25rem;
-                background-color: $white;
-                color: $f-dropdown-font-color;
-                &:hover {
-                    color: $f-dropdown-font-color;
-                }
-            }
-            &.active {
-                a:not(.button) {
-                    background-color: $smoke;
-                }
-            }
-        }
-        @extend .f-dropdown;
-        @include dropdown-style();
-        @include dropdown-container(list, bottom);
-    }
-
-    .has-form {
-        input {
-            &:focus {
-                width: 200%;
-
-                transition: width 0.5s;
-                -moz-transition: width 0.5s;
-                -o-transition: width 0.5s;
-                -webkit-transition: width 0.5s;
-            }
-        }
-    }
 }
 
 .checklist {
@@ -177,10 +134,6 @@ textarea, input {
     height: 100vh;
     padding-left: 0;
     overflow-y: scroll;
-}
-
-#main-section {
-    padding-top: 45px;
 }
 
 .description {
