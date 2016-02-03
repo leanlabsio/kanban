@@ -1,3 +1,11 @@
+#main-section {
+    &.board-view{
+        height: calc(100vh - 45px);
+        width: 100vw;
+        overflow: auto;
+    }
+}
+
 .boards{
     margin-top: 70px;
     margin-bottom: 50px;

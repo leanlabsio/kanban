@@ -1,86 +1,67 @@
-<div class="fixed">
+<div data-ng-controller=TopBarController class="fixed">
+    <top-bar is-hover="false">
+        <top-bar-section>
+            <ul class="left" style="width: auto;">
+                <li class="name">
+                    <a data-ui-sref="board.boards()"><i class="fa fa-database">&nbsp;</i>&nbsp;boards</a>
+                </li>
+                <li data-ng-show="!isEmpty(project)" class="hide-for-medium-down">
+                    <a data-ui-sref="board.cards({project_id: project.id, project_path: project.path_with_namespace})">{{project.name_with_namespace}}</a>
+                </li>
+            </ul>
 
-    <nav data-ng-controller=TopBarController>
-        <top-bar is-hover="false">
-            <section class="top-bar-section">
-                <ul class="left title-area" style="width: auto;">
-                    <li class="name">
-                        <a data-ui-sref="board.boards()"><i class="fa fa-database">&nbsp;</i>&nbsp;boards</a>
-                    </li>
-                    <li data-ng-show="!isEmpty(project)" class="hide-for-medium-down">
-                        <a data-ui-sref="board.cards({project_id: project.id, project_path: project.path_with_namespace})">{{project.name_with_namespace}}</a>
-                    </li>
-                </ul>
+            <ul class="right">
+                <!-- filter button -->
+                <li data-ng-show="!isEmpty(project)">
+                    <a href="#" data-ng-click="showFilter()">
+                        <i class="fa fa-filter"></i>
+                        <span class="hide-for-medium-down">&nbsp;&nbsp;Filter
+                            <span data-ng-show="!isEmpty(stateParams.tags)"> is on</span>
+                        </span>
+                    </a>
+                </li>
+                <!-- filter button -->
 
-                <ul class="right hide-for-medium-down">
-                    <!-- filter button -->
-                    <li data-ng-show="!isEmpty(project)">
-                        <a href="#" data-ng-click="showFilter()">
-                            <i class="fa fa-filter"></i>&nbsp;&nbsp;Filter <span data-ng-show="!isEmpty(stateParams.tags)"> is on</span>
-                        </a>
-                    </li>
-                    <!-- filter button -->
-
-                    <li data-has-dropdown data-ng-show="!isEmpty(project)">
-                        <a href="#"><i class="fa fa-align-justify"></i>&nbsp;&nbsp;Swimlane</a>
-                        <ul data-top-bar-dropdown>
-                            <li><a data-ng-click="group('user')"><i class="fa fa-group"></i>&nbsp;&nbsp;Users</a></li>
-                            <li><a data-ng-click="group('milestone')"><i class="fa fa-clock-o"></i>&nbsp;&nbsp;Milestones</a></li>
-                            <li><a data-ng-click="reset()"><i class="fa fa-reply"></i>&nbsp;&nbsp;Reset</a></li>
-                        </ul>
-                    </li>
-                    <li data-has-dropdown data-ng-show="!isEmpty(project)">
-                        <a href="#"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add</a>
-                        <ul data-top-bar-dropdown>
-                            <li>
-                                <a data-ui-sref="board.cards.create({ project_id: project.id, project_path: project.path_with_namespace })">
-                                    <i class="fa fa-exclamation-circle"></i>&nbsp;&nbsp;Issue
-                                </a>
-                            </li>
-                            <li>
-                                <a data-ui-sref="board.cards.milestone_create({ project_id: project.id, project_path: project.path_with_namespace })">
-                                    <i class="fa fa-clock-o"></i>&nbsp;&nbsp;Milestone
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a data-ng-click="logout()">
-                            <i class="fa fa-sign-out"></i>&nbsp;&nbsp;Logout
-                        </a>
-                    </li>
-                </ul>
-
-                <ul class="right hide-for-large-up" style="width: auto;">
-                    <li data-has-dropdown class="hide-for-small-down" data-ng-show="!isEmpty(project)">
-                        <a href="#"><i class="fa fa-align-justify"></i>&nbsp;&nbsp;</a>
-                        <ul data-top-bar-dropdown>
-                            <li><a data-ng-click="group()"><i class="fa fa-group"></i>&nbsp;&nbsp;Users</a></li>
-                            <li><a data-ng-click="reset()"><i class="fa fa-reply"></i>&nbsp;&nbsp;Reset</a></li>
-                        </ul>
-                    </li>
-                    <li class="right">
-                        <a data-ng-click="logout()" style="font-size: 1rem;padding-right: 15px">
-                            <i class="fa fa-sign-out"></i>
-                        </a>
-                    </li>
-                    <li data-has-dropdown data-ng-show="!isEmpty(project)" class="right">
-                        <a href="#"><i class="fa fa-plus"></i></a>
-                        <ul data-top-bar-dropdown>
-                            <li>
-                                <a data-ui-sref="board.cards.create({ project_id: project.id, project_path: project.path_with_namespace })"
-                                   style="font-size: 1rem;padding-right: 15px">
-                                    <i class="fa fa-plus"></i>&nbsp;&nbsp;Add issue
-                                </a>
-                            </li>
-                            <li>
-                                <a data-ui-sref="board.cards.milestone_create({ project_id: project.id, project_path: project.path_with_namespace })">
-                                    <i class="fa fa-plus"></i>&nbsp;&nbsp;Add milestone
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-        </section>
-    </nav>
+                <li data-has-dropdown data-ng-show="!isEmpty(project)">
+                    <a href="#"><i class="fa fa-align-justify"></i>
+                        <span class="hide-for-medium-down">&nbsp;&nbsp;Swimlane</span>
+                    </a>
+                    <ul data-top-bar-dropdown>
+                        <li>
+                            <a data-ng-click="group('user')"><i class="fa fa-group"></i>&nbsp;&nbsp;Users</a>
+                        </li>
+                        <li>
+                            <a data-ng-click="group('milestone')"><i class="fa fa-clock-o"></i>&nbsp;&nbsp;Milestones</a>
+                        </li>
+                        <li>
+                            <a data-ng-click="reset()"><i class="fa fa-reply"></i>&nbsp;&nbsp;Reset</a>
+                        </li>
+                    </ul>
+                </li>
+                <li data-has-dropdown data-ng-show="!isEmpty(project)">
+                    <a href="#"><i class="fa fa-plus"></i>
+                        <span class="hide-for-medium-down">&nbsp;&nbsp;Add</span>
+                    </a>
+                    <ul data-top-bar-dropdown>
+                        <li>
+                            <a data-ui-sref="board.cards.create({ project_id: project.id, project_path: project.path_with_namespace })">
+                                <i class="fa fa-exclamation-circle"></i>&nbsp;&nbsp;Issue
+                            </a>
+                        </li>
+                        <li>
+                            <a data-ui-sref="board.cards.milestone_create({ project_id: project.id, project_path: project.path_with_namespace })">
+                                <i class="fa fa-clock-o"></i>&nbsp;&nbsp;Milestone
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a data-ng-click="logout()">
+                        <i class="fa fa-sign-out"></i>
+                        <span class="hide-for-medium-down">&nbsp;&nbsp;Logout</span>
+                    </a>
+                </li>
+            </ul>
+        </top-bar-section>
+    </top-bar>
 </div>
