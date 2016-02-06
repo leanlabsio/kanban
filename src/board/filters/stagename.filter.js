@@ -5,7 +5,7 @@
         'stage_regexp',
         function (stage_regexp) {
             return function (input) {
-                return input.match(stage_regexp)[1];
+                return input.match(stage_regexp)[2];
             };
         }]);
 }(window.angular));

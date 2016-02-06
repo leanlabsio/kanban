@@ -55,6 +55,12 @@
                         </li>
                     </ul>
                 </li>
+                <li data-ng-show="!isEmpty(project)">
+                    <a data-ui-sref="board.cards.settings({project_id: project.id, project_path: project.path_with_namespace})" title="Settings">
+                        <i class="fa fa-gears"></i>
+                        <span class="hide-for-medium-down">&nbsp;&nbsp;Settings</span>
+                    </a>
+                </li>
                 <li>
                     <a data-ng-click="logout()">
                         <i class="fa fa-sign-out"></i>

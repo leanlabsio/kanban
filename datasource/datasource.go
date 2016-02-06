@@ -37,6 +37,9 @@ type UserSource interface {
 
 type LabelSource interface {
 	ListLabels(board_id string) ([]*models.Label, error)
+	EditLabel(project_id string, req *models.LabelRequest) (*models.Label, error)
+	DeleteLabel(project_id, name string) (*models.Label, error)
+	CreateLabel(project_id string, req *models.LabelRequest) (*models.Label, error)
 }
 
 type MilestoneSource interface {

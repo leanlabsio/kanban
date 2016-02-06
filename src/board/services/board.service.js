@@ -14,7 +14,11 @@
                 boardPathIndex: {},
                 boardsList: {},
                 get: function(path) {
-                    if (_.isEmpty(this.boards[path])) {
+                    if (_.isEmpty(this.boards[path]) || this.boards[path].stale) {
+                        var withCache = true;
+                        if (!_.isEmpty(this.boards[path])) {
+                            withCache = !this.boards[path].stale;
+                        }
                         this.boards[path] = $http.get('/api/board', {
                             params: {
                                 project_id: path
@@ -22,7 +26,7 @@
                         }).then(function(project) {
                             project = project.data.data;
                             this.boards[path] = $q.all([
-                                LabelService.list(project.id),
+                                LabelService.list(project.id, withCache),
                                 $http.get('/api/cards', {
                                     params: {
                                         project_id: project.id
