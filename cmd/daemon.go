@@ -155,12 +155,18 @@ func daemon(c *cobra.Command, a []string) {
 
 	m.Post("/api/login", binding.Json(auth.SignIn{}), user.SignIn)
 	m.Post("/api/register", binding.Json(auth.SignUp{}), user.SignUp)
+
 	m.Group("/api", func() {
+		m.Get("/labels/:project", middleware.Datasource(), board.ListLabels)
+		m.Put("/labels/:project", middleware.Datasource(), binding.Json(models.LabelRequest{}), board.EditLabel)
+		m.Delete("/labels/:project/:label", middleware.Datasource(), board.DeleteLabel)
+		m.Post("/labels/:project", middleware.Datasource(), binding.Json(models.LabelRequest{}), board.CreateLabel)
+
 		m.Get("/boards", middleware.Datasource(), board.ListBoards)
 		m.Post("/boards/configure", middleware.Datasource(), binding.Json(models.BoardRequest{}), board.Configure)
 
 		m.Get("/board", middleware.Datasource(), board.ItemBoard)
-		m.Get("/labels", middleware.Datasource(), board.ListLabels)
+
 		m.Get("/cards", middleware.Datasource(), board.ListCards)
 		m.Combo("/milestones").
 			Get(middleware.Datasource(), board.ListMilestones).

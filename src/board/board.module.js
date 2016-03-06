@@ -140,6 +140,18 @@
                     data: {
                         access: 1
                     }
+                })
+                .state('board.cards.settings', {
+                    url: '/settings',
+                    views: {
+                        'content@board': {
+                            templateUrl: 'assets/html/board/views/settings.html',
+                            controller: 'SettingsController'
+                        }
+                    },
+                    data: {
+                        access: 1
+                    }
                 });
         }])
         .config(['$markdownProvider', function($markdownProvider) {
@@ -152,5 +164,5 @@
             $markdownProvider.registerPlugin(window.markdownitEmoji);
             $markdownProvider.registerPlugin(window.md_twemoji_plugin);
         }])
-        .constant('stage_regexp', /KB\[stage\]\[\d+\]\[(.*)\]/);
+        .constant('stage_regexp', /KB\[stage\]\[(\d+)\]\[(.*)\]/);
 })(window.angular, window.CLIENT_VERSION);

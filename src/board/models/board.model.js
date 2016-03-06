@@ -13,6 +13,7 @@
                     this.stages = [];
 
                     this.issues = [];
+                    this.stale = false;
                     this.labels = [];
                     this.project = project;
                     this.grouped = false;

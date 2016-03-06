@@ -15,8 +15,13 @@ type Label struct {
 
 // LabelRequest represents the available CreateLabel() and UpdateLabel() options.
 type LabelRequest struct {
-	Color string `json:"color"`
-	Name  string `json:"name"`
+	Color   string `json:"color"`
+	Name    string `json:"name"`
+	NewName string `json:"new_name,omitempty"`
+}
+
+type LabelDeleteOptions struct {
+	Name string `url:"name,omitempty"`
 }
 
 // ListLabels gets all labels for given project.
@@ -47,6 +52,41 @@ func (g *GitlabContext) CreateLabel(project_id string, label *LabelRequest) (*La
 	req, _ := g.NewRequest("POST", path, label)
 
 	var ret *Label
+	if res, err := g.Do(req, &ret); err != nil {
+		return nil, res, err
+	}
+
+	return ret, nil, nil
+}
+
+// EditLabel updates an existing project labels
+//
+// GitLab API docs: http://doc.gitlab.com/ce/api/labels.html#edit-an-existing-label
+func (g *GitlabContext) EditLabel(project_id string, label *LabelRequest) (*Label, *http.Response, error) {
+	path := []string{"projects", url.QueryEscape(project_id), "labels"}
+	req, _ := g.NewRequest("PUT", path, label)
+
+	var ret *Label
+	if res, err := g.Do(req, &ret); err != nil {
+		return nil, res, err
+	}
+
+	return ret, nil, nil
+}
+
+//DeleteLabel deletes an existing project label
+//
+// GitLab API docs: http://doc.gitlab.com/ce/api/labels.html#delete-a-label
+func (g *GitlabContext) DeleteLabel(project_id string, label *LabelRequest) (*Label, *http.Response, error) {
+	o := &LabelDeleteOptions{Name: label.Name}
+	path := []string{"projects", url.QueryEscape(project_id), "labels"}
+
+	u, _ := addOptions(getUrl(path), o)
+
+	req, _ := http.NewRequest("DELETE", u, nil)
+
+	var ret *Label
+
 	if res, err := g.Do(req, &ret); err != nil {
 		return nil, res, err
 	}

@@ -1,0 +1,43 @@
+<section id="main-section">
+    <br/>
+    <div class="row" style="background-color: #fff; padding-top: 15px;">
+        <div class="columns small-12">
+            <h3>Configure lanes</h3>
+            <hr/>
+        </div>
+
+        <form>
+            <div class="columns small-12">
+                <div class="row">
+                    <div class="columns small-2">
+                        <h5>Order</h5>
+                    </div>
+                    <div class="columns small-4">
+                        <h5>Stage name</h5>
+                    </div>
+                    <div class="columns small-6"></div>
+                </div>
+                <div class="row" data-ng-repeat="(index,stage) in stages">
+                    <div class="columns small-2">
+                        <input type="text" data-ng-model="stages[index][1]">
+                    </div>
+                    <div class="columns small-4">
+                        <input type="text" data-ng-model="stages[index][2]">
+                    </div>
+                    <div class="columns small-6">
+                        <button data-ng-disabled="saving" data-ng-show="isEmpty(stages[index][3])" class="button tiny" data-ng-click="update(stage)">Update</button>
+                        <button data-ng-disabled="saving" data-ng-show="!isEmpty(stages[index][3])" class="button tiny" data-ng-click="create(index, stage)">Create</button>
+                        <button data-ng-disabled="saving" class="button tiny alert" data-ng-click="delete(index, stage)">Delete</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="columns medium-12">
+                        <button class="button tiny success" data-ng-click="add()">
+                            Add new stage
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>

@@ -19,8 +19,10 @@
                             project_id: $stateParams.project_path
                         }
                     ).then(function(result) {
-                        BoardService.boards[$stateParams.project_path] = undefined;
-                        BoardService.get($stateParams.project_path).then(function(result) {
+                        if (!_.isEmpty(BoardService.boards[$stateParams.project_path])) {
+                            BoardService.boards[$stateParams.project_path].stale = true;
+                        }
+                        BoardService.get($stateParams.project_path).then(function(board) {
                             $scope.isSaving = false;
                             $state.go('board.cards', {
                                 project_id: $stateParams.project_id,

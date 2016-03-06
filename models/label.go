@@ -15,6 +15,12 @@ type Stage struct {
 	Position int
 }
 
+type LabelRequest struct {
+	Name    string `json:"name"`
+	Color   string `json:"color"`
+	NewName string `json:"new_name"`
+}
+
 var (
 	stageReg = regexp.MustCompile(`KB\[stage\]\[(\d)\]\[(.*)\]`)
 )
