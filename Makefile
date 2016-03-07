@@ -1,5 +1,5 @@
 IMAGE = leanlabs/kanban
-TAG   = 1.4.7
+TAG   = 1.5.0
 CWD   = /go/src/gitlab.com/leanlabsio/kanban
 
 all: clean
@@ -86,7 +86,7 @@ clean:
 	@rm -f templates/templates.go
 
 # Development targets
-dev_redis: 
+dev_redis:
 	@docker inspect -f {{.State.Running}} kb_dev_redis || \
 		docker run -d -p 6379:6379 --name kb_dev_redis leanlabs/redis
 
@@ -100,7 +100,7 @@ watch: build
 			-e HOME=/cache \
 			leanlabs/npm-builder grunt watch
 
-tmp/go/pkg/: 
+tmp/go/pkg/:
 	@docker run --rm \
 		-v $(CURDIR)/tmp/go/pkg:/go/pkg \
 		-v $(CURDIR):$(CWD) \

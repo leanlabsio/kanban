@@ -1,3 +1,16 @@
+# 1.5.0 (2016-03-07)
+
+## Features:
+
+- Improved mobile experience [#110](https://gitlab.com/leanlabsio/kanban/issues/110) (Anton Popov).
+- Improved cards filtering [#141](https://gitlab.com/leanlabsio/kanban/141) (V).
+- Implemented board settings, to manage stages from board [#15](https://gitlab.com/leanlabsio/kanban/issues/15) (V, Anton Popov).
+
+## Maintanence:
+
+- Removed ng-tags-input library, not used [#147](https://gitlab.com/leanlabsio/kanban/issues/147) (V).
+
+
 # 1.4.7 (2016-01-31)
 
 ## Features:
