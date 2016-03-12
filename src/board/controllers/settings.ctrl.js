@@ -15,7 +15,9 @@
         BoardService.get($stateParams.project_path).then(function(board) {
             $scope.board = board;
             var stages = _.map(board.stages, function(stage) {
-                return stage_regexp.exec(stage.name);
+                var st = stage_regexp.exec(stage.name);
+                st[0] = stage.name;
+                return st;
             });
 
             $scope.stages = stages;
@@ -32,6 +34,7 @@
                 new_name: newLabel
             }).then(function(res) {
                 $scope.saving = false;
+                stage[0] = res.data.data.name;
             });
         };
 
@@ -44,7 +47,7 @@
                 $scope.saving = false;
                 $scope.stages.splice(index, 1);
             } else {
-                return $http.delete("/api/labels/" + $scope.project_id + "/" + label).then(function(res) {
+                return $http.delete("/api/labels/" + $scope.project_id + "/" + stage[0]).then(function(res) {
                     $scope.saving = false;
                     $scope.stages.splice(index, 1);
                 });
