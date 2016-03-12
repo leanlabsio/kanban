@@ -1,5 +1,5 @@
 IMAGE = leanlabs/kanban
-TAG   = 1.5.0
+TAG   = 1.5.1
 CWD   = /go/src/gitlab.com/leanlabsio/kanban
 
 all: clean

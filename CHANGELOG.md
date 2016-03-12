@@ -1,9 +1,17 @@
+# 1.5.1 (2016-03-12)
+
+## Bugfixes:
+
+- Fixed: update of stage label causes logout (V).
+- Fixed static assets versioning and configured build to get version from makefile [#164](https://gitlab.com/leanlabsio/kanban/issues/164) (V).
+- Fixed stage regexp: make it non gready for not to get "][" symbols in stage name (V).
+
 # 1.5.0 (2016-03-07)
 
 ## Features:
 
 - Improved mobile experience [#110](https://gitlab.com/leanlabsio/kanban/issues/110) (Anton Popov).
-- Improved cards filtering [#141](https://gitlab.com/leanlabsio/kanban/141) (V).
+- Improved cards filtering [#141](https://gitlab.com/leanlabsio/kanban/issues/141) (V).
 - Implemented board settings, to manage stages from board [#15](https://gitlab.com/leanlabsio/kanban/issues/15) (V, Anton Popov).
 
 ## Maintanence:
