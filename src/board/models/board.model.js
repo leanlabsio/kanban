@@ -55,7 +55,6 @@
                         var stages = {};
                         for (var k in this.defaultStages) {
                             stages[k] = [];
-                            this.counts[k] = 0;
                         }
                         items[index] = _.extend(stages, _.groupBy(element, 'stage', this));
                         for (var idx in items[index]) {
@@ -89,7 +88,22 @@
                         return _.find(this.issues, function (item) {
                             return item.id == id;
                         });
-                    }
+                    };
+
+                    this.reset = function(filter, group) {
+                        for (var k in this.defaultStages) {
+                            this.counts[k] = 0;
+                        }
+
+                        var issues = _.filter(this.issues, filter);
+                        var groups = _.groupBy(issues, group);
+                        groups = _.isEmpty(groups) ? {
+                            none: {}
+                        } : groups;
+                        groups = _.each(groups, this.byStage, this);
+
+                        return groups;
+                    };
                 }
 
                 return Board;

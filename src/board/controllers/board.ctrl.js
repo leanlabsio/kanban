@@ -104,24 +104,11 @@
 
                 board.grouped = grouped;
 
-                var issues = _.filter(board.issues, filter);
-                var groups = _.groupBy(issues, group);
-                groups = _.isEmpty(groups) ? {
-                    none: {}
-                } : groups;
-                groups = _.each(groups, board.byStage, board);
-
-                $scope.groups = groups;
+                $scope.groups = board.reset(filter, group);
                 $scope.board = board;
 
                 $rootScope.$on('board.change', function() {
-                    var issues = _.filter(board.issues, filter);
-                    var groups = _.groupBy(issues, group);
-                    groups = _.isEmpty(groups) ? {
-                        none: {}
-                    } : groups;
-                    groups = _.each(groups, board.byStage, board);
-                    $scope.groups = groups;
+                    $scope.groups = board.reset(filter, group);
                 });
 
                 $scope.dragControlListeners = {
