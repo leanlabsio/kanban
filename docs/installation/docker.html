@@ -108,7 +108,7 @@ Running the image</h2>
 
 <li><p>Start kanban container:</p>
 
-<pre><code class="bash">docker run -d -p
+<pre><code class="bash">docker run -d
     --link kanban_redis:kanban_redis
     -p 80:80
     -e KANBAN_SERVER_HOSTNAME=&#34;http://localhost&#34;
