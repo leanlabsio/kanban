@@ -25,9 +25,13 @@
                          data-ng-model="groups[groupName][stageName]"
                          class="board-stage">
                         <div class="row collapse card"
-                             data-ng-repeat="card in groups[groupName][stageName] track by card.id"
+                             data-ng-repeat="card in groups[groupName][stageName] | orderBy:'-priority.index' track by card.id"
                              data-as-sortable-item>
-                            <div data-as-sortable-item-handle class="row collapse" style="padding: 10px">
+                            <div data-as-sortable-item-handle class="row collapse"
+                            style="padding: 10px"
+                            data-ng-style="{'background-color': card.priority.color}"
+                            data-ng-attr-title="Priority: {{card.priority.name}}"
+                            >
                                 <div class="large-10 medium-10 small-10 columns">
                                     <h6>
                                         <a data-ui-sref="board.cards.view({project_id: state.params.project_id, project_path: state.params.project_path, issue_id: card.iid})"
