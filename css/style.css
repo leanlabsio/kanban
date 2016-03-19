@@ -1213,3 +1213,23 @@ body.landing #header {
     color: inherit;
     text-decoration: none;
 }
+
+.video-play:after {
+    background: url(/images/video_btn.png) no-repeat;
+    background-size: contain;
+    content: '';
+    display: block;
+    height: 108px;
+    width: 108px;
+    opacity: .85;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -58px;
+    margin-top: -58px;
+    z-index: 0;
+    transition: all .3s;
+}
+.video-play:hover:after{
+    opacity: 1;
+}
