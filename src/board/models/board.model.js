@@ -90,7 +90,7 @@
                     this.issues = _.map(issues, this.initViewLabels, this);
 
                     this.byStage = function (element, index, items) {
-                        element = _.sortBy(element, function(item) {return item.id * -1;});
+                        element = _.sortBy(element, function(item) {return item.priority.index*1;});
                         var stages = {};
                         for (var k in this.defaultStages) {
                             stages[k] = [];

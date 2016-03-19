@@ -25,7 +25,7 @@
                          data-ng-model="groups[groupName][stageName]"
                          class="board-stage">
                         <div class="row collapse card"
-                             data-ng-repeat="card in groups[groupName][stageName] | orderBy:'-priority.index' track by card.id"
+                             data-ng-repeat="card in groups[groupName][stageName] track by card.id"
                              data-as-sortable-item>
                             <div data-as-sortable-item-handle class="row collapse"
                             style="padding: 10px"
