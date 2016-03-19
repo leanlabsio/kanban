@@ -70,7 +70,8 @@
                                 var v = priority_regexp.exec(labels[i]);
                                 if (v && v[2]) {
                                     issue.priority = {
-                                        index: v[1],
+                                        // index must be number
+                                        index: v[1] * 1,
                                         name: v[2],
                                         // @todo should use angular's `filter` instead
                                         // 20% opaque / 80% transparent
@@ -90,7 +91,7 @@
                     this.issues = _.map(issues, this.initViewLabels, this);
 
                     this.byStage = function (element, index, items) {
-                        element = _.sortBy(element, function(item) {return item.priority.index*1;});
+                        element = _.sortBy(element, function(item) {return item.priority.index;});
                         var stages = {};
                         for (var k in this.defaultStages) {
                             stages[k] = [];
