@@ -1,14 +1,36 @@
 (function (angular) {
     'use strict';
+    // taken from http://www.sitepoint.com/javascript-generate-lighter-darker-color/
+    // modify to use `alpha`
+    // @todo should use angular's `filter` instead
+    // @todo this use `alpha` without fallback/shim
+    function ColorLuminance(hex, lum) {
 
+    // validate hex string
+    hex = String(hex).replace(/[^0-9a-f]/gi, '');
+    if (hex.length < 6) {
+        hex = hex[0]+hex[0]+hex[1]+hex[1]+hex[2]+hex[2];
+    }
+    lum = lum || 0;
+
+    // convert to decimal and change luminosity
+    var rgb = "rgba(", c, i;
+    for (i = 0; i < 3; i++) {
+        c = parseInt(hex.substr(i*2,2), 16);
+        rgb += c + ',';
+    }
+    rgb += lum + ')';
+    return rgb;
+}
     angular.module('gitlabKBApp.board').factory('Board',
         [
             'UserService',
             'Stage',
             'State',
             'stage_regexp',
+            'priority_regexp',
             '$rootScope',
-            function (UserService, Stage, State, stage_regexp, $rootScope) {
+            function (UserService, Stage, State, stage_regexp, priority_regexp, $rootScope) {
                 function Board(labels, issues, project) {
                     this.stages = [];
 
@@ -35,11 +57,29 @@
                         issue.viewLabels = [];
                         issue.stage = _.intersection(this.labels, issue.labels)[0] || this.labels[0];
 
+                        issue.priority ={
+                            index: Infinity,
+                            name: "None",
+                            color: null,
+                        }
+
                         if (!_.isEmpty(issue.labels)) {
                             var labels = issue.labels;
                             for (var i = 0; i < labels.length; i++) {
                                 var label = this.viewLabels[labels[i]];
-                                if (label !== undefined) {
+                                var v = priority_regexp.exec(labels[i]);
+                                if (v && v[2]) {
+                                    issue.priority = {
+                                        // index must be number
+                                        index: v[1] * 1,
+                                        name: v[2],
+                                        // @todo should use angular's `filter` instead
+                                        // 20% opaque / 80% transparent
+                                        color: ColorLuminance(this.viewLabels[labels[i]].color, .2)
+                                    }
+                                    // continue
+                                }
+                                else if (label !== undefined) {
                                     issue.viewLabels.push(label);
                                 }
                             }
@@ -51,7 +91,7 @@
                     this.issues = _.map(issues, this.initViewLabels, this);
 
                     this.byStage = function (element, index, items) {
-                        element = _.sortBy(element, function(item) {return item.id * -1;});
+                        element = _.sortBy(element, function(item) {return item.priority.index;});
                         var stages = {};
                         for (var k in this.defaultStages) {
                             stages[k] = [];
