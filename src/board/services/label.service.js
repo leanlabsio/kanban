@@ -4,7 +4,9 @@
         '$q',
         '$http',
         'stage_regexp',
-        function($q, $http, stage_regexp) {
+        'priority_regexp',
+        'CardPriority',
+        function($q, $http, stage_regexp, priority_regexp, CardPriority) {
             return {
                 labels: [],
                 list: function(projectId, withCache) {
@@ -29,6 +31,30 @@
                         this.labels[projectId] = labels;
                         return this.labels[projectId];
                     }.bind(this));
+                },
+                listPriorities: function(projectId) {
+                    return _.chain(this.labels[projectId])
+                        .filter(function(label) {
+                            return priority_regexp.test(label.name);
+                        })
+                        .map(function(label){
+                            return  new CardPriority(label);
+                        })
+                        .sortBy(function(label){
+                            return label.index * -1;
+                        }).value();
+                },
+                listViewLabels: function(projectId) {
+                    return _.chain(this.labels[projectId])
+                           .filter(function(label) {
+                                return !(stage_regexp.test(label.name) || priority_regexp.test(label.name));
+                           })
+                           .indexBy('name')
+                           .value();
+                },
+                getPriority: function(projectId, label){
+                    var priority =_.findWhere(this.labels[projectId], {name: label});
+                    return new CardPriority(priority);
                 },
                 create: function(projectId, label) {},
                 update: function() {},

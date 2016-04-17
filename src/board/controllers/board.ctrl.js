@@ -95,7 +95,7 @@
             }
 
             BoardService.get($stateParams.project_path).then(function(board) {
-                if (_.isEmpty(board.labels)) {
+                if (_.isEmpty(board.stages)) {
                     $state.go('board.import', {
                         project_id: board.project.id,
                         project_path: board.project.path_with_namespace
