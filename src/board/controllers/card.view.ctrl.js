@@ -18,6 +18,14 @@
             function($scope, $http, $stateParams, $state, BoardService, $sce, CommentService, LabelService, UserService, MilestoneService, $modal, host_url) {
                 BoardService.get($stateParams.project_path).then(function(board) {
                     $scope.labels = _.toArray(board.viewLabels);
+                    $scope.priorities = board.priorities;
+                    MilestoneService.list(board.project.id).then(function(milestones) {
+                        $scope.milestones = milestones;
+                    });
+
+                    UserService.list(board.project.id).then(function(users) {
+                        $scope.options = users;
+                    });
                 });
 
                 $scope.card_url = host_url + "/" + $stateParams.project_path;
@@ -38,16 +46,6 @@
                             $scope.comments.push(data);
                         });
                     };
-                });
-
-                BoardService.get($stateParams.project_path).then(function(board) {
-                    MilestoneService.list(board.project.id).then(function(milestones) {
-                        $scope.milestones = milestones;
-                    });
-
-                    UserService.list(board.project.id).then(function(users) {
-                        $scope.options = users;
-                    });
                 });
 
                 $scope.card_properties = {};
@@ -175,6 +173,19 @@
                         return BoardService.updateCard(card);
                     });
                 };
+
+                $scope.updatePriority = function (card, priority) {
+                    card.labels.splice(card.labels.indexOf(card.priority.name), 1);
+
+                    if (_.isEmpty(card.priority.name) || card.priority.name != priority.name) {
+                        card.labels.push(priority.name);
+                        card.priority = priority;
+                    } else {
+                        card.priority = LabelService.getPriority(card.project_id, "");
+                    }
+
+                    return BoardService.updateCard(card);
+                }
             }
         ]
     );

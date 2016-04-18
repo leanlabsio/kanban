@@ -22,10 +22,9 @@
                     MilestoneService.list(board.project.id).then(function(milestones) {
                         $scope.milestones = milestones;
                     });
-                });
 
-                BoardService.get($stateParams.project_path).then(function(board) {
                     $scope.labels = _.toArray(board.viewLabels);
+                    $scope.priorities = board.priorities;
                     $scope.card = {
                         project_id: board.project.id,
                         labels: []
@@ -38,6 +37,10 @@
 
                 $scope.updateMilestone = function(milestone) {
                     $scope.card.milestone = milestone;
+                };
+
+                $scope.updatePriority = function(priority) {
+                    $scope.card.priority = priority;
                 };
 
                 $scope.updateLabels = function(label) {
@@ -65,7 +68,7 @@
                     }
 
                     BoardService.getBoardById(data.project_id).then(function(board) {
-                        var labels = [_.first(board.labels)];
+                        var labels = [_.first(board.stagelabels)];
 
                         if (!_.isEmpty($scope.card.labels)) {
                             for (var i = 0; i < $scope.card.labels.length; i++) {
@@ -73,6 +76,11 @@
                             }
 
                         }
+
+                        if (!_.isEmpty($scope.card.priority)) {
+                            labels.push($scope.card.priority.name);
+                        }
+
                         data.labels = labels.join(', ');
 
                         BoardService.createCard(data).then(function() {

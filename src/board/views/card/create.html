@@ -129,7 +129,7 @@
                                 <a data-ng-click="updateMilestone(milestone)">{{milestone.title}}</a>
                             </li>
 
-                            <li data-ng-if="milestones.length == 0">
+                            <li data-ng-if="isEmpty(milestones.length)">
                                 <a>
                                     No milestones
                                 </a>
@@ -145,6 +145,46 @@
                     </div>
                 </div>
                 <!-- Milestone END -->
+
+                <!-- Priority -->
+                <div class="row collapse" style="margin-bottom:15px;">
+                    <div class="row collapse">
+                        <div class="large-8 medium-8 small-8 columns">
+                            <h5 class="subheader">
+                                Priority
+                            </h5>
+                        </div>
+
+                        <div class="large-4 medium-4 small-4 columns">
+                            <h5 class="subheader right" data-dropdown-toggle="#select-priority">&nbsp;
+                                <a class="dropdown">
+                                    <i class="fa fa-gear">&nbsp;</i>
+                                </a>
+                            </h5>
+                        </div>
+
+                        <ul id="select-priority" class="f-dropdown">
+                            <li data-ng-repeat="priority in priorities" data-ng-if="priorities.length > 0">
+                                <a data-ng-click="updatePriority(priority)">
+                                    {{priority.viewName}}
+                                    <i class="fa fa-check" data-ng-show="card.priority.name == priority.name"></i>
+                                </a>
+                            </li>
+
+                            <li data-ng-if="isEmpty(priorities)">
+                                <a>No priorities</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="row collapse">
+                        <div class="large-12 medium-12 small-12 columns">
+                            <h6 data-ng-if="!isEmpty(card.priority.name)">{{card.priority.viewName}}</h6>
+                            <h6 data-ng-if="isEmpty(card.priority.name)">Not selected</h6>
+                        </div>
+                    </div>
+                </div>
+                <!-- Priority END -->
 
                 <!-- Labels -->
                 <div class="row collapse" style="margin-bottom:15px;">

@@ -1,6 +1,6 @@
 <section id="main-section" class="board-view noselect" style="width: auto;max-width: none;">
     <div class="row board" style="border-bottom: solid 1px #bbb">
-        <div class="large-2 medium-4 small-12 columns stage-container" data-ng-repeat="s in board.labels">
+        <div class="large-2 medium-4 small-12 columns stage-container" data-ng-repeat="s in board.stagelabels">
             <div class="panel column-header">
                 <h4>
                     {{ s | stagename }}
@@ -29,7 +29,7 @@
                              data-as-sortable-item>
                             <div data-as-sortable-item-handle class="row collapse"
                             style="padding: 10px"
-                            data-ng-style="{'background-color': card.priority.color}"
+                            data-ng-style="{'background-color': (card.priority.color | colorLuminance:0.2)}"
                             data-ng-attr-title="Priority: {{card.priority.name}}"
                             >
                                 <div class="large-10 medium-10 small-10 columns">
