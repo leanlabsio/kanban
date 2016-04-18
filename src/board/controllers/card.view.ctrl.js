@@ -175,7 +175,10 @@
                 };
 
                 $scope.updatePriority = function (card, priority) {
-                    card.labels.splice(card.labels.indexOf(card.priority.name), 1);
+                    var index = card.labels.indexOf(card.priority.name);
+                    if (index !== -1) {
+                        card.labels.splice(index, 1);
+                    }
 
                     if (_.isEmpty(card.priority.name) || card.priority.name != priority.name) {
                         card.labels.push(priority.name);
