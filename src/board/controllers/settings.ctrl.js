@@ -21,6 +21,7 @@
             });
 
             $scope.stages = stages;
+            $scope.priorities = board.priorities;
             $scope.project_id = board.project.id;
         });
 
@@ -29,13 +30,11 @@
             var oldLabel = stage[0];
             var newLabel = 'KB[stage][' + stage[1].trim() + '][' + stage[2].trim() + ']';
             $scope.board.stale = true;
-            $http.put('/api/labels/' + $scope.project_id, {
-                name: oldLabel,
-                new_name: newLabel
-            }).then(function(res) {
-                $scope.saving = false;
-                stage[0] = res.data.data.name;
-            });
+            LabelService.update($scope.project_id, oldLabel, newLabel, "#fff")
+                .then(function(res) {
+                    $scope.saving = false;
+                    stage[0] = res.data.data.name;
+                });
         };
 
         $scope.delete = function(index, stage) {
@@ -47,7 +46,7 @@
                 $scope.saving = false;
                 $scope.stages.splice(index, 1);
             } else {
-                return $http.delete("/api/labels/" + $scope.project_id + "/" + stage[0]).then(function(res) {
+                return LabelService.delete($scope.project_id, stage[0]).then(function(res) {
                     $scope.saving = false;
                     $scope.stages.splice(index, 1);
                 });
@@ -59,16 +58,55 @@
         };
 
         $scope.create = function(index, stage) {
+            var name = "KB[stage][" + stage[1].trim() + "][" + stage[2].trim() + "]";
             $scope.saving = true;
-            var data = {
-                name: "KB[stage][" + stage[1].trim() + "][" + stage[2].trim() + "]",
-                color: "#fff"
-            };
             $scope.board.stale = true;
-            return $http.post("/api/labels/" + $scope.project_id, data).then(function(res) {
+            return LabelService.create($scope.project_id, name, "#fff").then(function(res) {
                 $scope.saving = false;
                 $scope.stages[index] = stage_regexp.exec(res.data.data.name);
             });
+        };
+
+        $scope.addPriority = function() {
+          $scope.priorities.push({
+              name: "",
+              index: 0,
+              color: "#ffffff",
+              viewName: ""
+          });
+        };
+
+        $scope.createPriority = function(priority) {
+            $scope.saving = true;
+            var name = "KB[priority][" + priority.index + "][" + priority.viewName.trim() + "]";
+            LabelService.create($scope.project_id, name, priority.color)
+                .then(function(res) {
+                    $scope.saving = false;
+                    priority.name = res.data.data.name;
+                });
+        };
+
+        $scope.updatePriority = function(priority) {
+            $scope.saving = true;
+            var name = "KB[priority][" + priority.index + "][" + priority.viewName.trim() + "]";
+            LabelService.update($scope.project_id, priority.name, name, priority.color)
+                .then(function(res) {
+                    $scope.saving = false;
+                    priority.name = res.data.data.name;
+                });
+        };
+
+        $scope.deletePriority = function(priority) {
+            if (_.isEmpty(priority.name)) {
+                $scope.priorities.splice($scope.priorities.indexOf(priority), 1);
+            } else {
+                $scope.saving = true;
+                LabelService.delete($scope.project_id, priority.name)
+                    .then(function(res) {
+                        $scope.saving = false;
+                        $scope.priorities.splice($scope.priorities.indexOf(priority), 1);
+                    });
+            }
         };
     }
 }(window.angular));

@@ -60,7 +60,7 @@ func (ds GitLabDataSource) CreateLabel(project_id string, req *models.LabelReque
 	var l *models.Label
 	r, _, err := ds.client.CreateLabel(project_id, &gitlab.LabelRequest{
 		Name:  req.Name,
-		Color: "#fff",
+		Color: req.Color,
 	})
 	if err != nil {
 		return nil, err

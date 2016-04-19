@@ -1,43 +1,106 @@
 <section id="main-section">
-    <br/>
-    <div class="row" style="background-color: #fff; padding-top: 15px;">
-        <div class="columns small-12">
-            <h3>Configure lanes</h3>
-            <hr/>
-        </div>
-
+    <div class="row">
         <form>
-            <div class="columns small-12">
+            <fieldset>
+                <div class="columns small-12">
+                    <h3>Configure lanes</h3>
+                    <hr/>
+                </div>
+                <div class="columns small-12">
+                    <div class="row">
+                        <div class="columns small-2">
+                            <h5>Order</h5>
+                        </div>
+                        <div class="columns small-4">
+                            <h5>Stage name</h5>
+                        </div>
+                        <div class="columns small-6"></div>
+                    </div>
+                    <div class="row" data-ng-repeat="(index,stage) in stages">
+                        <div class="columns small-2">
+                            <input type="text" data-ng-model="stages[index][1]">
+                        </div>
+                        <div class="columns small-4">
+                            <input type="text" data-ng-model="stages[index][2]">
+                        </div>
+                        <div class="columns small-6">
+                            <button data-ng-disabled="saving" data-ng-show="isEmpty(stages[index][3])" class="button tiny" data-ng-click="update(stage)">Update</button>
+                            <button data-ng-disabled="saving" data-ng-show="!isEmpty(stages[index][3])" class="button tiny" data-ng-click="create(index, stage)">Create</button>
+                            <button data-ng-disabled="saving" class="button tiny alert" data-ng-click="delete(index, stage)">Delete</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="columns medium-12">
+                            <button class="button tiny success" data-ng-click="add()">
+                                Add new stage
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+
+    <div class="row">
+        <form>
+            <fieldset>
+            <div class="small-12 columns">
+                <h3>Configure priorities</h3>
+                <hr/>
+            </div>
+            <div class="small-12 columns">
                 <div class="row">
-                    <div class="columns small-2">
+                    <div class="small-2 columns">
                         <h5>Order</h5>
                     </div>
-                    <div class="columns small-4">
-                        <h5>Stage name</h5>
+                    <div class="small-4 columns">
+                        <h5>Priority name</h5>
                     </div>
-                    <div class="columns small-6"></div>
+                    <div class="small-2 columns">
+                        <h5>Color</h5>
+                    </div>
+                    <div class="small-6 columns"></div>
                 </div>
-                <div class="row" data-ng-repeat="(index,stage) in stages">
-                    <div class="columns small-2">
-                        <input type="text" data-ng-model="stages[index][1]">
+                <div class="row" data-ng-repeat="priority in priorities">
+                    <div class="small-2 columns">
+                        <input type="number" data-ng-model="priority.index">
                     </div>
-                    <div class="columns small-4">
-                        <input type="text" data-ng-model="stages[index][2]">
+                    <div class="small-4 columns">
+                        <input type="text" data-ng-model="priority.viewName">
                     </div>
-                    <div class="columns small-6">
-                        <button data-ng-disabled="saving" data-ng-show="isEmpty(stages[index][3])" class="button tiny" data-ng-click="update(stage)">Update</button>
-                        <button data-ng-disabled="saving" data-ng-show="!isEmpty(stages[index][3])" class="button tiny" data-ng-click="create(index, stage)">Create</button>
-                        <button data-ng-disabled="saving" class="button tiny alert" data-ng-click="delete(index, stage)">Delete</button>
+                    <div class="small-1 columns">
+                        <input type="color" data-ng-model="priority.color">
+                    </div>
+                    <div class="small-5 columns">
+                        <button class="button tiny"
+                                data-ng-show="!isEmpty(priority.name)"
+                                data-ng-disabled="saving"
+                                data-ng-click="updatePriority(priority)">
+                            Update
+                        </button>
+                        <button class="button tiny"
+                                data-ng-show="isEmpty(priority.name)"
+                                data-ng-disabled="saving"
+                                data-ng-click="createPriority(priority)">
+                            Create
+                        </button>
+                        <button class="button tiny alert"
+                                data-ng-disabled="saving"
+                                data-ng-click="deletePriority(priority)">
+                            Delete
+                        </button>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="columns medium-12">
-                        <button class="button tiny success" data-ng-click="add()">
-                            Add new stage
+                    <div class="small-12 columns">
+                        <button class="button tiny success"
+                                data-ng-click="addPriority()">
+                            Add new priority
                         </button>
                     </div>
                 </div>
             </div>
+            </fieldset>
         </form>
     </div>
 </section>
