@@ -34,6 +34,7 @@ func ItemBoard(ctx *middleware.Context) {
 				Success: false,
 				Message: err.Error(),
 			})
+			return
 		}
 		ctx.JSON(http.StatusInternalServerError, &models.ResponseError{
 			Success: false,
