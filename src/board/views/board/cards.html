@@ -15,7 +15,8 @@
              ng-init="showDetails = true"
              ng-click="showDetails = ! showDetails" 
              style="border-bottom: solid 1px #bbb;padding: 10px; font-weight: bold" ng-show="board.grouped">
-            <h5 style="margin: 0">{{groupName}}</h5>
+            <h5 ng-show="board.grouped=='user' || board.grouped=='milestone'" style="margin: 0">{{groupName}}</h5>
+            <h5 ng-show="board.grouped=='priority'" style="margin: 0">{{ groupName|priorityName }}</h5>
         </div>
 
         <div class="row board" ng-show="showDetails">
@@ -30,7 +31,7 @@
                             <div data-as-sortable-item-handle class="row collapse"
                             style="padding: 10px"
                             data-ng-style="{'background-color': (card.priority.color | colorLuminance:0.2)}"
-                            data-ng-attr-title="Priority: {{card.priority.name}}"
+                            data-ng-attr-title="Priority: {{card.priority.viewName}}"
                             >
                                 <div class="large-10 medium-10 small-10 columns">
                                     <h6>

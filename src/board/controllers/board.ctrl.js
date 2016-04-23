@@ -13,7 +13,8 @@
         '$rootScope',
         'WebsocketService',
         'MilestoneService',
-        function($scope, $http, $stateParams, BoardService, $state, $window, UserService, stage_regexp, $rootScope, WebsocketService, MilestoneService) {
+        'LabelService',
+        function($scope, $http, $stateParams, BoardService, $state, $window, UserService, stage_regexp, $rootScope, WebsocketService, MilestoneService, LabelService) {
             $window.scrollTo(0, 0);
 
             var filter = function(item) {
@@ -90,7 +91,14 @@
                         }
 
                         return item.assignee.name;
+                    } else if (grouped == 'priority') {
+                        if (_.isEmpty(item.priority.name)) {
+                            return 'No priority';
+                        }
+
+                        return item.priority.name;
                     }
+
                 };
             }
 
@@ -133,36 +141,35 @@
                         card.stage = newLabel;
                         card.properties.andon = 'none';
 
-                        var data = {
-                            project_id: card.project_id,
-                            issue_id: card.id,
-                            title: card.title,
-                            labels: card.labels.join(', '),
-                            todo: card.todo,
-                            description: card.description,
-                            properties: card.properties,
-                            stage: {
-                                source: oldLabel,
-                                dest: newLabel
-                            }
-                        };
-
                         if (oldGroup != newGroup) {
                             if (grouped == 'milestone') {
                                 return MilestoneService.findByName(card.project_id, newGroup).then(function(milestone) {
-                                    data.milestone_id = milestone === undefined ? 0 : milestone.id;
+                                    card.milestone_id = milestone === undefined ? 0 : milestone.id;
                                     card.milestone = milestone;
-                                    return $http.put('/api/card/move', data);
+
+                                    return BoardService.moveCard(card, oldLabel, newLabel);
                                 });
                             } else if (grouped == 'user') {
                                 return UserService.findByName(card.project_id, newGroup).then(function(user) {
-                                    data.assignee_id = user === undefined ? 0 : user.id;
+                                    card.assignee_id = user === undefined ? 0 : user.id;
                                     card.assignee = user;
-                                    return $http.put('/api/card/move', data);
+
+                                    return BoardService.moveCard(card, oldLabel, newLabel);
                                 });
+                            } else if (grouped == 'priority') {
+                                card.priority = LabelService.getPriority(card.project_id, newGroup);
+                                var index = card.labels.indexOf(oldGroup);
+                                if (index !== -1) {
+                                    card.labels.splice(index, 1);
+                                }
+                                if (!_.isEmpty(card.priority.name)) {
+                                    card.labels.push(card.priority.name);
+                                }
+
+                                return BoardService.moveCard(card, oldLabel, newLabel);
                             }
                         } else {
-                            return $http.put('/api/card/move', data);
+                            return BoardService.moveCard(card, oldLabel, newLabel);
                         }
                     },
                     containment: '#board'

@@ -93,6 +93,23 @@
                         }
                     });
                 },
+                moveCard: function(card, oldStage, newStage) {
+                    return $http.put('/api/card/move', {
+                        project_id: card.project_id,
+                        issue_id: card.id,
+                        assignee_id: card.assignee_id,
+                        milestone_id: card.milestone_id,
+                        title: card.title,
+                        labels: card.labels.join(', '),
+                        todo: card.todo,
+                        description: card.description,
+                        properties: card.properties,
+                        stage: {
+                            source: oldStage,
+                            dest: newStage
+                        }
+                    });
+                },
                 getBoards: function() {
                     var _this = this;
                     if (_.isEmpty(_this.boardsList)) {
