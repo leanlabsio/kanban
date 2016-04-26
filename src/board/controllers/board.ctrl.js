@@ -33,7 +33,8 @@
             if (!_.isEmpty(tags)) {
                 var fByUser = false,
                     fByMilestone = false,
-                    fByLabel = false;
+                    fByLabel = false,
+                    fByPriority = false;
 
                 fByUser = _.some(tags, function(v) {
                     return v.indexOf('@') === 0;
@@ -44,12 +45,16 @@
                 fByLabel = _.some(tags, function(v) {
                     return v.indexOf('~') === 0;
                 });
+                fByPriority = _.some(tags, function(v){
+                    return v.indexOf('$') === 0;
+                });
 
                 filter = function(item) {
                     var item_tags = [],
                         uMatch = true,
                         mMatch = true,
-                        lMatch = true;
+                        lMatch = true,
+                        pMatch = true;
 
                     if (fByUser) {
                         var uName = _.isEmpty(item.assignee) ? '@' : '@' + item.assignee.id;
@@ -73,7 +78,12 @@
                         lMatch = _.intersection(tags, labels).length > 0;
                     }
 
-                    return uMatch && mMatch && lMatch;
+                    if (fByPriority) {
+                        var priority = _.isEmpty(item.priority.name) ? '$' : '$' + item.priority.name;
+                        pMatch = _.contains(tags, priority);
+                    }
+
+                    return uMatch && mMatch && lMatch && pMatch;
                 };
             }
 

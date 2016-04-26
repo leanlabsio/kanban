@@ -93,6 +93,32 @@
     <hr/>
 
     <h5>
+        Priorities
+    </h5>
+    <div class="row collapse">
+        <ul class="side-nav">
+            <li data-ng-class="{active: contains(filter.tags, '$')}">
+                <a href="#" data-ng-click="filter.apply('$')">
+                    <i class="fa fa-check"></i>&nbsp;
+                    <span class="medium-text-left">
+                        No Priority
+                    </span>
+                </a>
+            </li>
+            <li data-ng-repeat="priority in filter.priorities|filter:query" data-ng-class="{active: contains(filter.tags, '$'+priority.name)}">
+                <a href="#" data-ng-click="filter.apply('$'+priority.name)">
+                    <i class="fa fa-check"></i>&nbsp;
+                    <span class="label medium-text-left" style="background-color: {{priority.color}}">
+                        {{priority.viewName}}
+                    </span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <hr/>
+
+    <h5>
         Milestones
     </h5>
     <div class="row collapse">
