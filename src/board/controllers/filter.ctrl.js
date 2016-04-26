@@ -11,12 +11,14 @@
         function($scope, $state, $stateParams, BoardService, UserService, MilestoneService) {
             var labels = [],
                 milestones = [],
-                users = [];
+                users = [],
+                priority = [];
 
             this.tags = _.isArray($stateParams.tags) ? $stateParams.tags : [$stateParams.tags];
 
             BoardService.get($stateParams.project_path).then(function(board) {
                 this.labels = _.toArray(board.viewLabels);
+                this.priorities = board.priorities;
 
                 MilestoneService.list(board.project.id).then(function(milestones) {
                     this.milestones = milestones;
