@@ -1,3 +1,17 @@
+# 1.6.0 (2016-05-04)
+
+## Features:
+
+- Cards prioritization [#119](https://gitlab.com/leanlabsio/kanban/issues/119) (TruongSinh Tran-Nguyen, cnam).
+- Swimlanes by priority [#119](https://gitlab.com/leanlabsio/kanban/issues/119) (cnam).
+- Configurable priorities from within board, settings [#119](https://gitlab.com/leanlabsio/kanban/issues/119) (cnam).
+- Filter by priority [#119](https://gitlab.com/leanlabsio/kanban/issues/119) (cnam).
+
+## Bugfixes:
+
+- Fixed: Infinite redirects to non-existent board [#168](https://gitlab.com/leanlabsio/kanban/issues/168) (cnam).
+- Fixed: Limits not updated when filtering by milestone [#167](https://gitlab.com/leanlabsio/kanban/issues/167) (V).
+
 # 1.5.1 (2016-03-12)
 
 ## Bugfixes:
