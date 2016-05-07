@@ -17,6 +17,7 @@
             var stages = _.map(board.stages, function(stage) {
                 var st = stage_regexp.exec(stage.name);
                 st[0] = stage.name;
+                st[1] = parseInt(st[1]);
                 return st;
             });
 
@@ -28,7 +29,7 @@
         $scope.update = function(stage) {
             $scope.saving = true;
             var oldLabel = stage[0];
-            var newLabel = 'KB[stage][' + stage[1].trim() + '][' + stage[2].trim() + ']';
+            var newLabel = 'KB[stage][' + stage[1] + '][' + stage[2].trim() + ']';
             $scope.board.stale = true;
             LabelService.update($scope.project_id, oldLabel, newLabel, "#fff")
                 .then(function(res) {
@@ -39,7 +40,7 @@
 
         $scope.delete = function(index, stage) {
             $scope.saving = true;
-            var label = "KB[stage][" + stage[1].trim() + "][" + stage[2].trim() + "]";
+            var label = "KB[stage][" + stage[1] + "][" + stage[2].trim() + "]";
 
             $scope.board.stale = true;
             if (!_.isEmpty(stage[3])) {
@@ -58,12 +59,13 @@
         };
 
         $scope.create = function(index, stage) {
-            var name = "KB[stage][" + stage[1].trim() + "][" + stage[2].trim() + "]";
+            var name = "KB[stage][" + stage[1] + "][" + stage[2].trim() + "]";
             $scope.saving = true;
             $scope.board.stale = true;
             return LabelService.create($scope.project_id, name, "#fff").then(function(res) {
                 $scope.saving = false;
                 $scope.stages[index] = stage_regexp.exec(res.data.data.name);
+                $scope.stages[index][1] = parseInt($scope.stages[index][1]);
             });
         };
 
