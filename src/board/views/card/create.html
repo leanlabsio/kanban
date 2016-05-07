@@ -206,7 +206,7 @@
                         <ul id="select-labels" class="f-dropdown">
                             <li data-ng-repeat="label in labels" data-ng-if="labels.length > 0">
                                 <a data-ng-click="updateLabels(label)">
-                                    <span class="label" style="background-color: {{label.color}}">
+                                    <span class="label" ng-style="{'background-color': label.color, 'color': (label.color|textColorForBg) }">
                                         {{label.name}}
                                     </span>
 
@@ -224,7 +224,7 @@
                     <div class="row collapse">
                         <ul style="list-style: none; margin-left:0;">
                             <li data-ng-repeat="label in card.labels" data-ng-if="!isEmpty(card.labels)">
-                                <span class="label" style="background-color: {{label.color}}">
+                                <span class="label" ng-style="{'background-color': label.color, 'color': (label.color|textColorForBg) }">
                                     {{ label.name }}
                                 </span>
                             </li>

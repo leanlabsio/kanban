@@ -44,7 +44,8 @@
                                         {{card.title}}
                                     </h6>
                                     <div class="row collapse">
-                                    <span class="label" data-ng-repeat="label in card.viewLabels track by label.name" style="background-color: {{label.color}}">
+                                    <span class="label" data-ng-repeat="label in card.viewLabels track by label.name"
+                                          ng-style="{'background-color': label.color, 'color': (label.color|textColorForBg) }">
                                         {{label.name}}
                                     </span>
                                     </div>
