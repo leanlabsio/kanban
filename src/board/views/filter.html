@@ -82,7 +82,7 @@
             <li data-ng-repeat="label in filter.labels|filter:query" data-ng-class="{active: contains(filter.tags, '~'+label.name)}">
                 <a href="#" data-ng-click="filter.apply('~'+label.name)">
                     <i class="fa fa-check"></i>&nbsp;
-                    <span class="label medium-text-left" style="background-color: {{label.color}}">
+                    <span class="label medium-text-left" ng-style="{'background-color': label.color, 'color': (label.color|textColorForBg) }">
                         {{label.name}}
                     </span>
                 </a>
@@ -108,7 +108,8 @@
             <li data-ng-repeat="priority in filter.priorities|filter:query" data-ng-class="{active: contains(filter.tags, '$'+priority.name)}">
                 <a href="#" data-ng-click="filter.apply('$'+priority.name)">
                     <i class="fa fa-check"></i>&nbsp;
-                    <span class="label medium-text-left" style="background-color: {{priority.color}}">
+                    <span class="label medium-text-left"
+                          ng-style="{'background-color': priority.color, 'color': (priority.color|textColorForBg)}">
                         {{priority.viewName}}
                     </span>
                 </a>
