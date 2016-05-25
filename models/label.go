@@ -22,7 +22,7 @@ type LabelRequest struct {
 }
 
 var (
-	stageReg = regexp.MustCompile(`KB\[stage\]\[(\d)\]\[(.*)\]`)
+	stageReg = regexp.MustCompile(`KB\[stage\]\[(\d+)\]\[(.*)\]`)
 )
 
 // ParseLabelToStage transform label to stage
