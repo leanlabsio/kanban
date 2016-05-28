@@ -239,7 +239,7 @@ module.exports = function (grunt) {
                         flatten: false,
                         expand: true, 
                         cwd: 'src/static/images/', 
-                        src: ['**/*.svg'], 
+                        src: ['**/*.svg', '**/*.png'],
                         dest: 'web/images/', 
                         filter: 'isFile'
                     }
