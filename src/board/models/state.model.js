@@ -4,7 +4,7 @@
     angular.module('gitlabKBApp.board').factory('State',[
         function() {
             function State() {
-                this.showFilter = false;
+                this.showActionBar = false;
             }
 
             return State;
