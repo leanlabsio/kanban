@@ -129,62 +129,7 @@
                     $scope.groups = board.reset(filter, group);
                 });
 
-                $scope.dragControlListeners = {
-                    accept: function() {
-                        return true;
-                    },
-                    dragEnd: function(event) {
-                        var id = event.source.itemScope.card.id;
-                        var card = board.getCardById(id);
-
-                        var oldLabel = event.source.sortableScope.$parent.stageName;
-                        var newLabel = event.dest.sortableScope.$parent.stageName;
-
-                        var oldGroup = event.source.sortableScope.$parent.$parent.groupName;
-                        var newGroup = event.dest.sortableScope.$parent.$parent.groupName;
-
-                        card.labels = _.filter(card.labels, function(label) {
-                            return !stage_regexp.test(label);
-                        });
-
-                        card.labels.push(newLabel);
-                        card.stage = newLabel;
-                        card.properties.andon = 'none';
-
-                        if (oldGroup != newGroup) {
-                            if (grouped == 'milestone') {
-                                return MilestoneService.findByName(card.project_id, newGroup).then(function(milestone) {
-                                    card.milestone_id = milestone === undefined ? 0 : milestone.id;
-                                    card.milestone = milestone;
-
-                                    return BoardService.moveCard(card, oldLabel, newLabel);
-                                });
-                            } else if (grouped == 'user') {
-                                return UserService.findByName(card.project_id, newGroup).then(function(user) {
-                                    card.assignee_id = user === undefined ? 0 : user.id;
-                                    card.assignee = user;
-
-                                    return BoardService.moveCard(card, oldLabel, newLabel);
-                                });
-                            } else if (grouped == 'priority') {
-                                card.priority = LabelService.getPriority(card.project_id, newGroup);
-                                var index = card.labels.indexOf(oldGroup);
-                                if (index !== -1) {
-                                    card.labels.splice(index, 1);
-                                }
-                                if (!_.isEmpty(card.priority.name)) {
-                                    card.labels.push(card.priority.name);
-                                }
-
-                                return BoardService.moveCard(card, oldLabel, newLabel);
-                            }
-                        } else {
-                            return BoardService.moveCard(card, oldLabel, newLabel);
-                        }
-                    },
-                    containment: '#board'
-                };
-
+                $scope.dragControlListeners = BoardService.dragControlListeners(grouped, board);
 
                 WebsocketService.emit('subscribe', {
                     routing_key: 'kanban.' + board.project.id.toString()

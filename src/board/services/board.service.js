@@ -7,7 +7,10 @@
         'LabelService',
         'WebsocketService',
         'Board',
-        function($http, $q, $sce, LabelService, WebsocketService, Board) {
+        'stage_regexp',
+        'UserService',
+        'MilestoneService',
+        function($http, $q, $sce, LabelService, WebsocketService, Board, stage_regexp, UserService, MilestoneService) {
             var service = {
                 boards: {},
                 boardIdIndex: {},
@@ -141,6 +144,68 @@
                     return _this.getBoardById(card.project_id).then(function(board) {
                         return board.update(card);
                     });
+                },
+                dragControlListeners: function(grouped, board) {
+                    var _this = this;
+                    return {
+                        accept: function() {
+                            return true;
+                        },
+                        dragEnd: function(event) {
+                            var id = event.source.itemScope.card.id;
+                            var card = board.getCardById(id);
+
+                            var oldLabel = event.source.sortableScope.$parent.stageName;
+                            var newLabel = event.dest.sortableScope.$parent.stageName;
+
+                            var oldGroup = event.source.sortableScope.$parent.$parent.groupName;
+                            var newGroup = event.dest.sortableScope.$parent.$parent.groupName;
+
+                            card.labels = _.filter(card.labels, function(label) {
+                                return !stage_regexp.test(label);
+                            });
+
+                            if (newLabel == undefined) {
+                                card.stage = "";
+                            } else {
+                                card.labels.push(newLabel);
+                                card.stage = newLabel;
+                            }
+                            card.properties.andon = 'none';
+
+                            if (oldGroup != newGroup && card.stage != "") {
+                                if (grouped == 'milestone') {
+                                    return MilestoneService.findByName(card.project_id, newGroup).then(function(milestone) {
+                                        card.milestone_id = milestone === undefined ? 0 : milestone.id;
+                                        card.milestone = milestone;
+
+                                        return _this.moveCard(card, oldLabel, newLabel);
+                                    });
+                                } else if (grouped == 'user') {
+                                    return UserService.findByName(card.project_id, newGroup).then(function(user) {
+                                        card.assignee_id = user === undefined ? 0 : user.id;
+                                        card.assignee = user;
+
+                                        return _this.moveCard(card, oldLabel, newLabel);
+                                    });
+                                } else if (grouped == 'priority') {
+                                    card.priority = LabelService.getPriority(card.project_id, newGroup);
+                                    var index = card.labels.indexOf(oldGroup);
+                                    if (index !== -1) {
+                                        card.labels.splice(index, 1);
+                                    }
+                                    if (!_.isEmpty(card.priority.name)) {
+                                        card.labels.push(card.priority.name);
+                                    }
+                                }
+
+                                return _this.moveCard(card, oldLabel, newLabel);
+                            } else {
+                                return _this.moveCard(card, oldLabel, newLabel);
+                            }
+                        },
+                        containment: '#board'
+                    }
                 }
             };
 
@@ -159,7 +224,7 @@
             WebsocketService.on('card.update', function(data) {
                 return service.updateCardOnBoard(data);
             });
-
+            
             return service;
         }
     ]);

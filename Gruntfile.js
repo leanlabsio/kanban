@@ -136,7 +136,13 @@ module.exports = function (grunt) {
                         filter: 'isFile'
                     },
                     {
-                        flatten: true, 
+                        flatten: true,
+                        src: ['bower_components/angular-foundation/src/tabs/tabs.js'],
+                        dest: 'web/assets/js/tabs.js',
+                        filter: 'isFile'
+                    },
+                    {
+                        flatten: true,
                         src: ['bower_components/marked/lib/marked.js'], 
                         dest: 'web/assets/js/marked.js',
                         filter: 'isFile'

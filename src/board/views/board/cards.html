@@ -4,7 +4,9 @@
             <div class="panel column-header">
                 <h4>
                     {{ s | stagename }}
-                    <span class="right">{{ board.counts[s] }}</span>
+                    <span class="right" style="text-transform: none">
+                        <span>{{ board.counts[s] }}</span>
+                    </span>
                 </h4>
             </div>
         </div>
@@ -80,5 +82,5 @@
             </div>
         </div>
     </section>
-    <boardfilter data-ng-show="board.state.showFilter"></boardfilter>
+    <action-bar data-ng-if="board.state.showActionBar"></action-bar>
 </section>

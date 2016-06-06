@@ -69,6 +69,10 @@
                     tags: []
                 });
             };
+
+            this.checked = function(obj) {
+                return _.contains(this.tags, obj);
+            }
         }
     ]);
 }(window.angular, window._));
