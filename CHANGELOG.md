@@ -1,3 +1,20 @@
+# 1.6.1 (2016-06-13)
+
+## Features:
+
+- Add favicon [#176](https://gitlab.com//leanlabsio/kanban/issues/176) (cnam, Toby Mole, Maël Lavault).
+
+## Bugfixes:
+
+- Problem white text on white label [#181](https://gitlab.com//leanlabsio/kanban/issues/181) (cnam).
+- Add validation for board settings [#182](https://gitlab.com//leanlabsio/kanban/issues/182) (cnam).
+- Regex preventing "moved issue" notes creation (Clément Bethuys).
+
+## Maintanence:
+
+- Update angular to 1.5 version [#195](https://gitlab.com//leanlabsio/kanban/issues/195) (cnam).
+- Add contribution guides [#197](https://gitlab.com//leanlabsio/kanban/issues/197) (cnam).
+
 # 1.6.0 (2016-05-04)
 
 ## Features:
