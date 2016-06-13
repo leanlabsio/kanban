@@ -110,7 +110,7 @@ Here are the list of available variables and their meaning:
 
 - **KANBAN_GITLAB_SECRET** - default to "qwerty", your GitLab OAuth client secret key
 
-- **KANBAN_REDIS_ADDR** - default to "127.0.0.1:6379", Redis server address - IP:PORT. LeanLabs Kanban requires redis server to function properly, it stores users identities there.
+- **KANBAN_REDIS_ADDR** - default to "127.0.0.1:6379", Redis server address - IP:PORT. You have also may be used unix socket, if you set address as "unix:///path/to/sock.sock". LeanLabs Kanban requires redis server to function properly, it stores users identities there.
 
 - **KANBAN_REDIS_PASSWORD** - default to "" (empty string), Redis server password if any.
 

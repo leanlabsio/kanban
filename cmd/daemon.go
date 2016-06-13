@@ -1,6 +1,9 @@
 package cmd
 
 import (
+	"log"
+	"net/http"
+
 	"github.com/go-macaron/bindata"
 	"github.com/go-macaron/binding"
 	"github.com/leanlabsio/sockets"
@@ -9,8 +12,6 @@ import (
 	"gitlab.com/leanlabsio/kanban/web"
 	"gitlab.com/leanlabsio/kanban/ws"
 	"gopkg.in/macaron.v1"
-	"log"
-	"net/http"
 
 	"gitlab.com/leanlabsio/kanban/modules/auth"
 	"gitlab.com/leanlabsio/kanban/modules/setting"

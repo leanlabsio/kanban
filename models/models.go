@@ -1,12 +1,15 @@
 package models
 
 import (
+	"log"
+	"strings"
+
+	"net/url"
+
 	"github.com/spf13/viper"
 	"gitlab.com/leanlabsio/kanban/modules/gitlab"
 	"golang.org/x/oauth2"
 	"gopkg.in/redis.v3"
-	"log"
-	"strings"
 )
 
 var (
@@ -32,11 +35,20 @@ func NewEngine() error {
 		},
 	})
 
-	c = redis.NewClient(&redis.Options{
+	opts := &redis.Options{
 		Addr:     viper.GetString("redis.addr"),
 		Password: viper.GetString("redis.password"),
 		DB:       int64(viper.GetInt("redis.db")),
-	})
+	}
+
+	url, _ := url.Parse(viper.GetString("redis.addr"))
+
+	if url.Scheme == "unix" {
+		opts.Addr = url.Path
+		opts.Network = "unix"
+	}
+
+	c = redis.NewClient(opts)
 
 	_, err := c.Ping().Result()
 
