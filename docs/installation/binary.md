@@ -85,7 +85,7 @@ Here are the list of available command line option and mirroring env variables:
 
 - **--gitlab-secret** (env **KANBAN_GITLAB_SECRET**) - default to "qwerty", your GitLab OAuth client secret key
 
-- **--redis-addr** (env **KANBAN_REDIS_ADDR**) - default to "127.0.0.1:6379", Redis server address - IP:PORT. LeanLabs Kanban requires redis server to function properly, it stores users identities there.
+- **--redis-addr** (env **KANBAN_REDIS_ADDR**) - default to "127.0.0.1:6379", Redis server address - IP:PORT. You have also may be used unix socket, if you set address as "unix:///path/to/sock.sock". LeanLabs Kanban requires redis server to function properly, it stores users identities there.
 
 - **--redis-password** (env **KANBAN_REDIS_PASSWORD**) - default to "" (empty string), Redis server password if any.
 
