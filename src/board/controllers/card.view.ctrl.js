@@ -15,7 +15,8 @@
             'MilestoneService',
             '$modal',
             'host_url',
-            function($scope, $http, $stateParams, $state, BoardService, $sce, CommentService, LabelService, UserService, MilestoneService, $modal, host_url) {
+            'KBStore',
+            function($scope, $http, $stateParams, $state, BoardService, $sce, CommentService, LabelService, UserService, MilestoneService, $modal, host_url, store) {
                 BoardService.get($stateParams.project_path).then(function(board) {
                     $scope.labels = _.toArray(board.viewLabels);
                     $scope.priorities = board.priorities;
@@ -29,6 +30,16 @@
                 });
 
                 $scope.card_url = host_url + "/" + $stateParams.project_path;
+                $scope.card_properties = {};
+                $scope.commentFormData = {};
+                $scope.blockedFormData = {};
+                $scope.model = {};
+                $scope.modal = $modal;
+                $scope.todoFormData = {};
+
+                var getCommentHashKey = function() {
+                    return $scope.card.project_id + ":card:" + $scope.card.iid + ":comment";
+                };
 
                 BoardService.getCard($stateParams.project_path, $stateParams.issue_id).then(function(card) {
                     $scope.card = card;
@@ -37,6 +48,8 @@
                         $scope.comments = data;
                     });
 
+                    $scope.commentFormData = store.get(getCommentHashKey()) || {};
+
                     $scope.submitComment = function() {
                         $scope.isSaving = true;
 
@@ -44,16 +57,21 @@
                             $scope.isSaving = false;
                             $scope.commentFormData = {};
                             $scope.comments.push(data);
+                            store.remove(getCommentHashKey());
                         });
                     };
                 });
 
-                $scope.card_properties = {};
-                $scope.commentFormData = {};
-                $scope.blockedFormData = {};
-                $scope.model = {};
-                $scope.modal = $modal;
-                $scope.todoFormData = {};
+                $scope.discardCommentDraft = function() {
+                    store.remove(getCommentHashKey());
+                    $scope.commentFormData = {};
+                };
+
+                $scope.$watch('commentFormData', function(newV, oldV) {
+                    if (oldV !== newV) {
+                        store.set(getCommentHashKey(), newV);
+                    }
+                }, true);
 
                 $scope.submitTodo = function(card) {
                     $scope.isSavingTodo = true;

@@ -161,11 +161,14 @@
                                       rows="5"
                                     ></textarea>
                             </div>
-                                <button 
-                                    class="button small right" 
-                                    type="submit" 
-                                    data-ng-disabled="commentForm.$invalid || isSaving">
-                                        <i class="fa fa-comment"></i>&nbsp;&nbsp;Comment</button>
+                            <button
+                                class="button small right"
+                                type="submit"
+                                data-ng-disabled="commentForm.$invalid || isSaving">
+                                    <i class="fa fa-comment"></i>&nbsp;&nbsp;Comment</button>
+                            <a data-ng-show="commentFormData.comment.length"
+                               class="left"
+                               data-ng-click="discardCommentDraft()">Discard draft</a>
                         </div>
                     </div>
                 </form>
