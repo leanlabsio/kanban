@@ -10,9 +10,16 @@
             'UserService',
             'MilestoneService',
             'LabelService',
-            '$modal', function($scope, $http, $stateParams, $location, BoardService, UserService, MilestoneService, LabelService, $modal) {
+            '$modal',
+            'KBStore',
+            function($scope, $http, $stateParams, $location, BoardService, UserService, MilestoneService, LabelService, $modal, store) {
                 $scope.isSaving = false;
                 $scope.modal = $modal;
+                $scope.card = {};
+
+                var getHashKey = function() {
+                    return $scope.card.project_id + ":card:new";
+                };
 
                 BoardService.get($stateParams.project_path).then(function(board) {
                     UserService.list(board.project.id).then(function(users) {
@@ -29,6 +36,22 @@
                         project_id: board.project.id,
                         labels: []
                     };
+
+                    var card = store.get(getHashKey());
+                    if (card !== null) {
+                        $scope.card = card;
+
+                        if (!_.isEmpty(card.labels)) {
+                            var labels = card.labels.slice(0);
+                            angular.forEach(labels, function(value){
+                                var newLabel = _.findWhere($scope.labels, {name: value.name});
+                                if (!_.isEmpty(newLabel)){
+                                    $scope.updateLabels(value);
+                                    $scope.updateLabels(newLabel);
+                                }
+                            });
+                        }
+                    }
                 });
 
                 $scope.update = function(user) {
@@ -49,6 +72,17 @@
                     } else {
                         $scope.card.labels.push(label);
                     }
+                };
+
+                $scope.$watch('card', function(newV, oldV) {
+                    if (oldV !== newV) {
+                        store.set(getHashKey(), newV);
+                    }
+                }, true);
+
+                $scope.cancelCreate = function() {
+                        $modal.close();
+                        store.remove(getHashKey());
                 };
 
                 $scope.createIssue = function() {
@@ -85,9 +119,9 @@
 
                         BoardService.createCard(data).then(function() {
                             $modal.close();
+                            store.remove(getHashKey());
                         });
                     });
-
                 };
             }
         ]
