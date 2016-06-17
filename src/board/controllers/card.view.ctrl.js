@@ -36,9 +36,14 @@
                 $scope.model = {};
                 $scope.modal = $modal;
                 $scope.todoFormData = {};
+                $scope.newCard = {};
 
                 var getCommentHashKey = function() {
                     return $scope.card.project_id + ":card:" + $scope.card.iid + ":comment";
+                };
+
+                var getCardHashKey = function() {
+                    return $scope.card.project_id + ":card:" + $scope.card.iid;
                 };
 
                 BoardService.getCard($stateParams.project_path, $stateParams.issue_id).then(function(card) {
@@ -57,7 +62,7 @@
                             $scope.isSaving = false;
                             $scope.commentFormData = {};
                             $scope.comments.push(data);
-                            store.remove(getCommentHashKey());
+                            $scope.discardCommentDraft();
                         });
                     };
                 });
@@ -67,9 +72,22 @@
                     $scope.commentFormData = {};
                 };
 
+                $scope.discardCardDraft = function() {
+                    store.remove(getCardHashKey());
+                };
+
                 $scope.$watch('commentFormData', function(newV, oldV) {
                     if (oldV !== newV) {
                         store.set(getCommentHashKey(), newV);
+                    }
+                }, true);
+
+                $scope.$watch('newCard', function(newV, oldV) {
+                    if (oldV !== newV) {
+                        store.set(getCardHashKey(), {
+                            title: newV.title,
+                            description: newV.description
+                        });
                     }
                 }, true);
 
@@ -101,15 +119,21 @@
                 };
 
                 $scope.updateCard = function(card) {
-                    $scope.newCard  = undefined;
+                    $scope.newCard  = {};
                     $scope.isSaving = true;
                     return BoardService.updateCard(card).then(function() {
                         $scope.isSaving = false;
+                        $scope.discardCardDraft();
                     });
                 };
 
                 $scope.editCard = function(card){
-                  $scope.newCard = _.clone(card);
+                    var draft = store.get(getCardHashKey());
+                    $scope.newCard = _.clone(card);
+                    if (draft !== null) {
+                        $scope.newCard.title = draft.title;
+                        $scope.newCard.description = draft.description;
+                    }
                 };
 
                 $scope.removeTodo = function(index, card) {
