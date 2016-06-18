@@ -12,23 +12,46 @@
         </div>
     </div>
 
-    <section data-ng-repeat="(groupName, group) in groups" style="width: auto; max-width: none;">
+    <section data-ng-repeat="group in groupLabels"
+             ng-show="groups[group.id] != undefined"
+             style="width: auto; max-width: none;">
         <div class="row board"
              ng-init="showDetails = true"
              ng-click="showDetails = ! showDetails" 
              style="border-bottom: solid 1px #bbb;padding: 10px; font-weight: bold" ng-show="board.grouped">
-            <h5 ng-show="board.grouped=='user' || board.grouped=='milestone'" style="margin: 0">{{groupName}}</h5>
-            <h5 ng-show="board.grouped=='priority'" style="margin: 0">{{ groupName|priorityName }}</h5>
+            <div ng-if="board.grouped=='user'">
+                <div data-ng-show="group.avatar_url != undefined"
+                     style="margin-right: 5px; display: inline-block; vertical-align: middle;">
+                    <img style="border-radius: 50%; width: 20px; margin-left: 5px;"
+                         alt="{{group.name}}"
+                         data-ng-src="{{group.avatar_url}}"/>
+                </div>
+                <h5 style="margin: 0; display: inline-block; vertical-align: middle;">
+                    {{ group.name }} <small ng-show="group.username">@{{ group.username }}</small>
+                </h5>
+            </div>
+            <div ng-if="board.grouped=='priority'">
+                <h5 style="margin: 0"
+                    data-ng-style="{'background-color': (group.color | colorLuminance:0.2)}">
+                    {{ group.viewName }}
+                </h5>
+            </div>
+            <div ng-if="board.grouped=='milestone'" style="width: 100%;">
+                <h5 class="left" style="margin: 0">
+                    {{ group.title }}
+                    <small ng-show="group.due_date">expired on {{ group.due_date }}</small>
+                </h5>
+            </div>
         </div>
 
         <div class="row board" ng-show="showDetails">
-            <div class="large-2 medium-4 small-12 columns stage-container" data-ng-repeat="(stageName, cards) in groups[groupName]" style="min-height: 100px">
+            <div class="large-2 medium-4 small-12 columns stage-container" data-ng-repeat="(stageName, cards) in groups[group.id]" style="min-height: 100px">
                 <div class="stage">
                     <div data-as-sortable="dragControlListeners"
-                         data-ng-model="groups[groupName][stageName]"
+                         data-ng-model="groups[group.id][stageName]"
                          class="board-stage">
                         <div class="row collapse card"
-                             data-ng-repeat="card in groups[groupName][stageName] track by card.id"
+                             data-ng-repeat="card in groups[group.id][stageName] track by card.id"
                              data-as-sortable-item>
                             <div data-as-sortable-item-handle class="row collapse"
                             style="padding: 10px"

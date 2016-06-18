@@ -158,8 +158,8 @@
                             var oldLabel = event.source.sortableScope.$parent.stageName;
                             var newLabel = event.dest.sortableScope.$parent.stageName;
 
-                            var oldGroup = event.source.sortableScope.$parent.$parent.groupName;
-                            var newGroup = event.dest.sortableScope.$parent.$parent.groupName;
+                            var oldGroup = event.source.sortableScope.$parent.$parent.group;
+                            var newGroup = event.dest.sortableScope.$parent.$parent.group;
 
                             card.labels = _.filter(card.labels, function(label) {
                                 return !stage_regexp.test(label);
@@ -175,27 +175,19 @@
 
                             if (oldGroup != newGroup && card.stage != "") {
                                 if (grouped == 'milestone') {
-                                    return MilestoneService.findByName(card.project_id, newGroup).then(function(milestone) {
-                                        card.milestone_id = milestone === undefined ? 0 : milestone.id;
-                                        card.milestone = milestone;
-
-                                        return _this.moveCard(card, oldLabel, newLabel);
-                                    });
+                                    card.milestone_id = newGroup.id === undefined ? 0 : newGroup.id;
+                                    card.milestone = newGroup;
                                 } else if (grouped == 'user') {
-                                    return UserService.findByName(card.project_id, newGroup).then(function(user) {
-                                        card.assignee_id = user === undefined ? 0 : user.id;
-                                        card.assignee = user;
-
-                                        return _this.moveCard(card, oldLabel, newLabel);
-                                    });
+                                    card.assignee_id = newGroup.id === undefined ? 0 : newGroup.id;
+                                    card.assignee = newGroup;
                                 } else if (grouped == 'priority') {
-                                    card.priority = LabelService.getPriority(card.project_id, newGroup);
-                                    var index = card.labels.indexOf(oldGroup);
+                                    var index = card.labels.indexOf(oldGroup.name);
                                     if (index !== -1) {
                                         card.labels.splice(index, 1);
                                     }
-                                    if (!_.isEmpty(card.priority.name)) {
-                                        card.labels.push(card.priority.name);
+                                    if (!_.isEmpty(newGroup.name)) {
+                                        card.priority = newGroup;
+                                        card.labels.push(newGroup.name);
                                     }
                                 }
 
