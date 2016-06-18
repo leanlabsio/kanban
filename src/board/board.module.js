@@ -166,6 +166,6 @@
             $markdownProvider.registerPlugin(window.md_twemoji_plugin);
         }])
         .constant('stage_regexp', /KB\[stage\]\[(\d+)\]\[(.*?)\]/)
-        .constant('priority_regexp', /KB\[priority\]\[(\d+)\]\[(.*?)\]/)
+        .constant('priority_regexp', /KB\[priority\]\[(-?\d+)\]\[(.*?)\]/)
         ;
 }) (window.angular, window.CLIENT_VERSION);
