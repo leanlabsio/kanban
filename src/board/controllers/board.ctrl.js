@@ -21,8 +21,14 @@
                 return true;
             };
             var group = function(item) {
-                return 'none';
+                return 0;
             };
+
+            $scope.groupLabels = [{
+                id: 0,
+                name: "none"
+            }];
+
             var grouped = $stateParams.group;
 
             var tags = [];
@@ -91,24 +97,20 @@
                 group = function(item) {
                     if (grouped == 'milestone') {
                         if (_.isEmpty(item.milestone)) {
-                            return 'No Milestone';
+                            return 0;
                         }
-
-                        return item.milestone.title;
+                        return item.milestone.id;
                     } else if (grouped == 'user') {
                         if (!item.assignee) {
-                            return 'Unassigned';
+                            return 0;
                         }
-
-                        return item.assignee.name;
+                        return item.assignee.id;
                     } else if (grouped == 'priority') {
                         if (_.isEmpty(item.priority.name)) {
-                            return 'No priority';
+                            return 0;
                         }
-
-                        return item.priority.name;
+                        return item.priority.id;
                     }
-
                 };
             }
 
@@ -117,6 +119,30 @@
                     $state.go('board.import', {
                         project_id: board.project.id,
                         project_path: board.project.path_with_namespace
+                    });
+                }
+
+                if (grouped == 'milestone') {
+                    MilestoneService.list(board.project.id).then(function(milestones) {
+                        $scope.groupLabels = _.sortBy(milestones, function(milestone){ return milestone.id });
+                        $scope.groupLabels.push({
+                            id: 0,
+                            title: "No Milestone"
+                        });
+                    });
+                } else if (grouped == 'user') {
+                    UserService.list(board.project.id).then(function(users) {
+                        $scope.groupLabels = users;
+                        $scope.groupLabels.push({
+                            id: 0,
+                            name: "Unassigned"
+                        });
+                    });
+                } else if (grouped == 'priority') {
+                    $scope.groupLabels = board.priorities;
+                    $scope.groupLabels.push({
+                        id: 0,
+                        viewName: "No priority"
                     });
                 }
 
