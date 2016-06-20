@@ -148,6 +148,7 @@
                 dragControlListeners: function(grouped, board) {
                     var _this = this;
                     return {
+                        longTouch: true,
                         accept: function() {
                             return true;
                         },
