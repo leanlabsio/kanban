@@ -1,0 +1,3 @@
+gems:
+  - 'jekyll-github-metadata'
+  - 'jekyll-redirect-from'
