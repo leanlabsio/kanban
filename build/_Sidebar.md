@@ -15,3 +15,5 @@
 #### [Usage](/docs/usage)
 
 - [Customize columns](/docs/usage/customize-columns)
+
+#### [Contribute to Kanban](/docs/contributing)
