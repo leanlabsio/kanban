@@ -6,7 +6,7 @@
             'gitlabKBApp.user',
             'gitlabKBApp.board',
             'angular-loading-bar',
-            'angular-underscore',
+            'angular-lodash',
             'mm.foundation.topbar',
             'angular-storage'
         ])

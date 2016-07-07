@@ -44,7 +44,7 @@
                         if (!_.isEmpty(card.labels)) {
                             var labels = card.labels.slice(0);
                             angular.forEach(labels, function(value){
-                                var newLabel = _.findWhere($scope.labels, {name: value.name});
+                                var newLabel = _.find($scope.labels, {name: value.name});
                                 if (!_.isEmpty(newLabel)){
                                     $scope.updateLabels(value);
                                     $scope.updateLabels(newLabel);

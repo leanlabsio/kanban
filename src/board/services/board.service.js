@@ -117,7 +117,7 @@
                     var _this = this;
                     if (_.isEmpty(_this.boardsList)) {
                         _this.boardsList = $http.get('/api/boards').then(function(result) {
-                            _this.boardsList = _.indexBy(result.data.data, 'id');
+                            _this.boardsList = _.keyBy(result.data.data, 'id');
                             return _this.boardsList;
                         }, function(result) {
                             _this.boardsList = {};
@@ -217,7 +217,7 @@
             WebsocketService.on('card.update', function(data) {
                 return service.updateCardOnBoard(data);
             });
-            
+
             return service;
         }
     ]);

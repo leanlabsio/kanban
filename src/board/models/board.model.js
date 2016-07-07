@@ -28,11 +28,11 @@
 
                     this.priorities = LabelService.listPriorities(project.id);
                     this.viewLabels = LabelService.listViewLabels(project.id);
-                    this.priorityLabels = _.pluck(this.priorities, 'name');
-                    this.stagelabels = _.pluck(this.stages, 'name');
-                    _.each(this.stagelabels, function (label) {
+                    this.priorityLabels = _.map(this.priorities, 'name');
+                    this.stagelabels = _.map(this.stages, 'name');
+                    _.each(this.stagelabels, _.bind(function (label) {
                         this.defaultStages[label] = [];
-                    }, this);
+                    }, this));
 
                     this.initViewLabels = function (issue) {
                         issue.viewLabels = [];
@@ -52,7 +52,7 @@
                         return issue;
                     };
 
-                    this.issues = _.map(issues, this.initViewLabels, this);
+                    this.issues = _.map(issues, _.bind(this.initViewLabels, this));
 
                     this.byStage = function (element, index, items) {
                         element = _.chain(element)
@@ -64,7 +64,7 @@
                         for (var k in this.defaultStages) {
                             stages[k] = [];
                         }
-                        items[index] = _.extend(stages, _.groupBy(element, 'stage', this));
+                        items[index] = _.extend(stages, _.groupBy(element, 'stage'));
                         for (var idx in items[index]) {
                             this.counts[idx] += items[index][idx].length;
                         }
@@ -108,7 +108,7 @@
                         groups = _.isEmpty(groups) ? {
                             none: {}
                         } : groups;
-                        groups = _.each(groups, this.byStage, this);
+                        groups = _.each(groups, _.bind(this.byStage, this));
 
                         return groups;
                     };

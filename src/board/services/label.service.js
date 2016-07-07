@@ -49,11 +49,11 @@
                            .filter(function(label) {
                                 return !(stage_regexp.test(label.name) || priority_regexp.test(label.name));
                            })
-                           .indexBy('name')
+                           .keyBy('name')
                            .value();
                 },
                 getPriority: function(projectId, label){
-                    var priority =_.findWhere(this.labels[projectId], {name: label});
+                    var priority =_.find(this.labels[projectId], {name: label});
                     return new CardPriority(priority);
                 },
                 create: function(projectId, label, color) {

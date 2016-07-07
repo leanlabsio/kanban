@@ -64,12 +64,12 @@
 
                     if (fByUser) {
                         var uName = _.isEmpty(item.assignee) ? '@' : '@' + item.assignee.id;
-                        uMatch = _.contains(tags, uName);
+                        uMatch = _.includes(tags, uName);
                     }
 
                     if (fByMilestone) {
                         var ms = _.isEmpty(item.milestone) ? '^' : '^' + item.milestone.id;
-                        mMatch = _.contains(tags, ms);
+                        mMatch = _.includes(tags, ms);
                     }
 
                     if (fByLabel) {
@@ -86,7 +86,7 @@
 
                     if (fByPriority) {
                         var priority = _.isEmpty(item.priority.name) ? '$' : '$' + item.priority.name;
-                        pMatch = _.contains(tags, priority);
+                        pMatch = _.includes(tags, priority);
                     }
 
                     return uMatch && mMatch && lMatch && pMatch;
