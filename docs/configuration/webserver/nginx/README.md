@@ -1,6 +1,6 @@
 # Nginx web server configuration guide
 
-The configuration files in this directory was tested with nginx 1.8+.
+The configuration files in this directory have been tested with nginx 1.8+.
 
 ### Config example
 
@@ -24,4 +24,4 @@ server {
 
 ```
 
-[view in github](https://github.com/leanlabsio/kanban/blob/master/docs/configuration/webserver/nginx/nginx.conf)
+[view on github](https://github.com/leanlabsio/kanban/blob/master/docs/configuration/webserver/nginx/nginx.conf)

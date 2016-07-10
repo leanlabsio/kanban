@@ -1,6 +1,6 @@
 # Installation
 
-Here you will find guides for installing kanban board.
+Here you will find guides for installing the kanban board.
 
 For now we officially support two installation types:
 
