@@ -90,7 +90,7 @@
 						    <section class="markdown-body">
                             <h1><a name="apache-web-server-configuration-guide" class="anchor" href="#apache-web-server-configuration-guide" rel="nofollow" aria-hidden="true"><span class="octicon octicon-link"></span></a>Apache web server configuration guide</h1>
 
-<p>The configuration files in this directory was tested with Apache version 2.4.7.</p>
+<p>The configuration files in this directory have been tested with Apache version 2.4.7.</p>
 
 <p>To set up kanban you first need to enable several additional apache modules:</p>
 
@@ -102,15 +102,15 @@
 <h2><a name="common-issues" class="anchor" href="#common-issues" rel="nofollow" aria-hidden="true"><span class="octicon octicon-link"></span></a>
 Common issues</h2>
 
-<p>Internally Kanban uses GitLab API. So misconfiguration of GitLab web server could lead to potentially kanban malfunction.
+<p>Internally Kanban uses GitLab API. So misconfiguration of the GitLab web server could lead to potential kanban malfunctions.
 Here you will find common issues we faced with GitLab + Apache setup and how to solve them.</p>
 
 <ol>
 <li><p>Boards are not showing up.</p>
 
-<p>The simptoms - you could login to kanban, you could see projects list in kanban, but could not open any board.</p>
+<p>The symptoms - you can login to kanban, you can see the projects list in kanban, but can not open any board.</p>
 
-<p>First of all check you GitLab apache config contains rewrite rules like this one:</p>
+<p>First of all check your GitLab apache config contains rewrite rules like this one:</p>
 
 <pre><code>RewriteRule .* http://127.0.0.1:8080%{REQUEST_URI} [P,QSA]
 </code></pre>
@@ -120,11 +120,11 @@ Here you will find common issues we faced with GitLab + Apache setup and how to 
 <pre><code>RewriteRule .* http://127.0.0.1:8080%{REQUEST_URI} [NE,P,QSA]
 </code></pre>
 
-<p>Also, please check the <a href="https://github.com/gitlabhq/gitlab-recipes/tree/master/web-server/apache" rel="nofollow">gitlab recipes repo</a> for latest apache configs.</p></li>
+<p>Also, please check the <a href="https://github.com/gitlabhq/gitlab-recipes/tree/master/web-server/apache" rel="nofollow">gitlab recipes repo</a> for the latest apache configs.</p></li>
 
 <li><p>Kanban reloads in a loop.</p>
 
-<p>The simptoms - you could login to kanban, but then browser keep reloading the page.</p>
+<p>The symptoms - you can login to kanban, but then the browser keep reloading the page.</p>
 
 <p>This could be caused by websockets proxy misconfiguration. Kanban listens for websocket connections on /ws/ location,
 so it should be proxied properly and there must be Host, Connection and Upgrade headers present.</p></li>
@@ -148,7 +148,7 @@ so it should be proxied properly and there must be Host, Connection and Upgrade 
 &lt;/VirtualHost&gt;
 </code></pre>
 
-<p><a href="https://github.com/leanlabsio/kanban/blob/master/docs/configuration/webserver/apache/apache.conf" rel="nofollow">view in github</a></p></li>
+<p><a href="https://github.com/leanlabsio/kanban/blob/master/docs/configuration/webserver/apache/apache.conf" rel="nofollow">view on github</a></p></li>
 </ol>
 
                             </section>
