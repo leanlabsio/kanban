@@ -1,5 +1,5 @@
 ---
-permaling: /newdocs/
+permalink: /newdocs/
 layout: docs
 ---
 
