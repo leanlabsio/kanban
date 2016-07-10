@@ -71,7 +71,7 @@
             };
 
             this.checked = function(obj) {
-                return _.contains(this.tags, obj);
+                return _.includes(this.tags, obj);
             }
         }
     ]);

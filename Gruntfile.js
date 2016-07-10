@@ -25,7 +25,7 @@ module.exports = function (grunt) {
         concat: {
             dist: {
                 src: [
-                    "src/**/*.module.js", 
+                    "src/**/*.module.js",
                     "src/**/**!(.module).js"
                 ],
                 dest: "web/assets/js/app.js"
@@ -89,18 +89,18 @@ module.exports = function (grunt) {
                     },
                     {
                         flatten: true,
-                        src: ['bower_components/angular-underscore/angular-underscore.js'],
-                        dest: 'web/assets/js/angular-underscore.js',
+                        src: ['bower_components/angular-lodash/angular-lodash.js'],
+                        dest: 'web/assets/js/angular-lodash.js',
                         filter: 'isFile'
                     },
                     {
                         flatten: true,
-                        src: ['bower_components/underscore/underscore.js'],
-                        dest: 'web/assets/js/underscore.js',
+                        src: ['bower_components/lodash/lodash.js'],
+                        dest: 'web/assets/js/lodash.js',
                         filter: 'isFile'
                     },
                     {
-                        flatten: true, 
+                        flatten: true,
                         src: ['bower_components/angular-foundation/src/topbar/topbar.js'],
                         dest: 'web/assets/js/topbar.js',
                         filter: 'isFile'
@@ -112,8 +112,8 @@ module.exports = function (grunt) {
                         filter: 'isFile'
                     },
                     {
-                        flatten: true, 
-                        src: ['bower_components/angular-foundation/src/position/position.js'], 
+                        flatten: true,
+                        src: ['bower_components/angular-foundation/src/position/position.js'],
                         dest: 'web/assets/js/position.js',
                         filter: 'isFile'
                     },
@@ -130,8 +130,8 @@ module.exports = function (grunt) {
                         filter: 'isFile'
                     },
                     {
-                        flatten: true, 
-                        src: ['bower_components/angular-foundation/src/mediaQueries/mediaQueries.js'], 
+                        flatten: true,
+                        src: ['bower_components/angular-foundation/src/mediaQueries/mediaQueries.js'],
                         dest: 'web/assets/js/mediaQueries.js',
                         filter: 'isFile'
                     },
@@ -143,13 +143,13 @@ module.exports = function (grunt) {
                     },
                     {
                         flatten: true,
-                        src: ['bower_components/marked/lib/marked.js'], 
+                        src: ['bower_components/marked/lib/marked.js'],
                         dest: 'web/assets/js/marked.js',
                         filter: 'isFile'
                     },
                     {
-                        flatten: true, 
-                        src: ['bower_components/angular-loading-bar/build/loading-bar.js'], 
+                        flatten: true,
+                        src: ['bower_components/angular-loading-bar/build/loading-bar.js'],
                         dest: 'web/assets/js/loading-bar.js',
                         filter: 'isFile'
                     },
@@ -160,32 +160,32 @@ module.exports = function (grunt) {
                         filter: 'isFile'
                     },
                     {
-                        flatten: true, 
-                        src: ['bower_components/angular-foundation/src/transition/transition.js'], 
+                        flatten: true,
+                        src: ['bower_components/angular-foundation/src/transition/transition.js'],
                         dest: 'web/assets/js/transition.js',
                         filter: 'isFile'
                     },
                     {
-                        flatten: true, 
-                        src: ['bower_components/ng-sortable/dist/ng-sortable.js'], 
+                        flatten: true,
+                        src: ['bower_components/ng-sortable/dist/ng-sortable.js'],
                         dest: 'web/assets/js/ng-sortable.js',
                         filter: 'isFile'
                     },
                     {
                         flatten: true,
-                        src: ['bower_components/angular/angular.js'], 
+                        src: ['bower_components/angular/angular.js'],
                         dest: 'web/assets/js/angular.js',
                         filter: 'isFile'
                     },
                     {
-                        flatten: true, 
-                        src: ['bower_components/angular-ui-router/release/angular-ui-router.min.js'], 
+                        flatten: true,
+                        src: ['bower_components/angular-ui-router/release/angular-ui-router.min.js'],
                         dest: 'web/assets/js/angular-ui-router.js',
                         filter: 'isFile'
                     },
                     {
-                        flatten: true, 
-                        src: ['bower_components/ng-sortable/dist/ng-sortable.min.css'], 
+                        flatten: true,
+                        src: ['bower_components/ng-sortable/dist/ng-sortable.min.css'],
                         dest: 'web/assets/css/ng-sortable.min.css',
                         filter: 'isFile'
                     },
@@ -196,42 +196,42 @@ module.exports = function (grunt) {
                         filter: 'isFile'
                     },
                     {
-                        flatten: false, 
-                        expand: true, 
-                        cwd: 'bower_components/angular-foundation/template', 
-                        src: '**', 
-                        dest: 'web/template/', 
+                        flatten: false,
+                        expand: true,
+                        cwd: 'bower_components/angular-foundation/template',
+                        src: '**',
+                        dest: 'web/template/',
                         filter: 'isFile'
                     },
                     {
-                        flatten: true, 
-                        expand: true, 
-                        cwd: 'bower_components/foundation/js/foundation/', 
-                        src: '**', 
+                        flatten: true,
+                        expand: true,
+                        cwd: 'bower_components/foundation/js/foundation/',
+                        src: '**',
                         dest: 'web/assets/js',
                         filter: 'isFile'
                     },
                     {
-                        flatten: true, 
-                        expand: true, 
-                        cwd: 'bower_components/font-awesome/fonts/', 
-                        src: '**', 
+                        flatten: true,
+                        expand: true,
+                        cwd: 'bower_components/font-awesome/fonts/',
+                        src: '**',
                         dest: 'web/assets/fonts/',
                         filter: 'isFile'
                     },
                     {
-                        flatten: false, 
-                        expand: true, 
-                        cwd: 'src/', 
-                        src: ['**/*.js'], 
+                        flatten: false,
+                        expand: true,
+                        cwd: 'src/',
+                        src: ['**/*.js'],
                         dest: 'web/assets/js/',
                         filter: 'isFile'
                     },
                     {
                         flatten: false,
-                        expand: true, 
-                        cwd: 'src/', 
-                        src: ['**/*.html'], 
+                        expand: true,
+                        cwd: 'src/',
+                        src: ['**/*.html'],
                         dest: 'web/assets/html/',
                         filter: 'isFile'
                     },
@@ -243,10 +243,10 @@ module.exports = function (grunt) {
                     },
                     {
                         flatten: false,
-                        expand: true, 
-                        cwd: 'src/static/images/', 
+                        expand: true,
+                        cwd: 'src/static/images/',
                         src: ['**/*.svg', '**/*.png'],
-                        dest: 'web/images/', 
+                        dest: 'web/images/',
                         filter: 'isFile'
                     }
         ]

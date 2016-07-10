@@ -93,6 +93,7 @@ textarea, input {
 }
 
 .as-sortable-item {
+    touch-action: auto !important;
     border: none !important;
     border-radius: 0 !important;
     margin: 0 !important;
