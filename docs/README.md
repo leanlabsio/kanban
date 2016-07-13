@@ -1,3 +1,8 @@
+---
+permalink: /newdocs/
+layout: docs
+---
+
 # LeanLabs Kanban Documentation
 
 The source for LeanLabs Kanban documentation is in this directory.
