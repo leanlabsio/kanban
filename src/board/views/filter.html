@@ -54,6 +54,12 @@
     <hr/>
 
     <h5>
+        <span class="pull-right">
+            <a href="#" data-ng-click="filter.applyAll('~', filter.labels, 'name', true)">All</a>
+            |
+            <a href="#" data-ng-click="filter.applyAll('~', filter.labels, 'name', false)">None</a>
+        </span>
+
         Labels
     </h5>
     <div class="row collapse">
@@ -80,6 +86,12 @@
     <hr/>
 
     <h5>
+        <span class="pull-right">
+            <a href="#" data-ng-click="filter.applyAll('$', filter.priorities, 'id', true)">All</a>
+            |
+            <a href="#" data-ng-click="filter.applyAll('$', filter.priorities, 'id', false)">None</a>
+        </span>
+
         Priorities
     </h5>
     <div class="row collapse">
@@ -107,6 +119,12 @@
     <hr/>
 
     <h5>
+        <span class="pull-right">
+            <a href="#" data-ng-click="filter.applyAll('^', filter.milestones, 'id', true)">All</a>
+            |
+            <a href="#" data-ng-click="filter.applyAll('^', filter.milestones, 'id', false)">None</a>
+        </span>
+
         Milestones
     </h5>
     <div class="row collapse">
@@ -133,6 +151,12 @@
     <hr/>
 
     <h5>
+        <span class="pull-right">
+            <a href="#" data-ng-click="filter.applyAll('@', filter.users, 'id', true)">All</a>
+            |
+            <a href="#" data-ng-click="filter.applyAll('@', filter.users, 'id', false)">None</a>
+        </span>
+
         Users
     </h5>
     <div class="row collapse">
