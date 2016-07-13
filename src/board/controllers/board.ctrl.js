@@ -132,14 +132,14 @@
                     });
                 } else if (grouped == 'user') {
                     UserService.list(board.project.id).then(function(users) {
-                        $scope.groupLabels = users;
+                        $scope.groupLabels = _.clone(users);
                         $scope.groupLabels.push({
                             id: 0,
                             name: "Unassigned"
                         });
                     });
                 } else if (grouped == 'priority') {
-                    $scope.groupLabels = board.priorities;
+                    $scope.groupLabels = _.clone(board.priorities);
                     $scope.groupLabels.push({
                         id: 0,
                         viewName: "No priority"
