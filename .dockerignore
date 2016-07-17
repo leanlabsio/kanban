@@ -1,6 +1,3 @@
-bower_components
-bower.json
-.bowerrc
 build
 cache
 CHANGELOG.md
