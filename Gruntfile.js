@@ -6,10 +6,10 @@ module.exports = function (grunt) {
         sass: {
             options: {
                 includePaths: [
-                    'bower_components/foundation/scss',
-                    'bower_components/font-awesome/scss/',
-                    'bower_components/sass-flex-mixin/',
-                    'bower_components/angularjs-datepicker/src/css/'
+                    'node_modules/foundation-sites/scss',
+                    'node_modules/font-awesome/scss',
+                    'node_modules/sass-flex-mixin/',
+                    'node_modules/angularjs-datepicker/src/css/'
                 ]
             },
             dist: {
@@ -46,159 +46,141 @@ module.exports = function (grunt) {
                     {
                         flatten: false,
                         expand: true,
-                        cwd: 'bower_components/twemoji/svg/',
+                        cwd: 'node_modules/twemoji/svg/',
                         src: ['**/*.svg'],
                         dest: 'web/images/twemoji/svg/',
                         filter: 'isFile'
                     },
                     {
                         flatten: true,
-                        src: ['bower_components/twemoji/twemoji.min.js'],
+                        src: ['node_modules/twemoji/twemoji.npm.js'],
                         dest: 'web/assets/js/twemoji.min.js',
                         filter: 'isFile'
                     },
                     {
                         flatten: true,
-                        src: ['bower_components/markdown-it-emoji/dist/markdown-it-emoji.min.js'],
+                        src: ['node_modules/markdown-it-emoji/dist/markdown-it-emoji.min.js'],
                         dest: 'web/assets/js/markdown-it-emoji.min.js',
                         filter: 'isFile'
                     },
                     {
                         flatten: true,
-                        src: ['bower_components/angular-mocks/angular-mocks.js'],
-                        dest: 'web/assets/js/angular-mocks.js',
-                        filter: 'isFile'
-                    },
-                    {
-                        flatten: true,
-                        src: ['bower_components/reconnectingWebsocket/reconnecting-websocket.js'],
-                        dest: 'web/assets/js/reconnecting-websocket.js',
-                        filter: 'isFile'
-                    },
-                    {
-                        flatten: true,
-                        src: ['bower_components/markdown-it/dist/markdown-it.js'],
+                        src: ['node_modules/markdown-it/dist/markdown-it.js'],
                         dest: 'web/assets/js/markdown-it.js',
                         filter: 'isFile'
                     },
                     {
                         flatten: true,
-                        src: ['bower_components/a0-angular-storage/dist/angular-storage.js'],
+                        src: ['node_modules/angular-storage/dist/angular-storage.js'],
                         dest: 'web/assets/js/angular-storage.js',
                         filter: 'isFile'
                     },
                     {
                         flatten: true,
-                        src: ['bower_components/angular-lodash/angular-lodash.js'],
+                        src: ['node_modules/angular-lodash/angular-lodash.js'],
                         dest: 'web/assets/js/angular-lodash.js',
                         filter: 'isFile'
                     },
                     {
                         flatten: true,
-                        src: ['bower_components/lodash/lodash.js'],
+                        src: ['node_modules/lodash/lodash.js'],
                         dest: 'web/assets/js/lodash.js',
                         filter: 'isFile'
                     },
                     {
                         flatten: true,
-                        src: ['bower_components/angular-foundation/src/topbar/topbar.js'],
+                        src: ['node_modules/angular-mm-foundation/src/topbar/topbar.js'],
                         dest: 'web/assets/js/topbar.js',
                         filter: 'isFile'
                     },
                     {
                         flatten: true,
-                        src: ['bower_components/angular-foundation/src/dropdownToggle/dropdownToggle.js'],
+                        src: ['node_modules/angular-mm-foundation/src/dropdownToggle/dropdownToggle.js'],
                         dest: 'web/assets/js/dropdownToggle.js',
                         filter: 'isFile'
                     },
                     {
                         flatten: true,
-                        src: ['bower_components/angular-foundation/src/position/position.js'],
+                        src: ['node_modules/angular-mm-foundation/src/position/position.js'],
                         dest: 'web/assets/js/position.js',
                         filter: 'isFile'
                     },
                     {
                         flatten: true,
-                        src: ['bower_components/angular-foundation/src/typeahead/typeahead.js'],
+                        src: ['node_modules/angular-mm-foundation/src/typeahead/typeahead.js'],
                         dest: 'web/assets/js/typeahead.js',
                         filter: 'isFile'
                     },
                     {
                         flatten: true,
-                        src: ['bower_components/angular-foundation/src/bindHtml/bindHtml.js'],
+                        src: ['node_modules/angular-mm-foundation/src/bindHtml/bindHtml.js'],
                         dest: 'web/assets/js/bindHtml.js',
                         filter: 'isFile'
                     },
                     {
                         flatten: true,
-                        src: ['bower_components/angular-foundation/src/mediaQueries/mediaQueries.js'],
+                        src: ['node_modules/angular-mm-foundation/src/mediaQueries/mediaQueries.js'],
                         dest: 'web/assets/js/mediaQueries.js',
                         filter: 'isFile'
                     },
                     {
                         flatten: true,
-                        src: ['bower_components/angular-foundation/src/tabs/tabs.js'],
+                        src: ['node_modules/angular-mm-foundation/src/tabs/tabs.js'],
                         dest: 'web/assets/js/tabs.js',
                         filter: 'isFile'
                     },
                     {
                         flatten: true,
-                        src: ['bower_components/marked/lib/marked.js'],
-                        dest: 'web/assets/js/marked.js',
-                        filter: 'isFile'
-                    },
-                    {
-                        flatten: true,
-                        src: ['bower_components/angular-loading-bar/build/loading-bar.js'],
+                        src: ['node_modules/angular-loading-bar/build/loading-bar.js'],
                         dest: 'web/assets/js/loading-bar.js',
                         filter: 'isFile'
                     },
                     {
                         flatten: true,
-                        src: ['bower_components/angular-loading-bar/build/loading-bar.css'],
+                        src: ['node_modules/angular-loading-bar/build/loading-bar.css'],
                         dest: 'web/assets/css/loading-bar.css',
                         filter: 'isFile'
                     },
                     {
                         flatten: true,
-                        src: ['bower_components/angular-foundation/src/transition/transition.js'],
+                        src: ['node_modules/angular-mm-foundation/src/transition/transition.js'],
                         dest: 'web/assets/js/transition.js',
                         filter: 'isFile'
                     },
                     {
                         flatten: true,
-                        src: ['bower_components/ng-sortable/dist/ng-sortable.js'],
+                        src: ['node_modules/ng-sortable/dist/ng-sortable.js'],
                         dest: 'web/assets/js/ng-sortable.js',
                         filter: 'isFile'
                     },
                     {
                         flatten: true,
-                        src: ['bower_components/angular/angular.js'],
+                        src: ['node_modules/angular/angular.js'],
                         dest: 'web/assets/js/angular.js',
                         filter: 'isFile'
                     },
                     {
                         flatten: true,
-                        src: ['bower_components/angular-ui-router/release/angular-ui-router.min.js'],
+                        src: ['node_modules/angular-ui-router/release/angular-ui-router.min.js'],
                         dest: 'web/assets/js/angular-ui-router.js',
                         filter: 'isFile'
                     },
                     {
                         flatten: true,
-                        src: ['bower_components/ng-sortable/dist/ng-sortable.min.css'],
+                        src: ['node_modules/ng-sortable/dist/ng-sortable.min.css'],
                         dest: 'web/assets/css/ng-sortable.min.css',
                         filter: 'isFile'
                     },
                     {
                         flatten: true,
-                        src: ['bower_components/angularjs-datepicker/dist/angular-datepicker.min.js'],
+                        src: ['node_modules/angularjs-datepicker/dist/angular-datepicker.min.js'],
                         dest: 'web/assets/js/angularjs-datepicker.min.js',
                         filter: 'isFile'
                     },
                     {
                         flatten: false,
                         expand: true,
-                        cwd: 'bower_components/angular-foundation/template',
+                        cwd: 'node_modules/angular-mm-foundation/template',
                         src: '**',
                         dest: 'web/template/',
                         filter: 'isFile'
@@ -206,7 +188,7 @@ module.exports = function (grunt) {
                     {
                         flatten: true,
                         expand: true,
-                        cwd: 'bower_components/foundation/js/foundation/',
+                        cwd: 'node_modules/foundation-sites/js/foundation/',
                         src: '**',
                         dest: 'web/assets/js',
                         filter: 'isFile'
@@ -214,7 +196,7 @@ module.exports = function (grunt) {
                     {
                         flatten: true,
                         expand: true,
-                        cwd: 'bower_components/font-awesome/fonts/',
+                        cwd: 'node_modules/font-awesome/fonts/',
                         src: '**',
                         dest: 'web/assets/fonts/',
                         filter: 'isFile'
