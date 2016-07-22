@@ -61,5 +61,5 @@ If you followed instructions from "Installation with Docker", then the easiest w
 
 # FAQ
 
-1. [How to install Kanban.Leanlabs](http://kanban.leanlabs.io/documentation/Installation)
-2. [How to customize column](http://kanban.leanlabs.io/documentation/Customizing-columns)
+1. [How to install Kanban.Leanlabs](http://kanban.leanlabs.io/docs/installation/)
+2. [How to customize column](http://kanban.leanlabs.io/docs/usage/customize-columns)
