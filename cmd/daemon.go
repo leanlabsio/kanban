@@ -31,7 +31,7 @@ var DaemonCmd = cobra.Command{
 	Short: "Starts LeanLabs Kanban board application",
 	Long: `Start LeanLabs Kanban board application.
 
-Please refer to http://kanban.leanlabs.io/documentation/Home for full documentation.
+Please refer to http://kanban.leanlabs.io/docs/ for full documentation.
 
 Report bugs to <support@leanlabs.io> or https://gitter.im/leanlabsio/kanban.
         `,
