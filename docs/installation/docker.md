@@ -88,7 +88,8 @@ The LeanLabs Kanban image requires Redis, which [we are also providing](https://
         -e KANBAN_GITLAB_CLIENT="Application ID"
         -e KANBAN_GITLAB_SECRET="Secret"
         -e KANBAN_REDIS_ADDR="kanban_redis:6379"
-        leanlabs/kanban:1.4.0
+        -e KANBAN_ENABLE_SIGNUP="true"
+        leanlabs/kanban:1.6.2
     ```
     Now you should be able to access kanban via GitLab OAuth.
 
@@ -128,6 +129,8 @@ If you use a self hosted GitLab installation the value must also include the pro
 - **KANBAN_REDIS_ADDR** - default to "127.0.0.1:6379". The Redis server address - IP:PORT.
 You may also use a unix socket, if you set address as "unix:///path/to/sock.sock".
 LeanLabs Kanban requires the Redis server to function properly, it stores users identities there.
+
+- **KANBAN_ENABLE_SIGNUP** - default to "true". Wheter to enable sign up with user API token.
 
 - **KANBAN_REDIS_PASSWORD** - default to "" (empty string). The Redis server password if any.
 
