@@ -44,6 +44,8 @@ Go to https://gitlab.com/profile/applications or your GitLab installation and re
 > `KANBAN_GITLAB_CLIENT` | Your GitLab OAuth client application ID, required for OAuth to work. Git this from your gitlab server.
 >
 > `KANBAN_GITLAB_SECRET` | Your GitLab OAuth client secret key, required for OAuth to work. Git this from your gitlab server.
+>
+> `KANBAN_ENABLE_SIGNUP` | Wheter to enable sign up with user API token.
 
 **Then**
 
