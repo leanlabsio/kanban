@@ -108,7 +108,8 @@
                         labels: card.labels.join(', '),
                         todo: card.todo,
                         description: card.description,
-                        properties: card.properties
+                        properties: card.properties,
+                        due_date: card.due_date
                     }).then(function(result) {});
                 },
                 removeCard: function(board, card) {
@@ -123,7 +124,8 @@
                             todo: card.todo,
                             description: card.description,
                             properties: card.properties,
-                            closed: 1
+                            closed: 1,
+                            due_date: card.due_date
                         },
                         headers: {
                             'Content-Type': 'application/json'

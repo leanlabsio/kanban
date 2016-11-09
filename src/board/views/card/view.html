@@ -336,7 +336,7 @@
                 <!-- Priority END -->
 
                 <!-- Labels -->
-                <div class="row collapse" style="margin-bottom:15px;">
+                <div class="row collapse">
                     <div class="row collapse">
                         <div class="large-8 medium-8 small-8 columns">
                             <h5 class="subheader">
@@ -382,6 +382,26 @@
                     </div>
                 </div>
                 <!-- Labels END -->
+
+                <!-- Due date -->
+                <div class="row collapse">
+                    <div class="row collapse">
+                        <div class="large-8 medium-8 small-8 columns">
+                            <h5 class="subheader">
+                                Due date
+                            </h5>
+                        </div>
+                        <div class="large-12 medium-12 small-12 columns">
+                            <datepicker date-format="yyyy-MM-dd">
+                                <input ng-change="updateCard(card)"
+                                       placeholder="Due Date"
+                                       data-ng-model="card.due_date"
+                                       type="text"/>
+                            </datepicker>
+                        </div>
+                    </div>
+                </div>
+                <!-- Due date end -->
 
                 <div class="row collapse" style="margin-bottom:15px;">
                     <div class="row collapse">
