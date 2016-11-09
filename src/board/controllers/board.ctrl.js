@@ -18,7 +18,7 @@
             $window.scrollTo(0, 0);
 
             var filter = function(item) {
-                return true;
+                return item.stage != "";
             };
             var group = function(item) {
                 return 0;
@@ -89,7 +89,7 @@
                         pMatch = _.includes(tags, priority);
                     }
 
-                    return uMatch && mMatch && lMatch && pMatch;
+                    return uMatch && mMatch && lMatch && pMatch && item.stage != "";
                 };
             }
 
@@ -100,6 +100,8 @@
                             return 0;
                         }
                         return item.milestone.id;
+                    } else if (grouped == 'project') {
+                        return item.project_id;
                     } else if (grouped == 'user') {
                         if (!item.assignee) {
                             return 0;
@@ -138,6 +140,14 @@
                             name: "Unassigned"
                         });
                     });
+                } else if (grouped == 'project') {
+                    BoardService.listConnected(board.project.id).then(function(connected){
+                        $scope.groupLabels = _.clone(connected);
+                        $scope.groupLabels.push({
+                            id: board.project.id,
+                            path_with_namespace: board.project.path_with_namespace
+                        });
+                    });
                 } else if (grouped == 'priority') {
                     $scope.groupLabels = _.clone(board.priorities);
                     $scope.groupLabels.push({
@@ -160,12 +170,19 @@
                 WebsocketService.emit('subscribe', {
                     routing_key: 'kanban.' + board.project.id.toString()
                 });
+                BoardService.listConnected(board.project.id.toString()).then(function(connected){
+                    angular.forEach(connected, function(item){
+                        WebsocketService.emit('subscribe', {
+                            routing_key: 'kanban.' + item.id.toString()
+                        });
+                    });
+                });
             });
 
             $scope.state = $state;
 
             $scope.remove = function(card) {
-                BoardService.removeCard(card).then(function(result) {});
+                BoardService.removeCard($scope.board, card).then(function(result) {});
             };
         }
     ]);

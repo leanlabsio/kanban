@@ -20,12 +20,10 @@
                 BoardService.get($stateParams.project_path).then(function(board) {
                     $scope.labels = _.toArray(board.viewLabels);
                     $scope.priorities = board.priorities;
-                    MilestoneService.list(board.project.id).then(function(milestones) {
-                        $scope.milestones = milestones;
-                    });
+                    $scope.board = board;
 
-                    UserService.list(board.project.id).then(function(users) {
-                        $scope.options = users;
+                    BoardService.listConnected(board.project.id).then(function(projects){
+                        $scope.connected_projects = projects;
                     });
                 });
 
@@ -46,11 +44,19 @@
                     return $scope.card.project_id + ":card:" + $scope.card.iid;
                 };
 
-                BoardService.getCard($stateParams.project_path, $stateParams.issue_id).then(function(card) {
+                BoardService.getCard($stateParams.project_path, $stateParams.path_with_namespace, $stateParams.issue_id).then(function(card) {
                     $scope.card = card;
 
                     CommentService.list(card.project_id, card.id).then(function(data) {
                         $scope.comments = data;
+                    });
+
+                    MilestoneService.list(card.project_id).then(function(milestones) {
+                        $scope.milestones = milestones;
+                    });
+
+                    UserService.list(card.project_id).then(function(users) {
+                        $scope.users = users;
                     });
 
                     $scope.commentFormData = store.get(getCommentHashKey()) || {};
@@ -66,6 +72,17 @@
                         });
                     };
                 });
+
+                $scope.changeProject = function(card, project){
+                    return BoardService.changeProject($scope.board, card, project).then(function(card){
+                        $state.go('board.cards.view', {
+                            project_id: $stateParams.project_id,
+                            project_path: $stateParams.project_path,
+                            path_with_namespace: card.path_with_namespace,
+                            issue_id: card.iid
+                        });
+                    });
+                };
 
                 $scope.discardCommentDraft = function() {
                     store.remove(getCommentHashKey());
@@ -98,7 +115,7 @@
                         'checked': false,
                         'body': $scope.todoFormData.body
                     });
-                    BoardService.updateCard(card).then(function() {
+                    BoardService.updateCard($scope.board, card).then(function() {
                         $scope.isSavingTodo = false;
                         $scope.todoFormData = {};
                         $scope.isTodoAdd = true;
@@ -106,14 +123,14 @@
                 };
 
                 $scope.remove = function(card) {
-                    BoardService.removeCard(card).then(function(result) {
+                    BoardService.removeCard($scope.board, card).then(function(result) {
                         $modal.close();
                     });
                 };
 
                 $scope.updateTodo = function(card) {
                     $scope.isSavingTodo = true;
-                    return BoardService.updateCard(card).then(function() {
+                    return BoardService.updateCard($scope.board, card).then(function() {
                         $scope.isSavingTodo = false;
                     });
                 };
@@ -121,7 +138,7 @@
                 $scope.updateCard = function(card) {
                     $scope.newCard  = {};
                     $scope.isSaving = true;
-                    return BoardService.updateCard(card).then(function() {
+                    return BoardService.updateCard($scope.board, card).then(function() {
                         $scope.isSaving = false;
                         $scope.discardCardDraft();
                     });
@@ -139,21 +156,21 @@
                 $scope.removeTodo = function(index, card) {
                     $scope.isSavingTodo = true;
                     card.todo.splice(index, 1);
-                    return BoardService.updateCard(card).then(function() {
+                    return BoardService.updateCard($scope.board, card).then(function() {
                         $scope.isSavingTodo = false;
                     });
                 };
-                
+
                 /**
                  * Update card assignee
                  */
                 $scope.update = function(card, user) {
                     if (_.isEmpty(card.assignee) || card.assignee.id != user.id) {
                         card.assignee_id = user.id;
-                        return BoardService.updateCard(card);
+                        return BoardService.updateCard($scope.board, card);
                     } else {
                         card.assignee_id = 0;
-                        return BoardService.updateCard(card);
+                        return BoardService.updateCard($scope.board, card);
                     }
                 };
 
@@ -162,7 +179,7 @@
                         $scope.comments.push(data);
                     });
 
-                    return BoardService.updateCard(card);
+                    return BoardService.updateCard($scope.board, card);
                 };
 
                 $scope.markAsUnBlocked = function(card) {
@@ -175,7 +192,7 @@
                         $scope.comments.push(data);
                     });
 
-                    return BoardService.updateCard(card);
+                    return BoardService.updateCard($scope.board, card);
                 };
 
                 $scope.markAsReady = function (card) {
@@ -185,16 +202,16 @@
                         });
                     }
 
-                    return BoardService.updateCard(card);
+                    return BoardService.updateCard($scope.board, card);
                 };
 
                 $scope.updateMilestone = function(card, milestone) {
                     if (_.isEmpty(card.milestone) || (card.milestone.id != milestone.id)) {
                         card.milestone_id = milestone.id;
-                        return BoardService.updateCard(card);
+                        return BoardService.updateCard($scope.board, card);
                     } else {
                         card.milestone_id = 0;
-                        return BoardService.updateCard(card);
+                        return BoardService.updateCard($scope.board, card);
                     }
                 };
 
@@ -212,7 +229,7 @@
                             card.labels.push(label.name);
                         }
 
-                        return BoardService.updateCard(card);
+                        return BoardService.updateCard($scope.board, card);
                     });
                 };
 
@@ -229,7 +246,7 @@
                         card.priority = LabelService.getPriority(card.project_id, "");
                     }
 
-                    return BoardService.updateCard(card);
+                    return BoardService.updateCard($scope.board, card);
                 }
             }
         ]

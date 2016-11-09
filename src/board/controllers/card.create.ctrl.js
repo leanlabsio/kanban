@@ -25,6 +25,7 @@
                     UserService.list(board.project.id).then(function(users) {
                         $scope.options = users;
                     });
+                    $scope.board = board;
 
                     MilestoneService.list(board.project.id).then(function(milestones) {
                         $scope.milestones = milestones;
@@ -52,6 +53,12 @@
                             });
                         }
                     }
+
+                    BoardService.listConnected(board.project.id).then(function(projects){
+                        $scope.connected_projects = projects;
+                    });
+
+                    $scope.card.project = board.project;
                 });
 
                 $scope.update = function(user) {
@@ -85,11 +92,23 @@
                         store.remove(getHashKey());
                 };
 
+                $scope.changeProject = function(project) {
+                    $scope.card.project = project;
+
+                    MilestoneService.list(project.id).then(function(milestones) {
+                        $scope.milestones = milestones;
+                    });
+
+                    UserService.list(project.id).then(function(users) {
+                        $scope.users = users;
+                    });
+                };
+
                 $scope.createIssue = function() {
                     $scope.isSaving = true;
 
                     var data = {
-                        project_id: $scope.card.project_id,
+                        project_id: $scope.card.project.id,
                         title: $scope.card.title,
                         description: $scope.card.description,
                     };
@@ -101,7 +120,7 @@
                         data.milestone_id = $scope.card.milestone.id;
                     }
 
-                    BoardService.getBoardById(data.project_id).then(function(board) {
+                    BoardService.get($scope.card.project.path_with_namespace).then(function(board) {
                         var labels = [_.first(board.stagelabels)];
 
                         if (!_.isEmpty($scope.card.labels)) {
@@ -117,7 +136,7 @@
 
                         data.labels = labels.join(', ');
 
-                        BoardService.createCard(data).then(function() {
+                        BoardService.createCard($scope.board, data).then(function() {
                             $modal.close();
                             store.remove(getHashKey());
                         });

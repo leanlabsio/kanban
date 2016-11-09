@@ -1,0 +1,70 @@
+<style>
+    #board-card {
+        padding: 10px 16px;
+        width: 100%;
+        vertical-align: top;
+    }
+    #board-card .card-avatar{
+            vertical-align: top;
+            display: inline-block;
+    }
+    #board-card .card-title{
+        font-weight: normal;
+        padding-left: 5px;
+        display: inline-block;
+        vertical-align: top;
+        margin-bottom: 0;
+        margin-top: 0;
+    }
+    #board-card .board-card-link{
+        vertical-align: top;
+        margin-bottom: 0;
+        display: inline-block;
+        margin-top: 0;
+    }
+    #board-card .pseudo-avatar {
+        width: 20px;
+        height: 20px;
+        line-height: 20px;
+        font-size: 18px;
+    }
+</style>
+<form>
+    <div class="row">
+        <div class="small-12 medium-12 large-12 columns">
+            <input type="text" placeholder="Filter by..." data-ng-model="query">
+        </div>
+    </div>
+</form>
+<div data-as-sortable="$ctrl.dragControlListeners"
+     data-ng-model="$ctrl.cards"
+     class="small-12 medium-12 large-12 column">
+    <div class="clearfix" ng-repeat="card in $ctrl.cards|filter:query"
+        data-as-sortable-item>
+        <div data-as-sortable-item-handle id="board-card"
+             data-ng-style="{'background-color': (card.priority.color | colorLuminance:0.2)}">
+             <h6 class="board-card-link">
+                <a ui-sref="board.cards.view({
+                    project_id: card.project_id,
+                    project_path: $ctrl.project_path,
+                    path_with_namespace: card.path_with_namespace,
+                    issue_id: card.iid})">
+                    <b>#{{ card.iid }}</b>
+                </a>
+            </h6>
+            <h6 class="small-8 medium-8 large-8 card-title">
+                {{ card.title }}
+            </h6>
+            <div data-ng-show="card.assignee != undefined" class="card-avatar small-1 medium-1 large-1 right">
+                <span class="right" data-ng-show="card.assignee.avatar_url != undefined">
+                    <img style="border-radius: 50%; width: 20px;" alt="{{card.assignee.name}}" data-ng-src="{{card.assignee.avatar_url}}"/>
+                </span>
+                <span class="right avatar" data-ng-show="card.assignee.avatar_url == undefined">
+                    <span class="pseudo-avatar {{  card.assignee.username  | lowercase| limitTo : 1}}-ava">
+                        {{ card.assignee.username| lowercase| limitTo : 1}}
+                    </span>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>

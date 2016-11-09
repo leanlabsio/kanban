@@ -6,18 +6,20 @@ import (
 
 // Card represents an card in kanban board
 type Card struct {
-	Id          int64       `json:"id"`
-	Iid         int64       `json:"iid"`
-	Assignee    *User       `json:"assignee"`
-	Milestone   *Milestone  `json:"milestone"`
-	Author      *User       `json:"author"`
-	Description string      `json:"description"`
-	Labels      *[]string   `json:"labels"`
-	ProjectId   int64       `json:"project_id"`
-	Properties  *Properties `json:"properties"`
-	State       string      `json:"state"`
-	Title       string      `json:"title"`
-	Todo        []*Todo     `json:"todo"`
+	Id                int64       `json:"id"`
+	Iid               int64       `json:"iid"`
+	Assignee          *User       `json:"assignee"`
+	Milestone         *Milestone  `json:"milestone"`
+	Author            *User       `json:"author"`
+	Description       string      `json:"description"`
+	Labels            *[]string   `json:"labels"`
+	ProjectId         int64       `json:"project_id"`
+	BoardID           string      `json:"board_id"`
+	PathWithNamespace string      `json:"path_with_namespace"`
+	Properties        *Properties `json:"properties"`
+	State             string      `json:"state"`
+	Title             string      `json:"title"`
+	Todo              []*Todo     `json:"todo"`
 }
 
 // Properties represents a card properties

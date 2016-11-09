@@ -2,14 +2,43 @@ package board
 
 import (
 	"fmt"
+	"net/http"
+
 	"gitlab.com/leanlabsio/kanban/models"
 	"gitlab.com/leanlabsio/kanban/modules/middleware"
-	"net/http"
 )
 
 // ListCards gets a list of card on board accessible by the authenticated user.
 func ListCards(ctx *middleware.Context) {
-	cards, err := ctx.DataSource.ListCards(ctx.Query("project_id"))
+	pr := ctx.Query("project_id")
+
+	proj, _, err := ctx.DataSource.ListConnectBoard(pr)
+	if err != nil {
+		ctx.JSON(http.StatusNotFound, &models.ResponseError{
+			Success: false,
+			Message: err.Error(),
+		})
+		return
+	}
+
+	current, err := ctx.DataSource.ItemBoard(pr)
+
+	if err != nil {
+		ctx.JSON(http.StatusNotFound, &models.ResponseError{
+			Success: false,
+			Message: err.Error(),
+		})
+		return
+	}
+
+	proj = append(proj, current)
+
+	var cards, c []*models.Card
+
+	for _, p := range proj {
+		c, err = ctx.DataSource.ListCards(p)
+		cards = append(cards, c...)
+	}
 
 	if err != nil {
 		ctx.JSON(http.StatusUnauthorized, &models.ResponseError{
@@ -36,6 +65,8 @@ func CreateCard(ctx *middleware.Context, form models.CardRequest) {
 		return
 	}
 
+	card.BoardID = ctx.Params(":board")
+
 	ctx.JSON(http.StatusOK, &models.Response{
 		Data: card,
 	})
@@ -58,6 +89,8 @@ func UpdateCard(ctx *middleware.Context, form models.CardRequest) {
 		return
 	}
 
+	card.BoardID = ctx.Params(":board")
+
 	ctx.JSON(http.StatusOK, &models.Response{
 		Data: card,
 	})
@@ -79,6 +112,7 @@ func DeleteCard(ctx *middleware.Context, form models.CardRequest) {
 		})
 		return
 	}
+	card.BoardID = ctx.Params(":board")
 
 	ctx.JSON(http.StatusOK, &models.Response{
 		Data: card,
@@ -101,6 +135,8 @@ func MoveToCard(ctx *middleware.Context, form models.CardRequest) {
 		})
 		return
 	}
+
+	card.BoardID = ctx.Params(":board")
 
 	ctx.JSON(http.StatusOK, &models.Response{
 		Data: card,
@@ -125,4 +161,39 @@ func MoveToCard(ctx *middleware.Context, form models.CardRequest) {
 			ctx.DataSource.CreateComment(&com)
 		}()
 	}
+}
+
+// ChangeProjectForCard locate card to another project
+func ChangeProjectForCard(ctx *middleware.Context, form models.CardRequest) {
+	oldCrard := models.Card{
+		Id:        form.CardId,
+		ProjectId: form.ProjectId,
+		BoardID:   ctx.Params(":board"),
+	}
+
+	card, code, err := ctx.DataSource.ChangeProjectForCard(&form, ctx.Params(":projectId"))
+
+	if err != nil {
+		ctx.JSON(code, &models.ResponseError{
+			Success: false,
+			Message: err.Error(),
+		})
+		return
+	}
+
+	ctx.Broadcast(oldCrard.RoutingKey(), &models.Response{
+		Data:  oldCrard,
+		Event: "card.delete",
+	})
+
+	card.BoardID = ctx.Params(":board")
+
+	ctx.Broadcast(card.RoutingKey(), &models.Response{
+		Data:  card,
+		Event: "card.create",
+	})
+
+	ctx.JSON(http.StatusOK, &models.Response{
+		Data: card,
+	})
 }

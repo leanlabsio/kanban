@@ -1,11 +1,12 @@
 <section id="main-section" class="board-view noselect" style="width: auto;max-width: none;">
     <div class="row board" style="border-bottom: solid 1px #bbb">
-        <div class="large-2 medium-4 small-12 columns stage-container" data-ng-repeat="s in board.stagelabels">
+        <div class="large-2 medium-4 small-12 columns stage-container" data-ng-repeat="s in board.stages">
             <div class="panel column-header">
                 <h4>
-                    {{ s | stagename }}
-                    <span class="right" style="text-transform: none">
-                        <span>{{ board.counts[s] }}</span>
+                    {{ s.viewName }}
+                    <span class="right"
+                          style="text-transform: none">
+                        <span>{{ board.counts[s.viewName] }}</span>
                     </span>
                 </h4>
             </div>
@@ -17,7 +18,7 @@
              style="width: auto; max-width: none;">
         <div class="row board"
              ng-init="showDetails = true"
-             ng-click="showDetails = ! showDetails" 
+             ng-click="showDetails = ! showDetails"
              style="border-bottom: solid 1px #bbb;padding: 10px; font-weight: bold" ng-show="board.grouped">
             <div ng-if="board.grouped=='user'">
                 <div data-ng-show="group.avatar_url != undefined"
@@ -42,6 +43,11 @@
                     <small ng-show="group.due_date">expired on {{ group.due_date }}</small>
                 </h5>
             </div>
+            <div ng-if="board.grouped=='project'" style="width: 100%;">
+                <h5 style="margin: 0">
+                    {{ group.path_with_namespace }}
+                </h5>
+            </div>
         </div>
 
         <div class="row board" ng-show="showDetails">
@@ -60,9 +66,13 @@
                             >
                                 <div class="large-10 medium-10 small-10 columns">
                                     <h6>
-                                        <a data-ui-sref="board.cards.view({project_id: state.params.project_id, project_path: state.params.project_path, issue_id: card.iid})"
+                                        <a data-ui-sref="board.cards.view({
+                                            project_id: state.params.project_id,
+                                            project_path: state.params.project_path,
+                                            path_with_namespace: card.path_with_namespace,
+                                            issue_id: card.iid})"
                                            data-no-drag>
-                                            <b>Issue #{{card.iid}}</b>
+                                            <b>#{{card.iid}}</b> <span style="color: #777;">{{ card.path_with_namespace }}</span>
                                         </a>
                                     </h6>
                                     <h6>

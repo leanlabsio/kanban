@@ -13,19 +13,25 @@
                     <div class="columns small-4">
                         <h5>Stage name</h5>
                     </div>
-                    <div class="columns small-6"></div>
+                    <div class="columns small-4"></div>
                 </div>
                 <div class="row" data-ng-repeat="(index,stage) in stages">
                     <form novalidate name="stageForm">
                         <div class="columns small-2">
-                            <input required="required" type="number" data-ng-model="stages[index][1]">
+                            <input required="required" type="number" data-ng-model="stage.index">
                         </div>
                         <div class="columns small-4">
-                            <input required="required" type="text" data-ng-model="stages[index][2]">
+                            <input required="required" type="text" data-ng-model="stage.viewName">
                         </div>
-                        <div class="columns small-6">
-                            <button data-ng-disabled="stageForm.$invalid || saving" data-ng-show="isEmpty(stages[index][3])" class="button tiny" data-ng-click="update(stage)">Update</button>
-                            <button data-ng-disabled="stageForm.$invalid || saving" data-ng-show="!isEmpty(stages[index][3])" class="button tiny" data-ng-click="create(index, stage)">Create</button>
+                        <div class="columns small-4 end">
+                            <button data-ng-disabled="stageForm.$invalid || saving"
+                                    data-ng-show="stage.id"
+                                    class="button tiny"
+                                    data-ng-click="update(stage)">Update</button>
+                            <button data-ng-disabled="stageForm.$invalid || saving"
+                                    data-ng-show="!stage.id"
+                                    class="button tiny"
+                                    data-ng-click="create(index, stage)">Create</button>
                             <button data-ng-disabled="saving" class="button tiny alert" data-ng-click="delete(index, stage)">Delete</button>
                         </div>
                     </form>
@@ -103,4 +109,5 @@
             </div>
         </fieldset>
     </div>
+
 </section>

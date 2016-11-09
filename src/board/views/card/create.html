@@ -24,7 +24,7 @@
                 </small>
                 <div class="mdeditor">
                     <div class="mdeditor-panel">
-                        <a class="icon-edit" 
+                        <a class="icon-edit"
                            data-ng-show="!isPreview"
                            data-ng-click="isPreview=true">
                            <i class="fa fa-eye"></i>
@@ -42,9 +42,9 @@
                          data-ng-show="isPreview"
                          data-ll-markdown
                          data-markdown="card.description"></div>
-                    <textarea data-ng-show="! isPreview" 
-                              name="description" 
-                              placeholder="Description" 
+                    <textarea data-ng-show="! isPreview"
+                              name="description"
+                              placeholder="Description"
                               rows="10"
                               data-ng-model="card.description"></textarea>
                 </div>
@@ -55,6 +55,43 @@
             </div>
 
             <div class="large-3 medium-3 small-3 columns hide-for-medium-down">
+
+                <!-- Project -->
+                <div class="row collapse" style="margin-bottom:15px;">
+                    <div class="row collapse">
+                        <div class="large-8 medium-8 small-8 columns">
+                            <h5 class="subheader">
+                                Project
+                            </h5>
+                        </div>
+
+                        <div class="large-4 medium-4 small-4 columns">
+                            <h5 class="subheader right" data-dropdown-toggle="#select-project">&nbsp;
+                                <a class="dropdown">
+                                    <i class="fa fa-gear">&nbsp;</i>
+                                </a>
+                            </h5>
+                        </div>
+
+                        <ul id="select-project" class="f-dropdown">
+                            <li data-ng-repeat="project in connected_projects">
+                                <a data-ng-click="changeProject(project)">{{project.path_with_namespace}}</a>
+                            </li>
+                            <li>
+                                <a data-ng-click="changeProject(project)">{{board.project.path_with_namespace}}</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="row collapse">
+                        <div class="large-12 medium-12 small-12 columns">
+                            <h6 data-ng-if="!isEmpty(card.project)">{{card.project.path_with_namespace}}</h6>
+                        </div>
+                    </div>
+                </div>
+                <!-- Project END -->
+
+                <!-- Assignee -->
                 <div id="participants" class="row collapse">
                     <div class="row collapse assignee" style="margin-bottom:15px;">
                         <div class="row collapse">
@@ -107,6 +144,7 @@
                         </div>
                     </div>
                 </div>
+                <!-- Assignee end -->
 
                 <!-- Milestone -->
                 <div class="row collapse" style="margin-bottom:15px;">

@@ -14,35 +14,39 @@ type DataSource interface {
 }
 
 type CardSource interface {
-	ListCards(project_id string) ([]*models.Card, error)
+	ListCards(*models.Board) ([]*models.Card, error)
 	CreateCard(*models.CardRequest) (*models.Card, int, error)
 	UpdateCard(*models.CardRequest) (*models.Card, int, error)
 	DeleteCard(*models.CardRequest) (*models.Card, int, error)
+	ChangeProjectForCard(form *models.CardRequest, ToProjectID string) (*models.Card, int, error)
 }
 
 type BoardSource interface {
 	ListBoards() ([]*models.Board, error)
-	ItemBoard(board_id string) (*models.Board, error)
+	ItemBoard(boardID string) (*models.Board, error)
 	ConfigureBoard(*models.BoardRequest) (int, error)
+	CreateConnectBoard(BoardID, ConnectedBoardID string) (int, error)
+	ListConnectBoard(BoardID string) ([]*models.Board, int, error)
+	DeleteConnectBoard(BoardID, ConnectBoardID string) (int, error)
 }
 
 type CommentSource interface {
-	ListComments(project_id, card_id string) ([]*models.Comment, error)
+	ListComments(projectID string, cardID string) ([]*models.Comment, error)
 	CreateComment(*models.CommentRequest) (*models.Comment, int, error)
 }
 
 type UserSource interface {
-	ListMembers(board_id string) ([]*models.User, error)
+	ListMembers(boardID string) ([]*models.User, error)
 }
 
 type LabelSource interface {
-	ListLabels(board_id string) ([]*models.Label, error)
-	EditLabel(project_id string, req *models.LabelRequest) (*models.Label, error)
-	DeleteLabel(project_id, name string) (*models.Label, error)
-	CreateLabel(project_id string, req *models.LabelRequest) (*models.Label, error)
+	ListLabels(boardID string) ([]*models.Label, error)
+	EditLabel(projectID string, req *models.LabelRequest) (*models.Label, error)
+	DeleteLabel(projectID, name string) (*models.Label, error)
+	CreateLabel(projectID string, req *models.LabelRequest) (*models.Label, error)
 }
 
 type MilestoneSource interface {
-	ListMilestones(board_id string) ([]*models.Milestone, error)
+	ListMilestones(boardID string) ([]*models.Milestone, error)
 	CreateMilestone(*models.MilestoneRequest) (*models.Milestone, int, error)
 }

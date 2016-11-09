@@ -94,7 +94,10 @@ func init() {
 func daemon(c *cobra.Command, a []string) {
 	m := macaron.New()
 	setting.NewContext(c)
-	err := models.NewEngine()
+	db := setting.NewDbClient()
+	m.Map(db)
+
+	err := models.NewEngine(db)
 
 	m.Use(middleware.Contexter())
 	m.Use(macaron.Recovery())
@@ -165,6 +168,10 @@ func daemon(c *cobra.Command, a []string) {
 
 		m.Get("/boards", middleware.Datasource(), board.ListBoards)
 		m.Post("/boards/configure", middleware.Datasource(), binding.Json(models.BoardRequest{}), board.Configure)
+		m.Combo("/boards/:board/connect").
+			Get(middleware.Datasource(), board.ListConnectBoard).
+			Post(middleware.Datasource(), binding.Json(models.BoardRequest{}), board.CreateConnectBoard).
+			Delete(middleware.Datasource(), board.DeleteConnectBoard)
 
 		m.Get("/board", middleware.Datasource(), board.ItemBoard)
 
@@ -178,13 +185,16 @@ func daemon(c *cobra.Command, a []string) {
 			Get(middleware.Datasource(), board.ListComments).
 			Post(middleware.Datasource(), binding.Json(models.CommentRequest{}), board.CreateComment)
 
-		m.Combo("/card").
-			Post(middleware.Datasource(), binding.Json(models.CardRequest{}), board.CreateCard).
-			Put(middleware.Datasource(), binding.Json(models.CardRequest{}), board.UpdateCard).
-			Delete(middleware.Datasource(), binding.Json(models.CardRequest{}), board.DeleteCard)
+		m.Group("/card/:board", func() {
+			m.Combo("").
+				Post(binding.Json(models.CardRequest{}), board.CreateCard).
+				Put(binding.Json(models.CardRequest{}), board.UpdateCard).
+				Delete(binding.Json(models.CardRequest{}), board.DeleteCard)
 
-		m.Put("/card/move", middleware.Datasource(), binding.Json(models.CardRequest{}), board.MoveToCard)
+			m.Put("/move", binding.Json(models.CardRequest{}), board.MoveToCard)
+			m.Post("/move/:projectId", binding.Json(models.CardRequest{}), board.ChangeProjectForCard)
 
+		}, middleware.Datasource())
 	}, middleware.Auther())
 	m.Get("/*", routers.Home)
 	m.Get("/ws/", sockets.Messages(), ws.ListenAndServe)

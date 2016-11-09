@@ -20,15 +20,15 @@
 
         <div data-ng-show="isEdit">
             <form novalidate="novalidate" data-ng-submit="isEdit=false; updateCard(newCard);isPreview=false;" name="issueForm">
-                <input data-ng-class="{ 'error' : issueForm.title.$invalid && !issueForm.title.$pristine}" 
+                <input data-ng-class="{ 'error' : issueForm.title.$invalid && !issueForm.title.$pristine}"
                        name="title"
                        type="text"
-                       placeholder="Title" 
-                       required 
+                       placeholder="Title"
+                       required
                        data-ng-model="newCard.title">
                 <div class="mdeditor">
                     <div class="mdeditor-panel">
-                        <a class="icon-edit" 
+                        <a class="icon-edit"
                            data-ng-show="!isPreview"
                            data-ng-click="isPreview=true">
                            <i class="fa fa-eye"></i>
@@ -46,9 +46,9 @@
                          data-ng-show="isPreview"
                          data-ll-markdown
                          data-markdown="newCard.description"></div>
-                    <textarea data-ng-show="! isPreview" 
-                              name="description" 
-                              placeholder="Description" 
+                    <textarea data-ng-show="! isPreview"
+                              name="description"
+                              placeholder="Description"
                               rows="10"
                               data-ng-model="newCard.description"></textarea>
                 </div>
@@ -65,7 +65,7 @@
                                 <input data-ng-disabled="isSavingTodo" class="left" data-ng-change="updateTodo(card)" type="checkbox" id="todo-{{ checkboxId }}" data-ng-model="checkbox.checked">
                                 <span data-ng-disabled="isSavingTodo" style="padding-left: 5px;" class="right info" data-ng-click="removeTodo($index, card)">
                                     <i style="color:#DADADA;" class="fa fa-remove"></i>
-                                </span> 
+                                </span>
                                 <span>{{ checkbox.body }}</span>
                             </label>
                         </div>
@@ -132,7 +132,7 @@
                         <div class="small-12 columns">
                             <div class="mdeditor">
                                 <div class="mdeditor-panel">
-                                    <a class="icon-edit" 
+                                    <a class="icon-edit"
                                        data-ng-show="!isPreviewComment"
                                        data-ng-click="isPreviewComment=true">
                                        <i class="fa fa-eye"></i>
@@ -142,8 +142,8 @@
                                        data-ng-click="isPreviewComment=false">
                                        <i class="fa fa-eye-slash"></i>
                                     </a>&nbsp;
-                                    <a class="icon-edit" 
-                                       target="_blank" 
+                                    <a class="icon-edit"
+                                       target="_blank"
                                        href="https://gitlab.com/help/markdown/markdown">
                                         <i class="fa fa-question"></i>
                                     </a>
@@ -177,6 +177,8 @@
 
         <div class="large-3 medium-12 small-12 columns">
             <div class="hide-for-medium-down">
+
+                <!-- Assignee -->
                 <div id="participants" class="row collapse">
 
                     <div class="row collapse" data-ng-show="card.author != undefined" style="margin-bottom:15px;">
@@ -215,7 +217,7 @@
                             </div>
 
                             <ul id="dropdown-example-2" class="f-dropdown">
-                                <li data-ng-repeat="user in options">
+                                <li data-ng-repeat="user in users">
                                     <a data-ng-click="update(card, user)">
                                         <span class="avatar" data-ng-show="user.avatar_url != undefined">
                                             <img alt="{{user.name}}" data-ng-src="{{user.avatar_url}}"/>
@@ -251,6 +253,7 @@
                         </div>
                     </div>
                 </div>
+                <!-- Assignee END -->
 
                 <!-- Milestone -->
                 <div class="row collapse" style="margin-bottom:15px;">
