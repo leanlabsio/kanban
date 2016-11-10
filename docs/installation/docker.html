@@ -82,6 +82,8 @@
 <ul>
 <li><a href="/docs/usage/customize-columns" rel="nofollow">Customize columns</a></li>
 </ul>
+<h4><a name="contribute-to-kanban" class="anchor" href="#contribute-to-kanban" rel="nofollow" aria-hidden="true"><span class="octicon octicon-link"></span></a>
+<a href="/docs/contributing" rel="nofollow">Contribute to Kanban</a></h4>
 
                                 
 							</nav>
@@ -96,7 +98,7 @@
 <h2><a name="running-the-image" class="anchor" href="#running-the-image" rel="nofollow" aria-hidden="true"><span class="octicon octicon-link"></span></a>
 Running the image</h2>
 
-<p>the LeanLabs Kanban image requires Redis, which <a href="https://hub.docker.com/r/leanlabs/redis/" rel="nofollow">we are also providing</a>, it is just 6Mb is size, which is much smaller than the official redis docker image.</p>
+<p>The LeanLabs Kanban image requires Redis, which <a href="https://hub.docker.com/r/leanlabs/redis/" rel="nofollow">we are also providing</a>, it is just 6Mb is size, which is much smaller than the official redis docker image.</p>
 
 <ol>
 <li><p>Start the Redis container:</p>
@@ -114,12 +116,13 @@ Running the image</h2>
     -e KANBAN_SERVER_HOSTNAME=&#34;http://localhost&#34;
     -e KANBAN_GITLAB_URL=&#34;http://mygitlab.com&#34;
     -e KANBAN_REDIS_ADDR=&#34;kanban_redis:6379&#34;
-    leanlabs/kanban:1.4.0
+    leanlabs/kanban:latest
 </code></pre>
 
 <p>This will start the kanban board container in daemon mode, linked to the redis container.</p>
 
-<p>That is basically all you need. Now you should be able to access kanban board via <a href="http://localhost" rel="nofollow">http://localhost</a>, if you would like to setup OAuth access please refer to the next section.</p></li>
+<p>That is basically all you need. Now you should be able to access kanban board via <a href="http://localhost" rel="nofollow">http://localhost</a>,
+if you would like to setup OAuth access please refer to the next section.</p></li>
 </ol>
 <h2><a name="setting-up-oauth-via-gitlab" class="anchor" href="#setting-up-oauth-via-gitlab" rel="nofollow" aria-hidden="true"><span class="octicon octicon-link"></span></a>
 Setting up OAuth via GitLab</h2>
@@ -131,13 +134,17 @@ Setting up OAuth via GitLab</h2>
 
 <p><img src="gitlab_oauth/applications.jpg" alt="applications page"></p>
 
-<p>After this you will see the &#34;New application&#34; form, where &#34;Name&#34; is an arbitrary name, e.g. &#34;kanban&#34;, and &#34;Redirect URI&#34; is an URL in kanban where users will be sent after authorization in GitLab.</p>
+<p>After this you will see the &#34;New application&#34; form, where &#34;Name&#34; is an arbitrary name,
+e.g. &#34;kanban&#34;, and &#34;Redirect URI&#34; is an URL in kanban where users will be sent after authorization in GitLab.</p>
 
 <p><img src="gitlab_oauth/create_desc.jpg" alt="new application"></p>
 
-<p><strong>IMPORTANT</strong> The &#34;Redirect URI&#34; is composed of 2 parts: the hostname of your kanban installation, and the fixed path part, referring to the actual route to redirect to.</p>
+<p><strong>IMPORTANT</strong> The &#34;Redirect URI&#34; is composed of 2 parts: the hostname of your kanban installation,
+and the fixed path part, referring to the actual route to redirect to.</p>
 
-<p>The path part is always the same -  &#34;/assets/html/user/views/oauth.html&#34;, the hostname part strongly depends on the kanban container &#34;KANBAN_SERVER_HOSTNAME&#34; environment variable, the hostname of redirect URI and env variable must be the same, including protocol and port information.</p>
+<p>The path part is always the same -  &#34;/assets/html/user/views/oauth.html&#34;,
+the hostname part strongly depends on the kanban container &#34;KANBAN_SERVER_HOSTNAME&#34; environment variable,
+the hostname of redirect URI and env variable must be the same, including protocol and port information.</p>
 
 <p><strong>IMPORTANT</strong> Redirect URL must include the port if it is not 80 or 443.</p>
 
@@ -147,7 +154,8 @@ Setting up OAuth via GitLab</h2>
 
 <p>KANBAN_SERVER_HOSTNAME=<a href="http://mykanban.com:9000" rel="nofollow">http://mykanban.com:9000</a>, then &#34;Redirect URI&#34; must be &#34;<a href="http://mykanban.com:9000/assets/html/user/views/oauth.html%22" rel="nofollow">http://mykanban.com:9000/assets/html/user/views/oauth.html&#34;</a></p>
 
-<p>For now we do not support setting up kanban in a GitLab &#34;subdirectory&#34;, e.g. you can not setup kanban to be accessed via &#34;<a href="http://mygitlab.com/kanban%22" rel="nofollow">http://mygitlab.com/kanban&#34;</a>, this is planned in future releases.</p></li>
+<p>For now we do not support setting up kanban in a GitLab &#34;subdirectory&#34;,
+e.g. you can not setup kanban to be accessed via &#34;<a href="http://mygitlab.com/kanban%22" rel="nofollow">http://mygitlab.com/kanban&#34;</a>, this is planned in future releases.</p></li>
 
 <li><p>Pass OAuth client ID and client secret to kanban.</p>
 
@@ -171,7 +179,8 @@ Setting up OAuth via GitLab</h2>
     -e KANBAN_GITLAB_CLIENT=&#34;Application ID&#34;
     -e KANBAN_GITLAB_SECRET=&#34;Secret&#34;
     -e KANBAN_REDIS_ADDR=&#34;kanban_redis:6379&#34;
-    leanlabs/kanban:1.4.0 
+    -e KANBAN_ENABLE_SIGNUP=&#34;true&#34;
+    leanlabs/kanban:latest
 </code></pre>
 
 <p>Now you should be able to access kanban via GitLab OAuth.</p>
@@ -188,13 +197,22 @@ Environment variables</h2>
 <p>Here are the list of available variables and their meaning:</p>
 
 <ul>
-<li><p><strong>KANBAN_SERVER_LISTEN</strong> - default to &#34;0.0.0.0:80&#34;. The IP:PORT (e.g. 0.0.0.0:80) which kanban will listen for incoming requests. When setting up with docker you rarely if ever will need to set this variable</p></li>
+<li><p><strong>KANBAN_SERVER_LISTEN</strong> - default to &#34;0.0.0.0:80&#34;.
+The IP:PORT (e.g. 0.0.0.0:80) which kanban will listen for incoming requests.
+When setting up with docker you rarely if ever will need to set this variable</p></li>
 
-<li><p><strong>KANBAN_SERVER_HOSTNAME</strong> - default to &#34;<a href="http://localhost%22" rel="nofollow">http://localhost&#34;</a>. The URL on which LeanLabs Kanban will be reachable (e.g. <a href="http://mykanban.com" rel="nofollow">http://mykanban.com</a>). The hostname must be composed of the protocol part (&#34;http://&#34; or &#34;https://&#34;), the domain or IP (e.g. mykanban.com or 192.168.0.100) and the port, if not 80 or 443 (e.g. &#34;:9000&#34;). For example, if the board will be reachable on domain &#34;mykanban.com&#34; and port 9000 the resulting value must be &#34;<a href="http://mykanban.com:9000%22" rel="nofollow">http://mykanban.com:9000&#34;</a>.</p></li>
+<li><p><strong>KANBAN_SERVER_HOSTNAME</strong> - default to &#34;<a href="http://localhost%22" rel="nofollow">http://localhost&#34;</a>.
+The URL on which LeanLabs Kanban will be reachable (e.g. <a href="http://mykanban.com" rel="nofollow">http://mykanban.com</a>).
+The hostname must be composed of the protocol part (&#34;http://&#34; or &#34;https://&#34;),
+the domain or ip (e.g. mykanban.com or 192.168.0.100) and the port, if it is not 80 or 443 (e.g. &#34;:9000&#34;).
+For example, if board will be reachable on domain &#34;mykanban.com&#34; and port 9000 the resulting value must be &#34;<a href="http://mykanban.com:9000%22" rel="nofollow">http://mykanban.com:9000&#34;</a>.</p></li>
 
-<li><p><strong>KANBAN_SECURITY_SECRET</strong> - default to &#34;qwerty&#34;. This string is used to generate user auth tokens. Kanban uses JSON web tokens to identify users, this string is used to encrypt those tokens. You must change it to something more random than &#34;qwerty&#34; else your installation could be exposed to the whole internet.</p></li>
+<li><p><strong>KANBAN_SECURITY_SECRET</strong> - default to &#34;qwerty&#34;. This string is used to generate user auth tokens.
+Kanban uses JSON web tokens to identify users, this string is used to encrypt those tokens.
+You must change it to something more random than &#34;qwerty&#34; if your installation could be exposed to the whole internet.</p></li>
 
-<li><p><strong>KANBAN_GITLAB_URL</strong> - default to &#34;<a href="https://gitlab.com%22" rel="nofollow">https://gitlab.com&#34;</a>, your GitLab host URL. If you use a self hosted GitLab installation the value must also include the protocol, domain or IP and the port, if not 80 or 443.</p>
+<li><p><strong>KANBAN_GITLAB_URL</strong> - default to &#34;<a href="https://gitlab.com%22" rel="nofollow">https://gitlab.com&#34;</a>. Your GitLab host URL.
+If you use a self hosted GitLab installation the value must also include the protocol, domain or IP and the port, if it is not 80 or 443.</p>
 
 <p><strong>WARNING</strong> The kanban board should be able to resolve the GitLab installation domain. If your GitLab installation domain could not be resolved, then you must explicitly define the GitLab server IP, you could do this by passing --add-host to docker run command, e.g. --add-host=&#34;mygitlab.com:192.168.0.200&#34;.</p></li>
 
@@ -202,16 +220,21 @@ Environment variables</h2>
 
 <li><p><strong>KANBAN_GITLAB_SECRET</strong> - default to &#34;qwerty&#34;. Your GitLab OAuth client secret key</p></li>
 
-<li><p><strong>KANBAN_REDIS_ADDR</strong> - default to &#34;127.0.0.1:6379&#34;. The Redis server address - IP:PORT. You may also use a unix socket, if you set address as &#34;unix:///path/to/sock.sock&#34;. LeanLabs Kanban requires the Redis server to function properly, it stores users identities there.</p></li>
+<li><p><strong>KANBAN_REDIS_ADDR</strong> - default to &#34;127.0.0.1:6379&#34;. The Redis server address - IP:PORT.
+You may also use a unix socket, if you set address as &#34;unix:///path/to/sock.sock&#34;.
+LeanLabs Kanban requires the Redis server to function properly, it stores users identities there.</p></li>
+
+<li><p><strong>KANBAN_ENABLE_SIGNUP</strong> - default to &#34;true&#34;. Wheter to enable sign up with user API token.</p></li>
 
 <li><p><strong>KANBAN_REDIS_PASSWORD</strong> - default to &#34;&#34; (empty string). The Redis server password if any.</p></li>
 
-<li><p><strong>KANBAN_REDIS_DB</strong> - default to &#34;0&#34;. The Redis server database numeric index, from 0 to 16, also rarely required to be changed if ever.</p></li>
+<li><p><strong>KANBAN_REDIS_DB</strong> - default to &#34;0&#34;, redis server database numeric index, from 0 to 16, also rarely required to be changed if ever.</p></li>
 </ul>
 <h2><a name="setting-up-behind-proxy" class="anchor" href="#setting-up-behind-proxy" rel="nofollow" aria-hidden="true"><span class="octicon octicon-link"></span></a>
 Setting up behind proxy.</h2>
 
-<p>LeanLabs Kanban board processes HTTP requests directly, but sometimes you may want to set it up behind a proxy, e.g. if you want HTTPS you definitely should use a proxy, because for now kanban is not able to handle HTTPS traffic directly.</p>
+<p>LeanLabs Kanban board processes HTTP requests directly, but sometimes you may want to set it up behind a proxy,
+e.g. if you want HTTPS you definitely should use a proxy, because for now kanban is not able to handle HTTPS traffic directly.</p>
 
 <p>Proxy configuration, including supported configuration files, is <a href="/docs/configuration/" rel="nofollow">described in our docs</a>.</p>
 

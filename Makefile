@@ -9,16 +9,18 @@ build:
 
 	@docker run --rm \
 		-v $(CURDIR):/data \
-		leanlabs/git-builder submodule init
+		-w /data \
+		leanlabs/git submodule init
 
 	@docker run --rm \
 		-v $(CURDIR):/data \
-		leanlabs/git-builder submodule update
+		-w /data \
+		leanlabs/git submodule update
 
 	@docker run --rm \
 		-w /data/kanban.docs \
 		-v $(CURDIR):/data \
-		leanlabs/git-builder pull origin master
+		leanlabs/git pull origin master
 
 	@docker run --rm \
 		-v $(CURDIR):/data cnam/md2html \
