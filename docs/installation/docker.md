@@ -26,7 +26,7 @@ The LeanLabs Kanban image requires Redis, which [we are also providing](https://
         -e KANBAN_SERVER_HOSTNAME="http://localhost"
         -e KANBAN_GITLAB_URL="http://mygitlab.com"
         -e KANBAN_REDIS_ADDR="kanban_redis:6379"
-        leanlabs/kanban:1.4.0
+        leanlabs/kanban:latest
     ```
 
     This will start the kanban board container in daemon mode, linked to the redis container.
@@ -89,7 +89,7 @@ The LeanLabs Kanban image requires Redis, which [we are also providing](https://
         -e KANBAN_GITLAB_SECRET="Secret"
         -e KANBAN_REDIS_ADDR="kanban_redis:6379"
         -e KANBAN_ENABLE_SIGNUP="true"
-        leanlabs/kanban:1.6.2
+        leanlabs/kanban:latest
     ```
     Now you should be able to access kanban via GitLab OAuth.
 
