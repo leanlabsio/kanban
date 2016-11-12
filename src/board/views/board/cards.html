@@ -14,11 +14,9 @@
     </div>
 
     <section data-ng-repeat="group in groupLabels"
-             ng-show="groups[group.id] != undefined"
              style="width: auto; max-width: none;">
         <div class="row board"
-             ng-init="showDetails = true"
-             ng-click="showDetails = ! showDetails"
+             ng-click="showDetail(group.id)"
              style="border-bottom: solid 1px #bbb;padding: 10px; font-weight: bold" ng-show="board.grouped">
             <div ng-if="board.grouped=='user'">
                 <div data-ng-show="group.avatar_url != undefined"
@@ -50,14 +48,16 @@
             </div>
         </div>
 
-        <div class="row board" ng-show="showDetails">
-            <div class="large-2 medium-4 small-12 columns stage-container" data-ng-repeat="(stageName, cards) in groups[group.id]" style="min-height: 100px">
+        <div class="row board" ng-show="isShowDetail(group.id)">
+            <div class="large-2 medium-4 small-12 columns stage-container"
+                 ng-init="stageName = stage.viewName"
+                 data-ng-repeat="stage in board.stages" style="min-height: 100px">
                 <div class="stage">
                     <div data-as-sortable="dragControlListeners"
-                         data-ng-model="groups[group.id][stageName]"
+                         data-ng-model="groups[group.id][stage.viewName]"
                          class="board-stage">
                         <div class="row collapse card"
-                             data-ng-repeat="card in groups[group.id][stageName] track by card.id"
+                             data-ng-repeat="card in groups[group.id][stage.viewName] track by card.id"
                              data-as-sortable-item>
                             <div data-as-sortable-item-handle class="row collapse"
                             style="padding: 10px"
