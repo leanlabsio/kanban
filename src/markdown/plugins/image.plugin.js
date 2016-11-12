@@ -2,9 +2,9 @@
  * Markdown-it extension
  *
  * Wraps default image renderer to provide additional
- * src attribute checks. 
+ * src attribute checks.
  *
- * GitLab returns relative images paths, but to display images 
+ * GitLab returns relative images paths, but to display images
  * correctly we need absolute paths including path to repo.
  *
  * This plugin checks if path is relative and prefixes src

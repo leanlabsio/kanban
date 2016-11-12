@@ -13,6 +13,7 @@
                 }
                 var priority = priority_regexp.exec(label.name);
                 return {
+                    id: label.name,
                     name: label.name,
                     index: parseInt(priority[1]),
                     color: label.color,

@@ -18,11 +18,17 @@
             $window.scrollTo(0, 0);
 
             var filter = function(item) {
-                return true;
+                return item.stage != "";
             };
             var group = function(item) {
-                return 'none';
+                return 0;
             };
+
+            $scope.groupLabels = [{
+                id: 0,
+                name: "none"
+            }];
+
             var grouped = $stateParams.group;
 
             var tags = [];
@@ -58,12 +64,12 @@
 
                     if (fByUser) {
                         var uName = _.isEmpty(item.assignee) ? '@' : '@' + item.assignee.id;
-                        uMatch = _.contains(tags, uName);
+                        uMatch = _.includes(tags, uName);
                     }
 
                     if (fByMilestone) {
                         var ms = _.isEmpty(item.milestone) ? '^' : '^' + item.milestone.id;
-                        mMatch = _.contains(tags, ms);
+                        mMatch = _.includes(tags, ms);
                     }
 
                     if (fByLabel) {
@@ -80,10 +86,10 @@
 
                     if (fByPriority) {
                         var priority = _.isEmpty(item.priority.name) ? '$' : '$' + item.priority.name;
-                        pMatch = _.contains(tags, priority);
+                        pMatch = _.includes(tags, priority);
                     }
 
-                    return uMatch && mMatch && lMatch && pMatch;
+                    return uMatch && mMatch && lMatch && pMatch && item.stage != "";
                 };
             }
 
@@ -91,24 +97,22 @@
                 group = function(item) {
                     if (grouped == 'milestone') {
                         if (_.isEmpty(item.milestone)) {
-                            return 'No Milestone';
+                            return 0;
                         }
-
-                        return item.milestone.title;
+                        return item.milestone.id;
+                    } else if (grouped == 'project') {
+                        return item.project_id;
                     } else if (grouped == 'user') {
                         if (!item.assignee) {
-                            return 'Unassigned';
+                            return 0;
                         }
-
-                        return item.assignee.name;
+                        return item.assignee.id;
                     } else if (grouped == 'priority') {
                         if (_.isEmpty(item.priority.name)) {
-                            return 'No priority';
+                            return 0;
                         }
-
-                        return item.priority.name;
+                        return item.priority.id;
                     }
-
                 };
             }
 
@@ -117,6 +121,38 @@
                     $state.go('board.import', {
                         project_id: board.project.id,
                         project_path: board.project.path_with_namespace
+                    });
+                }
+
+                if (grouped == 'milestone') {
+                    MilestoneService.list(board.project.id).then(function(milestones) {
+                        $scope.groupLabels = _.sortBy(milestones, function(milestone){ return milestone.id });
+                        $scope.groupLabels.push({
+                            id: 0,
+                            title: "No Milestone"
+                        });
+                    });
+                } else if (grouped == 'user') {
+                    UserService.list(board.project.id).then(function(users) {
+                        $scope.groupLabels = _.clone(users);
+                        $scope.groupLabels.push({
+                            id: 0,
+                            name: "Unassigned"
+                        });
+                    });
+                } else if (grouped == 'project') {
+                    BoardService.listConnected(board.project.id).then(function(connected){
+                        $scope.groupLabels = _.clone(connected);
+                        $scope.groupLabels.push({
+                            id: board.project.id,
+                            path_with_namespace: board.project.path_with_namespace
+                        });
+                    });
+                } else if (grouped == 'priority') {
+                    $scope.groupLabels = _.clone(board.priorities);
+                    $scope.groupLabels.push({
+                        id: 0,
+                        viewName: "No priority"
                     });
                 }
 
@@ -129,72 +165,24 @@
                     $scope.groups = board.reset(filter, group);
                 });
 
-                $scope.dragControlListeners = {
-                    accept: function() {
-                        return true;
-                    },
-                    dragEnd: function(event) {
-                        var id = event.source.itemScope.card.id;
-                        var card = board.getCardById(id);
-
-                        var oldLabel = event.source.sortableScope.$parent.stageName;
-                        var newLabel = event.dest.sortableScope.$parent.stageName;
-
-                        var oldGroup = event.source.sortableScope.$parent.$parent.groupName;
-                        var newGroup = event.dest.sortableScope.$parent.$parent.groupName;
-
-                        card.labels = _.filter(card.labels, function(label) {
-                            return !stage_regexp.test(label);
-                        });
-
-                        card.labels.push(newLabel);
-                        card.stage = newLabel;
-                        card.properties.andon = 'none';
-
-                        if (oldGroup != newGroup) {
-                            if (grouped == 'milestone') {
-                                return MilestoneService.findByName(card.project_id, newGroup).then(function(milestone) {
-                                    card.milestone_id = milestone === undefined ? 0 : milestone.id;
-                                    card.milestone = milestone;
-
-                                    return BoardService.moveCard(card, oldLabel, newLabel);
-                                });
-                            } else if (grouped == 'user') {
-                                return UserService.findByName(card.project_id, newGroup).then(function(user) {
-                                    card.assignee_id = user === undefined ? 0 : user.id;
-                                    card.assignee = user;
-
-                                    return BoardService.moveCard(card, oldLabel, newLabel);
-                                });
-                            } else if (grouped == 'priority') {
-                                card.priority = LabelService.getPriority(card.project_id, newGroup);
-                                var index = card.labels.indexOf(oldGroup);
-                                if (index !== -1) {
-                                    card.labels.splice(index, 1);
-                                }
-                                if (!_.isEmpty(card.priority.name)) {
-                                    card.labels.push(card.priority.name);
-                                }
-
-                                return BoardService.moveCard(card, oldLabel, newLabel);
-                            }
-                        } else {
-                            return BoardService.moveCard(card, oldLabel, newLabel);
-                        }
-                    },
-                    containment: '#board'
-                };
-
+                $scope.dragControlListeners = BoardService.dragControlListeners(grouped, board);
 
                 WebsocketService.emit('subscribe', {
                     routing_key: 'kanban.' + board.project.id.toString()
+                });
+                BoardService.listConnected(board.project.id.toString()).then(function(connected){
+                    angular.forEach(connected, function(item){
+                        WebsocketService.emit('subscribe', {
+                            routing_key: 'kanban.' + item.id.toString()
+                        });
+                    });
                 });
             });
 
             $scope.state = $state;
 
             $scope.remove = function(card) {
-                BoardService.removeCard(card).then(function(result) {});
+                BoardService.removeCard($scope.board, card).then(function(result) {});
             };
         }
     ]);

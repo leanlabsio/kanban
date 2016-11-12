@@ -6,12 +6,12 @@
         'stage_regexp',
         'priority_regexp',
         'CardPriority',
-        function($q, $http, stage_regexp, priority_regexp, CardPriority) {
+        'Stage',
+        function($q, $http, stage_regexp, priority_regexp, CardPriority, Stage) {
             return {
                 labels: [],
                 list: function(projectId, withCache) {
                     withCache = (typeof withCache === 'undefined') ? true : withCache;
-
                     return $http.get('/api/labels/' + projectId, {
                         cache: withCache
                     }).then(function(result) {
@@ -32,6 +32,18 @@
                         return this.labels[projectId];
                     }.bind(this));
                 },
+                listStages: function(projectId){
+                    return _.chain(this.labels[projectId])
+                        .filter(function(label) {
+                            return stage_regexp.test(label.name);
+                        })
+                        .map(function(label){
+                            return  new Stage(label);
+                        })
+                        .sortBy(function(label){
+                            return label.index;
+                        }).value();
+                },
                 listPriorities: function(projectId) {
                     return _.chain(this.labels[projectId])
                         .filter(function(label) {
@@ -49,12 +61,43 @@
                            .filter(function(label) {
                                 return !(stage_regexp.test(label.name) || priority_regexp.test(label.name));
                            })
-                           .indexBy('name')
+                           .keyBy('name')
                            .value();
                 },
                 getPriority: function(projectId, label){
-                    var priority =_.findWhere(this.labels[projectId], {name: label});
+                    var priority =_.find(this.labels[projectId], {name: label});
                     return new CardPriority(priority);
+                },
+                getStage: function(projectId, label) {
+                    if (_.isEmpty(label)) {
+                        return "";
+                    }
+                    var foundedStage = new Stage({name: label});
+                    var stage = _.find(this.listStages(projectId), {viewName: foundedStage.viewName});
+
+                    if (_.isEmpty(stage)) {
+                        return "";
+                    }
+
+                    return new Stage(stage);
+                },
+                getStageByName: function(projectId, viewName) {
+                    return this.list(projectId).then(function(labels){
+                        var stages = _.chain(labels)
+                            .filter(function(label) {
+                                return stage_regexp.test(label.name);
+                            }).map(function(label){
+                                return  new Stage(label);
+                            }).value();
+
+                        var stage = _.find(stages, {viewName: viewName});
+
+                        if (_.isEmpty(stage)) {
+                            return null;
+                        }
+
+                        return stage;
+                    });
                 },
                 create: function(projectId, label, color) {
                     return $http.post("/api/labels/" + projectId, {

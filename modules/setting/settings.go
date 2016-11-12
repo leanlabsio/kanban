@@ -1,9 +1,14 @@
 package setting
 
 import (
+	"log"
+	"net/url"
+	"strings"
+
+	"gopkg.in/redis.v3"
+
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
-	"strings"
 )
 
 // NewContext created new context for settings
@@ -72,4 +77,30 @@ func NewContext(c *cobra.Command) {
 	if c.Flags().Lookup("enable-signup").Changed {
 		viper.BindPFlag("enable.signup", c.Flags().Lookup("enable-signup"))
 	}
+}
+
+// NewDbClient create new db client
+func NewDbClient() *redis.Client {
+	opts := &redis.Options{
+		Addr:     viper.GetString("redis.addr"),
+		Password: viper.GetString("redis.password"),
+		DB:       int64(viper.GetInt("redis.db")),
+	}
+
+	url, _ := url.Parse(viper.GetString("redis.addr"))
+
+	if url.Scheme == "unix" {
+		opts.Addr = url.Path
+		opts.Network = "unix"
+	}
+
+	c := redis.NewClient(opts)
+
+	_, err := c.Ping().Result()
+
+	if err != nil {
+		log.Fatalf("Error connection to redis %s", err.Error())
+	}
+
+	return c
 }

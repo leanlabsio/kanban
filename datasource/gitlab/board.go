@@ -2,6 +2,7 @@ package gitlab
 
 import (
 	"fmt"
+
 	"gitlab.com/leanlabsio/kanban/models"
 	"gitlab.com/leanlabsio/kanban/modules/gitlab"
 )
@@ -71,6 +72,58 @@ func (ds GitLabDataSource) ConfigureBoard(f *models.BoardRequest) (int, error) {
 		if err != nil {
 			return res.StatusCode, err
 		}
+	}
+
+	return 0, nil
+}
+
+// CreateConnectBoard connects other board to current
+// for show all cards from other boards
+func (ds GitLabDataSource) CreateConnectBoard(BoardID, ConnectBoardID string) (int, error) {
+	current, err := ds.ItemBoard(BoardID)
+
+	if err != nil {
+		return 0, err
+	}
+	con, err := ds.ItemBoard(ConnectBoardID)
+
+	if err != nil {
+		return 0, err
+	}
+
+	_, err = ds.db.LPush(fmt.Sprintf("boards:%d:connect", current.Id), fmt.Sprintf("%d", con.Id)).Result()
+
+	if err != nil {
+		return 0, err
+	}
+
+	return 0, nil
+}
+
+// ListConnectBoard return list connect board for current board
+func (ds GitLabDataSource) ListConnectBoard(boardID string) ([]*models.Board, int, error) {
+	b := []*models.Board{}
+
+	boards, err := ds.db.LRange(fmt.Sprintf("boards:%s:connect", boardID), 0, 100).Result()
+
+	if err != nil {
+		return nil, 0, err
+	}
+
+	for _, board := range boards {
+		item, _ := ds.ItemBoard(board)
+		b = append(b, item)
+	}
+	return b, 0, nil
+}
+
+// DeleteConnectBoard deletes from connected board list board
+func (ds GitLabDataSource) DeleteConnectBoard(boardID, ConnectBoardID string) (int, error) {
+
+	_, err := ds.db.LRem(fmt.Sprintf("boards:%s:connect", boardID), 0, ConnectBoardID).Result()
+
+	if err != nil {
+		return 0, err
 	}
 
 	return 0, nil

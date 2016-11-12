@@ -6,8 +6,9 @@
             'gitlabKBApp.user',
             'gitlabKBApp.board',
             'angular-loading-bar',
-            'angular-underscore',
-            'mm.foundation.topbar'
+            'angular-lodash',
+            'mm.foundation.topbar',
+            'angular-storage'
         ])
         .run([
             '$rootScope', '$state', '$http', 'AuthService', 'store',
@@ -40,5 +41,8 @@
                     $locationProvider.html5Mode(true);
                 }
             ]
-        );
+        )
+        .factory("KBStore", ["store", function(store) {
+            return store.getNamespacedStore("kb", "localStorage", ":");
+        }]);
 })(window.angular, window.CLIENT_VERSION, window.GITLAB_HOST, window.ENABLE_SIGNUP);

@@ -22,9 +22,9 @@
                 $window.location.pathname = '/';
             };
 
-            $scope.showFilter = function() {
+            $scope.showActionBar = function() {
                 BoardService.get($stateParams.project_path).then(function(board) {
-                    board.state.showFilter = !board.state.showFilter;
+                    board.state.showActionBar = !board.state.showActionBar;
                 });
             };
 

@@ -1,6 +1,6 @@
 # Apache web server configuration guide
 
-The configuration files in this directory was tested with Apache version 2.4.7.
+The configuration files in this directory have been tested with Apache version 2.4.7.
 
 To set up kanban you first need to enable several additional apache modules:
 
@@ -10,14 +10,14 @@ To set up kanban you first need to enable several additional apache modules:
 
 ## Common issues
 
-Internally Kanban uses GitLab API. So misconfiguration of GitLab web server could lead to potentially kanban malfunction.
+Internally Kanban uses GitLab API. So misconfiguration of the GitLab web server could lead to potential kanban malfunctions.
 Here you will find common issues we faced with GitLab + Apache setup and how to solve them.
 
 1. Boards are not showing up.
 
-    The simptoms - you could login to kanban, you could see projects list in kanban, but could not open any board.
+    The symptoms - you can login to kanban, you can see the projects list in kanban, but can not open any board.
 
-    First of all check you GitLab apache config contains rewrite rules like this one:
+    First of all check your GitLab apache config contains rewrite rules like this one:
 
     ```
     RewriteRule .* http://127.0.0.1:8080%{REQUEST_URI} [P,QSA]
@@ -29,11 +29,11 @@ Here you will find common issues we faced with GitLab + Apache setup and how to 
     RewriteRule .* http://127.0.0.1:8080%{REQUEST_URI} [NE,P,QSA]
     ```
 
-    Also, please check the [gitlab recipes repo](https://github.com/gitlabhq/gitlab-recipes/tree/master/web-server/apache) for latest apache configs.
+    Also, please check the [gitlab recipes repo](https://github.com/gitlabhq/gitlab-recipes/tree/master/web-server/apache) for the latest apache configs.
 
 2. Kanban reloads in a loop.
 
-    The simptoms - you could login to kanban, but then browser keep reloading the page.
+    The symptoms - you can login to kanban, but then the browser keep reloading the page.
 
     This could be caused by websockets proxy misconfiguration. Kanban listens for websocket connections on /ws/ location,
     so it should be proxied properly and there must be Host, Connection and Upgrade headers present.
@@ -56,4 +56,4 @@ Here you will find common issues we faced with GitLab + Apache setup and how to 
     </VirtualHost>
     ```
 
-    [view in github](https://github.com/leanlabsio/kanban/blob/master/docs/configuration/webserver/apache/apache.conf)
+    [view on github](https://github.com/leanlabsio/kanban/blob/master/docs/configuration/webserver/apache/apache.conf)

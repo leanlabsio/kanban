@@ -7,12 +7,18 @@
         'LabelService',
         'WebsocketService',
         'Board',
-        function($http, $q, $sce, LabelService, WebsocketService, Board) {
+        'stage_regexp',
+        'UserService',
+        'MilestoneService',
+        function($http, $q, $sce, LabelService, WebsocketService, Board, stage_regexp, UserService, MilestoneService) {
             var service = {
+                current: {},
                 boards: {},
                 boardIdIndex: {},
                 boardPathIndex: {},
                 boardsList: {},
+                boardConnectedIndex: {},
+                boardConnected: {},
                 get: function(path) {
                     if (_.isEmpty(this.boards[path]) || this.boards[path].stale) {
                         var withCache = true;
@@ -21,7 +27,7 @@
                         }
                         this.boards[path] = $http.get('/api/board', {
                             params: {
-                                project_id: path
+                                project_id: path,
                             }
                         }).then(function(project) {
                             project = project.data.data;
@@ -47,22 +53,53 @@
 
                     return $q.when(this.boards[path]);
                 },
+                listConnected: function(id) {
+                    if (_.isEmpty(this.boardConnected[id])) {
+                        this.boardConnected[id] = $http.get('/api/boards/' + id + '/connect', {
+                        }).then(function(result){
+                            angular.forEach(result.data.data, function(item){
+                                if (! this.boardConnectedIndex[item.id]) {
+                                    this.boardConnectedIndex[item.id] = [];
+                                }
+                                this.boardConnectedIndex[item.id].push(id);
+                                this.boardConnectedIndex[item.id] = _.uniq(this.boardConnectedIndex[item.id]);
+                            }, this);
+
+                            return result.data.data;
+                        }.bind(this));
+                    }
+                    return $q.when(this.boardConnected[id]);
+                },
+                connectBoard: function(boardId, connectBoardId) {
+                    return $http.post('/api/boards/' + boardId + '/connect', {
+                        project_id: connectBoardId
+                    });
+                },
+                deleteConnected: function(boardId, connectBoardId) {
+                    return $http.delete('/api/boards/' + boardId + '/connect', {
+                        params: {
+                            board_id: connectBoardId
+                        }
+                    });
+                },
                 getBoardById: function(id) {
                     var path = this.boardIdIndex[id];
+
                     return this.get(path);
                 },
-                getCard: function(boardId, cardId) {
+                getCard: function(boardId, path_with_namespace, cardId) {
+                    var project_path = path_with_namespace || boardId;
                     return this.get(boardId).then(function(result) {
                         return _.find(result.issues, function(card) {
-                            return card.iid == cardId;
+                            return card.iid == cardId && card.path_with_namespace == project_path;
                         });
                     });
                 },
-                createCard: function(data) {
-                    return $http.post('/api/card', data).then(function(newCard) {});
+                createCard: function(board, data) {
+                    return $http.post('/api/card/' + board.project.id, data).then(function(newCard) {});
                 },
-                updateCard: function(card) {
-                    return $http.put('/api/card', {
+                updateCard: function(board, card) {
+                    return $http.put('/api/card/' + board.project.id, {
                         issue_id: card.id,
                         project_id: card.project_id,
                         assignee_id: card.assignee_id,
@@ -74,8 +111,8 @@
                         properties: card.properties
                     }).then(function(result) {});
                 },
-                removeCard: function(card) {
-                    return $http.delete('/api/card', {
+                removeCard: function(board, card) {
+                    return $http.delete('/api/card/' + board.project.id, {
                         data: {
                             issue_id: card.id,
                             project_id: card.project_id,
@@ -93,8 +130,8 @@
                         }
                     });
                 },
-                moveCard: function(card, oldStage, newStage) {
-                    return $http.put('/api/card/move', {
+                moveCard: function(board, card, oldStage, newStage) {
+                    return $http.put('/api/card/' + board.project.id + '/move', {
                         project_id: card.project_id,
                         issue_id: card.id,
                         assignee_id: card.assignee_id,
@@ -110,11 +147,36 @@
                         }
                     });
                 },
+                changeProject: function(board, card, project) {
+                    return LabelService.getStageByName(project.id, card.stage.viewName).then(function(stage){
+                        card.labels = _.filter(card.labels, function(label) {
+                            return !stage_regexp.test(label);
+                        });
+                        if (stage) {
+                            card.labels.push(stage.name);
+                        }
+
+                        return $http.post('/api/card/' + board.project.id + '/move/' + project.id, {
+                            issue_id: card.id,
+                            project_id: card.project_id,
+                            assignee_id: card.assignee_id,
+                            milestone_id: card.milestone_id,
+                            title: card.title,
+                            labels: card.labels.join(', '),
+                            todo: card.todo,
+                            description: card.description,
+                            properties: card.properties
+                        }).then(function(result) {
+                            this.addCardToBoard(result.data.data);
+                            return result.data.data;
+                        }.bind(this));
+                    }.bind(this));
+                },
                 getBoards: function() {
                     var _this = this;
                     if (_.isEmpty(_this.boardsList)) {
                         _this.boardsList = $http.get('/api/boards').then(function(result) {
-                            _this.boardsList = _.indexBy(result.data.data, 'id');
+                            _this.boardsList = _.keyBy(result.data.data, 'id');
                             return _this.boardsList;
                         }, function(result) {
                             _this.boardsList = {};
@@ -126,21 +188,127 @@
                 },
                 addCardToBoard: function(card) {
                     var _this = this;
-                    return _this.getBoardById(card.project_id).then(function(board) {
-                        board.add(card);
-                    });
+                    var ids = this.boardConnectedIndex[card.project_id];
+
+                    if (!_.isEmpty(ids)) {
+                        angular.forEach(ids, function(id){
+                            _this.getBoardById(id).then(function(board) {
+                                board.add(card);
+                            });
+                        });
+                    } else {
+                        _this.getBoardById(card.project_id).then(function(board) {
+                            board.add(card);
+                        });
+                    }
                 },
                 removeCardFromBoard: function(card) {
                     var _this = this;
-                    return _this.getBoardById(card.project_id).then(function(board) {
-                        return board.remove(card);
-                    });
+                    var ids = this.boardConnectedIndex[card.project_id];
+
+                    if (!_.isEmpty(ids)) {
+                        angular.forEach(ids, function(id){
+                            _this.getBoardById(id).then(function(board) {
+                                board.remove(card);
+                            });
+                        });
+                    } else {
+                        _this.getBoardById(card.project_id).then(function(board) {
+                            board.remove(card);
+                        });
+                    }
                 },
                 updateCardOnBoard: function(card) {
                     var _this = this;
-                    return _this.getBoardById(card.project_id).then(function(board) {
-                        return board.update(card);
-                    });
+                    var ids = this.boardConnectedIndex[card.project_id];
+
+                    if (!_.isEmpty(ids)) {
+                        angular.forEach(ids, function(id){
+                            _this.getBoardById(id).then(function(board) {
+                                board.update(card);
+                            });
+                        });
+                    } else {
+                        _this.getBoardById(card.project_id).then(function(board) {
+                            board.update(card);
+                        });
+                    }
+                },
+                dragControlListeners: function(grouped, board) {
+                    var _this = this;
+                    return {
+                        longTouch: true,
+                        accept: function() {
+                            return true;
+                        },
+                        dragEnd: function(event) {
+                            var id = event.source.itemScope.card.id,
+                                card = board.getCardById(id),
+                                oldLabel = "",
+                                newLabel = "",
+                                oldGroup = event.source.sortableScope.$parent.$parent.group,
+                                newGroup = event.dest.sortableScope.$parent.$parent.group,
+                                oldStage = null,
+                                newStage = null;
+
+                            LabelService.getStageByName(
+                                card.project_id,
+                                event.source.sortableScope.$parent.stageName
+                            ).then(function(res) {
+                                oldStage = res;
+                                if (oldStage) {
+                                    oldLabel = oldStage.name;
+                                }
+                                return LabelService.getStageByName(
+                                    card.project_id,
+                                    event.dest.sortableScope.$parent.stageName
+                                );
+                            }).then(function(res) {
+                                newStage = res;
+                                if (newStage) {
+                                    newLabel = newStage.name;
+                                }
+
+                                card.labels = _.filter(card.labels, function(label) {
+                                    return !stage_regexp.test(label);
+                                });
+
+                                if (newLabel == "") {
+                                    card.stage = null;
+                                } else {
+                                    card.labels.push(newLabel);
+                                    card.stage = newStage;
+                                }
+                                card.properties.andon = 'none';
+
+                                if (oldGroup != newGroup && card.stage != null) {
+                                    if (grouped == 'milestone') {
+                                        card.milestone_id = newGroup.id === undefined ? 0 : newGroup.id;
+                                        card.milestone = newGroup;
+                                    } else if (grouped == 'user') {
+                                        card.assignee_id = newGroup.id === undefined ? 0 : newGroup.id;
+                                        card.assignee = newGroup;
+                                    } else if (grouped == 'priority') {
+                                        var index = card.labels.indexOf(oldGroup.name);
+                                        if (index !== -1) {
+                                            card.labels.splice(index, 1);
+                                        }
+                                        if (!_.isEmpty(newGroup.name)) {
+                                            card.priority = newGroup;
+                                            card.labels.push(newGroup.name);
+                                        }
+                                    } else if (grouped == 'project') {
+                                        return _this.changeProject(board, card, newGroup);
+                                    }
+
+                                    return _this.moveCard(board, card, oldLabel, newLabel);
+                                } else {
+                                    return _this.moveCard(board, card, oldLabel, newLabel);
+                                }
+                            });
+                        },
+                        containment: '#board'
+                    }
                 }
             };
 

@@ -61,6 +61,24 @@
                 $state.go('board.cards', params);
             };
 
+            this.applyAll = function(tagPrefix, tags, identifyBy, enable) {
+                var params = {
+                    project_id: $stateParams.project_id,
+                    project_path: $stateParams.project_path,
+                    tags: Array.isArray($stateParams.tags) ? $stateParams.tags : $stateParams.tags ? [$stateParams.tags] : []
+                };
+
+                tags = _(tags).values().map(function(tag) { return tagPrefix + tag[identifyBy]; }).value().concat(tagPrefix);
+
+                if (enable) {
+                    params.tags = _.uniq((params.tags || []).concat(tags));
+                } else {
+                    params.tags && _.pullAll(params.tags, tags);
+                }
+
+                $state.go('board.cards', params);
+            };
+
             /**
              * Clear all filters
              */
@@ -69,6 +87,10 @@
                     tags: []
                 });
             };
+
+            this.checked = function(obj) {
+                return _.includes(this.tags, obj);
+            }
         }
     ]);
 }(window.angular, window._));

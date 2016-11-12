@@ -1,3 +1,38 @@
+# 1.6.2 (2016-06-19)
+
+## Features:
+
+- Save a draft so you can close a not yet created issue [#118](https://gitlab.com//leanlabsio/kanban/issues/118) (cnam).
+- Save a draft new comment [#117](https://gitlab.com//leanlabsio/kanban/issues/117) (cnam).
+- Save a draft editable issue [#117](https://gitlab.com//leanlabsio/kanban/issues/117) (cnam).
+- Milestones are sorted alphanumerically [#186](https://gitlab.com//leanlabsio/kanban/issues/186) (cnam).
+- Inconsistent display of priority [#179](https://gitlab.com//leanlabsio/kanban/issues/179) (cnam).
+- Date not displayed for Milestone in Swimlane view [#172](https://gitlab.com//leanlabsio/kanban/issues/172) (cnam).
+- Allow use of Redis unix socket [#98](https://gitlab.com//leanlabsio/kanban/issues/98) (cnam).
+
+## Bugfixes:
+
+- Auto refresh to often, save all editable data as draft [#163](https://gitlab.com//leanlabsio/kanban/issues/163) (cnam).
+- Priority with negative order is incorrectly handled [#199](https://gitlab.com//leanlabsio/kanban/issues/199) (cnam).
+- Issue with long description or comments can't be scrolled [#157](https://gitlab.com//leanlabsio/kanban/issues/157) (cnam).
+
+# 1.6.1 (2016-06-13)
+
+## Features:
+
+- Add favicon [#176](https://gitlab.com//leanlabsio/kanban/issues/176) (cnam, Toby Mole, Maël Lavault).
+
+## Bugfixes:
+
+- Problem white text on white label [#181](https://gitlab.com//leanlabsio/kanban/issues/181) (cnam).
+- Add validation for board settings [#182](https://gitlab.com//leanlabsio/kanban/issues/182) (cnam).
+- Regex preventing "moved issue" notes creation (Clément Bethuys).
+
+## Maintanence:
+
+- Update angular to 1.5 version [#195](https://gitlab.com//leanlabsio/kanban/issues/195) (cnam).
+- Add contribution guides [#197](https://gitlab.com//leanlabsio/kanban/issues/197) (cnam).
+
 # 1.6.0 (2016-05-04)
 
 ## Features:

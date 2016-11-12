@@ -44,6 +44,8 @@ Go to https://gitlab.com/profile/applications or your GitLab installation and re
 > `KANBAN_GITLAB_CLIENT` | Your GitLab OAuth client application ID, required for OAuth to work. Git this from your gitlab server.
 >
 > `KANBAN_GITLAB_SECRET` | Your GitLab OAuth client secret key, required for OAuth to work. Git this from your gitlab server.
+>
+> `KANBAN_ENABLE_SIGNUP` | Wheter to enable sign up with user API token.
 
 **Then**
 
@@ -61,5 +63,5 @@ If you followed instructions from "Installation with Docker", then the easiest w
 
 # FAQ
 
-1. [How to install Kanban.Leanlabs](http://kanban.leanlabs.io/documentation/Installation)
-2. [How to customize column](http://kanban.leanlabs.io/documentation/Customizing-columns)
+1. [How to install Kanban.Leanlabs](http://kanban.leanlabs.io/docs/installation/)
+2. [How to customize column](http://kanban.leanlabs.io/docs/usage/customize-columns)

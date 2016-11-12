@@ -1,5 +1,5 @@
 IMAGE = leanlabs/kanban
-TAG   = 1.6.0
+TAG   = 1.6.2
 CWD   = /go/src/gitlab.com/leanlabsio/kanban
 
 all: clean
@@ -17,23 +17,15 @@ node_modules/: package.json
 		-v $$HOME/node_cache:/cache \
 		-w $(CWD) \
 		-e HOME=/cache \
-		leanlabs/npm-builder:latest npm install
+		node:6.3.0-wheezy npm run install
 
-bower_components/: bower.json
-	@docker run --rm \
-		-v $(CURDIR):$(CWD) \
-		-v $$HOME/node_cache:/cache \
-		-w $(CWD) \
-		-e HOME=cache \
-		leanlabs/npm-builder bower install --allow-root
-
-build: node_modules/ bower_components/
+build: node_modules/
 	@docker run --rm \
 		-v $(CURDIR):$(CWD) \
 		-v $$HOME/node_cache:/cache \
 		-w $(CWD) \
 		-e HOME=/cache \
-		leanlabs/npm-builder grunt build
+		node:6.3.0-wheezy npm run build
 
 templates/templates.go: $(find $(CURDIR)/templates -name "*.html" -type f)
 	@docker run --rm \
@@ -98,7 +90,7 @@ watch: build
 			-v $$HOME/node_cache:/cache \
 			-w $(CWD) \
 			-e HOME=/cache \
-			leanlabs/npm-builder grunt watch
+			node:6.3.0-wheezy npm run watch
 
 tmp/go/pkg/:
 	@docker run --rm \

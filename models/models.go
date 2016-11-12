@@ -1,12 +1,12 @@
 package models
 
 import (
+	"strings"
+
 	"github.com/spf13/viper"
 	"gitlab.com/leanlabsio/kanban/modules/gitlab"
 	"golang.org/x/oauth2"
 	"gopkg.in/redis.v3"
-	"log"
-	"strings"
 )
 
 var (
@@ -14,9 +14,10 @@ var (
 )
 
 // NewEngine creates new services for data from config settings
-func NewEngine() error {
+func NewEngine(r *redis.Client) error {
 	gh := strings.TrimSuffix(viper.GetString("gitlab.url"), "/")
 	d := strings.TrimSuffix(viper.GetString("server.hostname"), "/")
+	c = r
 
 	gitlab.NewEngine(&gitlab.Config{
 		BasePath: gh + "/api/v3",
@@ -31,18 +32,6 @@ func NewEngine() error {
 			RedirectURL: d + "/assets/html/user/views/oauth.html",
 		},
 	})
-
-	c = redis.NewClient(&redis.Options{
-		Addr:     viper.GetString("redis.addr"),
-		Password: viper.GetString("redis.password"),
-		DB:       int64(viper.GetInt("redis.db")),
-	})
-
-	_, err := c.Ping().Result()
-
-	if err != nil {
-		log.Fatalf("Error connection to redis %s", err.Error())
-	}
 
 	return nil
 }

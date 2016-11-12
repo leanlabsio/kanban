@@ -1,13 +1,8 @@
-<div id="filter-block" class="small-12 medium-6 large-3 columns">
+<div id="filter-block" class="small-12 large-12 medium-12 column">
     <style>
         #filter-block {
-            position: fixed;
-            overflow-y: scroll;
-            top: 45px;
-            bottom: 0;
-            right: 0;
+            min-width: 100%;
             background: #edeff0;
-            box-shadow: 0 0 6px rgba(0, 0, 0, .4);
         }
         
         #filter-block .side-nav {
@@ -48,14 +43,6 @@
         }
     </style>
 
-    <div class="row collapse">
-        <h4 style="margin-top: 10px;">
-            Filter cards
-        </h4>
-    </div>
-
-    <hr/>
-
     <form>
         <div class="row collapse">
             <div class="small-12 medium-12 large-12 columns">
@@ -67,11 +54,17 @@
     <hr/>
 
     <h5>
+        <span class="pull-right">
+            <a href="#" data-ng-click="filter.applyAll('~', filter.labels, 'name', true)">All</a>
+            |
+            <a href="#" data-ng-click="filter.applyAll('~', filter.labels, 'name', false)">None</a>
+        </span>
+
         Labels
     </h5>
     <div class="row collapse">
         <ul class="side-nav">
-            <li data-ng-class="{active: contains(filter.tags, '~')}">
+            <li data-ng-class="{active: filter.checked('~') }">
                 <a href="#" data-ng-click="filter.apply('~')">
                     <i class="fa fa-check"></i>&nbsp;
                     <span class="medium-text-left">
@@ -79,7 +72,7 @@
                     </span>
                 </a>
             </li>
-            <li data-ng-repeat="label in filter.labels|filter:query" data-ng-class="{active: contains(filter.tags, '~'+label.name)}">
+            <li data-ng-repeat="label in filter.labels|filter:query" data-ng-class="{active: filter.checked('~'+label.name)}">
                 <a href="#" data-ng-click="filter.apply('~'+label.name)">
                     <i class="fa fa-check"></i>&nbsp;
                     <span class="label medium-text-left" ng-style="{'background-color': label.color, 'color': (label.color|textColorForBg) }">
@@ -93,11 +86,17 @@
     <hr/>
 
     <h5>
+        <span class="pull-right">
+            <a href="#" data-ng-click="filter.applyAll('$', filter.priorities, 'id', true)">All</a>
+            |
+            <a href="#" data-ng-click="filter.applyAll('$', filter.priorities, 'id', false)">None</a>
+        </span>
+
         Priorities
     </h5>
     <div class="row collapse">
         <ul class="side-nav">
-            <li data-ng-class="{active: contains(filter.tags, '$')}">
+            <li data-ng-class="{active: filter.checked('$')}">
                 <a href="#" data-ng-click="filter.apply('$')">
                     <i class="fa fa-check"></i>&nbsp;
                     <span class="medium-text-left">
@@ -105,7 +104,7 @@
                     </span>
                 </a>
             </li>
-            <li data-ng-repeat="priority in filter.priorities|filter:query" data-ng-class="{active: contains(filter.tags, '$'+priority.name)}">
+            <li data-ng-repeat="priority in filter.priorities|filter:query" data-ng-class="{active: filter.checked('$'+priority.name)}">
                 <a href="#" data-ng-click="filter.apply('$'+priority.name)">
                     <i class="fa fa-check"></i>&nbsp;
                     <span class="label medium-text-left"
@@ -120,11 +119,17 @@
     <hr/>
 
     <h5>
+        <span class="pull-right">
+            <a href="#" data-ng-click="filter.applyAll('^', filter.milestones, 'id', true)">All</a>
+            |
+            <a href="#" data-ng-click="filter.applyAll('^', filter.milestones, 'id', false)">None</a>
+        </span>
+
         Milestones
     </h5>
     <div class="row collapse">
         <ul class="side-nav">
-            <li data-ng-class="{active: contains(filter.tags, '^')}">
+            <li data-ng-class="{active: filter.checked('^')}">
                 <a href="#" data-ng-click="filter.apply('^')">
                     <i class="fa fa-check"></i>&nbsp;
                     <span class="medium-text-left">
@@ -132,7 +137,7 @@
                     </span>
                 </a>
             </li>
-            <li data-ng-repeat="milestone in filter.milestones|filter:query" data-ng-class="{active: contains(filter.tags, '^'+milestone.id)}">
+            <li data-ng-repeat="milestone in filter.milestones|filter:query" data-ng-class="{active: filter.checked('^'+milestone.id)}">
                 <a href="#" data-ng-click="filter.apply('^'+milestone.id)">
                     <i class="fa fa-check"></i>&nbsp;
                     <span class="medium-text-left">
@@ -146,19 +151,25 @@
     <hr/>
 
     <h5>
+        <span class="pull-right">
+            <a href="#" data-ng-click="filter.applyAll('@', filter.users, 'id', true)">All</a>
+            |
+            <a href="#" data-ng-click="filter.applyAll('@', filter.users, 'id', false)">None</a>
+        </span>
+
         Users
     </h5>
     <div class="row collapse">
         <ul class="side-nav">
-            <li data-ng-class="{active: contains(filter.tags, '@')}">
+            <li data-ng-class="{active: filter.checked('@')}">
                 <a href="#" data-ng-click="filter.apply('@')">
                     <i class="fa fa-check"></i>&nbsp;
                     <span class="medium-text-left">
-                        No user
+                        Unassigned
                     </span>
                 </a>
             </li>
-            <li data-ng-repeat="user in filter.users|filter:query" data-ng-class="{active: contains(filter.tags, '@'+user.id)}">
+            <li data-ng-repeat="user in filter.users|filter:query" data-ng-class="{active: filter.checked('@'+user.id)}">
                 <a href="#" data-ng-click="filter.apply('@'+user.id)">
                     <i class="fa fa-check"></i>&nbsp;
                     <span class="meduim-text-left">

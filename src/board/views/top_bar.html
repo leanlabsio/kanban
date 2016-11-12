@@ -1,4 +1,4 @@
-<div data-ng-controller=TopBarController class="fixed">
+<div data-ng-controller="TopBarController" class="fixed">
     <top-bar is-hover="false">
         <top-bar-section>
             <ul class="left" style="width: auto;">
@@ -13,17 +13,15 @@
             <ul class="right">
                 <!-- filter button -->
                 <li data-ng-show="!isEmpty(project)">
-                    <a href="#" data-ng-click="showFilter()">
-                        <i class="fa fa-filter"></i>
-                        <span class="hide-for-medium-down">&nbsp;&nbsp;Filter
-                            <span data-ng-show="!isEmpty(stateParams.tags)"> is on</span>
-                        </span>
+                    <a href="#" data-ng-click="showActionBar()">
+                        <i class="fa fa-bars"></i>
+                        <span class="hide-for-medium-down">&nbsp;&nbsp;Actions</span>
                     </a>
                 </li>
                 <!-- filter button -->
 
                 <li data-has-dropdown data-ng-show="!isEmpty(project)">
-                    <a href="#"><i class="fa fa-align-justify"></i>
+                    <a href="#"><i class="fa fa-list-alt"></i>
                         <span class="hide-for-medium-down">&nbsp;&nbsp;Swimlane</span>
                     </a>
                     <ul data-top-bar-dropdown>

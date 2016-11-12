@@ -11,7 +11,8 @@
             'll.markdown',
             'll.modal',
             'mm.foundation.typeahead',
-            '720kb.datepicker'
+            '720kb.datepicker',
+            'mm.foundation.tabs'
         ]).config(['$stateProvider', '$urlMatcherFactoryProvider', function($stateProvider, $urlMatcherFactoryProvider) {
             function valToString(val) {
                 return val != null ? val.toString() : val;
@@ -161,10 +162,11 @@
             });
             $markdownProvider.registerPlugin(window.md_merge_request_plugin);
             $markdownProvider.registerPlugin(window.md_image_plugin);
+            $markdownProvider.registerPlugin(window.md_link_target_blank_plugin);
             $markdownProvider.registerPlugin(window.markdownitEmoji);
             $markdownProvider.registerPlugin(window.md_twemoji_plugin);
         }])
-        .constant('stage_regexp', /KB\[stage\]\[(\d+)\]\[(.*?)\]/)
-        .constant('priority_regexp', /KB\[priority\]\[(\d+)\]\[(.*?)\]/)
+        .constant('stage_regexp', /KB\[stage\]\[(\d+)\]\[(.*?)\]\[?(\d+)?\]?/)
+        .constant('priority_regexp', /KB\[priority\]\[(-?\d+)\]\[(.*?)\]/)
         ;
 }) (window.angular, window.CLIENT_VERSION);

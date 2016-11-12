@@ -1,14 +1,14 @@
 # Customizing columns
 
-Kanban relies on specially formatted labels in your project for it's work. Kanban LeanLabs labels use the following pattern.
+Kanban relies on specially formatted labels in your project for its work. Kanban LeanLabs labels use the following pattern.
 
 > KB[stage][0][Backlog]
 
 **Where:**
 
-> KB[stage]  - reserved prefix for columns
+> KB[stage]  - reserved column prefix
 >
-> [0] - position columns
+> [0] - column position
 >
 > [Backlog] - column title
 

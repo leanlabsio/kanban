@@ -1,10 +1,11 @@
 package board
 
 import (
-	"gitlab.com/leanlabsio/kanban/models"
-	"gitlab.com/leanlabsio/kanban/modules/middleware"
 	"log"
 	"net/http"
+
+	"gitlab.com/leanlabsio/kanban/models"
+	"gitlab.com/leanlabsio/kanban/modules/middleware"
 )
 
 // ListLabels gets a list of label on board accessible by the authenticated user.
@@ -24,7 +25,7 @@ func ListLabels(ctx *middleware.Context) {
 	})
 }
 
-// Edit label updates existing project label
+// EditLabel updates existing project label
 func EditLabel(ctx *middleware.Context, form models.LabelRequest) {
 	log.Printf("GOT LABEL req %+v", form)
 	label, err := ctx.DataSource.EditLabel(ctx.Params(":project"), &form)
@@ -40,6 +41,7 @@ func EditLabel(ctx *middleware.Context, form models.LabelRequest) {
 	})
 }
 
+// CreateLabel creates new label
 func CreateLabel(ctx *middleware.Context, form models.LabelRequest) {
 	label, err := ctx.DataSource.CreateLabel(ctx.Params(":project"), &form)
 
