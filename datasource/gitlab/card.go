@@ -146,6 +146,7 @@ func mapCardRequestToGitlab(c *models.CardRequest) *gitlab.IssueRequest {
 		AssigneeId:  c.AssigneeId,
 		MilestoneId: c.MilestoneId,
 		Labels:      c.Labels,
+		DueDate:     c.DueDate,
 	}
 }
 
@@ -188,6 +189,13 @@ func mapCardFromGitlab(c *gitlab.Issue, board *models.Board) *models.Card {
 		Properties:        mapCardPropertiesFromGitlab(c.Description),
 		Todo:              mapCardTodoFromGitlab(c.Description),
 		PathWithNamespace: board.PathWithNamespace,
+		UserCommentsCount: c.UserNotesCount,
+		Subscribed:        c.Subscribed,
+		CreatedAt:         c.CreatedAt.Unix(),
+		UpdatedAt:         c.UpdatedAt.Unix(),
+		DueDate:           c.DueDate,
+		Confidential:      c.Confidential,
+		WebURL:            c.WebURL,
 	}
 }
 

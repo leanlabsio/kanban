@@ -63,6 +63,7 @@
 
                     $scope.submitComment = function() {
                         $scope.isSaving = true;
+                        card.user_comments_count += 1;
 
                         CommentService.create(card.project_id, card.id, $scope.commentFormData.comment).then(function(data) {
                             $scope.isSaving = false;

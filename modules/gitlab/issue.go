@@ -3,22 +3,30 @@ package gitlab
 import (
 	"net/http"
 	"net/url"
+	"time"
 )
 
 // Issue represents a GitLab issue.
 //
 // GitLab API docs: http://doc.gitlab.com/ce/api/issues.html
 type Issue struct {
-	Assignee    *User      `json:"assignee"`
-	Author      *User      `json:"author"`
-	Description string     `json:"description"`
-	Milestone   *Milestone `json:"milestone"`
-	Id          int64      `json:"id"`
-	Iid         int64      `json:"iid"`
-	Labels      *[]string  `json:"labels"`
-	ProjectId   int64      `json:"project_id"`
-	State       string     `json:"state"`
-	Title       string     `json:"title"`
+	Assignee       *User      `json:"assignee"`
+	Author         *User      `json:"author"`
+	Description    string     `json:"description"`
+	Milestone      *Milestone `json:"milestone"`
+	Id             int64      `json:"id"`
+	Iid            int64      `json:"iid"`
+	Labels         *[]string  `json:"labels"`
+	ProjectId      int64      `json:"project_id"`
+	State          string     `json:"state"`
+	Title          string     `json:"title"`
+	UserNotesCount int        `json:"user_notes_count"`
+	Subscribed     bool       `json:"subscribed"`
+	CreatedAt      time.Time  `json:"created_at"`
+	UpdatedAt      time.Time  `json:"updated_at"`
+	DueDate        string     `json:"due_date"`
+	Confidential   bool       `json:"confidential"`
+	WebURL         string     `json:"web_url"`
 }
 
 // IssueRequest represents the available CreateIssue() and UpdateIssue() options.
@@ -31,6 +39,7 @@ type IssueRequest struct {
 	MilestoneId *int64 `json:"milestone_id"`
 	Labels      string `json:"labels"`
 	StateEvent  string `json:"state_event,omitempty"`
+	DueDate     string `json:"due_date,omitempty"`
 }
 
 // MoveIssueRequest moved issue to another project

@@ -1,8 +1,6 @@
 package models
 
-import (
-	"fmt"
-)
+import "fmt"
 
 // Card represents an card in kanban board
 type Card struct {
@@ -20,6 +18,13 @@ type Card struct {
 	State             string      `json:"state"`
 	Title             string      `json:"title"`
 	Todo              []*Todo     `json:"todo"`
+	UserCommentsCount int         `json:"user_comments_count"`
+	Subscribed        bool        `json:"subscribed"`
+	CreatedAt         int64       `json:"created_at"`
+	UpdatedAt         int64       `json:"updated_at"`
+	DueDate           string      `json:"due_date"`
+	Confidential      bool        `json:"confidential"`
+	WebURL            string      `json:"web_url"`
 }
 
 // Properties represents a card properties
@@ -35,16 +40,18 @@ type Todo struct {
 
 // CardRequest represents a card request for create, update, delete card on kanban
 type CardRequest struct {
-	CardId      int64             `json:"issue_id"`
-	ProjectId   int64             `json:"project_id"`
-	Title       string            `json:"title"`
-	Description string            `json:"description"`
-	AssigneeId  *int64            `json:"assignee_id"`
-	MilestoneId *int64            `json:"milestone_id"`
-	Labels      string            `json:"labels"`
-	Properties  *Properties       `json:"properties"`
-	Stage       map[string]string `json:"stage"`
-	Todo        []*Todo           `json:"todo"`
+	CardId       int64             `json:"issue_id"`
+	ProjectId    int64             `json:"project_id"`
+	Title        string            `json:"title"`
+	Description  string            `json:"description"`
+	AssigneeId   *int64            `json:"assignee_id"`
+	MilestoneId  *int64            `json:"milestone_id"`
+	Labels       string            `json:"labels"`
+	Properties   *Properties       `json:"properties"`
+	Stage        map[string]string `json:"stage"`
+	Todo         []*Todo           `json:"todo"`
+	DueDate      string            `json:"due_date"`
+	Confidential bool              `json:"confidential"`
 }
 
 func (c *Card) RoutingKey() string {

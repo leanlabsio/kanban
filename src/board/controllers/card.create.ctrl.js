@@ -113,6 +113,9 @@
                         description: $scope.card.description,
                     };
 
+                    if (!_.isEmpty($scope.card.due_date)) {
+                        data.due_date = $scope.card.due_date;
+                    }
                     if (!_.isEmpty($scope.card.assignee)) {
                         data.assignee_id = $scope.card.assignee.id;
                     }
