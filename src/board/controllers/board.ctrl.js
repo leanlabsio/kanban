@@ -18,7 +18,7 @@
             $window.scrollTo(0, 0);
 
             var filter = function(item) {
-                return item.stage != "";
+                return true;
             };
             var group = function(item) {
                 return 0;

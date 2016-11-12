@@ -35,6 +35,9 @@
                         issue.stage = LabelService.getStage(project.id,
                             _.find(issue.labels, function(l){return stage_regexp.test(l)}
                         ));
+                        if (! issue.stage) {
+                            issue.stage = this.stages[0];
+                        }
                         issue.priority = LabelService.getPriority(project.id, _.intersection(this.priorityLabels, issue.labels)[0]);
 
                         if (!_.isEmpty(issue.labels)) {
