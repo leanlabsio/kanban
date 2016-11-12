@@ -29,6 +29,8 @@
                 name: "none"
             }];
 
+            $scope.showDetails = {};
+
             var grouped = $stateParams.group;
 
             var tags = [];
@@ -160,6 +162,23 @@
 
                 $scope.groups = board.reset(filter, group);
                 $scope.board = board;
+
+
+                $scope.showDetail = function(groupId) {
+                    $scope.showDetails[groupId] = ! $scope.showDetails[groupId];
+                };
+
+                $scope.showDetailInit = function(groupId) {
+                    return grouped ? $scope.groups[groupId] != undefined : true;
+                };
+
+                $scope.isShowDetail = function(groupId) {
+                    if ($scope.showDetails[groupId] == undefined) {
+                        $scope.showDetails[groupId] = $scope.showDetailInit(groupId);
+                    }
+
+                    return $scope.showDetails[groupId];
+                };
 
                 $rootScope.$on('board.change', function() {
                     $scope.groups = board.reset(filter, group);
