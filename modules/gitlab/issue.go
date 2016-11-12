@@ -49,25 +49,44 @@ type IssueListOptions struct {
 	ListOptions
 }
 
+// CollectionOptions represents collection options on http headers
+type CollectionOptions struct {
+	Total      string
+	NextPage   string
+	TotalPages string
+	PerPage    string
+	Page       string
+	PrevPage   string
+}
+
 // ListIssues gets all issues created by authenticated user. This function
 // takes pagination parameters page and per_page to restrict the list of issues.
 //
 // GitLab API docs: http://doc.gitlab.com/ce/api/issues.html#list-issues
-func (g *GitlabContext) ListIssues(project_id string, o *IssueListOptions) ([]*Issue, error) {
-	path := getUrl([]string{"projects", url.QueryEscape(project_id), "issues"})
+func (g *GitlabContext) ListIssues(projectID string, o *IssueListOptions) ([]*Issue, *CollectionOptions, error) {
+	path := getUrl([]string{"projects", url.QueryEscape(projectID), "issues"})
+	opt := CollectionOptions{}
 	u, err := addOptions(path, o)
 	if err != nil {
-		return nil, err
+		return nil, &opt, err
 	}
 
 	req, _ := http.NewRequest("GET", u, nil)
 
 	var ret []*Issue
-	if _, err := g.Do(req, &ret); err != nil {
-		return nil, err
+	resp, err := g.Do(req, &ret)
+	if err != nil {
+		return nil, &opt, err
 	}
 
-	return ret, nil
+	opt.NextPage = resp.Header.Get("X-Next-Page")
+	opt.PrevPage = resp.Header.Get("X-Prev-Page")
+	opt.TotalPages = resp.Header.Get("X-Total-Pages")
+	opt.PerPage = resp.Header.Get("X-Per-Page")
+	opt.Total = resp.Header.Get("X-Total")
+	opt.Page = resp.Header.Get("X-Page")
+
+	return ret, &opt, nil
 }
 
 // CreateIssue creates a new project issue.

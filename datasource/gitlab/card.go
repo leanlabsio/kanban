@@ -21,17 +21,19 @@ func (ds GitLabDataSource) ListCards(board *models.Board) ([]*models.Card, error
 	op := &gitlab.IssueListOptions{
 		State: "opened",
 	}
+
+	op.PerPage = "20"
 	op.Page = "1"
-	op.PerPage = "200"
 
-	r, err := ds.client.ListIssues(fmt.Sprintf("%d", board.Id), op)
-
-	if err != nil {
-		return nil, err
-	}
-
-	for _, d := range r {
-		b = append(b, mapCardFromGitlab(d, board))
+	for op.Page != "" {
+		r, opts, err := ds.client.ListIssues(fmt.Sprintf("%d", board.Id), op)
+		if err != nil {
+			return nil, err
+		}
+		for _, d := range r {
+			b = append(b, mapCardFromGitlab(d, board))
+		}
+		op.Page = opts.NextPage
 	}
 
 	return b, nil
