@@ -166,12 +166,17 @@ func daemon(c *cobra.Command, a []string) {
 		m.Delete("/labels/:project/:label", middleware.Datasource(), board.DeleteLabel)
 		m.Post("/labels/:project", middleware.Datasource(), binding.Json(models.LabelRequest{}), board.CreateLabel)
 
-		m.Get("/boards", middleware.Datasource(), board.ListBoards)
-		m.Post("/boards/configure", middleware.Datasource(), binding.Json(models.BoardRequest{}), board.Configure)
-		m.Combo("/boards/:board/connect").
-			Get(middleware.Datasource(), board.ListConnectBoard).
-			Post(middleware.Datasource(), binding.Json(models.BoardRequest{}), board.CreateConnectBoard).
-			Delete(middleware.Datasource(), board.DeleteConnectBoard)
+		m.Group("/boards", func() {
+			m.Get("", board.ListBoards)
+			m.Get("/starred", board.ListStarredBoards)
+			m.Post("/configure", binding.Json(models.BoardRequest{}), board.Configure)
+
+			m.Combo("/:board/connect").
+				Get(board.ListConnectBoard).
+				Post(binding.Json(models.BoardRequest{}), board.CreateConnectBoard).
+				Delete(board.DeleteConnectBoard)
+
+		}, middleware.Datasource())
 
 		m.Get("/board", middleware.Datasource(), board.ItemBoard)
 

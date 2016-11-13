@@ -43,6 +43,8 @@ type ProjectListOptions struct {
 	// State filters issues based on their state.  Possible values are: open,
 	// closed.  Default is "open".
 	Archived string `url:"archived,omitempty"`
+	// Search find projects by criteria
+	Search string `url:"search,omitempty"`
 
 	ListOptions
 }
@@ -50,20 +52,41 @@ type ProjectListOptions struct {
 // ListProjects gets a list of projects accessible by the authenticated user.
 //
 // GitLab API docs: http://doc.gitlab.com/ce/api/projects.html#list-projects
-func (g *GitlabContext) ListProjects(o *ProjectListOptions) ([]*Project, error) {
+func (g *GitlabContext) ListProjects(o *ProjectListOptions) ([]*Project, *CollectionOptions, error) {
 	u, err := addOptions(getUrl([]string{"projects"}), o)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
 	req, _ := http.NewRequest("GET", u, nil)
 
 	var ret []*Project
-	if _, err := g.Do(req, &ret); err != nil {
-		return nil, err
+	resp, err := g.Do(req, &ret)
+	if err != nil {
+		return nil, nil, err
 	}
 
-	return ret, nil
+	return ret, NewCollectionOption(resp), nil
+}
+
+// StarredProjects gets a list starred project for user.
+//
+// GitLab API docs: http://doc.gitlab.com/ce/api/projects.html#list-starred-projects
+func (g *GitlabContext) StarredProjects(opt *ProjectListOptions) ([]*Project, *CollectionOptions, error) {
+	u, err := addOptions(getUrl([]string{"projects/starred"}), opt)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	req, _ := http.NewRequest("GET", u, nil)
+
+	var ret []*Project
+	resp, err := g.Do(req, &ret)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	return ret, NewCollectionOption(resp), nil
 }
 
 // ItemProject gets a specific project, identified by project ID or

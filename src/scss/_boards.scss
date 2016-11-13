@@ -9,6 +9,9 @@
 .boards{
     margin-top: 70px;
     margin-bottom: 50px;
+    .tabs-content > .content{
+      padding: 0;
+    }
     .board{
         background-color: $white;
         margin-left: 0;
@@ -37,7 +40,7 @@
             margin-left: 0;
         }
 
-        li{
+        .board-view, li{
             overflow: hidden;
             height: auto;
             padding-left: 20px;

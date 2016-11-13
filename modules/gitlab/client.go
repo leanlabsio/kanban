@@ -1,10 +1,11 @@
 package gitlab
 
 import (
-	"golang.org/x/oauth2"
-	"net/http"
 	"crypto/tls"
+	"net/http"
+
 	"golang.org/x/net/context"
+	"golang.org/x/oauth2"
 )
 
 type Config struct {
@@ -25,6 +26,16 @@ type ListOptions struct {
 
 	// For paginated result sets, the number of results to include per page.
 	PerPage string `url:"per_page,omitempty"`
+}
+
+// CollectionOptions represents collection options on http headers
+type CollectionOptions struct {
+	Total      string
+	NextPage   string
+	TotalPages string
+	PerPage    string
+	Page       string
+	PrevPage   string
 }
 
 type Transport struct {
@@ -71,8 +82,9 @@ func NewContext(t *oauth2.Token, pt string) *GitlabContext {
 		client: cfg.Oauth2.Client(defaultContext(), t),
 	}
 }
+
 // defaultContext returns context for usage oauth2 with internal http.Client
-func defaultContext() (context.Context) {
+func defaultContext() context.Context {
 	return context.WithValue(
 		oauth2.NoContext,
 		oauth2.HTTPClient,

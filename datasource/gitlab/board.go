@@ -25,7 +25,28 @@ func (ds GitLabDataSource) ListBoards() ([]*models.Board, error) {
 	op.PerPage = "100"
 	op.Archived = "false"
 
-	r, err := ds.client.ListProjects(op)
+	r, _, err := ds.client.ListProjects(op)
+
+	if err != nil {
+		return nil, err
+	}
+
+	for _, item := range r {
+		b = append(b, mapBoardFromGitlab(item))
+	}
+
+	return b, nil
+}
+
+// ListStarredBoards gets list starred board for current user
+func (ds GitLabDataSource) ListStarredBoards() ([]*models.Board, error) {
+	var b []*models.Board
+	op := &gitlab.ProjectListOptions{}
+	op.Page = "1"
+	op.PerPage = "100"
+	op.Archived = "false"
+
+	r, _, err := ds.client.StarredProjects(op)
 
 	if err != nil {
 		return nil, err
