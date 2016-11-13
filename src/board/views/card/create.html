@@ -22,32 +22,7 @@
                 <small class="error" data-ng-show="issueForm.title.$invalid && !issueForm.title.$pristine">
                     This Field is required
                 </small>
-                <div class="mdeditor">
-                    <div class="mdeditor-panel">
-                        <a class="icon-edit"
-                           data-ng-show="!isPreview"
-                           data-ng-click="isPreview=true">
-                           <i class="fa fa-eye"></i>
-                        </a>
-                        <a class="icon-edit"
-                           data-ng-show="isPreview"
-                           data-ng-click="isPreview=false">
-                           <i class="fa fa-eye-slash"></i>
-                        </a>&nbsp;
-                        <a class="icon-edit" target="_blank" href="https://gitlab.com/help/markdown/markdown">
-                            <i class="fa fa-question"></i>
-                        </a>
-                    </div>
-                    <div class="preview" style="min-height: 228px;"
-                         data-ng-show="isPreview"
-                         data-ll-markdown
-                         data-markdown="card.description"></div>
-                    <textarea data-ng-show="! isPreview"
-                              name="description"
-                              placeholder="Description"
-                              rows="10"
-                              data-ng-model="card.description"></textarea>
-                </div>
+                <md-editor description="card.description" rows="10"></md-editor>
                 <button class="button right" type="submit" data-ng-disabled="issueForm.$invalid || isSaving">
                     Create
                 </button>

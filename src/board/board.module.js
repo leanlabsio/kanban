@@ -12,7 +12,8 @@
             'll.modal',
             'mm.foundation.typeahead',
             '720kb.datepicker',
-            'mm.foundation.tabs'
+            'mm.foundation.tabs',
+            'angularFileUpload'
         ]).config(['$stateProvider', '$urlMatcherFactoryProvider', function($stateProvider, $urlMatcherFactoryProvider) {
             function valToString(val) {
                 return val != null ? val.toString() : val;

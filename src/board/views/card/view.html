@@ -26,32 +26,7 @@
                        placeholder="Title"
                        required
                        data-ng-model="newCard.title">
-                <div class="mdeditor">
-                    <div class="mdeditor-panel">
-                        <a class="icon-edit"
-                           data-ng-show="!isPreview"
-                           data-ng-click="isPreview=true">
-                           <i class="fa fa-eye"></i>
-                        </a>
-                        <a class="icon-edit"
-                           data-ng-show="isPreview"
-                           data-ng-click="isPreview=false">
-                           <i class="fa fa-eye-slash"></i>
-                        </a>&nbsp;
-                        <a class="icon-edit" target="_blank" href="https://gitlab.com/help/markdown/markdown">
-                            <i class="fa fa-question"></i>
-                        </a>
-                    </div>
-                    <div class="preview" style="min-height: 228px;"
-                         data-ng-show="isPreview"
-                         data-ll-markdown
-                         data-markdown="newCard.description"></div>
-                    <textarea data-ng-show="! isPreview"
-                              name="description"
-                              placeholder="Description"
-                              rows="10"
-                              data-ng-model="newCard.description"></textarea>
-                </div>
+                <md-editor description="newCard.description" rows="10"></md-editor>
                 <button class="button small right" type="submit" data-ng-disabled="issueForm.$invalid || isSaving">Update</button>
             </form>
             <button class="button small left secondary" data-ng-click="isEdit=false;isPreview=false; discardCardDraft()">Cancel</button>
@@ -130,37 +105,7 @@
                 <form name="commentForm" data-ng-submit="submitComment();isPreviewComment=false;commentFormData.comment='';" class="comment-form">
                     <div class="row collapse prefix-round">
                         <div class="small-12 columns">
-                            <div class="mdeditor">
-                                <div class="mdeditor-panel">
-                                    <a class="icon-edit"
-                                       data-ng-show="!isPreviewComment"
-                                       data-ng-click="isPreviewComment=true">
-                                       <i class="fa fa-eye"></i>
-                                    </a>
-                                    <a class="icon-edit"
-                                       data-ng-show="isPreviewComment"
-                                       data-ng-click="isPreviewComment=false">
-                                       <i class="fa fa-eye-slash"></i>
-                                    </a>&nbsp;
-                                    <a class="icon-edit"
-                                       target="_blank"
-                                       href="https://gitlab.com/help/markdown/markdown">
-                                        <i class="fa fa-question"></i>
-                                    </a>
-                                </div>
-                                <div class="preview" style="min-height: 123px;"
-                                     data-ng-show="isPreviewComment"
-                                     data-ll-markdown
-                                     data-markdown="commentFormData.comment"></div>
-                                <textarea data-ng-show="! isPreviewComment"
-                                      data-ng-focus="isCommentAdd"
-                                      data-ng-disabled="isSaving"
-                                      name="comment"
-                                      data-ng-model="commentFormData.comment"
-                                      placeholder="Leave a comment"
-                                      rows="5"
-                                    ></textarea>
-                            </div>
+                            <md-editor description="commentFormData.comment" rows="5"></md-editor>
                             <button
                                 class="button small right"
                                 type="submit"

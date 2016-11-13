@@ -33,6 +33,7 @@
     "ng-sortable": "=1.3.6",
     "sass-flex-mixin": "=1.0.3",
     "lodash": "=4.13.1",
-    "twemoji": "=2.1.0"
+    "twemoji": "=2.1.0",
+    "angular-file-upload": "=2.3.4"
   }
 }

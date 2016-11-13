@@ -1,8 +1,6 @@
 package datasource
 
-import (
-	"gitlab.com/leanlabsio/kanban/models"
-)
+import "gitlab.com/leanlabsio/kanban/models"
 
 type DataSource interface {
 	CardSource
@@ -11,6 +9,7 @@ type DataSource interface {
 	UserSource
 	LabelSource
 	MilestoneSource
+	FileService
 }
 
 type CardSource interface {
@@ -50,4 +49,9 @@ type LabelSource interface {
 type MilestoneSource interface {
 	ListMilestones(boardID string) ([]*models.Milestone, error)
 	CreateMilestone(*models.MilestoneRequest) (*models.Milestone, int, error)
+}
+
+// FileService represents uploaded file
+type FileService interface {
+	UploadFile(boardID string, file models.UploadForm) (*models.File, error)
 }
