@@ -15,6 +15,10 @@
                     });
                 });
 
+                BoardService.getStarredBoards().then(function(boards) {
+                    $scope.stared_boards = boards;
+                });
+
                 $scope.setVisible = function(key) {
                     $scope.boards[key].visible = ($scope.boards[key].visible == undefined || $scope.boards[key].visible != true);
                 };

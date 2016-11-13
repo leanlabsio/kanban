@@ -23,6 +23,7 @@ type CardSource interface {
 
 type BoardSource interface {
 	ListBoards() ([]*models.Board, error)
+	ListStarredBoards() ([]*models.Board, error)
 	ItemBoard(boardID string) (*models.Board, error)
 	ConfigureBoard(*models.BoardRequest) (int, error)
 	CreateConnectBoard(BoardID, ConnectedBoardID string) (int, error)

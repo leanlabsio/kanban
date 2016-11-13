@@ -24,6 +24,23 @@ func ListBoards(ctx *middleware.Context) {
 	})
 }
 
+// ListStarredBoards gets a list starred boards
+func ListStarredBoards(ctx *middleware.Context) {
+	boards, err := ctx.DataSource.ListStarredBoards()
+
+	if err != nil {
+		ctx.JSON(http.StatusUnauthorized, &models.ResponseError{
+			Success: false,
+			Message: err.Error(),
+		})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, &models.Response{
+		Data: boards,
+	})
+}
+
 // ItemBoard gets a specific board, identified by project ID or
 // NAMESPACE/BOARD_NAME, which is owned by the authenticated user.
 func ItemBoard(ctx *middleware.Context) {

@@ -4,16 +4,17 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"github.com/google/go-querystring/query"
 	"io"
 	"net/http"
 	"net/url"
 	"reflect"
 	"strings"
+
+	"github.com/google/go-querystring/query"
 )
 
 type ResponseError struct {
-	message string
+	message    string
 	StatusCode int
 }
 
@@ -63,7 +64,7 @@ func CheckResponse(r *http.Response) error {
 	logs := fmt.Sprintf("Bad response code: %d \n Request url: %s \n Data %+v", r.StatusCode, r.Request.URL.RequestURI(), res)
 	fmt.Print(logs)
 	return ResponseError{
-		message: logs,
+		message:    logs,
 		StatusCode: r.StatusCode,
 	}
 }
@@ -119,4 +120,16 @@ func addOptions(s string, opt interface{}) (string, error) {
 
 	u.RawQuery = qs.Encode()
 	return u.String(), nil
+}
+
+// NewCollectionOption gets pagination options
+func NewCollectionOption(resp *http.Response) *CollectionOptions {
+	return &CollectionOptions{
+		NextPage:   resp.Header.Get("X-Next-Page"),
+		PrevPage:   resp.Header.Get("X-Prev-Page"),
+		TotalPages: resp.Header.Get("X-Total-Pages"),
+		PerPage:    resp.Header.Get("X-Per-Page"),
+		Total:      resp.Header.Get("X-Total"),
+		Page:       resp.Header.Get("X-Page"),
+	}
 }

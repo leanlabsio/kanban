@@ -188,6 +188,13 @@
 
                     return $q.when(_this.boardsList);
                 },
+                getStarredBoards: function() {
+                    return $http.get('/api/boards/starred').then(function(result) {
+                            return result.data.data;
+                        }, function(result) {
+                            return $q.reject(result);
+                        });
+                },
                 addCardToBoard: function(card) {
                     var _this = this;
                     var ids = this.boardConnectedIndex[card.project_id];
