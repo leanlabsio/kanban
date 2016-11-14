@@ -4,27 +4,34 @@ import "fmt"
 
 // Card represents an card in kanban board
 type Card struct {
-	Id                int64       `json:"id"`
-	Iid               int64       `json:"iid"`
-	Assignee          *User       `json:"assignee"`
-	Milestone         *Milestone  `json:"milestone"`
-	Author            *User       `json:"author"`
-	Description       string      `json:"description"`
-	Labels            *[]string   `json:"labels"`
-	ProjectId         int64       `json:"project_id"`
-	BoardID           string      `json:"board_id"`
-	PathWithNamespace string      `json:"path_with_namespace"`
-	Properties        *Properties `json:"properties"`
-	State             string      `json:"state"`
-	Title             string      `json:"title"`
-	Todo              []*Todo     `json:"todo"`
-	UserCommentsCount int         `json:"user_comments_count"`
-	Subscribed        bool        `json:"subscribed"`
-	CreatedAt         int64       `json:"created_at"`
-	UpdatedAt         int64       `json:"updated_at"`
-	DueDate           string      `json:"due_date"`
-	Confidential      bool        `json:"confidential"`
-	WebURL            string      `json:"web_url"`
+	Id                int64        `json:"id"`
+	Iid               int64        `json:"iid"`
+	Assignee          *User        `json:"assignee"`
+	Milestone         *Milestone   `json:"milestone"`
+	Author            *User        `json:"author"`
+	Description       string       `json:"description"`
+	Labels            *[]string    `json:"labels"`
+	ProjectId         int64        `json:"project_id"`
+	BoardID           string       `json:"board_id"`
+	PathWithNamespace string       `json:"path_with_namespace"`
+	Properties        *Properties  `json:"properties"`
+	State             string       `json:"state"`
+	Title             string       `json:"title"`
+	Todo              []*Todo      `json:"todo"`
+	TodoMetrics       *TodoMetrics `json:"todo_metrics"`
+	UserCommentsCount int          `json:"user_comments_count"`
+	Subscribed        bool         `json:"subscribed"`
+	CreatedAt         int64        `json:"created_at"`
+	UpdatedAt         int64        `json:"updated_at"`
+	DueDate           string       `json:"due_date"`
+	Confidential      bool         `json:"confidential"`
+	WebURL            string       `json:"web_url"`
+}
+
+// TodoMetrics represents metrics by todo for card
+type TodoMetrics struct {
+	Checked  int `json:"checked"`
+	Quantity int `json:"quantity"`
 }
 
 // Properties represents a card properties
