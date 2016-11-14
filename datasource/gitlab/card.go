@@ -175,7 +175,7 @@ func mapCardDescriptionToGitlab(desc string, t []*models.Todo, p *models.Propert
 
 // mapCardFromGitlab mapped gitlab issue to kanban card
 func mapCardFromGitlab(c *gitlab.Issue, board *models.Board) *models.Card {
-	return &models.Card{
+	card := models.Card{
 		Id:                c.Id,
 		Iid:               c.Iid,
 		Title:             c.Title,
@@ -197,6 +197,11 @@ func mapCardFromGitlab(c *gitlab.Issue, board *models.Board) *models.Card {
 		Confidential:      c.Confidential,
 		WebURL:            c.WebURL,
 	}
+
+	card.TodoMetrics = mapCardTodoMetrics(card.Todo)
+
+	return &card
+
 }
 
 // removeDuplicates removed duplicates
@@ -246,6 +251,22 @@ func mapCardTodoFromGitlab(d string) []*models.Todo {
 	}
 
 	return i
+}
+
+// mapCardTodoMetrics maps card todo metrics from gitlab
+func mapCardTodoMetrics(to []*models.Todo) *models.TodoMetrics {
+	m := models.TodoMetrics{
+		Checked:  0,
+		Quantity: 0,
+	}
+	for _, t := range to {
+		if t.Checked {
+			m.Checked++
+		}
+		m.Quantity++
+	}
+
+	return &m
 }
 
 // mapCardDescriptionFromGitlab clears gitlab description to card description
