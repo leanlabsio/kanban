@@ -18,7 +18,7 @@
                 <input type="hidden" name="project_id" data-ng-model="card.project_id">
                 <input data-ng-class="{ 'error' : issueForm.title.$invalid && !issueForm.title.$pristine}" name="title"
                        type="text"
-                       placeholder="Title" required data-ng-model="card.title">
+                       placeholder="Title" required data-ng-model="card.title" autofocus>
                 <small class="error" data-ng-show="issueForm.title.$invalid && !issueForm.title.$pristine">
                     This Field is required
                 </small>
