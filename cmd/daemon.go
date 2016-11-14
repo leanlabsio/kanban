@@ -171,11 +171,14 @@ func daemon(c *cobra.Command, a []string) {
 			m.Get("/starred", board.ListStarredBoards)
 			m.Post("/configure", binding.Json(models.BoardRequest{}), board.Configure)
 
-			m.Combo("/:board/connect").
-				Get(board.ListConnectBoard).
-				Post(binding.Json(models.BoardRequest{}), board.CreateConnectBoard).
-				Delete(board.DeleteConnectBoard)
+			m.Group("/:board", func() {
+				m.Combo("/connect").
+					Get(board.ListConnectBoard).
+					Post(binding.Json(models.BoardRequest{}), board.CreateConnectBoard).
+					Delete(board.DeleteConnectBoard)
 
+				m.Post("/upload", binding.MultipartForm(models.UploadForm{}), board.UploadFile)
+			})
 		}, middleware.Datasource())
 
 		m.Get("/board", middleware.Datasource(), board.ItemBoard)

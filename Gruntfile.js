@@ -101,6 +101,12 @@ module.exports = function (grunt) {
                     },
                     {
                         flatten: true,
+                        src: ['node_modules/angular-file-upload/dist/angular-file-upload.js'],
+                        dest: 'web/assets/js/angular-file-upload.js',
+                        filter: 'isFile'
+                    },
+                    {
+                        flatten: true,
                         src: ['node_modules/angular-mm-foundation/src/position/position.js'],
                         dest: 'web/assets/js/position.js',
                         filter: 'isFile'

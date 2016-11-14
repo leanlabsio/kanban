@@ -25,6 +25,7 @@
                     UserService.list(board.project.id).then(function(users) {
                         $scope.options = users;
                     });
+
                     $scope.board = board;
 
                     MilestoneService.list(board.project.id).then(function(milestones) {

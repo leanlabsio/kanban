@@ -1,0 +1,68 @@
+<style>
+    label.file-upload input[type="file"] {
+        position: fixed;
+        top: -1000px;
+    }
+    label.file-upload {
+        color: #999;
+    }
+    label.file-upload:hover {
+        color: #666;
+    }
+    .mdeditor textarea{
+        margin-bottom: 5px;
+    }
+    .rotating {
+        animation: roll 3s infinite;
+        transform: rotate(30deg);
+    }
+
+    @keyframes roll {
+        0% {
+            transform: rotate(0);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+</style>
+<div class="row collapse" style="padding-bottom: 20px;">
+    <div class="small-12 medium-12 large-12 column">
+        <div class="mdeditor">
+            <div class="mdeditor-panel">
+                <a class="icon-edit"
+                    data-ng-show="!isPreview"
+                    data-ng-click="isPreview=true">
+                    <i class="fa fa-eye"></i>
+                </a>
+                <a class="icon-edit"
+                    data-ng-show="isPreview"
+                    data-ng-click="isPreview=false">
+                    <i class="fa fa-eye-slash"></i>
+                </a>&nbsp;
+                <a class="icon-edit" target="_blank" href="https://gitlab.com/help/markdown/markdown">
+                    <i class="fa fa-question"></i>
+                </a>
+            </div>
+            <div class="preview" style="min-height: 228px;"
+                    data-ng-show="isPreview"
+                    data-ll-markdown
+                    data-markdown="$ctrl.description"></div>
+            <textarea class="md-editor-content"
+                        nv-file-drop
+                        uploader="$ctrl.uploader"
+                        data-ng-show="! isPreview"
+                        name="description"
+                        placeholder="Description"
+                        rows="{{ $ctrl.rows }}"
+                        data-ng-model="$ctrl.description"></textarea>
+        </div>
+        <div class="right">
+            <label class="file-upload">
+                <i data-ng-show="$ctrl.progress" class="fa fa-spinner rotating"></i>
+                <i class="fa fa-file"></i>&nbsp;&nbsp;Attach a file
+                <input type="file" nv-file-select uploader="$ctrl.uploader"/>
+            </label>
+        </div>
+    </div>
+</div>
