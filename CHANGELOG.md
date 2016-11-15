@@ -1,3 +1,20 @@
+# 1.7.0 (2016-11-15)
+
+## Features:
+
+- Attach file for card, comment [#130](https://gitlab.com//leanlabsio/kanban/issues/130) (cnam).
+- Show icon with comments count [#26](https://gitlab.com//leanlabsio/kanban/issues/26) (cnam).
+- Add support for tasks [#183](https://gitlab.com//leanlabsio/kanban/issues/183) (cnam).
+- Option to show only starred projects on list of boards [#177](https://gitlab.com//leanlabsio/kanban/issues/177) (cnam).
+- Allow to set issue's due date (GitLab 8.7+) [#175](https://gitlab.com//leanlabsio/kanban/issues/175) (cnam).
+- "Add Issue" dialog should set focus on title input [#72](https://gitlab.com//leanlabsio/kanban/issues/72) (cnam).
+
+## Bugfixes:
+
+- one of our issue is not appear in kanban view [#162](https://gitlab.com//leanlabsio/kanban/issues/162) [#89](https://gitlab.com//leanlabsio/kanban/issues/89) (cnam, Bethuys).
+- 100+ projects, home page don't display all projects [#210](https://gitlab.com//leanlabsio/kanban/issues/210) (cnam).
+- Fix modal close area hit detection [#203](https://gitlab.com//leanlabsio/kanban/issues/203) (cnam).
+
 # 1.6.2 (2016-06-19)
 
 ## Features:

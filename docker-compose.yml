@@ -4,14 +4,14 @@ proxy:
     - "./build/conf.d:/etc/nginx/conf.d"
     - "./build/certs:/etc/nginx/certs"
     - "./build/sites-enabled:/etc/nginx/sites-enabled"
-  links: 
+  links:
     - kanban:kanban
   ports:
     - "443:443"
     - "80:80"
 
 kanban:
-  image: leanlabs/kanban:1.6.2
+  image: leanlabs/kanban:1.7.0
   environment:
     # URL on which Leanlabs Kanban will be reachable
     - KANBAN_SERVER_HOSTNAME=http://kanban.gitlab.com
