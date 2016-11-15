@@ -29,6 +29,9 @@
 		<script src="/js/skel.min.js"></script>
 		<script src="/js/skel-layers.min.js"></script>
 		<script src="/js/init.js"></script>
+        <link rel="stylesheet" href="/css/style.css"/>
+        <link rel="stylesheet" href="/css/style-large.css"/>
+        <link rel="stylesheet" href="/css/style-xlarge.css"/>
         <!--[if lte IE 8]>
         <link rel="stylesheet" href="/css/ie/v8.css"/><![endif]-->
         <link rel="stylesheet" href="/css/github-markdown.css">
