@@ -18,8 +18,8 @@
                         scope.$watch('markdown', function(newData, oldData) {
                             if (newData !== undefined) {
                                 BoardService.get($stateParams.project_path).then(function(board) {
-                                    var repoUrl = '/' + board.project.path_with_namespace;
-                                    element.html($markdown.render(newData, {host_url: host_url + repoUrl}));
+                                    var boardUrl = board.project.path_with_namespace;
+                                    element.html($markdown.render(newData, {host_url: host_url, board_url: boardUrl}));
                                 });
                             }
                         }, true);

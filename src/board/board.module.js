@@ -166,6 +166,8 @@
             $markdownProvider.registerPlugin(window.md_link_target_blank_plugin);
             $markdownProvider.registerPlugin(window.markdownitEmoji);
             $markdownProvider.registerPlugin(window.md_twemoji_plugin);
+            $markdownProvider.registerPlugin(window.md_card_link_plugin)
+            $markdownProvider.registerPlugin(window.md_user_link_plugin);
         }])
         .constant('stage_regexp', /KB\[stage\]\[(\d+)\]\[(.*?)\]\[?(\d+)?\]?/)
         .constant('priority_regexp', /KB\[priority\]\[(-?\d+)\]\[(.*?)\]/)

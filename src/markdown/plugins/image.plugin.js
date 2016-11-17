@@ -20,7 +20,7 @@
                 srcAttr  = token.attrs[srcIndex][1];
 
             if (srcAttr.indexOf("http://") !== 0 && srcAttr.indexOf("https://") !== 0) {
-                token.attrs[srcIndex][1] = env.host_url + srcAttr;
+                token.attrs[srcIndex][1] = env.host_url + '/' + env.board_url + srcAttr;
             }
 
             return defaultRenderer(tokens, idx, options, env, self);
