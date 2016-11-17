@@ -117,6 +117,7 @@ dev: watch templates/templates.go web/web.go dev_redis tmp/go/pkg/
 		-e KANBAN_GITLAB_CLIENT=$(KANBAN_GITLAB_CLIENT) \
 		-e KANBAN_GITLAB_SECRET=$(KANBAN_GITLAB_SECRET) \
 		-e KANBAN_REDIS_ADDR=redis:6379 \
+		-e KANBAN_AUTO_COMMENTS=false \
 		--entrypoint=/usr/local/go/bin/go \
 		golang:1.5.3 run -v main.go server
 

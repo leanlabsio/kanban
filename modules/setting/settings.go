@@ -77,6 +77,11 @@ func NewContext(c *cobra.Command) {
 	if c.Flags().Lookup("enable-signup").Changed {
 		viper.BindPFlag("enable.signup", c.Flags().Lookup("enable-signup"))
 	}
+
+	viper.SetDefault("auto-comments", true)
+	if c.Flags().Lookup("auto-comments").Changed {
+		viper.BindPFlag("auto.comments", c.Flags().Lookup("auto-comments"))
+	}
 }
 
 // NewDbClient create new db client

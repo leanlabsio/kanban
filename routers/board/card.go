@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/spf13/viper"
+
 	"gitlab.com/leanlabsio/kanban/models"
 	"gitlab.com/leanlabsio/kanban/modules/middleware"
 )
@@ -150,7 +152,7 @@ func MoveToCard(ctx *middleware.Context, form models.CardRequest) {
 	source := models.ParseLabelToStage(form.Stage["source"])
 	dest := models.ParseLabelToStage(form.Stage["dest"])
 
-	if source.Name != dest.Name {
+	if source.Name != dest.Name && viper.GetBool("auto.comments") {
 		com := models.CommentRequest{
 			CardId:    form.CardId,
 			ProjectId: form.ProjectId,

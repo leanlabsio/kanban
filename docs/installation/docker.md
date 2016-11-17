@@ -136,6 +136,10 @@ LeanLabs Kanban requires the Redis server to function properly, it stores users 
 
 - **KANBAN_REDIS_DB** - default to "0", redis server database numeric index, from 0 to 16, also rarely required to be changed if ever.
 
+- **KANBAN_ENABLE_SIGNUP** - default to "true". Allow user register or login only oauth.
+
+- **KANBAN_AUTO_COMMENTS** - dafault to "true". Comment add if stage changed.
+
 ## Setting up behind proxy.
 
 LeanLabs Kanban board processes HTTP requests directly, but sometimes you may want to set it up behind a proxy,
