@@ -96,7 +96,11 @@ LeanLabs Kanban requires the Redis server to function properly, it stores users 
 
 - **--redis-password** (env **KANBAN_REDIS_PASSWORD**) - default to "" (empty string). The Redis server password if any.
 
-- **--redis-db** (env ** KANBAN_REDIS_DB**) - default to "0". The Redis server database numeric index, from 0 to 16, also rarely required to be changed if ever.
+- **--redis-db** (env **KANBAN_REDIS_DB**) - default to "0". The Redis server database numeric index, from 0 to 16, also rarely required to be changed if ever.
+
+- **--enable-signup** (env **KANBAN_ENABLE_SIGNUP**) - default to "true". Allow user register or login only oauth.
+
+- **--auto-comments** (env **KANBAN_AUTO_COMMENTS**) - dafault to "true". Comment add if stage changed.
 
 You can list available options with "--help" subcommand:
 

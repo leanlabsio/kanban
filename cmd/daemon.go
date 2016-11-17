@@ -89,6 +89,11 @@ func init() {
 		true,
 		"Enable signup",
 	)
+	DaemonCmd.Flags().Bool(
+		"auto-comments",
+		true,
+		"Comment add if stage changed",
+	)
 }
 
 func daemon(c *cobra.Command, a []string) {
