@@ -2,6 +2,7 @@ package gitlab
 
 import (
 	"fmt"
+
 	"gitlab.com/leanlabsio/kanban/models"
 	"gitlab.com/leanlabsio/kanban/modules/gitlab"
 )
@@ -57,9 +58,13 @@ func mapMilestoneFromGitlab(m *gitlab.Milestone) *models.Milestone {
 	}
 
 	return &models.Milestone{
-		ID:      m.ID,
-		State:   m.State,
-		Title:   m.Title,
-		DueDate: m.DueDate,
+		ID:          m.ID,
+		IID:         m.IID,
+		State:       m.State,
+		Title:       m.Title,
+		DueDate:     m.DueDate,
+		Description: m.Description,
+		CreatedAt:   m.CreatedAt,
+		UpdatedAt:   m.UpdatedAt,
 	}
 }

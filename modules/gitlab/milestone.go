@@ -9,10 +9,14 @@ import (
 //
 // GitLab API docs: http://doc.gitlab.com/ce/api/branches.html
 type Milestone struct {
-	ID      int64  `json:"id"`
-	State   string `json:"state,omitempty"`
-	Title   string `json:"title,omitempty"`
-	DueDate string `json:"due_date,omitempty"`
+	ID          int64  `json:"id"`
+	IID         int64  `json:"iid"`
+	State       string `json:"state,omitempty"`
+	Title       string `json:"title,omitempty"`
+	DueDate     string `json:"due_date,omitempty"`
+	Description string `json:"description"`
+	UpdatedAt   string `json:"updated_at"`
+	CreatedAt   string `json:"created_at"`
 }
 
 // MilestoneRequest represents the available CreateMilestone() and UpdateMilestone() options.

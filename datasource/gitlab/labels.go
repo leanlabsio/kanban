@@ -73,7 +73,14 @@ func (ds GitLabDataSource) CreateLabel(project_id string, req *models.LabelReque
 // mapLabelFromGitlab transforms gitlab label to kanban label
 func mapLabelFromGitlab(l *gitlab.Label) *models.Label {
 	return &models.Label{
-		Color: l.Color,
-		Name:  l.Name,
+		ID:                    l.ID,
+		Color:                 l.Color,
+		Name:                  l.Name,
+		Description:           l.Description,
+		Subscribed:            l.Subscribed,
+		OpenCardCount:         l.OpenIssueCount,
+		ClosedCardCount:       l.ClosedIssueCount,
+		OpenMergeRequestCount: l.OpenMergeRequestCount,
+		Priority:              l.Priority,
 	}
 }
