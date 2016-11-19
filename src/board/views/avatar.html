@@ -1,0 +1,6 @@
+<span class="avatar" data-ng-show="$ctrl.user.avatar_url != undefined">
+    <img alt="{{ $ctrl.user.name }}" data-ng-src="{{ $ctrl.user.avatar_url }}"/>&nbsp;
+</span>
+<span class="avatar {{ $ctrl.user.username|lowercase| limitTo : 1 }}-ava" data-ng-show="$ctrl.user.avatar_url == undefined">
+        {{ $ctrl.user.username| lowercase| limitTo : 1}}
+</span>

@@ -204,11 +204,9 @@ body{
         display: none;
     }
 }
-
-#participants {
+user-avatar{
     .avatar {
         height: 20px;
-        display: inline-block;
         text-align: center;
         line-height: 18px;
         color: $white;
