@@ -62,26 +62,6 @@
                     $scope.card.project = board.project;
                 });
 
-                $scope.update = function(user) {
-                    $scope.card.assignee = user;
-                };
-
-                $scope.updateMilestone = function(milestone) {
-                    $scope.card.milestone = milestone;
-                };
-
-                $scope.updatePriority = function(priority) {
-                    $scope.card.priority = priority;
-                };
-
-                $scope.updateLabels = function(label) {
-                    if ($scope.card.labels.indexOf(label) !== -1) {
-                        $scope.card.labels.splice($scope.card.labels.indexOf(label), 1);
-                    } else {
-                        $scope.card.labels.push(label);
-                    }
-                };
-
                 $scope.$watch('card', function(newV, oldV) {
                     if (oldV !== newV) {
                         store.set(getHashKey(), newV);

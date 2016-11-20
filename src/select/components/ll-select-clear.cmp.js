@@ -6,12 +6,20 @@
         require: {
             selectCtrlOptions: '^llSelectOptions'
         },
+        bindings: {
+            model: '='
+        },
         templateUrl: CLIENT_VERSION + "/assets/html/select/views/clear.html",
         controller: function(){
             var ctrl = this;
+
             ctrl.onClear = function(){
                 ctrl.selectCtrlOptions.selectCtrl.toggle();
-                ctrl.selectCtrlOptions.selectCtrl.onSelect(null);
+                if (ctrl.model) {
+                    ctrl.selectCtrlOptions.selectCtrl.onSelect(ctrl.model);
+                } else {
+                    ctrl.selectCtrlOptions.selectCtrl.onSelect(null);
+                }
             }
         }
     });

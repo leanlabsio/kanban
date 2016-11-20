@@ -4,7 +4,8 @@
     angular.module("ll.select").component("llSelectOptions",{
         transclude: true,
         bindings: {
-            model: '='
+            model: '=',
+            onUpdate : '&'
         },
         require: {
             selectCtrl: '^llSelect'

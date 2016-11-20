@@ -32,41 +32,9 @@
             <div class="large-3 medium-3 small-3 columns hide-for-medium-down">
 
                 <!-- Project -->
-                <!-- <div class="row collapse" style="margin-bottom:15px;">
-                    <div class="row collapse">
-                        <div class="large-8 medium-8 small-8 columns">
-                            <h5 class="subheader">
-                                Project
-                            </h5>
-                        </div>
-
-                        <div class="large-4 medium-4 small-4 columns">
-                            <h5 class="subheader right" data-dropdown-toggle="#select-project">&nbsp;
-                                <a class="dropdown">
-                                    <i class="fa fa-gear">&nbsp;</i>
-                                </a>
-                            </h5>
-                        </div>
-
-                        <ul id="select-project" class="f-dropdown">
-                            <li data-ng-repeat="project in connected_projects">
-                                <a data-ng-click="changeProject(project)">{{project.path_with_namespace}}</a>
-                            </li>
-                            <li>
-                                <a data-ng-click="changeProject(project)">{{board.project.path_with_namespace}}</a>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <div class="row collapse">
-                        <div class="large-12 medium-12 small-12 columns">
-                            <h6 data-ng-if="!isEmpty(card.project)">{{card.project.path_with_namespace}}</h6>
-                        </div>
-                    </div>
-                </div>-->
-
                 <div class="row collapse" style="margin-bottom:15px;">
-                    <ll-select selected="card.project">
+                    <ll-select selected="card.project"
+                               callback="changeProject(value)">
                         <ll-select-title>Project</ll-select-title>
                         <ll-select-options>
                             <ll-select-search model="search.path_with_namespace"
