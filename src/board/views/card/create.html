@@ -33,170 +33,92 @@
 
                 <!-- Project -->
                 <div class="row collapse" style="margin-bottom:15px;">
-                    <div class="row collapse">
-                        <div class="large-8 medium-8 small-8 columns">
-                            <h5 class="subheader">
-                                Project
-                            </h5>
-                        </div>
-
-                        <div class="large-4 medium-4 small-4 columns">
-                            <h5 class="subheader right" data-dropdown-toggle="#select-project">&nbsp;
-                                <a class="dropdown">
-                                    <i class="fa fa-gear">&nbsp;</i>
-                                </a>
-                            </h5>
-                        </div>
-
-                        <ul id="select-project" class="f-dropdown">
-                            <li data-ng-repeat="project in connected_projects">
-                                <a data-ng-click="changeProject(project)">{{project.path_with_namespace}}</a>
-                            </li>
-                            <li>
-                                <a data-ng-click="changeProject(project)">{{board.project.path_with_namespace}}</a>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <div class="row collapse">
-                        <div class="large-12 medium-12 small-12 columns">
-                            <h6 data-ng-if="!isEmpty(card.project)">{{card.project.path_with_namespace}}</h6>
-                        </div>
-                    </div>
+                    <ll-select selected="card.project"
+                               callback="changeProject(value)">
+                        <ll-select-title>Project</ll-select-title>
+                        <ll-select-options>
+                            <ll-select-search model="search.path_with_namespace"
+                                                placeholder="Filter projects"></ll-select-search>
+                            <ll-select-option model="board.project">
+                                <h6>{{ board.project.path_with_namespace }}</h6>
+                            </ll-select-option>
+                            <ll-select-option ng-repeat="project in connected_projects | filter:search" model="project">
+                                <h6>{{ project.path_with_namespace }}</h6>
+                            </ll-select-option>
+                        </ll-select-options>
+                        <ll-select-selected>
+                            <h6>{{ card.project.path_with_namespace }}</h6>
+                        </ll-select-selected>
+                        <ll-unselected>
+                            <h6>{{ board.project.path_with_namespace }}</h6>
+                        </ll-unselected>
+                    </ll-select>
                 </div>
                 <!-- Project END -->
 
                 <!-- Assignee -->
-                <div id="participants" class="row collapse">
-                    <div class="row collapse assignee" style="margin-bottom:15px;">
-                        <div class="row collapse">
-                            <div class="large-8 medium-8 small-8 columns">
-                                <h5 class="subheader">
-                                    Assignee
-                                </h5>
-                            </div>
-
-                            <div class="large-4 medium-4 small-4 columns">
-                                <h5 class="subheader right" data-dropdown-toggle="#dropdown-example-2">&nbsp;
-                                    <a class="dropdown">
-                                        <i class="fa fa-gear">&nbsp;</i>
-                                    </a>
-                                </h5>
-                            </div>
-
-                            <ul id="dropdown-example-2" class="f-dropdown">
-                                <li data-ng-repeat="user in options">
-                                    <a data-ng-click="update(user)">
-                                        <span class="avatar" data-ng-show="user.avatar_url != undefined">
-                                            <img alt="{{user.name}}" data-ng-src="{{user.avatar_url}}"/>
-                                        </span>
-                                        <span class="avatar {{ user.username|lowercase|limitTo : 1}}-ava" data-ng-show="user.avatar_url == undefined">
-                                                {{ user.username|lowercase|limitTo : 1}}
-                                        </span>&nbsp;
-                                        {{user.name}}
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-
-                        <div class="row collapse">
-                            <div class="large-1 medium-1 small-1 columns avatar" data-ng-if="!isEmpty(card.assignee)">
-                                <span class="avatar" data-ng-show="card.assignee.avatar_url != undefined">
-                                    <img alt="{{card.assignee.name}}" data-ng-src="{{card.assignee.avatar_url}}"/>&nbsp;
-                                </span>
-                                <span class="avatar {{  card.assignee.username|lowercase| limitTo : 1}}-ava" data-ng-show="card.assignee.avatar_url == undefined">
-                                        {{ card.assignee.username| lowercase| limitTo : 1}}
-                                </span>
-                            </div>
-
-                            <div class="large-10 medium-10 small-10 columns" data-ng-if="!isEmpty(card.assignee)">
-                                <h6>{{card.assignee.name}}</h6>
-                            </div>
-
-                            <div class="large-12 medium-12 small-12 columns" data-ng-if="isEmpty(card.assignee)">
-                                <h6>Not assigned</h6>
-                            </div>
-                        </div>
-                    </div>
+                <div class="row collapse" style="margin-bottom:15px;">
+                    <ll-select selected="card.assignee">
+                        <ll-select-title>Assignee</ll-select-title>
+                        <ll-select-options>
+                            <ll-select-search model="search.name"
+                                                placeholder="Filter user"></ll-select-search>
+                            <ll-select-clear><h6>Unassigned</h6></ll-select-clear>
+                            <ll-select-option ng-repeat="user in options | filter:search" model="user">
+                                <h6><user-avatar class="left" user="user"></user-avatar>
+                                    &nbsp;{{ user.name }}</h6>
+                            </ll-select-option>
+                        </ll-select-options>
+                        <ll-select-selected>
+                            <h6><user-avatar class="left" user="card.assignee"></user-avatar>&nbsp;
+                                {{ card.assignee.name }}</h6>
+                        </ll-select-selected>
+                        <ll-unselected>
+                            <h6>Not assigned</h6>
+                        </ll-unselected>
+                    </ll-select>
                 </div>
                 <!-- Assignee end -->
 
                 <!-- Milestone -->
                 <div class="row collapse" style="margin-bottom:15px;">
-                    <div class="row collapse">
-                        <div class="large-8 medium-8 small-8 columns">
-                            <h5 class="subheader">
-                                Milestone
-                            </h5>
-                        </div>
-
-                        <div class="large-4 medium-4 small-4 columns">
-                            <h5 class="subheader right" data-dropdown-toggle="#select-milestone">&nbsp;
-                                <a class="dropdown">
-                                    <i class="fa fa-gear">&nbsp;</i>
-                                </a>
-                            </h5>
-                        </div>
-
-                        <ul id="select-milestone" class="f-dropdown">
-                            <li data-ng-repeat="milestone in milestones" data-ng-if="milestones.length > 0">
-                                <a data-ng-click="updateMilestone(milestone)">{{milestone.title}}</a>
-                            </li>
-
-                            <li data-ng-if="isEmpty(milestones.length)">
-                                <a>
-                                    No milestones
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <div class="row collapse">
-                        <div class="large-12 medium-12 small-12 columns">
-                            <h6 data-ng-if="!isEmpty(card.milestone)">{{card.milestone.title}}</h6>
-                            <h6 data-ng-if="isEmpty(card.milestone)">Not selected</h6>
-                        </div>
-                    </div>
+                    <ll-select selected="card.milestone">
+                        <ll-select-title>Milestone</ll-select-title>
+                        <ll-select-options>
+                            <ll-select-search model="search.title"
+                                                placeholder="Filter milestone"></ll-select-search>
+                            <ll-select-clear><h6>No milestone</h6></ll-select-clear>
+                            <ll-select-option ng-repeat="milestone in milestones | filter:search" model="milestone">
+                                <h6>{{ milestone.title }}</h6>
+                            </ll-select-option>
+                        </ll-select-options>
+                        <ll-select-selected>
+                            <h6>{{ card.milestone.title }}</h6>
+                        </ll-select-selected>
+                        <ll-unselected>
+                            <h6>Not selected</h6>
+                        </ll-unselected>
+                    </ll-select>
                 </div>
                 <!-- Milestone END -->
 
                 <!-- Priority -->
                 <div class="row collapse" style="margin-bottom:15px;">
-                    <div class="row collapse">
-                        <div class="large-8 medium-8 small-8 columns">
-                            <h5 class="subheader">
-                                Priority
-                            </h5>
-                        </div>
-
-                        <div class="large-4 medium-4 small-4 columns">
-                            <h5 class="subheader right" data-dropdown-toggle="#select-priority">&nbsp;
-                                <a class="dropdown">
-                                    <i class="fa fa-gear">&nbsp;</i>
-                                </a>
-                            </h5>
-                        </div>
-
-                        <ul id="select-priority" class="f-dropdown">
-                            <li data-ng-repeat="priority in priorities" data-ng-if="priorities.length > 0">
-                                <a data-ng-click="updatePriority(priority)">
-                                    {{priority.viewName}}
-                                    <i class="fa fa-check" data-ng-show="card.priority.name == priority.name"></i>
-                                </a>
-                            </li>
-
-                            <li data-ng-if="isEmpty(priorities)">
-                                <a>No priorities</a>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <div class="row collapse">
-                        <div class="large-12 medium-12 small-12 columns">
-                            <h6 data-ng-if="!isEmpty(card.priority.name)">{{card.priority.viewName}}</h6>
-                            <h6 data-ng-if="isEmpty(card.priority.name)">Not selected</h6>
-                        </div>
-                    </div>
+                    <ll-select selected="card.priority">
+                        <ll-select-title>Priority</ll-select-title>
+                        <ll-select-options>
+                            <ll-select-clear><h6>No priority</h6></ll-select-clear>
+                            <ll-select-option ng-repeat="priority in priorities" model="priority">
+                                <h6>{{ priority.viewName }}</h6>
+                            </ll-select-option>
+                        </ll-select-options>
+                        <ll-select-selected>
+                            <h6>{{ card.priority.viewName }}</h6>
+                        </ll-select-selected>
+                        <ll-unselected>
+                            <h6>Not selected</h6>
+                        </ll-unselected>
+                    </ll-select>
                 </div>
                 <!-- Priority END -->
 
@@ -220,54 +142,22 @@
                 <!-- Due date end -->
 
                 <!-- Labels -->
-                <div class="row collapse">
-                    <div class="row collapse">
-                        <div class="large-8 medium-8 small-8 columns">
-                            <h5 class="subheader">
-                                Labels
-                            </h5>
-                        </div>
-
-                        <div class="large-4 medium-4 small-4 columns">
-                            <h5 class="subheader right" data-dropdown-toggle="#select-labels">&nbsp;
-                                <a class="dropdown">
-                                    <i class="fa fa-gear">&nbsp;</i>
-                                </a>
-                            </h5>
-                        </div>
-
-                        <ul id="select-labels" class="f-dropdown">
-                            <li data-ng-repeat="label in labels" data-ng-if="labels.length > 0">
-                                <a data-ng-click="updateLabels(label)">
-                                    <span class="label" ng-style="{'background-color': label.color, 'color': (label.color|textColorForBg) }">
-                                        {{label.name}}
-                                    </span>
-
-                                    <i class="fa fa-check" ng-if="card.labels.indexOf(label) !== -1">&nbsp;</i>
-                                </a>
-                            </li>
-                            <li data-ng-if="labels.length === 0">
-                                <a>
-                                    No labels
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <div class="row collapse">
-                        <ul style="list-style: none; margin-left:0;">
-                            <li data-ng-repeat="label in card.labels" data-ng-if="!isEmpty(card.labels)">
-                                <span class="label" ng-style="{'background-color': label.color, 'color': (label.color|textColorForBg) }">
-                                    {{ label.name }}
-                                </span>
-                            </li>
-
-                            <li data-ng-if="isEmpty(card.labels)">
-                                <h6>No labels</h6>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
+                <ll-select selected="card.labels" multiply="true">
+                    <ll-select-title>Labels</ll-select-title>
+                    <ll-select-options>
+                        <ll-select-search model="search.name"
+                                            placeholder="Filter labels"></ll-select-search>
+                        <ll-select-option ng-repeat="label in labels | filter:search" model="label">
+                            <ll-label label="label"></ll-label>
+                        </ll-select-option>
+                    </ll-select-options>
+                    <ll-select-selected ng-repeat="label in card.labels">
+                        <ll-label label="label"></ll-label>
+                    </ll-select-selected>
+                    <ll-unselected>
+                        <h6>Not labels</h6>
+                    </ll-unselected>
+                </ll-select>
                 <!-- Labels END -->
 
             </div>

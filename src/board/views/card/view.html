@@ -121,261 +121,154 @@
         </div>
 
         <div class="large-3 medium-12 small-12 columns">
-            <div class="hide-for-medium-down">
+            <div class="row collapse"
+                    style="margin-bottom:15px;">
+                <h5 class="subheader">
+                    Author
+                </h5>
 
-                <!-- Assignee -->
-                <div id="participants" class="row collapse">
+                <h6><user-avatar class="left" user="card.author"></user-avatar>
+                            &nbsp;{{ card.author.name }}</h6>
+            </div>
 
-                    <div class="row collapse" data-ng-show="card.author != undefined" style="margin-bottom:15px;">
+            <!-- Assignee -->
+            <div class="row collapse" style="margin-bottom:15px;">
+                <ll-select selected="card.assignee"
+                           callback="updateAssignee(value)">
+                    <ll-select-title>Assignee</ll-select-title>
+                    <ll-select-options>
+                        <ll-select-search model="search.name"
+                                            placeholder="Filter user"></ll-select-search>
+                        <ll-select-clear><h6>Unassigned</h6></ll-select-clear>
+                        <ll-select-option ng-repeat="user in users | filter:search" model="user">
+                            <h6><user-avatar class="left" user="user"></user-avatar>
+                                &nbsp;{{ user.name }}</h6>
+                        </ll-select-option>
+                    </ll-select-options>
+                    <ll-select-selected>
+                        <h6><user-avatar class="left" user="card.assignee"></user-avatar>&nbsp;
+                            {{ card.assignee.name }}</h6>
+                    </ll-select-selected>
+                    <ll-unselected>
+                        <h6>Not assigned</h6>
+                    </ll-unselected>
+                </ll-select>
+            </div>
+            <!-- Assignee END -->
+
+            <!-- Milestone -->
+            <div class="row collapse" style="margin-bottom:15px;">
+                <ll-select selected="card.milestone"
+                           callback="updateMilestone(value)">
+                    <ll-select-title>Milestone</ll-select-title>
+                    <ll-select-options>
+                        <ll-select-search model="search.title"
+                                            placeholder="Filter milestone"></ll-select-search>
+                        <ll-select-clear><h6>No milestone</h6></ll-select-clear>
+                        <ll-select-option ng-repeat="milestone in milestones | filter:search" model="milestone">
+                            <h6>{{ milestone.title }}</h6>
+                        </ll-select-option>
+                    </ll-select-options>
+                    <ll-select-selected>
+                        <h6>{{ card.milestone.title }}</h6>
+                    </ll-select-selected>
+                    <ll-unselected>
+                        <h6>Not selected</h6>
+                    </ll-unselected>
+                </ll-select>
+            </div>
+            <!-- Milestone END -->
+
+            <!-- Priority -->
+            <div class="row collapse" style="margin-bottom:15px;">
+                <ll-select selected="card.priority"
+                           callback="updatePriority(value)">
+                    <ll-select-title>Priority</ll-select-title>
+                    <ll-select-options>
+                        <ll-select-clear model="default_priority"><h6>No priority</h6></ll-select-clear>
+                        <ll-select-option ng-repeat="priority in priorities" model="priority">
+                            <h6>{{ priority.viewName }}</h6>
+                        </ll-select-option>
+                    </ll-select-options>
+                    <ll-select-selected>
+                        <h6>{{ card.priority.viewName }}</h6>
+                    </ll-select-selected>
+                    <div ng-show="!card.priority.name">
+                        <h6>Not selected</h6>
+                    </div>
+                </ll-select>
+            </div>
+            <!-- Priority END -->
+
+            <!-- Labels -->
+            <div class="row collapse" style="margin-bottom:15px;">
+                <ll-select selected="card.viewLabels" multiply="true"
+                           callback="updateLabel(value)">
+                    <ll-select-title>Labels</ll-select-title>
+                    <ll-select-options>
+                        <ll-select-search model="search.name"
+                                            placeholder="Filter labels"></ll-select-search>
+                        <ll-select-option ng-repeat="label in labels | filter:search" model="label">
+                            <ll-label label="label"></ll-label>
+                        </ll-select-option>
+                    </ll-select-options>
+                    <ll-select-selected ng-repeat="label in card.viewLabels">
+                        <ll-label label="label"></ll-label>
+                    </ll-select-selected>
+                    <ll-unselected>
+                        <h6>Not labels</h6>
+                    </ll-unselected>
+                </ll-select>
+            </div>
+            <!-- Labels END -->
+
+            <!-- Due date -->
+            <div class="row collapse">
+                <div class="row collapse">
+                    <div class="large-8 medium-8 small-8 columns">
                         <h5 class="subheader">
-                            Author
+                            Due date
                         </h5>
-
-                        <div class="large-1 medium-1 small-1 columns avatar">
-                            <span class="avatar" data-ng-show="card.author.avatar_url != undefined">
-                                <img alt="{{card.author.name}}" data-ng-src="{{card.author.avatar_url}}"/>&nbsp;
-                            </span>
-                            <span class="avatar {{  card.author.username|lowercase|limitTo : 1}}-ava" data-ng-show="card.author.avatar_url == undefined">
-                                    {{ card.author.username| lowercase| limitTo : 1}}
-                            </span>
-                        </div>
-
-                        <div class="large-10 medium-10 small-10 columns">
-                            <h6>{{card.author.name}}</h6>
-                        </div>
                     </div>
-
-                    <div class="row collapse assignee" style="margin-bottom:15px;">
-                        <div class="row collapse">
-                            <div class="large-8 medium-8 small-8 columns">
-                                <h5 class="subheader">
-                                    Assignee
-                                </h5>
-                            </div>
-
-                            <div class="large-4 medium-4 small-4 columns">
-                                <h5 class="subheader right" data-dropdown-toggle="#dropdown-example-2">&nbsp;
-                                    <a class="dropdown">
-                                        <i class="fa fa-gear">&nbsp;</i>
-                                    </a>
-                                </h5>
-                            </div>
-
-                            <ul id="dropdown-example-2" class="f-dropdown">
-                                <li data-ng-repeat="user in users">
-                                    <a data-ng-click="update(card, user)">
-                                        <span class="avatar" data-ng-show="user.avatar_url != undefined">
-                                            <img alt="{{user.name}}" data-ng-src="{{user.avatar_url}}"/>
-                                        </span>
-                                        <span class="avatar {{ user.username|lowercase|limitTo : 1}}-ava" data-ng-show="user.avatar_url == undefined">
-                                                {{ user.username|lowercase|limitTo : 1}}
-                                        </span>
-                                        &nbsp;
-                                        {{user.name}}
-                                        <i class="fa fa-check" data-ng-show="card.assignee.id == user.id"></i>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-
-                        <div class="row collapse">
-                            <div class="large-1 medium-1 small-1 columns avatar" data-ng-if="!isEmpty(card.assignee)">
-                                <span class="avatar" data-ng-show="card.assignee.avatar_url != undefined">
-                                    <img alt="{{card.assignee.name}}" data-ng-src="{{card.assignee.avatar_url}}"/>&nbsp;
-                                </span>
-                                <span class="avatar {{  card.assignee.username|lowercase|limitTo : 1}}-ava" data-ng-show="card.assignee.avatar_url == undefined">
-                                        {{ card.assignee.username| lowercase| limitTo : 1}}
-                                </span>
-                            </div>
-
-                            <div class="large-10 medium-10 small-10 columns" data-ng-if="!isEmpty(card.assignee)">
-                                <h6>{{card.assignee.name}}</h6>
-                            </div>
-
-                            <div class="large-12 medium-12 small-12 columns" data-ng-if="isEmpty(card.assignee)">
-                                <h6>Not assigned</h6>
-                            </div>
-                        </div>
+                    <div class="large-12 medium-12 small-12 columns">
+                        <datepicker date-format="yyyy-MM-dd">
+                            <input ng-change="updateCard(card)"
+                                    placeholder="Due Date"
+                                    data-ng-model="card.due_date"
+                                    type="text"/>
+                        </datepicker>
                     </div>
                 </div>
-                <!-- Assignee END -->
+            </div>
+            <!-- Due date end -->
 
-                <!-- Milestone -->
-                <div class="row collapse" style="margin-bottom:15px;">
-                    <div class="row collapse">
-                        <div class="large-8 medium-8 small-8 columns">
-                            <h5 class="subheader">
-                                Milestone
-                            </h5>
-                        </div>
-
-                        <div class="large-4 medium-4 small-4 columns">
-                            <h5 class="subheader right" data-dropdown-toggle="#select-milestone">&nbsp;
-                                <a class="dropdown">
-                                    <i class="fa fa-gear">&nbsp;</i>
-                                </a>
-                            </h5>
-                        </div>
-
-                        <ul id="select-milestone" class="f-dropdown">
-                            <li data-ng-repeat="milestone in milestones" data-ng-if="milestones.length > 0">
-                                <a data-ng-click="updateMilestone(card, milestone)">
-                                    {{milestone.title}}
-                                    <i class="fa fa-check" data-ng-show="card.milestone.id == milestone.id"></i>
-                                </a>
-                            </li>
-
-                            <li data-ng-if="isEmpty(milestones.length)">
-                                <a>No milestones</a>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <div class="row collapse">
-                        <div class="large-12 medium-12 small-12 columns">
-                            <h6 data-ng-if="!isEmpty(card.milestone)">{{card.milestone.title}}</h6>
-                            <h6 data-ng-if="isEmpty(card.milestone)">Not selected</h6>
-                        </div>
-                    </div>
-                </div>
-                <!-- Milestone END -->
-
-                <!-- Priority -->
-                <div class="row collapse" style="margin-bottom:15px;">
-                    <div class="row collapse">
-                        <div class="large-8 medium-8 small-8 columns">
-                            <h5 class="subheader">
-                                Priority
-                            </h5>
-                        </div>
-
-                        <div class="large-4 medium-4 small-4 columns">
-                            <h5 class="subheader right" data-dropdown-toggle="#select-priority">&nbsp;
-                                <a class="dropdown">
-                                    <i class="fa fa-gear">&nbsp;</i>
-                                </a>
-                            </h5>
-                        </div>
-
-                        <ul id="select-priority" class="f-dropdown">
-                            <li data-ng-repeat="priority in priorities" data-ng-if="priorities.length > 0">
-                                <a data-ng-click="updatePriority(card, priority)">
-                                    {{priority.viewName}}
-                                    <i class="fa fa-check" data-ng-show="card.priority.name == priority.name"></i>
-                                </a>
-                            </li>
-
-                            <li data-ng-if="isEmpty(priorities)">
-                                <a>No priorities</a>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <div class="row collapse">
-                        <div class="large-12 medium-12 small-12 columns">
-                            <h6 data-ng-if="!isEmpty(card.priority.name)">{{card.priority.viewName}}</h6>
-                            <h6 data-ng-if="isEmpty(card.priority.name)">Not selected</h6>
-                        </div>
-                    </div>
-                </div>
-                <!-- Priority END -->
-
-                <!-- Labels -->
+            <div class="row collapse" style="margin-bottom:15px;">
                 <div class="row collapse">
-                    <div class="row collapse">
-                        <div class="large-8 medium-8 small-8 columns">
-                            <h5 class="subheader">
-                                Labels
-                            </h5>
-                        </div>
-
-                        <div class="large-4 medium-4 small-4 columns">
-                            <h5 class="subheader right" data-dropdown-toggle="#select-labels">&nbsp;
-                                <a class="dropdown">
-                                    <i class="fa fa-gear">&nbsp;</i>
-                                </a>
-                            </h5>
-                        </div>
-
-                        <ul id="select-labels" class="f-dropdown">
-                            <li data-ng-repeat="(key, label) in labels" data-ng-if="labels.length > 0">
-                                <a data-ng-click="updateLabels(card, label)">
-                                    <span class="label"
-                                          ng-style="{'background-color': label.color, 'color': (label.color|textColorForBg) }">
-                                        {{label.name}}
-                                    </span>
-                                    <i class="fa fa-check" data-ng-if="card.viewLabels.indexOf(label) !== -1">&nbsp;</i>
-                                </a>
-                            </li>
-                            <li data-ng-if="isEmpty(labels)">
-                                <a>No labels</a>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <div class="row collapse">
-                        <ul style="list-style: none; margin-left:0;">
-                            <li data-ng-repeat="label in card.viewLabels" data-ng-if="!isEmpty(card.viewLabels)">
-                                <span class="label" ng-style="{'background-color': label.color, 'color': (label.color|textColorForBg) }">
-                                    {{ label.name }}
-                                </span>
-                            </li>
-                            <li data-ng-if="isEmpty(card.viewLabels)">
-                                <h6>No labels</h6>
-                            </li>
-                        </ul>
-                    </div>
+                    <input id="ready-checkbox"
+                            type="checkbox"
+                            data-ng-true-value="'ready'"
+                            data-ng-false-value="'none'"
+                            data-ng-change="markAsReady(card)"
+                            data-ng-model="card.properties.andon">
+                    <label for="ready-checkbox">Ready for next stage</label>
                 </div>
-                <!-- Labels END -->
-
-                <!-- Due date -->
                 <div class="row collapse">
-                    <div class="row collapse">
-                        <div class="large-8 medium-8 small-8 columns">
-                            <h5 class="subheader">
-                                Due date
-                            </h5>
+                    <form name="blockedFormData" data-ng-submit="markAsBlocked(card, blockedFormData.comment); blockedFormData.blockCB.$setPristine(); blockedFormData.comment=''">
+                        <input id="blocked-checkbox"
+                                type="checkbox"
+                                name="blockCB"
+                                data-ng-true-value="'blocked'"
+                                data-ng-false-value="'none'"
+                                data-ng-change="markAsUnBlocked(card)"
+                                data-ng-model="card.properties.andon">
+                        <label for="blocked-checkbox">Mark as blocked</label>
+                        <div class="row collapse" data-ng-show="blockedFormData.blockCB.$dirty && card.properties.andon === 'blocked'">
+                            <textarea data-ng-model="blockedFormData.comment"
+                                        data-ng-required="true"
+                                        placeholder="Why blocked?"></textarea>
+                            <button class="button tiny">Blocked</button>
                         </div>
-                        <div class="large-12 medium-12 small-12 columns">
-                            <datepicker date-format="yyyy-MM-dd">
-                                <input ng-change="updateCard(card)"
-                                       placeholder="Due Date"
-                                       data-ng-model="card.due_date"
-                                       type="text"/>
-                            </datepicker>
-                        </div>
-                    </div>
-                </div>
-                <!-- Due date end -->
-
-                <div class="row collapse" style="margin-bottom:15px;">
-                    <div class="row collapse">
-                        <input id="ready-checkbox"
-                               type="checkbox"
-                               data-ng-true-value="'ready'"
-                               data-ng-false-value="'none'"
-                               data-ng-change="markAsReady(card)"
-                               data-ng-model="card.properties.andon">
-                        <label for="ready-checkbox">Ready for next stage</label>
-                    </div>
-                    <div class="row collapse">
-                        <form name="blockedFormData" data-ng-submit="markAsBlocked(card, blockedFormData.comment); blockedFormData.blockCB.$setPristine(); blockedFormData.comment=''">
-                            <input id="blocked-checkbox"
-                                   type="checkbox"
-                                   name="blockCB"
-                                   data-ng-true-value="'blocked'"
-                                   data-ng-false-value="'none'"
-                                   data-ng-change="markAsUnBlocked(card)"
-                                   data-ng-model="card.properties.andon">
-                            <label for="blocked-checkbox">Mark as blocked</label>
-                            <div class="row collapse" data-ng-show="blockedFormData.blockCB.$dirty && card.properties.andon === 'blocked'">
-                                <textarea data-ng-model="blockedFormData.comment"
-                                          data-ng-required="true"
-                                          placeholder="Why blocked?"></textarea>
-                                <button class="button tiny">Blocked</button>
-                            </div>
-                        </form>
-                    </div>
+                    </form>
                 </div>
             </div>
 
@@ -390,6 +283,7 @@
                     <i class="fa fa-trash">&nbsp;</i> Mark as closed
                 </a>
             </div>
+
         </div>
 
     </div>

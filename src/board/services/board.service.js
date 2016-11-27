@@ -102,8 +102,8 @@
                     return $http.put('/api/card/' + board.project.id, {
                         issue_id: card.id,
                         project_id: card.project_id,
-                        assignee_id: card.assignee_id,
-                        milestone_id: card.milestone_id,
+                        assignee_id: card.assignee ? card.assignee.id : 0,
+                        milestone_id: card.milestone ? card.milestone.id : 0,
                         title: card.title,
                         labels: card.labels.join(', '),
                         todo: card.todo,

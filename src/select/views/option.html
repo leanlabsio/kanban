@@ -1,0 +1,32 @@
+<style>
+.select-option{
+    cursor: pointer;
+    position: relative;
+}
+.select-option:hover {
+    background-color: #ececec;
+}
+.select-option-check {
+    padding-left: 20px;
+    display: inline-block;
+    vertical-align: middle;
+}
+.select-option-check i {
+    position: absolute;
+    float: left;
+    left: 0;
+    top: 25%;
+}
+.select-option-value {
+    display: inline-block;
+    vertical-align: middle;
+}
+</style>
+<div class="select-option clearfix" ng-click="$ctrl.onSelect()">
+    <span class="select-option-check"
+           ng-if="$ctrl.selectCtrlOptions.selectCtrl.multiply">
+        <i class="fa fa-check"
+            ng-if="$ctrl.isChecked()">&nbsp;</i>
+    </span>
+    <div class="select-option-value" ng-transclude></div>
+</div>

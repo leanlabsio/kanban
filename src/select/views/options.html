@@ -1,0 +1,16 @@
+<style>
+.options-container{
+    background: #fff;
+    border: 1px solid #ccc;
+    position: absolute;
+    z-index: 10;
+    padding: 10px;
+    width: 100%;
+    max-height: 250px;
+    overflow-y: auto;
+}
+</style>
+<div class="options-container"
+     ng-if="$ctrl.selectCtrl.is_open">
+     <div ng-transclude></div>
+</div>
