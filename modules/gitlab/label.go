@@ -9,8 +9,15 @@ import (
 //
 // GitLab API docs: http://doc.gitlab.com/ce/api/labels.html
 type Label struct {
-	Color string `json:"color"`
-	Name  string `json:"name"`
+	ID                    int64  `json:"id"`
+	Color                 string `json:"color"`
+	Name                  string `json:"name"`
+	Description           string `json:"description"`
+	OpenIssueCount        int    `json:"open_issue_count"`
+	ClosedIssueCount      int    `json:"closed_issue_count"`
+	OpenMergeRequestCount int    `json:"open_merge_requests_count"`
+	Subscribed            bool   `json:"subscribed"`
+	Priority              int    `json:"priority"`
 }
 
 // LabelRequest represents the available CreateLabel() and UpdateLabel() options.
