@@ -98,27 +98,35 @@
                 createCard: function(board, data) {
                     return $http.post('/api/card/' + board.project.id, data).then(function(newCard) {});
                 },
+                sanitize: function(json) {
+                    for (var key in json) {
+                            if (json.hasOwnProperty(key) && json[key] === null ) {
+                                delete json[key];
+                            }
+                    }
+                    return json;
+                },
                 updateCard: function(board, card) {
-                    return $http.put('/api/card/' + board.project.id, {
+                    return $http.put('/api/card/' + board.project.id, this.sanitize({
                         issue_id: card.id,
                         project_id: card.project_id,
-                        assignee_id: card.assignee ? card.assignee.id : 0,
-                        milestone_id: card.milestone ? card.milestone.id : 0,
+                        assignee_id: card.assignee ? card.assignee.id : null,
+                        milestone_id: card.milestone ? card.milestone.id : null,
                         title: card.title,
                         labels: card.labels.join(', '),
                         todo: card.todo,
                         description: card.description,
                         properties: card.properties,
                         due_date: card.due_date
-                    }).then(function(result) {});
+                    })).then(function(result) {});
                 },
                 removeCard: function(board, card) {
                     return $http.delete('/api/card/' + board.project.id, {
                         data: {
                             issue_id: card.id,
                             project_id: card.project_id,
-                            assignee_id: card.assignee_id,
-                            milestone_id: card.milestone_id,
+                            assignee_id: card.assignee ? card.assignee.id : null,
+                            milestone_id: card.milestone ? card.milestone.id : null,
                             title: card.title,
                             labels: card.labels.join(', '),
                             todo: card.todo,
@@ -133,11 +141,11 @@
                     });
                 },
                 moveCard: function(board, card, oldStage, newStage) {
-                    return $http.put('/api/card/' + board.project.id + '/move', {
+                    return $http.put('/api/card/' + board.project.id + '/move', this.sanitize({
                         project_id: card.project_id,
                         issue_id: card.id,
-                        assignee_id: card.assignee_id,
-                        milestone_id: card.milestone_id,
+                        assignee_id: card.assignee ? card.assignee.id : null,
+                        milestone_id: card.milestone ? card.milestone.id : null,
                         title: card.title,
                         labels: card.labels.join(', '),
                         todo: card.todo,
@@ -147,7 +155,7 @@
                             source: oldStage,
                             dest: newStage
                         }
-                    });
+                    }));
                 },
                 changeProject: function(board, card, project) {
                     return LabelService.getStageByName(project.id, card.stage.viewName).then(function(stage){
@@ -158,17 +166,17 @@
                             card.labels.push(stage.name);
                         }
 
-                        return $http.post('/api/card/' + board.project.id + '/move/' + project.id, {
+                        return $http.post('/api/card/' + board.project.id + '/move/' + project.id, this.sanitize({
                             issue_id: card.id,
                             project_id: card.project_id,
-                            assignee_id: card.assignee_id,
-                            milestone_id: card.milestone_id,
+                            assignee_id: card.assignee ? card.assignee.id : null,
+                            milestone_id: card.milestone ? card.milestone.id : null,
                             title: card.title,
                             labels: card.labels.join(', '),
                             todo: card.todo,
                             description: card.description,
                             properties: card.properties
-                        }).then(function(result) {
+                        })).then(function(result) {
                             this.addCardToBoard(result.data.data);
                             return result.data.data;
                         }.bind(this));
