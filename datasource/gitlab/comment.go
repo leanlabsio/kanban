@@ -1,11 +1,12 @@
 package gitlab
 
 import (
-	"gitlab.com/leanlabsio/kanban/models"
-	"gitlab.com/leanlabsio/kanban/modules/gitlab"
 	"regexp"
 	"strconv"
 	"strings"
+
+	"gitlab.com/leanlabsio/kanban/models"
+	"gitlab.com/leanlabsio/kanban/modules/gitlab"
 )
 
 var (
@@ -84,11 +85,11 @@ func mapCommentFromGitlab(c *gitlab.Comment) *models.Comment {
 		Author:    mapUserFromGitlab(c.Author),
 		Body:      c.Body,
 		CreatedAt: c.CreatedAt,
-		IsInfo:    mapCommentIsInfoFromGitlab(c.Body),
+		IsInfo:    mapCommentIsInfoFromGitlab(c),
 	}
 }
 
 // mapCommentIsInfoFromGitlab checks type comment from gitlab comment body
-func mapCommentIsInfoFromGitlab(b string) bool {
-	return regInfo.MatchString(b)
+func mapCommentIsInfoFromGitlab(c *gitlab.Comment) bool {
+	return regInfo.MatchString(c.Body) || c.System
 }
