@@ -3,8 +3,8 @@ package gitlab
 import (
 	"net/http"
 	"net/url"
-	"time"
 	"sort"
+	"time"
 )
 
 // Comment represents a GitLab note.
@@ -15,6 +15,10 @@ type Comment struct {
 	Author    *User     `json:"author"`
 	Body      string    `json:"body"`
 	CreatedAt time.Time `json:"created_at"`
+	UpdatedAt time.Time `json:"updated_at"`
+	System    bool      `json:"system"`
+	Upvote    bool      `json:"upvote"`
+	Downvote  bool      `json:"downvote"`
 }
 
 // commentSlice represents list comments for usage sort.Interface
