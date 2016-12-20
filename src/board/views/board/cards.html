@@ -54,10 +54,11 @@
                  data-ng-repeat="stage in board.stages" style="min-height: 100px">
                 <div class="stage">
                     <div data-as-sortable="dragControlListeners"
-                         data-ng-model="groups[group.id][stage.viewName]"
+                         data-ng-init="groupModel = groups[group.id][stage.viewName] || []"
+                         data-ng-model="groupModel"
                          class="board-stage">
                         <div class="row collapse card"
-                             data-ng-repeat="card in groups[group.id][stage.viewName] track by card.id"
+                             data-ng-repeat="card in groupModel track by card.id"
                              data-as-sortable-item>
                             <div data-as-sortable-item-handle class="row collapse"
                             style="padding: 10px"
