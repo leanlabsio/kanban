@@ -1,3 +1,15 @@
+# 1.7.1 (2016-12-20)
+
+## Features
+
+- Add config to disable auto-comments on change [#78](https://gitlab.com//leanlabsio/kanban/issues/78) (cnam).
+- GitLab flavoured markdown [#135](https://gitlab.com//leanlabsio/kanban/issues/135) (cnam).
+- Mylestones, user, labels search for select [#31](https://gitlab.com//leanlabsio/kanban/issues/31) (cnam).
+
+## Bugfixes:
+
+- Assign is reset when an issue is updated [#222](https://gitlab.com//leanlabsio/kanban/issues/222) (Bethuys).
+
 # 1.7.0 (2016-11-15)
 
 ## Features:
