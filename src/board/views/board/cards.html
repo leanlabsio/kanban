@@ -58,7 +58,7 @@
                          data-ng-model="groupModel"
                          class="board-stage">
                         <div class="row collapse card"
-                             data-ng-repeat="card in groupModel track by card.id"
+                             data-ng-repeat="card in groups[group.id][stage.viewName] track by card.id"
                              data-as-sortable-item>
                             <div data-as-sortable-item-handle class="row collapse"
                             style="padding: 10px"
