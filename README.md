@@ -60,6 +60,9 @@ If you followed instructions from "Installation with Docker", then the easiest w
 >
 > `docker-compose up -d`
 
+## Changelog
+
+You can view the changelog [here](https://gitlab.com/leanlabsio/kanban/blob/master/CHANGELOG.md)
 
 # FAQ
 
