@@ -52,6 +52,12 @@ Go to https://gitlab.com/profile/applications or your GitLab installation and re
 > `docker-compose up -d`
 
 
+### Installation with Kubernetes
+
+Follow steps 1 and 1.1 from Installation with Docker. Then, change the default environment variables in kubernetes/kanban-deployment.yaml.
+
+Finally, create the kubernetes resources: `kubectl create -f kubernetes`.
+
 ## Upgrading
 
 If you followed instructions from "Installation with Docker", then the easiest way to upgrade would be:

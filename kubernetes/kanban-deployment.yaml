@@ -1,0 +1,40 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    io.kompose.service: kanban
+  name: kanban
+spec:
+  replicas: 1
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: kanban
+    spec:
+      containers:
+      - args:
+        - ./kanban
+        - server
+        env:
+        - name: KANBAN_ENABLE_SIGNUP
+          value: "true"
+        - name: KANBAN_GITLAB_CLIENT
+          value: qwerty
+        - name: KANBAN_GITLAB_SECRET
+          value: qwerty
+        - name: KANBAN_GITLAB_URL
+          value: https://gitlab.com
+        - name: KANBAN_REDIS_ADDR
+          value: redis:6379
+        - name: KANBAN_SECURITY_SECRET
+          value: qwerty
+        - name: KANBAN_SERVER_HOSTNAME
+          value: http://kanban.gitlab.com
+        image: leanlabs/kanban:1.7.1
+        name: kanban
+        resources: {}
+      restartPolicy: Always
+status: {}
