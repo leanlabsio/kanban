@@ -20,7 +20,7 @@ func NewEngine(r *redis.Client) error {
 	c = r
 
 	gitlab.NewEngine(&gitlab.Config{
-		BasePath: gh + "/api/v3",
+		BasePath: gh + "/api/v4",
 		Domain:   d,
 		Oauth2: &oauth2.Config{
 			ClientID:     viper.GetString("gitlab.client"),
