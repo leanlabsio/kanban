@@ -80,7 +80,7 @@ The LeanLabs Kanban image requires Redis, which [we are also providing](https://
     Now the command to run the kanban container should be:
 
     ```bash
-    docker run -d -p
+    docker run -d
         --link kanban_redis:kanban_redis
         -p 80:80
         -e KANBAN_SERVER_HOSTNAME="http://localhost"
